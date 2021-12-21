@@ -1,0 +1,15 @@
+[user]
+	email = bence@ferdinandy.com
+	name = Bence Ferdinandy
+[credential]
+	helper = store
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[merge]
+	tool = fugitive
+[core]
+	excludesfile = /home/fbence/.gitignore
+[mergetool "fugitive"]
+	cmd = vim -c \"Gvdiffsplit!\" \"$MERGED\"

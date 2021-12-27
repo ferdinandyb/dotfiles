@@ -8,7 +8,12 @@ are the same as on the machine, but it has the fancy things I occasionally need.
 `yamd` will have a built-in [solution
 ](https://github.com/TheLocehiliosan/yadm/issues/392).
 
-# airline themes for tmux and shell prompt
+## bootstrap and update
+
+Bootstrap will run on every `yadm clone` and `yadm pull`, so make bootstrap be
+idempotent. 
+
+## airline themes for tmux and shell prompt
 
 If you change the airline theme in vim, to have matching themes in tmux, open
 vim inside a tmux session and execute:

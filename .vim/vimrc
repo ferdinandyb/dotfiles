@@ -212,7 +212,7 @@ cnoremap <C-l> <Right>
 " imap <C-i> <Esc>saiW_Wi
 " imap <C-b> <Esc>saiW*.Whi
 " most editors will have these for bold and italic
-imap <C-i> <Esc>saiW_Wa
+imap <C-e> <Esc>saiW_Wa
 imap <C-b> <Esc>saiW*.Wa
 
 nnoremap <F3> :ALEToggle<CR>

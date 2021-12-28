@@ -10,8 +10,8 @@ nnoremap <leader>fm :FzfMarks<cr>
 nnoremap <leader>fl :FzfLines<cr>
 nnoremap <leader>fw :FzfWindows<cr>
 nnoremap <leader>fc :call vimtex#fzf#run()<cr>
-nnoremap <leader>f :FzfFiles<cr>
-nnoremap <leader>F :FzfAllFiles<cr>
+nnoremap <leader>F :FzfFiles<cr>
+nnoremap <leader>f :FzfAllFiles<cr>
 nnoremap <leader>b :FzfBuffers<cr>
 nnoremap <leader>h :FzfHistory<cr>
 nnoremap <leader>hs :FzfHistory/<cr>

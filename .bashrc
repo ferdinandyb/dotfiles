@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+  # We have color support; assume it's compliant with Ecma-48
+  # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+  # a case would tend to support setf rather than setaf.)
+  color_prompt=yes
     else
-	color_prompt=
+  color_prompt=
     fi
 fi
 
@@ -167,7 +167,7 @@ _fzf_compgen_dir() {
 
 function confed(){
   env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "let g:rooter_change_directory_for_non_project_files = 'home'" `yadmlistall`
-} 
+}
 
 # fnm
 export PATH=/home/fbence/.fnm:$PATH
@@ -182,5 +182,3 @@ source /etc/profile.d/bash_completion.sh
 # [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 eval "$(zoxide init bash)"
-
-

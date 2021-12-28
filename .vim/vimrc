@@ -177,7 +177,7 @@ let g:gundo_prefer_python3 = 1
 nnoremap <silent> <leader>m :noh <bar> call popup_clear()<cr>
 
 
-nmap <leader>vr :source ~/.vimrc<cr>
+nmap <leader>vr :source ~/.vim/vimrc<cr>
 
 " Allow gf to open non-existent files
 map gf :edit <cfile><cr>

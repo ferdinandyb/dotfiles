@@ -13,8 +13,8 @@ nnoremap <leader>fc :call vimtex#fzf#run()<cr>
 nnoremap <leader>F :FzfFiles<cr>
 nnoremap <leader>f :FzfAllFiles<cr>
 nnoremap <leader>b :FzfBuffers<cr>
-nnoremap <leader>h :FzfHistory<cr>
-nnoremap <leader>hs :FzfHistory/<cr>
+nnoremap <leader>: :FzfHistory<cr>
+nnoremap <leader>/ :FzfHistory/<cr>
 nnoremap <leader>gb :FzfGBranches<cr>
 
 let g:fzf_action = {

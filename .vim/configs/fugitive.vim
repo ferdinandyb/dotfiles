@@ -9,11 +9,12 @@ Plug 'tpope/vim-rhubarb'
 Plug 'sodapopcan/vim-twiggy'
 " commit browser plugin for fugitive
 Plug 'junegunn/gv.vim'
-if has('nvim') || has('patch-8.0.902')
-  Plug 'mhinz/vim-signify'
-else
-  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
-endif
+" if has('nvim') || has('patch-8.0.902')
+"   Plug 'mhinz/vim-signify'
+" else
+"   Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
+" endif
+Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'

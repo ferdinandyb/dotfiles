@@ -34,10 +34,10 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
 " apply autofix to problem on the current line.
-nmap <leader>af  <plug>(coc-fix-current)
-nmap <leader>am  <plug>(coc-format-selected)
-xmap <leader>am  <plug>(coc-format-selected)
-nmap <leader>ac  <Plug>(coc-codeaction)
+nmap <leader>cf  <plug>(coc-fix-current)
+nmap <leader>cm  <plug>(coc-format-selected)
+xmap <leader>cm  <plug>(coc-format-selected)
+nmap <leader>cc  <Plug>(coc-codeaction)
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)

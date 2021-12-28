@@ -1,0 +1,3 @@
+
+[[ ! -d $HOME/.pyenv ]] && curl https://pyenv.run | bash
+

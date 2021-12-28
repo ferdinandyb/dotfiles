@@ -14,6 +14,7 @@ nnoremap <leader>F :FzfFiles<cr>
 nnoremap <leader>f :FzfAllFiles<cr>
 nnoremap <leader>b :FzfBuffers<cr>
 nnoremap <leader>: :FzfHistory<cr>
+nnoremap <leader>é :FzfHistory<cr>
 nnoremap <leader>/ :FzfHistory/<cr>
 nnoremap <leader>gb :FzfGBranches<cr>
 

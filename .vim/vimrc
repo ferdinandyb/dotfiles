@@ -11,9 +11,9 @@ let maplocalleader = "\<space>"
 
 call plug#begin('~/.vim/plugged')
 " install language packs, but disable any you hand tweak
-source ~/.vim/vimrc/theme_setup.vim
+source ~/.vim/configs/theme_setup.vim
 Plug 'sheerun/vim-polyglot'
-source ~/.vim/vimrc/vim-polyglot.vim
+source ~/.vim/configs/vim-polyglot.vim
 " just nice icons
 Plug 'ryanoasis/vim-devicons'
 " extended %
@@ -32,7 +32,7 @@ Plug 'fladson/vim-kitty'
 Plug 'NikoKS/kitty-vim-tmux-navigator'
 
 " command to align text (never used it yet, learn or remove)
-source ~/.vim/vimrc/vim-easy-align.vim
+source ~/.vim/configs/vim-easy-align.vim
 " make path also when writing a new file with
 Plug 'jessarcher/vim-heritage'
 " open files at the last edit with some smart settings
@@ -41,10 +41,10 @@ Plug 'farmergreg/vim-lastplace'
 Plug 'machakann/vim-sandwich'
 " swap delimited items
 Plug 'machakann/vim-swap'
-source ~/.vim/vimrc/vim-swap.vim
+source ~/.vim/configs/vim-swap.vim
 " register viewing 
 Plug 'junegunn/vim-peekaboo'
-source ~/.vim/vimrc/fugitive.vim
+source ~/.vim/configs/fugitive.vim
 " should be coloring changes by char, but messes up colorscheme
 " Plug 'rickhowe/diffchar.vim'
 Plug 'ferdinandyb/diffchar.vim'
@@ -53,17 +53,17 @@ Plug 'ferdinandyb/diffchar.vim'
 Plug 'tpope/vim-speeddating'
 " makes speeddating repeatable
 Plug 'tpope/vim-repeat'
-source ~/.vim/vimrc/vim-obsession.vim
+source ~/.vim/configs/vim-obsession.vim
 " simple comment facilities
 Plug 'tpope/vim-commentary'
 " file browser
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-source ~/.vim/vimrc/vim-auto-save.vim
+source ~/.vim/configs/vim-auto-save.vim
 
 Plug 'honza/vim-snippets'
 
-source ~/.vim/vimrc/fzf.vim
+source ~/.vim/configs/fzf.vim
 
 " generate tags for jumping between latex tags and others
 " requires https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags 
@@ -78,12 +78,12 @@ Plug 'einfachtoll/didyoumean'
 " did you mean will use fzf
 let g:dym_use_fzf = 1
 " dispatch commands in the background
-source ~/.vim/vimrc/dispatch.vim
+source ~/.vim/configs/dispatch.vim
 Plug 'tpope/vim-unimpaired'
 " wrap unix commands
 Plug 'tpope/vim-eunuch'
 " asynchronous linting
-source ~/.vim/vimrc/coc-and-ale.vim
+source ~/.vim/configs/coc-and-ale.vim
 " switch between multiple lines and single lines
 Plug 'AndrewRadev/splitjoin.vim'
 " highlights letter for f,t, and co.
@@ -115,10 +115,10 @@ Plug 'jeetsukumaran/vim-pythonsense'
 
 call plug#end()
 colorscheme dracula
-source ~/.vim/vimrc/settings.vim
+source ~/.vim/configs/settings.vim
 
 " US keyboard layout like maps for HUN keyboard
-source ~/.vim/vimrc/hunmap.vim
+source ~/.vim/configs/hunmap.vim
 
 " buffers
 noremap <leader>d :bd<cr> " quit buffer 

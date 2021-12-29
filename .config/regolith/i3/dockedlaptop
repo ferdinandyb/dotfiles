@@ -1,0 +1,9 @@
+#!/usr/bin/python3
+
+from i3ipc import Connection
+
+i3 = Connection()
+
+for w in i3.get_workspaces():
+  if w.output == "eDP-1-1":
+    i3.command("[workspace={}] move workspace to output DP-1-1".format(w.num))

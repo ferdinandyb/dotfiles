@@ -44,7 +44,7 @@ command! -bang -nargs=? -complete=dir FzfAllFiles
             \ <bang>0))
 
 " a command to search for files managed by yadm
-command! -bang -nargs=? -complete=dir FzfYadm 
+command! -bang -nargs=? -complete=dir FzfYadm
             \ call fzf#run(fzf#wrap('allfiles',
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,

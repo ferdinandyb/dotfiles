@@ -119,10 +119,8 @@ handle_extension() {
 
         ## Jupyter Notebooks
         ipynb)
-            # good for python kernels
-            jupyter nbconvert --to script "${FILE_PATH}" --stdout | env  COLORTERM=8bit bat --color=always --style="plain" && exit 5
-            # better for other kernels
-            # jupyter nbconvert --to markdown "${FILE_PATH}" --stdout | env  COLORTERM=8bit bat --color=always --style="plain" && exit 5
+            jupyter nbconvert --to markdown "${FILE_PATH}" --stdout | env COLORTERM=8bit bat --color=always --style=plain --language=markdown && exit 5
+            jupyter nbconvert --to markdown "${FILE_PATH}" --stdout && exit 5
             jq --color-output . "${FILE_PATH}" && exit 5
             ;;
 
@@ -194,8 +192,10 @@ handle_image() {
 
 
         ## Jupyter Notebooks
-        application/x-ipynb)
-           jupyter nbconvert --to html "${FILE_PATH}" --output=/tmp/hello.html && wkhtmltoimage -f png --width 1000 --crop-h 1000 /tmp/hello.html "${IMAGE_CACHE_PATH}" && exit 6
+        application/x-ipynb+json)
+           jupyter nbconvert --to html "${FILE_PATH}" --stdout | wkhtmltoimage \
+             -f png --width "${DEFAULT_SIZE%x*}" --crop-h "${DEFAULT_SIZE%x*}" \
+             - "${IMAGE_CACHE_PATH}" && exit 6
            exit 1;;
 
         ## PDF

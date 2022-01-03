@@ -1,6 +1,6 @@
 if empty(glob('~/.vim/autoload/plug.vim'))
-	  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-		     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+      silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+             \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
@@ -41,7 +41,7 @@ Plug 'machakann/vim-sandwich'
 " swap delimited items
 Plug 'machakann/vim-swap'
 source ~/.vim/configs/vim-swap.vim
-" register viewing 
+" register viewing
 Plug 'junegunn/vim-peekaboo'
 source ~/.vim/configs/fugitive.vim
 " should be coloring changes by char, but messes up colorscheme
@@ -65,8 +65,8 @@ Plug 'honza/vim-snippets'
 source ~/.vim/configs/fzf.vim
 
 " generate tags for jumping between latex tags and others
-" requires https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags 
-Plug 'ludovicchabant/vim-gutentags' 
+" requires https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'preservim/tagbar'
 " clears searches smarter
 Plug 'junegunn/vim-slash'
@@ -78,6 +78,7 @@ Plug 'einfachtoll/didyoumean'
 let g:dym_use_fzf = 1
 " dispatch commands in the background
 source ~/.vim/configs/dispatch.vim
+" vim unimpaired might not be really needed ...
 Plug 'tpope/vim-unimpaired'
 " wrap unix commands
 Plug 'tpope/vim-eunuch'
@@ -120,7 +121,7 @@ source ~/.vim/configs/settings.vim
 source ~/.vim/configs/hunmap.vim
 
 " buffers
-noremap <leader>d :bd<cr> " quit buffer 
+noremap <leader>d :bd<cr> " quit buffer
 noremap <leader>, :b#<cr> " alternate buffer
 
 " better escape and exiting when using arrows
@@ -190,7 +191,7 @@ vnoremap > >gv
 vnoremap <expr>y "my\"" . v:register . "y`y"
 vnoremap <expr>Y "mY\"" . v:register . "Y`Y"
 
-"wrap 
+"wrap
 nnoremap <leader>w :set wrap!<cr>
 
 " this also has a sideeffect of Q NOT taking you to ex mode
@@ -263,13 +264,13 @@ set nofoldenable
 " set some marks in vue files for easy navigation
 au FileType vue silent! call s:set_vue_marks()
 function! s:set_vue_marks()
-    if search("data()","w") 
+    if search("data()","w")
         mark d
     endif
-    if search("methods:","w") 
+    if search("methods:","w")
         mark m
     endif
-    if search("mounted()","w") 
+    if search("mounted()","w")
         mark l
     endif
 endfunction
@@ -282,4 +283,3 @@ augroup vue
     au!
     au FileType vue setlocal foldmethod=expr
 augroup END
-

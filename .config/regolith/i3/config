@@ -697,7 +697,7 @@ bindsym $mod+. [con_mark=_last] focus
 
 # named scratchpad
 
-exec --no-startup-id gnome-terminal --title="scratch_terminal" --command "tmux new -Asscratchpad"
+# exec --no-startup-id gnome-terminal --title="scratch_terminal" --command "tmux new -Asscratchpad"
 bindsym $mod+Ctrl+t [title="scratch_terminal"] scratchpad show, resize set width 50 ppt height 50 ppt, move position center
 for_window [title="scratch_terminal"] move to scratchpad
 

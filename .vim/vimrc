@@ -29,8 +29,7 @@ Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
 Plug 'whatyouhide/vim-tmux-syntax'
 " syntax and navigator for kitty
 Plug 'fladson/vim-kitty'
-Plug 'ferdinandyb/i3wm-kitty-vim-tmux-navigator'
-
+source ~/.vim/configs/i3wm-kitty-vim-tmux-navigator.vim
 " command to align text (never used it yet, learn or remove)
 source ~/.vim/configs/vim-easy-align.vim
 " make path also when writing a new file with

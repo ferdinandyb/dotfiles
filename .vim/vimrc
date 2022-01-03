@@ -106,8 +106,6 @@ Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
 Plug 'jupyter-vim/jupyter-vim'
 " PYTHON
-" python syntax
-Plug 'vim-python/python-syntax'
 " python code folding
 Plug 'tmhedberg/SimpylFold'
 " python textobjects

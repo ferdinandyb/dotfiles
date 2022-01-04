@@ -107,7 +107,7 @@ Plug 'jupyter-vim/jupyter-vim'
 " PYTHON
 " python code folding
 Plug 'tmhedberg/SimpylFold'
-" python textobjects
+" python textobjects: isn't this covered by the LSP?
 Plug 'jeetsukumaran/vim-pythonsense'
 
 call plug#end()

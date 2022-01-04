@@ -12,7 +12,6 @@ let maplocalleader = "\<space>"
 call plug#begin('~/.vim/plugged')
 " install language packs, but disable any you hand tweak
 source ~/.vim/configs/theme_setup.vim
-Plug 'sheerun/vim-polyglot'
 source ~/.vim/configs/vim-polyglot.vim
 " just nice icons
 Plug 'ryanoasis/vim-devicons'

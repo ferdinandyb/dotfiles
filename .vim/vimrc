@@ -109,6 +109,9 @@ Plug 'jupyter-vim/jupyter-vim'
 Plug 'tmhedberg/SimpylFold'
 " python textobjects: isn't this covered by the LSP?
 Plug 'jeetsukumaran/vim-pythonsense'
+if has('nvim')
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+endif
 
 call plug#end()
 

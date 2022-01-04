@@ -1,3 +1,7 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
-source ~/.vim/vimrc
+if exists('g:started_by_firenvim')
+    source ~/.vim/configs/firenvim.vim
+else
+    source ~/.vim/vimrc
+endif

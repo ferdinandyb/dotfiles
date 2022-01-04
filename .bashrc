@@ -166,7 +166,10 @@ _fzf_compgen_dir() {
 }
 
 function confed(){
-  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "let g:rooter_change_directory_for_non_project_files = 'home'" `yadmlistall`
+  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME \
+  vim -c "let g:rooter_change_directory_for_non_project_files = 'home'" \
+      -c "AutoSaveToggle" \
+      `yadmlistall`
 }
 
 # fnm

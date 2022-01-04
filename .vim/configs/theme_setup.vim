@@ -42,5 +42,6 @@ set titlestring=VIM:\ %(%m%)%(%{expand(\"%:~\")}%)
 " this is needed for kitty background to work properly
 let &t_ut=''
 
+autocmd User PlugLoaded ++nested colorscheme dracula
 
 

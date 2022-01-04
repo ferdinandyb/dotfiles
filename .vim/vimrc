@@ -111,7 +111,8 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'jeetsukumaran/vim-pythonsense'
 
 call plug#end()
-colorscheme dracula
+
+doautocmd User PlugLoaded
 source ~/.vim/configs/settings.vim
 
 " US keyboard layout like maps for HUN keyboard

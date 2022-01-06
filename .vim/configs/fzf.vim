@@ -18,12 +18,19 @@ nnoremap <leader>é :FzfHistory<cr>
 nnoremap <leader>/ :FzfHistory/<cr>
 nnoremap <leader>gb :FzfGBranches<cr>
 
+func! s:insert_file_name_as_markdown_link(lines)
+    let @@ = '[]('.fnamemodify(a:lines[0], ":f").')'
+    normal! p
+endfunc
+
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-o': ':r !echo'}
+  \ 'ctrl-o': ':r !echo',
+  \ 'ctrl-l': function('s:insert_file_name_as_markdown_link')}
 
+" let g:fzf_action = { 'ctrl-r': function('s:insert_file_name')}
 
 let g:fzf_layout = { 'up': '~90%', 'window': { 'width': 0.8, 'height': 0.8, 'yoffset':0.5, 'xoffset': 0.5 } }
 let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
@@ -32,20 +39,19 @@ let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
 command! -bang -nargs=? -complete=dir FzfFiles
             \ call fzf#run(fzf#wrap('files',
             \ fzf#vim#with_preview({
-            \ 'dir': <q-args>,
-            \ 'sink': 'e', 'source': 'rg --files --hidden' }), <bang>0))
+            \ 'source': 'rg --files --hidden'}), <bang>0))
 
-" Add an AllFiles variation that ignores .gitignore files
+" " Add an AllFiles variation that ignores .gitignore files
 command! -bang -nargs=? -complete=dir FzfAllFiles
             \ call fzf#run(fzf#wrap('allfiles',
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,
-            \ 'sink': 'e', 'source': 'rg --files --hidden --no-ignore' }),
+            \ 'source': 'rg --files --hidden --no-ignore' }),
             \ <bang>0))
 
 " a command to search for files managed by yadm
 command! -bang -nargs=? -complete=dir FzfYadm
-            \ call fzf#run(fzf#wrap('allfiles',
+            \ call fzf#run(fzf#wrap('yadm',
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,
-            \ 'sink': 'e', 'source': 'yadmlistall' }), <bang>0))
+            \ 'source': 'yadmlistall' }), <bang>0))

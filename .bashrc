@@ -173,6 +173,10 @@ function confed(){
       `yadmlistall`
 }
 
+function ssht(){
+  /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";
+}
+
 # fnm
 export PATH=/home/fbence/.fnm:$PATH
 eval "`fnm env`"

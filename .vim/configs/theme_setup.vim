@@ -20,6 +20,13 @@ let g:airline_detect_spell=1
 let g:airline_detect_spelllang=1
 
 
+let g:promptline_theme = 'airline'
+let g:promptline_preset = {
+        \'b' : [ '$(if [[ -n "$SSH_CLIENT" ]]; then echo $USER; fi;)' ],
+        \'c' : [ promptline#slices#cwd() ],
+        \'a' : [ promptline#slices#vcs_branch(), promptline#slices#python_virtualenv() ],
+        \'warn' : [ promptline#slices#last_exit_code() ]}
+
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#left_alt_sep = ' '
 

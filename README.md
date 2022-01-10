@@ -24,6 +24,6 @@ vim inside a tmux session and execute:
 
 For the shell prompt execute:
 ```
-:PromptlineSnapshot ~/.config/shell/promptline_theme.sh airline clear
+:PromptlineSnapshot ~/.config/shell/promptline_theme.sh
 ```
 

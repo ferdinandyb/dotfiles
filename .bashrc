@@ -125,6 +125,7 @@ if [ $(hostname) == "etocentral" ]
 then
   export PYTHONPATH="$PYTHONPATH:/disk2/$USER/Codes"
   export PYTHONPATH="$JUPYTERPATH:/disk2/$USER/Codes"
+  export PATH="/home/fbence/.local/bin:$PATH"
 else
   export PYTHONPATH="$PYTHONPATH:/home/$USER/Codes"
 fi

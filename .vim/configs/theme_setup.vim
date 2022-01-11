@@ -21,11 +21,11 @@ let g:airline_detect_spelllang=1
 
 
 let g:promptline_theme = 'airline'
-let g:promptline_preset = {
-        \'b' : [ '$(if [[ -n "$SSH_CLIENT" ]]; then echo $USER; fi;)' ],
-        \'c' : [ promptline#slices#cwd() ],
-        \'a' : [ promptline#slices#vcs_branch(), promptline#slices#python_virtualenv() ],
-        \'warn' : [ promptline#slices#last_exit_code() ]}
+autocmd User PlugLoaded ++nested let g:promptline_preset = {
+    \'b' : [ '$(if [[ -n "$SSH_CLIENT" ]]; then echo $USER; fi;)' ],
+    \'c' : [ promptline#slices#cwd() ],
+    \'a' : [ promptline#slices#vcs_branch(), promptline#slices#python_virtualenv() ],
+    \'warn' : [ promptline#slices#last_exit_code() ]}
 
 " let g:airline#extensions#tabline#left_sep = ' '
 " let g:airline#extensions#tabline#left_alt_sep = ' '
@@ -41,10 +41,6 @@ set titlestring=VIM:\ %(%m%)%(%{expand(\"%:~\")}%)
 set laststatus=2
 " set showtabline=2
 set noshowmode
-
-" sets the title to the open buffer, useful for tmux pane search
-set title
-set titlestring=VIM:\ %(%m%)%(%{expand(\"%:~\")}%)
 
 " this is needed for kitty background to work properly
 let &t_ut=''

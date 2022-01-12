@@ -19,8 +19,8 @@ nnoremap <leader>/ :FzfHistory/<cr>
 nnoremap <leader>gb :FzfGBranches<cr>
 
 func! s:insert_file_name_as_markdown_link(lines)
-    let @@ = '[]('.fnamemodify(a:lines[0], ":f").')'
-    normal! p
+    let r = '[]('.fnamemodify(a:lines[0], ":f").')'
+    execute ':normal! a' . r
 endfunc
 
 let g:fzf_action = {
@@ -55,3 +55,4 @@ command! -bang -nargs=? -complete=dir FzfYadm
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,
             \ 'source': 'yadmlistall' }), <bang>0))
+

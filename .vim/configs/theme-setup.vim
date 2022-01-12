@@ -6,6 +6,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/promptline.vim'
 Plug 'edkolev/tmuxline.vim'
+" just nice icons
+Plug 'ryanoasis/vim-devicons'
 
 let g:airline_theme = 'dracula'
 let g:airline_powerline_fonts = 1

@@ -176,6 +176,8 @@ function confed(){
 function ssht(){
   /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";
 }
+# go
+export PATH=$HOME/go/bin:$PATH
 
 # fnm
 export PATH=/home/fbence/.fnm:$PATH

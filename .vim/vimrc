@@ -127,9 +127,6 @@ inoremap <silent> <Down> <ESC><Down>
 " format paragraph
 nnoremap <leader>q gqap
 
-" Map the <Space> key to toggle a selected fold opened/closed.
-nnoremap <silent> Í @=(foldlevel('.')?'za':"\<Space>")<CR>
-" vnoremap <Space>< zf
 
 " Automatically save and load folds
 autocmd BufWinLeave *.* mkview
@@ -202,15 +199,16 @@ cnoremap <C-l> <Right>
 imap <C-e> <Esc>saiW_Wa
 imap <C-b> <Esc>saiW*.Wa
 
+nnoremap <F2> :CocDisable
 nnoremap <F3> :ALEToggle<CR>
 nnoremap <F4> :AutoSaveToggle<CR>
 nnoremap <F5> :setlocal spell! spelllang=en_gb,hu<CR>
 nnoremap <F6> :GundoToggle<CR>
-nmap <F8> :TagbarToggle<CR>
+nnoremap <F7> :NERDTreeToggle<CR>
+nnoremap <F8> :TagbarToggle<CR>
 
 " spelling
-nnoremap zz z=
-nnoremap <leader>z 1z=
+nnoremap zz 1z=
 
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y
@@ -230,7 +228,6 @@ nnoremap <leader>gv "+gp
 let g:vim_json_syntax_conceal = 0
 
 " nerdtree mapping to ctrl n
-nnoremap <silent> <C-n> :NERDTreeToggle<CR>
 
 
 
@@ -246,9 +243,8 @@ let g:vimtex_fold_enabled = 1
 " - need to start vim with `vim --servername vim`: should add alias
 " - run :VimtexCompile to start compilation
 
-" au FileType python exe "normal zR"
 
-set nofoldenable
+" set nofoldenable
 " set some marks in vue files for easy navigation
 au FileType vue silent! call s:set_vue_marks()
 function! s:set_vue_marks()

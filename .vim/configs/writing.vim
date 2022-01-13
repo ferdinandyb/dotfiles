@@ -23,6 +23,8 @@ let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
 let g:nv_search_paths = ['~/zettelkasten']
 
+autocmd FileType markdown nmap <buffer>gf <Plug>Markdown_EditUrlUnderCursor
+
 
 let g:bibtex_bibfile = $HOME . "/zettelkasten/zotero.bib"
 
@@ -114,24 +116,67 @@ function! s:zettel_new(...)
 endfunction
 let g:zettel_fzf_insert_link_ctrl='l'
 
-func! s:insert_file_name_as_markdown_link(lines)
-    if (a:lines[0] =~ '^ctrl-\w$')
-        echo "linkmode"
-    else
-        echo "1"
+function! s:parse_to_markdown_link(line)
+    let filepath = split(a:line,":")[0]
+    let filename = fnamemodify(filepath,":r")
+    return "[" . filename . "](" . filepath . ")"
+endfunction
+
+function! s:parse_multiple_to_markdown_link(key, line)
+    return ' - ' . s:parse_to_markdown_link(a:line)
+endfunction
+
+function! s:zettelfind_linkmode(lines)
+   if (len(a:lines) == 1)
+       execute 'normal! a' . s:parse_to_markdown_link(a:lines[0])
+   else
+       let lines = [""] + map(a:lines,function('s:parse_multiple_to_markdown_link'))
+       call append('.',lines)
+   endif
+endfunction
+
+function! s:rg_to_qf(line)
+    let parts = split(a:line, ':')
+    return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+          \ 'text': join(parts[3:], ':')}
+endfunction
+
+function! s:escape(path)
+  return escape(a:path, ' %#\')
+endfunction
+
+function! s:zettelfind_openmode(lines)
+    let list = map(a:lines, 's:rg_to_qf(v:val)')
+    let first = list[0]
+    execute 'e ' . s:escape(first.filename)
+    execute first.lnum
+    execute 'normal!' first.col.'|zz'
+  
+    if len(list) > 1
+      call setqflist(list)
+      copen
+      wincmd p
     endif
-    call append(0, a:lines)
-endfunc
+endfunction
+
+function! s:zettel_find_sink(lines)
+    echom a:lines
+    if (a:lines[0] =~ '^ctrl-\w$')
+        call s:zettelfind_linkmode(a:lines[1:])
+    else
+        call s:zettelfind_openmode(a:lines[1:])
+    endif
+endfunction
 
 command! -bang -nargs=? -complete=dir ZettelFind
     \ call fzf#run(fzf#wrap('zettelfind',
     \ { 'dir': g:zettel_directory,
-    \ 'source': 'rg . --type markdown --color=always --smart-case',
+    \ 'source': 'rg . --type markdown --color=always --smart-case --vimgrep',
     \ 'options': '--expect=ctrl-' . g:zettel_fzf_insert_link_ctrl . '
                 \ --multi
                 \ --ansi --delimiter=":" 
                 \ --preview="bat --style=plain --color=always {1}"',
-    \ 'sink*': function('s:insert_file_name_as_markdown_link')
+    \ 'sink*': function('s:zettel_find_sink')
     \}, <bang>0))
 
 

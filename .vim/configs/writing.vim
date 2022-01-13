@@ -112,17 +112,28 @@ function! s:zettel_new(...)
     call append(0, lines)
 
 endfunction
+let g:zettel_fzf_insert_link_ctrl='l'
 
 func! s:insert_file_name_as_markdown_link(lines)
-    let r = '[]('.fnamemodify(a:lines[0], ":f").')'
-    execute ':normal! a' . r
+    if (a:lines[0] =~ '^ctrl-\w$')
+        echo "linkmode"
+    else
+        echo "1"
+    endif
+    call append(0, a:lines)
 endfunc
 
-" " Add an AllFiles variation that ignores .gitignore files
 command! -bang -nargs=? -complete=dir ZettelFind
-            \ call fzf#vim#grep(
-            \   'rg --type markdown --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
-            \   fzf#vim#with_preview({'dir':g:zettel_directory}), <bang>0)
+    \ call fzf#run(fzf#wrap('zettelfind',
+    \ { 'dir': g:zettel_directory,
+    \ 'source': 'rg . --type markdown --color=always --smart-case',
+    \ 'options': '--expect=ctrl-' . g:zettel_fzf_insert_link_ctrl . '
+                \ --multi
+                \ --ansi --delimiter=":" 
+                \ --preview="bat --style=plain --color=always {1}"',
+    \ 'sink*': function('s:insert_file_name_as_markdown_link')
+    \}, <bang>0))
+
 
 command! -bang -nargs=? ZettelNew call <sid>zettel_new(<q-args>)
 

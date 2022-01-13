@@ -40,13 +40,13 @@ endfunction
 
 autocmd FileType markdown set conceallevel=2
 
-autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>i :call fzf#run({
+command! -bang -nargs=0 PandocCite call fzf#run({
     \ 'source': 'bibtex-ls ' . g:bibtex_bibfile,
     \ 'sink*': function('<sid>bibtex_cite_sink'),
     \ 'up': '40%',
-    \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
+    \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})
 
-autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>cm :call fzf#run({
+autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>np :call fzf#run({
     \ 'source': 'bibtex-ls ' . g:bibtex_bibfile,
     \ 'sink*': function('<sid>bibtex_markdown_sink'),
     \ 'up': '40%',
@@ -97,8 +97,6 @@ function! s:zettel_new(...)
     let file_count = <sid>count_files(filename . '*.md')
     let filename = filename . <sid>numtoletter(file_count) . ".md"
     let filename = g:zettel_directory . filename
-    echom a:0
-    echom a:1
     if (a:0 > 0)
         let zettel_title = a:1
     else
@@ -160,7 +158,6 @@ function! s:zettelfind_openmode(lines)
 endfunction
 
 function! s:zettel_find_sink(lines)
-    echom a:lines
     if (a:lines[0] =~ '^ctrl-\w$')
         call s:zettelfind_linkmode(a:lines[1:])
     else
@@ -182,3 +179,14 @@ command! -bang -nargs=? -complete=dir ZettelFind
 
 command! -bang -nargs=? ZettelNew call <sid>zettel_new(<q-args>)
 
+noremap <leader>nn :ZettelNew<space>
+noremap <leader>nf :ZettelFind<CR>
+autocmd FileType markdown  nnoremap <buffer> <silent> <leader>nc :PandocCite<CR>
+autocmd FileType markdown  inoremap <buffer> <silent> @@ <Esc>:PandocCite<CR>
+autocmd FileType markdown  inoremap <buffer> <silent> [[ <Esc>:w<CR>:ZettelFind<CR>
+
+" TODO:
+" - copy ZettelInsertNote from vim-zettel
+" - something like VimwikiBacklinks for backlinks
+" - for Inbox mabye quickfixlist of zettels with no links? 
+" - insert mode mapping for citation insertion and link insertion @@ and [[?

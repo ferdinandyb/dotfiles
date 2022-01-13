@@ -10,11 +10,9 @@ let mapleader = "\<space>"
 let maplocalleader = "\<space>"
 
 call plug#begin('~/.vim/plugged')
+source ~/.vim/configs/theme-setup.vim
 " install language packs, but disable any you hand tweak
-source ~/.vim/configs/theme_setup.vim
 source ~/.vim/configs/vim-polyglot.vim
-" just nice icons
-Plug 'ryanoasis/vim-devicons'
 " extended %
 Plug 'andymass/vim-matchup'
 " add new targets to vim eg c2i)

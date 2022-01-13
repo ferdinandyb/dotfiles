@@ -1,3 +1,4 @@
+" need to have npm and yarn for markdown preview
 Plug 'lervag/vimtex'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " required by vim-markdown but easy-align is probably better
@@ -22,8 +23,8 @@ let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
 let g:nv_search_paths = ['~/zettelkasten']
 
-let $FZF_BIBTEX_CACHEDIR = $HOME . '/.cache/bibtex_fzf'
-let $FZF_BIBTEX_SOURCES = $HOME . '/zettelkasten/zotero.bib'
+
+let g:bibtex_bibfile = $HOME . "/zettelkasten/zotero.bib"
 
 function! s:bibtex_cite_sink(lines)
     let r=system("bibtex-cite ", a:lines)
@@ -31,21 +32,23 @@ function! s:bibtex_cite_sink(lines)
 endfunction
 
 function! s:bibtex_markdown_sink(lines)
-    let r=system("bibtex-markdown ", a:lines)
+    let r=system("bibtex-markdown " . g:bibtex_bibfile . " ", a:lines )
     execute ':normal! a' . r
 endfunction
 
+autocmd FileType markdown set conceallevel=2
+
 autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>i :call fzf#run({
-    \ 'source': 'bibtex-ls',
+    \ 'source': 'bibtex-ls ' . g:bibtex_bibfile,
     \ 'sink*': function('<sid>bibtex_cite_sink'),
     \ 'up': '40%',
     \ 'options': '--ansi --layout=reverse-list --multi --prompt "Cite> "'})<CR>
 
-" autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>cm :call fzf#run({
-"     \ 'source': 'bibtex-ls',
-"     \ 'sink*': function('<sid>bibtex_markdown_sink'),
-"     \ 'up': '40%',
-"     \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
+autocmd FileType markdown  nnoremap <buffer>  <silent> <leader>cm :call fzf#run({
+    \ 'source': 'bibtex-ls ' . g:bibtex_bibfile,
+    \ 'sink*': function('<sid>bibtex_markdown_sink'),
+    \ 'up': '40%',
+    \ 'options': '--ansi --layout=reverse-list --multi --prompt "Markdown> "'})<CR>
 
 let g:zettel_directory = $HOME . '/zettelkasten/'
 let g:zettel_date_format = "%Y-%m-%d %H:%M"
@@ -109,6 +112,17 @@ function! s:zettel_new(...)
     call append(0, lines)
 
 endfunction
+
+func! s:insert_file_name_as_markdown_link(lines)
+    let r = '[]('.fnamemodify(a:lines[0], ":f").')'
+    execute ':normal! a' . r
+endfunc
+
+" " Add an AllFiles variation that ignores .gitignore files
+command! -bang -nargs=? -complete=dir ZettelFind
+            \ call fzf#vim#grep(
+            \   'rg --type markdown --line-number --color=always --smart-case -- '.shellescape(<q-args>), 1,
+            \   fzf#vim#with_preview({'dir':g:zettel_directory}), <bang>0)
 
 command! -bang -nargs=? ZettelNew call <sid>zettel_new(<q-args>)
 

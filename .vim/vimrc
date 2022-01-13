@@ -93,11 +93,7 @@ Plug 'airblade/vim-rooter'
 "
 " Emmet is for expanding html stuff
 Plug 'mattn/emmet-vim'
-Plug 'lervag/vimtex'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-" required by vim-markdown but easy-align is probably better
-Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+source ~/.vim/configs/writing.vim
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
@@ -150,15 +146,7 @@ let g:qs_max_chars=150
 " this disable the jupyter-vim bindings
 let g:jupyter_mapkeys = 0
 
-" python-syntax highlightsetting
-let g:python_highlight_all = 1
 " run :PlugInstall to install stuff
-" need to have npm and yarn for markdown preview
-
-let g:vim_markdown_math = 1
-let g:vim_markdown_conceal_code_blocks = 0
-" let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_new_list_item_indent = 2
 
 " emmet might be absolutely useless and just use snippets?
 let g:user_emmet_install_global = 0
@@ -225,6 +213,7 @@ nnoremap <leader>z 1z=
 
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y
+nnoremap Y yg_
 
 
 " Ctrl-p pastes the last yank

@@ -68,12 +68,17 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
+  elseif (len(bibtexcite#getcitekey("pandoc")) > 1)
+    call bibtexcite#showcite("pandoc")
+  elseif (len(bibtexcite#getcitekey("latex")) > 1)
+    call bibtexcite#showcite("latex")
   elseif (coc#rpc#ready())
     call CocActionAsync('doHover')
   else
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
 let g:coc_snippet_prev = '<s-tab>'
 let g:coc_snippet_next = '<tab>'
 imap <C-y> <Plug>(coc-snippets-expand)

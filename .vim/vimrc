@@ -94,6 +94,8 @@ Plug 'airblade/vim-rooter'
 " Emmet is for expanding html stuff
 Plug 'mattn/emmet-vim'
 source ~/.vim/configs/writing.vim
+Plug 'hauleth/vim-backscratch'
+
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
@@ -128,9 +130,10 @@ inoremap <silent> <Down> <ESC><Down>
 nnoremap <leader>q gqap
 
 
-" Automatically save and load folds
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview"
+" Automatically save and load folds: this is probably irritating
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* silent loadview
+
 " ros setup
 autocmd BufRead,BufNewFile *.launch setfiletype roslaunch
 
@@ -226,22 +229,6 @@ nnoremap <leader>gv "+gp
 
 " json
 let g:vim_json_syntax_conceal = 0
-
-" nerdtree mapping to ctrl n
-
-
-
-" vimtex setup
-let g:tex_flavor='latex'
-let g:vimtex_view_method='zathura'
-let g:vimtex_fold_enabled = 1
-" let g:vimtex_quickfix_mode=0
-" set conceallevel=1
-" let g:tex_conceal='abdmg'
-
-" usage of vimtex
-" - need to start vim with `vim --servername vim`: should add alias
-" - run :VimtexCompile to start compilation
 
 
 " set nofoldenable

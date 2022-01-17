@@ -176,8 +176,10 @@ function confed(){
 }
 
 function ssht(){
+  # autocomplete doesn't work this way
   /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";
 }
+
 # go
 export PATH=$HOME/go/bin:$PATH
 

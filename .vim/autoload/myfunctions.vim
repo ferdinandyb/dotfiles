@@ -11,3 +11,13 @@ function! myfunctions#show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+
+function! myfunctions#coc_toggle()
+    if exists('g:did_coc_loaded')
+        if g:coc_enabled:
+            call :CocDisable
+        else
+            call :CocEnable
+        endif
+    endif

@@ -56,3 +56,8 @@ nnoremap <leader>: :FHistory<cr>
 nnoremap <leader>é :FHistory<cr>
 nnoremap <leader>/ :FHistory/<cr>
 nnoremap <leader>fb :FGBranches<cr>
+
+
+nnoremap <leader>cn :CetliNew
+nnoremap <leader>cf :CetliFind<CR>
+nnoremap <leader>cb :BibtexciteInsert<CR>

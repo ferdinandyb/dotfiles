@@ -20,9 +20,12 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_detect_spell=1
 let g:airline_detect_spelllang=1
+let g:airline_experimental=1
+
 
 
 let g:promptline_theme = 'airline'
+
 autocmd User PlugLoaded ++nested let g:promptline_preset = {
     \'b' : [ '$(if [[ -n "$SSH_CLIENT" ]]; then echo $USER; fi;)' ],
     \'c' : [ promptline#slices#cwd() ],

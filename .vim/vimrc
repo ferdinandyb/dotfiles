@@ -108,6 +108,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
 Plug 'jupyter-vim/jupyter-vim'
+Plug 'goerz/jupytext.vim'
 " PYTHON
 " python code folding
 Plug 'tmhedberg/SimpylFold'
@@ -122,14 +123,9 @@ call plug#end()
 doautocmd User PlugLoaded
 source ~/.vim/configs/settings.vim
 
-" buffers
-noremap <leader>d :bd<cr> " quit buffer
-noremap <leader>, :b#<cr> " alternate buffer
 
 " better escape and exiting when using arrows
 inoremap jk <Esc>
-inoremap <silent> <Up> <ESC><Up>
-inoremap <silent> <Down> <ESC><Down>
 
 " format paragraph
 nnoremap <leader>q gqap
@@ -167,10 +163,6 @@ map gf :edit <cfile><cr>
 vnoremap < <gv
 vnoremap > >gv
 
-" Maintain the cursor position when yanking a visual selection
-" http://ddrscott.github.io/blog/2016/yank-without-jank/
-vnoremap <expr>y "my\"" . v:register . "y`y"
-vnoremap <expr>Y "mY\"" . v:register . "Y`Y"
 
 "wrap
 nnoremap <leader>w :set wrap!<cr>
@@ -181,6 +173,8 @@ nnoremap Q :qa<CR>
 " jk will work visually except when taking a count
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')
 nnoremap <expr> j (v:count == 0 ? 'gj' : 'j')
+inoremap <silent> <Up> <ESC><Up>
+inoremap <silent> <Down> <ESC><Down>
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
@@ -212,10 +206,14 @@ vmap <C-C> "+y
 nnoremap Y yg_
 
 
-" Ctrl-p pastes the last yank
+" Ctrl-p pastes the last yank: vim unimpaired may have better maps
 nnoremap <leader>p "0p
 nnoremap <leader>v "+p
 nnoremap <leader>d "_dd
 nnoremap <leader>o o<ESC>"+P
 nnoremap <leader>gp "0gp
 nnoremap <leader>gv "+gp
+" Maintain the cursor position when yanking a visual selection
+" http://ddrscott.github.io/blog/2016/yank-without-jank/
+vnoremap <expr>y "my\"" . v:register . "y`y"
+vnoremap <expr>Y "mY\"" . v:register . "Y`Y"

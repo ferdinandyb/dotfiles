@@ -1,28 +1,3 @@
-set langmap=\
-            \ő[,
-            \Ő{,
-            \ú],
-            \Ú},
-            \é:,
-            \á`,
-            \ű',
-            \ö=,
-            \ü<,
-            \ó>
-
-nmap ő [
-xmap ő [
-omap ő [
-nmap ú ]
-omap ú ]
-xmap ú ]
-nmap Ő {
-xmap Ő {
-omap Ő {
-nmap Ú }
-omap Ú }
-xmap Ú }
-
 
 nmap őa     :previous<cr>
 nmap úa     :next<cr>

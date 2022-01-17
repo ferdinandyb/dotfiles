@@ -37,6 +37,9 @@ noremap <leader>ü :vnew<CR>
 nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
 
+noremap <leader>q :bd<cr> " quit buffer
+noremap <leader>, :b#<cr> " alternate buffer
+
 nnoremap <silent> K :call myfunctions#show_documentation()<CR>
 
 nnoremap <leader>fg :FGitFiles<cr>

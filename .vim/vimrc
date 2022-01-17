@@ -6,10 +6,12 @@ endif
 
 
 
-let mapleader = "\<space>"
-let maplocalleader = "\<space>"
 
 call plug#begin('~/.vim/plugged')
+" should be coloring changes by char, but messes up colorscheme
+" it is also in conflict with unimpaired so needs to be before
+" Plug 'rickhowe/diffchar.vim'
+Plug 'ferdinandyb/diffchar.vim'
 source ~/.vim/configs/theme-setup.vim
 " install language packs, but disable any you hand tweak
 source ~/.vim/configs/vim-polyglot.vim
@@ -41,9 +43,6 @@ source ~/.vim/configs/vim-swap.vim
 " register viewing
 Plug 'junegunn/vim-peekaboo'
 source ~/.vim/configs/fugitive.vim
-" should be coloring changes by char, but messes up colorscheme
-" Plug 'rickhowe/diffchar.vim'
-Plug 'ferdinandyb/diffchar.vim'
 
 " n_ctrl-x/a work as expected for dates, roman numerals etc.
 Plug 'tpope/vim-speeddating'
@@ -85,6 +84,8 @@ source ~/.vim/configs/coc-and-ale.vim
 Plug 'AndrewRadev/splitjoin.vim'
 " highlights letter for f,t, and co.
 Plug 'unblevable/quick-scope'
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_max_chars=150
 Plug 'nanotee/zoxide.vim'
 " auto switch to root dir
 Plug 'airblade/vim-rooter'
@@ -93,6 +94,10 @@ Plug 'airblade/vim-rooter'
 "
 " Emmet is for expanding html stuff
 Plug 'mattn/emmet-vim'
+" emmet might be absolutely useless and just use snippets?
+let g:user_emmet_install_global = 0
+autocmd FileType html,css,vue EmmetInstall
+
 source ~/.vim/configs/writing.vim
 Plug 'hauleth/vim-backscratch'
 
@@ -140,8 +145,6 @@ autocmd BufRead,BufNewFile *.launch setfiletype roslaunch
 " Rmarkdown
 autocmd BufRead,BufNewFile *.Rmd setfiletype markdown
 
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_max_chars=150
 
 
 " this disable the jupyter-vim bindings
@@ -149,9 +152,6 @@ let g:jupyter_mapkeys = 0
 
 " run :PlugInstall to install stuff
 
-" emmet might be absolutely useless and just use snippets?
-let g:user_emmet_install_global = 0
-autocmd FileType html,css,vue EmmetInstall
 
 
 
@@ -225,32 +225,3 @@ nnoremap <leader>d "_dd
 nnoremap <leader>o o<ESC>"+P
 nnoremap <leader>gp "0gp
 nnoremap <leader>gv "+gp
-
-
-" json
-let g:vim_json_syntax_conceal = 0
-
-
-" set nofoldenable
-" set some marks in vue files for easy navigation
-au FileType vue silent! call s:set_vue_marks()
-function! s:set_vue_marks()
-    if search("data()","w")
-        mark d
-    endif
-    if search("methods:","w")
-        mark m
-    endif
-    if search("mounted()","w")
-        mark l
-    endif
-endfunction
-
-augroup javascript_folding
-    au!
-    au FileType javascript setlocal foldmethod=syntax
-augroup END
-augroup vue
-    au!
-    au FileType vue setlocal foldmethod=expr
-augroup END

@@ -38,3 +38,18 @@ nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
 
 nnoremap <silent> K :call myfunctions#show_documentation()<CR>
+
+nnoremap <leader>fg :FGitFiles<cr>
+nnoremap <leader>ft :FTags<cr>
+nnoremap <leader>fr :FRg<space>
+nnoremap <leader>fm :FMarks<cr>
+nnoremap <leader>fl :FLines<cr>
+nnoremap <leader>fw :FWindows<cr>
+nnoremap <leader>fc :call vimtex#fzf#run()<cr>
+nnoremap <leader>f :FFiles<cr>
+nnoremap <leader>F :FAllFiles<cr>
+nnoremap <leader>b :FBuffers<cr>
+nnoremap <leader>: :FHistory<cr>
+nnoremap <leader>é :FHistory<cr>
+nnoremap <leader>/ :FHistory/<cr>
+nnoremap <leader>fb :FGBranches<cr>

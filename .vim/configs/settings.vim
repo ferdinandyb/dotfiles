@@ -2,13 +2,17 @@
 set hidden
 
 set updatetime=750
+
 " autoread to read stuff change outside of vim and the au to trigger it when
 " moving around
 set autoread
-au FocusGained,BufEnter * :silent! !
+augroup Autoread
+    autocmd!
+    autocmd CursorHold,CursorHoldI * checktime
+    autocmd FocusGained,BufEnter * checktime
+augroup END
 
-" Set compatibility to Vim only (i.e. no vi)
-set nocompatible
+
 
 " Wait less for keypresses and stuff?
 set ttimeout
@@ -35,8 +39,9 @@ set linebreak
 
 " Uncomment below to set the max textwidth. Use a value corresponding to the width of your screen.
 " set textwidth=79
+set autoindent
 set formatoptions=tcqrn1
-set tabstop=4
+set softtabstop=4
 set shiftwidth=4
 set expandtab
 

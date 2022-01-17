@@ -1,4 +1,4 @@
-# Bence Ferdinandy's dotfiles
+# .files
 
 I choose [yadm](https://github.com/TheLocehiliosan/yadm) because it is basically
 a bare git repo if I don't need anything fancy, meaning the structure and files
@@ -11,7 +11,7 @@ are the same as on the machine, but it has the fancy things I occasionally need.
 ## bootstrap and update
 
 Bootstrap will run on every `yadm clone` and `yadm pull`, so make bootstrap be
-idempotent. 
+idempotent.
 
 ## airline themes for tmux and shell prompt
 

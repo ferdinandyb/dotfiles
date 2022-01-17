@@ -4,7 +4,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 " required by vim-markdown but easy-align is probably better
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-Plug 'junegunn/goyo.vim'
 Plug 'alok/notational-fzf-vim'
 Plug 'ferdinandyb/bibtexcite.vim'
 Plug 'ferdinandyb/cetli.vim'
@@ -51,4 +50,3 @@ let g:cetli_fzf_insert_link_ctrl='l'
 let g:cetli_directory = $HOME . '/cetlidoboz/'
 let g:cetli_date_format = "%Y-%m-%d %H:%M"
 let g:cetli_filename_date_format = "%y%m%d%H%M"
-

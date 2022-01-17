@@ -101,6 +101,7 @@ let g:user_emmet_install_global = 0
 autocmd FileType html,css,vue EmmetInstall
 
 source ~/.vim/configs/writing.vim
+source ~/.vim/configs/goyo.vim
 Plug 'hauleth/vim-backscratch'
 
 Plug 'pangloss/vim-javascript'

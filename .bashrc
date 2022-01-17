@@ -174,7 +174,7 @@ function confed(){
       -c "silent AutoSaveToggle" \
       `yadmlistall`
 }
-
+git@github.com:ferdinandyb/dotfiles.git
 function ssht(){
   # autocomplete doesn't work this way
   /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";

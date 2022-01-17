@@ -15,9 +15,10 @@ endfunction
 
 function! myfunctions#coc_toggle()
     if exists('g:did_coc_loaded')
-        if g:coc_enabled:
-            call :CocDisable
+        if g:coc_enabled
+            CocDisable
         else
-            call :CocEnable
+            CocEnable
         endif
     endif
+endfunction

@@ -195,7 +195,7 @@ cnoremap <C-l> <Right>
 imap <C-e> <Esc>saiW_Wa
 imap <C-b> <Esc>saiW*.Wa
 
-nnoremap <F2> :CocDisable
+nnoremap <F2> :CocToggle<CR>
 nnoremap <F3> :ALEToggle<CR>
 nnoremap <F4> :AutoSaveToggle<CR>
 nnoremap <F5> :setlocal spell! spelllang=en_gb,hu<CR>

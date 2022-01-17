@@ -28,3 +28,13 @@ xmap Ú }
 
 nmap ö <
 nmap ü >
+nmap ó =
+
+noremap <leader>ö :new<CR>
+noremap <leader>ü :vnew<CR>
+
+" there's a conflict with diffchar
+nmap ]b <Plug>(unimpaired-bnext)
+nmap [b <Plug>(unimpaired-bprevious)
+
+nnoremap <silent> K :call myfunctions#show_documentation()<CR>

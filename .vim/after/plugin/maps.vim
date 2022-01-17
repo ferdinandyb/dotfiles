@@ -61,3 +61,6 @@ nnoremap <leader>fb :FGBranches<cr>
 nnoremap <leader>cn :CetliNew
 nnoremap <leader>cf :CetliFind<CR>
 nnoremap <leader>cb :BibtexciteInsert<CR>
+nnoremap <leader>cg :Goyo<CR>
+
+noremap s <nop>

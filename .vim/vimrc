@@ -75,7 +75,7 @@ Plug 'einfachtoll/didyoumean'
 " did you mean will use fzf
 let g:dym_use_fzf = 1
 " dispatch commands in the background
-source ~/.vim/configs/dispatch.vim
+Plug 'tpope/vim-dispatch'
 " vim unimpaired might not be really needed ...
 Plug 'tpope/vim-unimpaired'
 " wrap unix commands
@@ -143,6 +143,7 @@ autocmd BufRead,BufNewFile *.launch setfiletype roslaunch
 
 " Rmarkdown
 autocmd BufRead,BufNewFile *.Rmd setfiletype markdown
+autocmd BufRead,BufNewFile *.Rmd nnoremap <Leader>r :Dispatch R -e "rmarkdown::render('%',output_file='%.html')" <CR>
 
 
 

@@ -28,7 +28,3 @@ xmap Ú }
 
 nmap ö <
 nmap ü >
-
-
-let mapleader="\<Space>"
-let localmapleader="\<Space>"

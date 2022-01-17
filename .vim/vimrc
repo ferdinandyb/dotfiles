@@ -4,7 +4,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
+" leaders need to be set early because it is not dynamical
+let mapleader="\<Space>"
+let localmapleader="\<Space>"
 
 
 call plug#begin('~/.vim/plugged')
@@ -119,9 +121,6 @@ call plug#end()
 doautocmd User PlugLoaded
 source ~/.vim/configs/settings.vim
 
-" US keyboard layout like maps for HUN keyboard
-source ~/.vim/configs/hunmap.vim
-
 " buffers
 noremap <leader>d :bd<cr> " quit buffer
 noremap <leader>, :b#<cr> " alternate buffer
@@ -149,13 +148,6 @@ autocmd BufRead,BufNewFile *.Rmd setfiletype markdown
 
 " this disable the jupyter-vim bindings
 let g:jupyter_mapkeys = 0
-
-" run :PlugInstall to install stuff
-
-
-
-
-
 
 
 let g:gundo_prefer_python3 = 1

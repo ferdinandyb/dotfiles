@@ -190,7 +190,9 @@ export PATH="/home/$USER/.pyenv/bin:$PATH"
 # pyenv
 eval "$(pyenv init --path)"
 eval "$(pyenv virtualenv-init -)"
-source /etc/profile.d/bash_completion.sh
+if [ -f /etc/profile.d/bash_completion.sh ]; then
+    source /etc/profile.d/bash_completion.sh
+fi
 
 # Generated for envman. Do not edit.
 # [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

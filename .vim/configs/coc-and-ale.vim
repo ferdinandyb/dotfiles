@@ -32,21 +32,23 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <leader>rn <Plug>(coc-rename)
+" maybe instead of coc-rename refactor?
+nmap <leader>dn <Plug>(coc-rename)
+nmap <leader>dr <Plug>(coc-refactor)
 " apply autofix to problem on the current line.
-nmap <leader>cf  <plug>(coc-fix-current)
-nmap <leader>cm  <plug>(coc-format-selected)
-xmap <leader>cm  <plug>(coc-format-selected)
-nmap <leader>cc  <Plug>(coc-codeaction)
+nmap <leader>df  <plug>(coc-fix-current)
+nmap <leader>dm  <plug>(coc-format-selected)
+xmap <leader>dm  <plug>(coc-format-selected)
+nmap <leader>dc  <Plug>(coc-codeaction)
 " Applying codeAction to the selected region.
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>ga  <Plug>(coc-codeaction-line)
 
+nmap <leader>do :CocFzfList outline <CR>
+nmap <leader>dl :CocFzfList <CR>
 
-nmap <leader>co :CocFzfList outline <CR>
-nmap <leader>cl :CocFzfList <CR>
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
@@ -56,28 +58,14 @@ omap ic <Plug>(coc-classobj-i)
 xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
-nmap <leader>f <Plug>(ale_fix)
+" nmap <leader>f <Plug>(ale_fix)
+let g:ale_fix_on_save = 1
 nmap <silent> <leader>j <Plug>(ale_next_wrap_error)
 nmap <silent> <leader>k <Plug>(ale_previous_wrap_error)
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (len(bibtexcite#getcitekey("pandoc")) > 1)
-    call bibtexcite#showcite("pandoc")
-  elseif (len(bibtexcite#getcitekey("latex")) > 1)
-    call bibtexcite#showcite("latex")
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
 
 let g:coc_snippet_prev = '<s-tab>'
 let g:coc_snippet_next = '<tab>'
@@ -108,4 +96,3 @@ if has('nvim-0.4.0') || has('patch-8.2.0750')
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 "
-

@@ -1,10 +1,10 @@
 i3-wm.bar.trayoutput: primary
-i3-wm.workspace.00.name: 0:<span font_desc='JetBrains Mono Medium 13'> 0  </span> 
-i3-wm.workspace.01.name: 1:<span font_desc='JetBrains Mono Medium 13'> 1  </span> 
-i3-wm.workspace.09.name: 9:<span font_desc='JetBrains Mono Medium 13'> 9  </span> 
-i3-wm.workspace.08.name: 8:<span font_desc='JetBrains Mono Medium 13'> 8  </span> 
-i3-wm.workspace.07.name: 7:<span font_desc='JetBrains Mono Medium 13'> 7  </span> 
-i3-wm.workspace.06.name: 6:<span font_desc='JetBrains Mono Medium 13'> 6  </span> 
+i3-wm.workspace.00.name: 0:<span font_desc='JetBrains Mono Medium 13'> 0  </span>
+i3-wm.workspace.01.name: 1:<span font_desc='JetBrains Mono Medium 13'> 1  </span>
+i3-wm.workspace.09.name: 9:<span font_desc='JetBrains Mono Medium 13'> 9  </span>
+i3-wm.workspace.08.name: 8:<span font_desc='JetBrains Mono Medium 13'> 8  </span>
+i3-wm.workspace.07.name: 7:<span font_desc='JetBrains Mono Medium 13'> 7  </span>
+i3-wm.workspace.06.name: 6:<span font_desc='JetBrains Mono Medium 13'> 6  </span>
 i3-wm.workspace.secondary_group: DP-1-1 eDP-1-1
 i3-wm.binding.next_free: u
 i3-wm.binding.take_next_free: Mod1+u
@@ -23,3 +23,5 @@ i3-wm.program.launcher.app: rofi -matching fuzzy -sort -sorting-method fzf -matc
 i3-wm.program.launcher.window: rofi -matching fuzzy -sort -sorting-method fzf -matching fuzzy -show window -theme /home/fbence/.config/regolith/styles/dracula/rofi.rasi
 !i3-wm.program.launcher.file_search:rofi -matching fuzzy -sort -sorting-method fzf -matching fuzzy -show drun -theme $rofiTheme
 i3-wm.program.files: /usr/bin/gtk-launch ranger
+i3-wm.binding.split_h: ü
+i3-wm.binding.split_v: ö

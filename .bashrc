@@ -127,7 +127,7 @@ then
   export PYTHONPATH="$JUPYTERPATH:/disk2/$USER/Codes"
   export PATH="/home/fbence/.local/bin:$PATH"
 else
-  export PYTHONPATH="$PYTHONPATH:/home/$USER/Codes"
+  export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 fi
 
 
@@ -174,7 +174,7 @@ function confed(){
       -c "silent AutoSaveToggle" \
       `yadmlistall`
 }
-git@github.com:ferdinandyb/dotfiles.git
+
 function ssht(){
   # autocomplete doesn't work this way
   /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";
@@ -184,12 +184,19 @@ function ssht(){
 export PATH=$HOME/go/bin:$PATH
 
 # fnm
-export PATH=/home/fbence/.fnm:$PATH
-eval "`fnm env`"
-export PATH="/home/$USER/.pyenv/bin:$PATH"
-# pyenv
-eval "$(pyenv init --path)"
-eval "$(pyenv virtualenv-init -)"
+
+if [ -d $HOME/.fnm ]; then
+    export PATH=$HOME/.fnm:$PATH
+    eval "`fnm env`"
+fi
+
+if [ -d $HOME/.pyenv ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    # pyenv
+    eval "$(pyenv init --path)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
 if [ -f /etc/profile.d/bash_completion.sh ]; then
     source /etc/profile.d/bash_completion.sh
 fi

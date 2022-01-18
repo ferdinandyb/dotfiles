@@ -30,8 +30,13 @@ nmap ö <
 nmap ü >
 nmap ó =
 
+" you usually want to repeat in the same direction but altgr-, is complicated
+noremap , ;
+noremap ; ,
+
 noremap <leader>ö :new<CR>
 noremap <leader>ü :vnew<CR>
+
 
 " there's a conflict with diffchar
 nmap ]b <Plug>(unimpaired-bnext)

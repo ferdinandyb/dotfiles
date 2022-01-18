@@ -7,6 +7,7 @@ Plug 'plasticboy/vim-markdown'
 Plug 'alok/notational-fzf-vim'
 Plug 'ferdinandyb/bibtexcite.vim'
 Plug 'ferdinandyb/cetli.vim'
+Plug 'vim-scripts/loremipsum'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 

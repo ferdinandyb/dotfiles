@@ -84,10 +84,8 @@ Plug 'tpope/vim-eunuch'
 source ~/.vim/configs/coc-and-ale.vim
 " switch between multiple lines and single lines
 Plug 'AndrewRadev/splitjoin.vim'
-" highlights letter for f,t, and co.
-Plug 'unblevable/quick-scope'
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_max_chars=150
+
+source ~/.vim/configs/movements.vim
 Plug 'nanotee/zoxide.vim'
 " auto switch to root dir
 Plug 'airblade/vim-rooter'

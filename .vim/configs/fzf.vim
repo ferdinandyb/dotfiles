@@ -6,8 +6,8 @@ let g:fzf_command_prefix = 'F'
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit',
+  \ 'ö': 'split',
+  \ 'ü': 'vsplit',
   \ 'ctrl-o': ':r !echo'}
 
 " let g:fzf_action = { 'ctrl-r': function('s:insert_file_name')}

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# this is also upgrade, and --skip-shell will not install itself into bashrc
+# which is good since I already have it there
+curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell

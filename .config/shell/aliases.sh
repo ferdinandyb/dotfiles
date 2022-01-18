@@ -14,5 +14,8 @@ alias lsr="ls -tr"
 function cn(){
     vim +'call feedkeys(":CetliNew ")'
 }
+function cfn(){
+    vim +'call feedkeys(":FecniNew ")'
+}
 
 alias cf='vim +CetliFind'

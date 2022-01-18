@@ -37,7 +37,7 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
-let g:nv_search_paths = ['~/cetlidoboz']
+let g:nv_search_paths = ['~/cetlidoboz','~/fecnidoboz']
 
 
 
@@ -47,6 +47,7 @@ let g:bibtexcite_floating_window_border = ['│', '─', '╭', '╮', '╯', '�
 
 
 
+let g:fecni_directory = $HOME . '/fecnidoboz/'
 let g:cetli_fzf_insert_link_ctrl='l'
 let g:cetli_directory = $HOME . '/cetlidoboz/'
 let g:cetli_date_format = "%Y-%m-%d %H:%M"

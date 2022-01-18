@@ -46,28 +46,31 @@ nmap [b <Plug>(unimpaired-bprevious)
 noremap <leader>q :bd<cr> " quit buffer
 noremap <leader>, :b#<cr> " alternate buffer
 
-nnoremap <silent> K :call myfunctions#show_documentation()<CR>
+noremap <silent> K :call myfunctions#show_documentation()<CR>
 
-nnoremap <leader>fg :FGitFiles<cr>
-nnoremap <leader>ft :FTags<cr>
-nnoremap <leader>fr :FRg<space>
-nnoremap <leader>fm :FMarks<cr>
-nnoremap <leader>fl :FLines<cr>
-nnoremap <leader>fw :FWindows<cr>
-nnoremap <leader>fc :call vimtex#fzf#run()<cr>
-nnoremap <leader>f :FFiles<cr>
-nnoremap <leader>F :FAllFiles<cr>
-nnoremap <leader>b :FBuffers<cr>
-nnoremap <leader>: :FHistory<cr>
-nnoremap <leader>é :FHistory<cr>
-nnoremap <leader>/ :FHistory/<cr>
-nnoremap <leader>fb :FGBranches<cr>
+noremap <leader>g :FGitFiles<cr>
+noremap <leader>ft :FTags<cr>
+noremap <leader>fr :FRg<space>
+noremap <leader>fm :FMarks<cr>
+noremap <leader>fl :FLines<cr>
+noremap <leader>fw :FWindows<cr>
+noremap <leader>fc :call vimtex#fzf#run()<cr>
+noremap <leader>f :FFiles<cr>
+noremap <leader>F :FAllFiles<cr>
+noremap <leader>b :FBuffers<cr>
+noremap <leader>: :FHistory<cr>
+noremap <leader>é :FHistory<cr>
+noremap <leader>/ :FHistory/<cr>
+noremap <leader>gb :FGBranches<cr>
 
 
-nnoremap <leader>cn :CetliNew
-nnoremap <leader>cf :CetliFind<CR>
-nnoremap <leader>cb :BibtexciteInsert<CR>
-nnoremap <leader>cg :Goyo<CR>
+noremap <leader>cn :CetliNew
+noremap <leader>cfn :CetliNew
+noremap <leader>cs :CetliSearch<CR>
+noremap <leader>cfs :FecniSearch<CR>
+noremap <leader>cfa :FecniSearchAll<CR>
+noremap <leader>cb :BibtexciteInsert<CR>
+noremap <leader>cg :Goyo<CR>
 
 noremap <silent> s <nop>
 noremap <silent> S <nop>

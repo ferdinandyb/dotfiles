@@ -118,6 +118,8 @@ if !has("nvim")
         set ttymouse=xterm2
     end
 endif
-au WinLeave * set nocursorline nocursorcolumn
-au WinEnter * set cursorline cursorcolumn
-set cursorline cursorcolumn
+
+" this is pretty irritating really :)
+" au WinLeave * set nocursorline nocursorcolumn
+" au WinEnter * set cursorline cursorcolumn
+" set cursorline cursorcolumn

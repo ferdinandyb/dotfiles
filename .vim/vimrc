@@ -112,7 +112,10 @@ Plug 'goerz/jupytext.vim'
 Plug 'tmhedberg/SimpylFold'
 " python textobjects: isn't this covered by the LSP?
 Plug 'jeetsukumaran/vim-pythonsense'
-
+Plug 'Konfekt/FastFold'
+Plug 'vim-scripts/LargeFile'
+" Plug 'mhinz/vim-startify'
+" let g:startify_custom_header = ''
 if has('nvim')
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 endif

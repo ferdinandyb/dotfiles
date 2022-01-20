@@ -3,14 +3,24 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 
-let g:coc_global_extensions = [
-\ 'coc-json',
-\ 'coc-vetur',
-\ 'coc-pyright',
-\ 'coc-snippets',
-\ 'coc-tag',
-\ 'coc-tsserver',
-\ 'coc-tabnine']
+if g:os == 'Android'
+    let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-vetur',
+    \ 'coc-pyright',
+    \ 'coc-snippets',
+    \ 'coc-tag',
+    \ 'coc-tsserver']
+else
+    let g:coc_global_extensions = [
+    \ 'coc-json',
+    \ 'coc-vetur',
+    \ 'coc-pyright',
+    \ 'coc-snippets',
+    \ 'coc-tag',
+    \ 'coc-tsserver',
+    \ 'coc-tabnine']
+endif
 
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
@@ -60,10 +70,10 @@ omap ac <Plug>(coc-classobj-a)
 
 " nmap <leader>f <Plug>(ale_fix)
 let g:ale_fix_on_save = 1
-nmap <silent> <leader>j <Plug>(ale_next_wrap_error)
-nmap <silent> <leader>k <Plug>(ale_previous_wrap_error)
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> ]h <Plug>(ale_next_wrap_error)
+nmap <silent> [h <Plug>(ale_previous_wrap_error)
+nmap <silent> [w <Plug>(ale_previous_wrap)
+nmap <silent> ]w <Plug>(ale_next_wrap)
 
 
 

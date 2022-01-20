@@ -4,6 +4,14 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = split(system('uname -a'))[-1]
+    endif
+endif
+
 " leaders need to be set early because it is not dynamical
 let mapleader="\<Space>"
 let localmapleader="\<Space>"
@@ -209,6 +217,7 @@ nnoremap Y yg_
 
 " Ctrl-p pastes the last yank: vim unimpaired may have better maps
 nnoremap <leader>p "0p
+nnoremap <leader>P "0P
 " nnoremap <leader>v "+p
 nnoremap <leader>d "_dd
 nnoremap <leader>o o<ESC>"+P

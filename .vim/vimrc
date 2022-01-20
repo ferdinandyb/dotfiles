@@ -54,7 +54,7 @@ source ~/.vim/configs/vim-obsession.vim
 " simple comment facilities
 Plug 'tpope/vim-commentary'
 " file browser
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 source ~/.vim/configs/vim-auto-save.vim
 

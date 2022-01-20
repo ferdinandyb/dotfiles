@@ -11,11 +11,23 @@ alias r='printf "\033];Ranger\007"; ranger; printf "\033];Terminal\007"'
 alias lsr="ls -tr"
 
 # cetli.vim
-function cn(){
+#
+function ccn(){
     vim +'call feedkeys(":CetliNew ")'
 }
-function cfn(){
+
+function cn(){
     vim +'call feedkeys(":FecniNew ")'
 }
 
-alias cf='vim +CetliFind'
+function ccl(){
+    cd ~/cetlidoboz
+    git pull
+    vim `fd "\d{8}\.md" | tail -n 1`
+}
+
+function cl(){
+    cd ~/fecnidoboz
+    git pull
+    vim `fd "\d{8}\.md" | tail -n 1`
+}

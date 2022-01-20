@@ -31,3 +31,16 @@ function cl(){
     git pull
     vim `fd "\d{8}\.md" | tail -n 1`
 }
+
+function sync_repo(){
+    curdir=`pwd`
+    for folder in $@
+    do
+        cd $folder
+        git pull
+        git push
+    done
+    cd $curdir
+}
+
+alias cs="sync_repo ~/cetlidoboz ~/fecnidoboz"

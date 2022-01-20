@@ -64,11 +64,11 @@ noremap <leader>/ :FHistory/<cr>
 noremap <leader>gb :FGBranches<cr>
 
 
-noremap <leader>cn :CetliNew
-noremap <leader>cfn :CetliNew
-noremap <leader>cs :CetliSearch<CR>
-noremap <leader>cfs :FecniSearch<CR>
-noremap <leader>cfa :FecniSearchAll<CR>
+noremap <leader>ccn :CetliNew
+noremap <leader>cn :FecniNew
+noremap <leader>ccs :CetliSearch<CR>
+noremap <leader>cs :FecniSearch<CR>
+noremap <leader>ca :FecniSearchAll<CR>
 noremap <leader>cb :BibtexciteInsert<CR>
 noremap <leader>cg :Goyo<CR>
 

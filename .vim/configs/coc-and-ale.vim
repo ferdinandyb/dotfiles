@@ -3,23 +3,20 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 
-if g:os == 'Android'
-    let g:coc_global_extensions = [
-    \ 'coc-json',
-    \ 'coc-vetur',
-    \ 'coc-pyright',
-    \ 'coc-snippets',
-    \ 'coc-tag',
-    \ 'coc-tsserver']
-else
-    let g:coc_global_extensions = [
+let s:cocextensions = [
     \ 'coc-json',
     \ 'coc-vetur',
     \ 'coc-pyright',
     \ 'coc-snippets',
     \ 'coc-tag',
     \ 'coc-tsserver',
-    \ 'coc-tabnine']
+    \ 'coc-vimtex',
+    \ 'coc-texlab']
+
+if g:os == 'Android'
+    let g:coc_global_extensions = s:cocextensions
+else
+    let g:coc_global_extensions = s:cocextensions + ['coc-tabnine']
 endif
 
 let g:coc_fzf_preview = ''

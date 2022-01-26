@@ -14,7 +14,7 @@ endif
 
 " leaders need to be set early because it is not dynamical
 let mapleader="\<Space>"
-let localmapleader="\<Space>"
+let maplocalleader="\<Space>"
 
 
 call plug#begin('~/.vim/plugged')

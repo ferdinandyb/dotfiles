@@ -1,5 +1,5 @@
 " ##### GIT #######
-" git integration from tpope 
+" git integration from tpope
 " (as commandline but :G instead of git, % is current file)
 Plug 'tpope/vim-fugitive'
 " bitbucket plugin for fugitive
@@ -13,7 +13,3 @@ Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'
-
-
-autocmd User FugitiveIndex nmap <buffer> ö =
-

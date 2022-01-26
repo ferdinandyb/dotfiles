@@ -37,18 +37,35 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
-let g:nv_search_paths = ['~/cetlidoboz','~/fecnidoboz']
+let g:nv_search_paths = ['~/org/cetlidoboz','~/org/fecnidoboz', '~/org/projects', '~/org/meetings']
 
 
 
-let g:bibtexcite_bibfile = $HOME . "/cetlidoboz/zotero.bib"
+let g:bibtexcite_bibfile = $HOME . "/org/zotero.bib"
 let g:bibtexcite_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
 
+let g:cetli_configuration = [
+            \ {"path": $HOME . '/org/cetlidoboz', "prefix": "Cetli", "default_type": "cetli", "naming": "time" },
+            \ {"path": $HOME . '/org/fecnidoboz', "prefix": "Fecni", "default_type": "fleeting", "naming": "time" },
+            \ {"path": $HOME . '/org/meetings', "prefix": "Meeting", "default_type": "meeting", "naming": "time" },
+            \ {"path": $HOME . '/org/agendas', "prefix": "Agenda", "default_type": "agenda", "naming": "manual" },
+            \ {"path": $HOME . '/org/projects', "prefix": "Project", "default_type": "project", "naming": "manual" }
+            \ ]
+
+let g:cetli_searchall_prefix = "Org"
+let g:cetli_searchall_executedir = $HOME . '/org'
 
 
-
-let g:fecni_directory = $HOME . '/fecnidoboz/'
 let g:cetli_fzf_insert_link_ctrl='l'
-let g:cetli_directory = $HOME . '/cetlidoboz/'
-let g:cetli_date_format = "%Y-%m-%d %H:%M"
+let g:cetli_date_format = "%Y-%m-%d %H:%M %A"
 let g:cetli_filename_date_format = "%y%m%d%H%M"
+
+augroup cetli_autogroup
+    au!
+    au BufRead ~/org/** let b:auto_save = 1
+    autocmd BufRead ~/org/** execute "GitGutterBufferDisable"
+    " autocmd BufWrite ~/org/** !git add <afile> && git commit --all -m "Autocommit"
+    autocmd BufWritePost ~/org/** silent! !git add <afile> && git commit --all -m 'Autocommit' 2> /dev/null 1>&2
+    " autocmd BufWritePost ~/org/** execute "Dispatch git add % && git commit -m 'autocommit' 2> /dev/null 1>&2"
+
+augroup END

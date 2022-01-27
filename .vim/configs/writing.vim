@@ -64,8 +64,7 @@ augroup cetli_autogroup
     au!
     au BufRead ~/org/** let b:auto_save = 1
     autocmd BufRead ~/org/** execute "GitGutterBufferDisable"
-    " autocmd BufWrite ~/org/** !git add <afile> && git commit --all -m "Autocommit"
-    autocmd BufWritePost ~/org/** silent! !git add <afile> && git commit --all -m 'Autocommit' 2> /dev/null 1>&2
-    " autocmd BufWritePost ~/org/** execute "Dispatch git add % && git commit -m 'autocommit' 2> /dev/null 1>&2"
+    autocmd BufWritePost ~/org/** silent! !git add <afile> 2> /dev/null 1>&2 && git commit --all -m 'Autocommit' 2> /dev/null 1>&2 && git push 2> /dev/null 1>&2
+    autocmd BufRead ~/org/** silent! !git pull 2> /dev/null 1>&2
 
 augroup END

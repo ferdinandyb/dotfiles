@@ -16,21 +16,32 @@ function ccn(){
     vim +'call feedkeys(":CetliNew ")'
 }
 
-function cn(){
+function cfn(){
     vim +'call feedkeys(":FecniNew ")'
 }
 
+function cmn(){
+    vim +'call feedkeys(":MeetingNew ")'
+}
+
 function ccl(){
-    cd ~/cetlidoboz
+    cd ~/org/cetlidoboz
     git pull
     vim `fd "\d{8}\.md" | tail -n 1`
 }
 
-function cl(){
-    cd ~/fecnidoboz
+function cfl(){
+    cd ~/org/fecnidoboz
     git pull
     vim `fd "\d{8}\.md" | tail -n 1`
 }
+
+function cml(){
+    cd ~/org/meetings
+    git pull
+    vim `fd "\d{8}\.md" | tail -n 1`
+}
+
 
 function sync_repo(){
     curdir=`pwd`
@@ -43,4 +54,4 @@ function sync_repo(){
     cd $curdir
 }
 
-alias cs="sync_repo ~/cetlidoboz ~/fecnidoboz"
+alias cs="sync_repo ~/org"

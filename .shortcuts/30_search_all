@@ -1,4 +1,4 @@
 #!/data/data/com.termux/files/usr/bin/bash
+~/bin/sync_org_git
 source ~/.config/shell/aliases.sh
-
-cl
+cs

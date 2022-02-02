@@ -1,4 +1,4 @@
 #!/data/data/com.termux/files/usr/bin/bash
 source ~/.config/shell/aliases.sh
-
-ccl
+~/bin/sync_org_git
+vim ~/org/fecnidoboz/questions.md

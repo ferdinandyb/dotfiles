@@ -47,7 +47,8 @@ let g:bibtexcite_floating_window_border = ['│', '─', '╭', '╮', '╯', '�
 let g:cetli_configuration = [
             \ {"path": $HOME . '/org/cetlidoboz', "prefix": "Cetli", "default_type": "cetli", "naming": "time" },
             \ {"path": $HOME . '/org/fecnidoboz', "prefix": "Fecni", "default_type": "fleeting", "naming": "time" },
-            \ {"path": $HOME . '/org/meetings', "prefix": "Meeting", "default_type": "meeting", "naming": "time" },
+            \ {"path": $HOME . '/org/resources', "prefix": "Resource", "default_type": "resource", "naming": "time" },
+            \ {"path": $HOME . '/org/INBOX', "prefix": "Inbox", "default_type": "inbox", "naming": "time" },
             \ {"path": $HOME . '/org/agendas', "prefix": "Agenda", "default_type": "agenda", "naming": "manual" },
             \ {"path": $HOME . '/org/projects', "prefix": "Project", "default_type": "project", "naming": "manual" }
             \ ]
@@ -63,8 +64,7 @@ let g:cetli_filename_date_format = "%y%m%d%H%M"
 augroup cetli_autogroup
     au!
     au BufRead ~/org/** let b:auto_save = 1
-    autocmd BufRead ~/org/** execute "GitGutterBufferDisable"
-    autocmd BufWritePost ~/org/** silent! !git add <afile> 2> /dev/null 1>&2 && git commit --all -m 'Autocommit' 2> /dev/null 1>&2 && git push 2> /dev/null 1>&2
-    autocmd BufRead ~/org/** silent! !git pull 2> /dev/null 1>&2
-
+    " autocmd BufRead ~/org/** execute "GitGutterBufferDisable"
+    " autocmd BufWritePost ~/org/** silent! !git add <afile> 2> /dev/null 1>&2 && git commit --all -m 'Autocommit' 2> /dev/null 1>&2 && git push 2> /dev/null 1>&2
+    " autocmd BufRead ~/org/** silent! !git pull 2> /dev/null 1>&2
 augroup END

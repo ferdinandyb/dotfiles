@@ -20,38 +20,69 @@ function cfn(){
     vim +'call feedkeys(":FecniNew ")'
 }
 
-function cmn(){
-    vim +'call feedkeys(":MeetingNew ")'
+function cin(){
+    vim +'call feedkeys(":InboxNew ")'
+}
+
+function crn(){
+    vim +'call feedkeys(":ResourceNew ")'
+}
+
+function ccs(){
+    vim +'call feedkeys(":CetliSearch\<CR>")'
+}
+
+function cfs(){
+    vim +'call feedkeys(":FecniSearch\<CR>")'
+}
+
+function cis(){
+    vim +'call feedkeys(":InboxSearch\<CR>")'
+}
+
+function crs(){
+    vim +'call feedkeys(":ResourceSearch\<CR>")'
+}
+
+function cas(){
+    vim +'call feedkeys(":AgendaSearch\<CR>")'
+}
+
+function cps(){
+    vim +'call feedkeys(":ProjectSearch\<CR>")'
+}
+
+function cs(){
+    cd ~/org
+    vim +'call feedkeys(":FGitFiles\<CR>")'
 }
 
 function ccl(){
     cd ~/org/cetlidoboz
-    git pull
     vim `fd "\d{8}\.md" | tail -n 1`
 }
 
 function cfl(){
     cd ~/org/fecnidoboz
-    git pull
     vim `fd "\d{8}\.md" | tail -n 1`
 }
 
-function cml(){
-    cd ~/org/meetings
-    git pull
+function cil(){
+    cd ~/org/fecnidoboz
     vim `fd "\d{8}\.md" | tail -n 1`
 }
 
-
-function sync_repo(){
-    curdir=`pwd`
-    for folder in $@
-    do
-        cd $folder
-        git pull
-        git push
-    done
-    cd $curdir
+function crl(){
+    cd ~/org/resources
+    vim `fd "\d{8}\.md" | tail -n 1`
 }
 
-alias cs="sync_repo ~/org"
+function cpl(){
+    cd ~/org/projects
+    vim `ls -tr | tail -n 1`
+}
+
+function cal(){
+    cd ~/org/agendas
+    vim `ls -tr | tail -n 1`
+}

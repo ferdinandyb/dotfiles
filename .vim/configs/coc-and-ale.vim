@@ -26,7 +26,7 @@ let g:ale_disable_lsp = 1
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\	'python': ['pylint', 'flake8']
+\	'python': ['flake8']
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],

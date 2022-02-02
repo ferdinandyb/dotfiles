@@ -1,0 +1,8 @@
+CURDIR=`pwd`
+cd $HOME/org
+git pull
+git add **/*.md
+git add -u
+git commit -m "auto update"
+git push
+cd $CURDIR

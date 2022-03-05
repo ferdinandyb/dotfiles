@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Gmail
+Comment=Gmail as a Chrome app
+Exec=/opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox
+Icon=gmail
+Terminal=false
+StartupWMClass=GmailDesktop
+Type=Application

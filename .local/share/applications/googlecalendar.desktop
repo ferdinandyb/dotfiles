@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Google Calendar
+Comment=Google Calendar as a Chrome app
+Exec=/opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
+Icon=googlecalendar
+Terminal=false
+StartupWMClass=GoogleCalendarDesktop
+Type=Application

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Messenger
+Comment=Messenger as a Chrome app
+Exec=/opt/google/chrome/chrome --app=https://www.messenger.com/
+Icon=messenger
+Terminal=false
+StartupWMClass=MessengerDesktop
+Type=Application

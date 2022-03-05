@@ -57,14 +57,11 @@ let g:cetli_searchall_prefix = "Org"
 let g:cetli_searchall_executedir = $HOME . '/org'
 
 
-let g:cetli_fzf_insert_link_ctrl='l'
+let g:cetli_fzf_insert_link_ctrl='e'
 let g:cetli_date_format = "%Y-%m-%d %H:%M %A"
 let g:cetli_filename_date_format = "%y%m%d%H%M"
 
 augroup cetli_autogroup
     au!
     au BufRead ~/org/** let b:auto_save = 1
-    " autocmd BufRead ~/org/** execute "GitGutterBufferDisable"
-    " autocmd BufWritePost ~/org/** silent! !git add <afile> 2> /dev/null 1>&2 && git commit --all -m 'Autocommit' 2> /dev/null 1>&2 && git push 2> /dev/null 1>&2
-    " autocmd BufRead ~/org/** silent! !git pull 2> /dev/null 1>&2
 augroup END

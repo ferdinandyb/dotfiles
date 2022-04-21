@@ -288,7 +288,7 @@ bindsym $mod+$i3-wm.binding.focus_toggle focus mode_toggle
 
 ## Modify // Window Layout Mode // <> t ##
 set_from_resource $i3-wm.binding.layout_mode i3-wm.binding.layout_mode t
-bindsym $mod+$i3-wm.binding.layout_mode layout toggle tabbed splith #splitv
+bindsym $mod+$i3-wm.binding.layout_mode layout toggle tabbed splith splitv
 
 ## Modify // Move Window to Workspace 1 - 10 // <><Shift> 0..9 ##
 bindsym $mod+Shift+$ws0_key move container to workspace number $ws0
@@ -740,12 +740,15 @@ for_window [instance="twitter.com__home"] floating disable
 
 assign [instance="mail.google.com__mail_u_0"] workspace $ws7
 for_window [instance="mail.google.com__mail_u_0"] floating disable
+assign [instance="mail.google.com__mail_u_2"] workspace $ws7
+for_window [instance="mail.google.com__mail_u_2"] floating disable
 assign [instance="outlook.office.com"] workspace $ws7
 for_window [instance="outlook.office.com"] mark o
 for_window [instance="outlook.office.com"] floating disable
 # workspace "$ws7" output $secondary_group
 
 assign [instance="calendar.google.com__calendar_r"] workspace $ws6
+assign [instance="calendar.google.com__calendar_u_2_r"] workspace $ws6
 for_window [instance="calendar.google.com__calendar_r"] mark c
 for_window [instance="calendar.google.com__calendar_r"] floating disable
 assign [instance="trello.com__benceferdinandy_boards"] workspace $ws6

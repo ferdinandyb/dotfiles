@@ -4,6 +4,7 @@
 Plug 'tpope/vim-fugitive'
 " bitbucket plugin for fugitive
 Plug 'tommcdo/vim-fubitive'
+Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tpope/vim-rhubarb'
 " fugitive plugin for branch management
 Plug 'sodapopcan/vim-twiggy'
@@ -13,3 +14,4 @@ Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'
+let g:fugitive_gitlab_domains = ['https://gitlab.formsense.com/']

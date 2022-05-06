@@ -48,11 +48,12 @@ Plug 'farmergreg/vim-lastplace'
 " better surrounds than tpope's
 Plug 'machakann/vim-sandwich'
 " swap delimited items
-Plug 'machakann/vim-swap'
 source ~/.vim/configs/vim-swap.vim
 " register viewing
 Plug 'junegunn/vim-peekaboo'
 source ~/.vim/configs/fugitive.vim
+
+Plug 'tpope/vim-abolish'
 
 " n_ctrl-x/a work as expected for dates, roman numerals etc.
 Plug 'tpope/vim-speeddating'

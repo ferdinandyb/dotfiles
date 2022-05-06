@@ -4,6 +4,8 @@ Plug 'ferdinandyb/vim', { 'as': 'dracula' }
 Plug '907th/vim-auto-save'
 Plug 'tpope/vim-commentary'
 Plug 'machakann/vim-sandwich'
+Plug 'AndrewRadev/splitjoin.vim'
+source ~/.vim/configs/vim-swap.vim
 call plug#end()
 
 let g:auto_save_events = ["CursorHoldI","CursorHold"]

@@ -15,7 +15,8 @@ endif
 " leaders need to be set early because it is not dynamical
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
-
+" this is needed so kitty's protocol doesn't turn the menu key into a large undo
+set <F20>=57363u
 
 call plug#begin('~/.vim/plugged')
 " should be coloring changes by char, but messes up colorscheme
@@ -31,9 +32,6 @@ Plug 'andymass/vim-matchup'
 Plug 'wellle/targets.vim'
 " adds xml/html text objects
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
-" allows seemles navigation of vim and tmux splits, kitty vim tmux probably is
-" better?
-" Plug 'christoomey/vim-tmux-navigator'
 " tmux config syntax highlight
 Plug 'whatyouhide/vim-tmux-syntax'
 " syntax and navigator for kitty
@@ -123,6 +121,7 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'Konfekt/FastFold'
 Plug 'vim-scripts/LargeFile'
+Plug 'puremourning/vimspector'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
 if has('nvim')

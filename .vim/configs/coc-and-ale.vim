@@ -13,11 +13,11 @@ let s:cocextensions = [
     \ 'coc-vimtex',
     \ 'coc-texlab']
 
-if g:os == 'Android'
-    let g:coc_global_extensions = s:cocextensions
-else
-    let g:coc_global_extensions = s:cocextensions + ['coc-tabnine']
-endif
+" if g:os == 'Android'
+"     let g:coc_global_extensions = s:cocextensions
+" else
+"     let g:coc_global_extensions = s:cocextensions + ['coc-tabnine']
+" endif
 
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
@@ -51,7 +51,7 @@ nmap <leader>dc  <Plug>(coc-codeaction)
 " Example: `<leader>aap` for current paragraph
 xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>ga  <Plug>(coc-codeaction-line)
+nmap <leader>da  <Plug>(coc-codeaction-line)
 
 nmap <leader>do :CocFzfList outline <CR>
 nmap <leader>dl :CocFzfList <CR>

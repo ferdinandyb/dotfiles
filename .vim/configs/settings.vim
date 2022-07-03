@@ -32,8 +32,8 @@ set modelines=0
 " Automatically wrap text that extends beyond the screen length.
 set wrap
 " auto hard wrap when typing
-set textwidth=80
-set colorcolumn=+1
+" set textwidth=80
+" set colorcolumn=+1
 " this makes wrap not break words
 set linebreak
 

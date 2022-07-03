@@ -32,48 +32,51 @@ nmap ó =
 
 " " you usually want to repeat in the same direction but altgr-, is complicated
 " but it is handled by sneak now
-" noremap , ;
-" noremap ; ,
+" nnoremap , ;
+" nnoremap ; ,
 
-noremap <leader>ö :new<CR>
-noremap <leader>ü :vnew<CR>
+nnoremap <leader>ö :new<CR>
+nnoremap <leader>ü :vnew<CR>
 
 
 " there's a conflict with diffchar
 nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
 
-noremap <leader>q :bd<cr> " quit buffer
-noremap <leader>, :b#<cr> " alternate buffer
+nnoremap <leader>q :bd<cr> " quit buffer
+nnoremap <leader>, :b#<cr> " alternate buffer
 
-noremap <silent> K :call myfunctions#show_documentation()<CR>
-
-noremap <leader>g :FGitFiles<cr>
-noremap <leader>ft :FTags<cr>
-noremap <leader>fr :FRg<space>
-noremap <leader>fm :FMarks<cr>
-noremap <leader>fl :FLines<cr>
-noremap <leader>fw :FWindows<cr>
-noremap <leader>fc :call vimtex#fzf#run()<cr>
-noremap <leader>f :FFiles<cr>
-noremap <leader>F :FAllFiles<cr>
-noremap <leader>b :FBuffers<cr>
-noremap <leader>: :FHistory<cr>
-noremap <leader>é :FHistory<cr>
-noremap <leader>/ :FHistory/<cr>
-noremap <leader>gb :FGBranches<cr>
+nnoremap <silent> K :call myfunctions#show_documentation()<CR>
 
 
-noremap <leader>ccn :CetliNew
-noremap <leader>cn :FecniNew
-noremap <leader>ccs :CetliSearch<CR>
-noremap <leader>cs :FecniSearch<CR>
-noremap <leader>ca :FecniSearchAll<CR>
-noremap <leader>cb :BibtexciteInsert<CR>
-noremap <leader>cg :Goyo<CR>
+nnoremap gs :Git<CR>
 
-noremap <silent> s <nop>
-noremap <silent> S <nop>
+nnoremap <leader>g :FGitFiles!<cr>
+nnoremap <leader>ft :FTags!<cr>
+nnoremap <leader>fr :FRg<space>
+nnoremap <leader>fm :FMarks!<cr>
+nnoremap <leader>fl :FLines!<cr>
+nnoremap <leader>fw :FWindows!<cr>
+nnoremap <leader>fc :call vimtex#fzf#run()<cr>
+nnoremap <leader>f :FFiles!<cr>
+nnoremap <leader>F :FAllFiles!<cr>
+nnoremap <leader>b :FBuffers!<cr>
+nnoremap <leader>: :FHistory!<cr>
+nnoremap <leader>é :FHistory!<cr>
+nnoremap <leader>/ :FHistory/!<cr>
+nnoremap <leader>gb :FGBranches!<cr>
+
+
+nnoremap <leader>ccn :CetliNew
+nnoremap <leader>cn :FecniNew
+nnoremap <leader>ccs :CetliSearch<CR>
+nnoremap <leader>cs :FecniSearch<CR>
+nnoremap <leader>ca :FecniSearchAll<CR>
+nnoremap <leader>cb :BibtexciteInsert<CR>
+nnoremap <leader>cg :Goyo<CR>
+
+nnoremap <silent> s <nop>
+nnoremap <silent> S <nop>
 
 let g:textobj_sandwich_no_default_key_mappings = 1
 xmap ib <Plug>(textobj-sandwich-auto-i)

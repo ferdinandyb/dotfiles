@@ -1,3 +1,5 @@
+set nocompatible
+
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -11,7 +13,6 @@ if !exists("g:os")
         let g:os = split(system('uname -a'))[-1]
     endif
 endif
-
 " leaders need to be set early because it is not dynamical
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
@@ -49,9 +50,15 @@ Plug 'machakann/vim-sandwich'
 source ~/.vim/configs/vim-swap.vim
 " register viewing
 Plug 'junegunn/vim-peekaboo'
-source ~/.vim/configs/fugitive.vim
+source ~/.vim/configs/git.vim
 
+" substitution for singular and plurals + changing the from snake_case to
+" camelCase
 Plug 'tpope/vim-abolish'
+
+" auto expandtab setting
+Plug 'tpope/vim-sleuth'
+
 
 " n_ctrl-x/a work as expected for dates, roman numerals etc.
 Plug 'tpope/vim-speeddating'
@@ -63,6 +70,7 @@ Plug 'tpope/vim-commentary'
 " file browser
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-vinegar'
 source ~/.vim/configs/vim-auto-save.vim
 
 Plug 'honza/vim-snippets'
@@ -83,7 +91,9 @@ Plug 'einfachtoll/didyoumean'
 let g:dym_use_fzf = 1
 " dispatch commands in the background
 Plug 'tpope/vim-dispatch'
+" run tests with e.g. Dispatch
 " vim unimpaired might not be really needed ...
+Plug 'vim-test/vim-test'
 Plug 'tpope/vim-unimpaired'
 " wrap unix commands
 Plug 'tpope/vim-eunuch'
@@ -208,7 +218,7 @@ nnoremap <F7> :NERDTreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 " spelling
-nnoremap zz 1z=
+nnoremap zü 1z=
 
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y

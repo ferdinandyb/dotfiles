@@ -18,10 +18,6 @@
       "passKeys": ""
     },
     {
-      "pattern": "https?://localhost:8888/*",
-      "passKeys": ""
-    },
-    {
       "pattern": "https?://www.openvim.com/*",
       "passKeys": ""
     },
@@ -46,14 +42,14 @@
       "passKeys": "mwdyaxjnrt+/sgcez"
     },
     {
-      "pattern": "https?://localhost:6080/*",
-      "passKeys": ""
+      "pattern": "https?://keep.google.com/*",
+      "passKeys": "j,k,e,l"
     }
   ],
   "filterLinkHints": false,
   "waitForEnterForFilteredHints": true,
   "hideHud": true,
-  "keyMappings": "# Insert your preferred key mappings here.\nmap , visitPreviousTab\nmap t Vomnibar.activateTabSelection\nmap é Marks.activateGotoMode swap\nmap ` Marks.activateGotoMode swap\nmap m Marks.activateCreateMode swap\nmap üü moveTabLeft\nmap óó moveTabRight\nmap <a-ü> moveTabLeft count=99\nmap <a-ó> moveTabRight count=99\nmap <a-<> moveTabLeft count=99\nmap <a->> moveTabRight count=99\nmap q< closeTabsOnLeft\nmap qü closeTabsOnLeft\nmap q> closeTabsOnRight\nmap qó closeTabsOnRight\nmap qq closeOtherTabs\nmap <c-q> LinkHints.activateModeToOpenInNewForegroundTab\nmap R reload hard\nmap e LinkHints.activateMode action=hover\nmap úú goNext\nmap őő goPrevious",
+  "keyMappings": "# Insert your preferred key mappings here.\nmap , visitPreviousTab\nmap t Vomnibar.activateTabSelection\nmap é Marks.activateGotoMode swap\nmap ` Marks.activateGotoMode swap\nmap m Marks.activateCreateMode swap\nmap öö moveTabLeft\nmap üü moveTabRight\nmap <a-ö> moveTabLeft count=99\nmap <a-ü> moveTabRight count=99\nmap <a-<> moveTabLeft count=99\nmap <a->> moveTabRight count=99\nmap q< closeTabsOnLeft\nmap qö closeTabsOnLeft\nmap q> closeTabsOnRight\nmap qü closeTabsOnRight\nmap qq closeOtherTabs\nmap <c-q> LinkHints.activateModeToOpenInNewForegroundTab\nmap R reload hard\nmap e LinkHints.activateMode action=hover\nmap úú goNext\nmap őő goPrevious\nmap <c-ú> passNextKey",
   "linkHintCharacters": "sadfjklewcmpgh",
   "linkHintNumbers": "0123456789",
   "newTabUrl": "about:newtab",

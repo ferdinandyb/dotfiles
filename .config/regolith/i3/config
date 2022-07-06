@@ -725,9 +725,9 @@ workspace "$ws9" output $secondary_group
 # music control
 # for special character: xmodmap -pke
 bindsym $mod+odoubleacute exec --no-startup-id dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2  org.mpris.MediaPlayer2.Player.PlayPause
-bindsym $mod+udiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+oacute exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym $mod+odiaeresis exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+odiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+udiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+oacute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym $mod+uacute exec --no-startup-id amixer set Capture toggle
 
 # bindsym $mod+Ctrl+p exec  "sleep 0.3 && xdotool key XF86AudioPlay"

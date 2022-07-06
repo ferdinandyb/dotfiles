@@ -16,7 +16,6 @@ i3-wm.binding.focus_child: y
 i3-wm.auto_back_and_forth: yes
 i3xrocks.date.format2: %b. %d. %H:%M:%S
 i3-wm.program.1: /usr/bin/nm-applet
-i3-wm.program.2: /home/fbence/.config/regolith/i3/i3-last-window
 gnome.wallpaper: /home/fbence/Pictures/AUEH_NF_poszter_A3.pdf.jpg
 i3-wm.program.launcher.app: rofi -matching fuzzy -sort -sorting-method fzf -matching fuzzy -show drun -theme /etc/regolith/styles/dracula/rofi.rasi
 !i3-wm.program.launcher.cmd: rofi -matching fuzzy -sort -sorting-method fzf -matching fuzzy -show drun -theme $rofiTheme

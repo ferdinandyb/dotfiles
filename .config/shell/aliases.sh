@@ -9,6 +9,14 @@ alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias r='. ranger'
 alias lsr="ls -tr"
+alias bm="bashmount"
+alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
+
+alias ll='ls -ltrhA'
+alias la='ls -A'
+alias lh='ls -lh'
+alias lt='ls -ltrh'
+alias l='ls'
 
 # cetli.vim
 #

@@ -1,5 +1,5 @@
 set nocompatible
-
+set exrc
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -35,7 +35,7 @@ Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
 " tmux config syntax highlight
 Plug 'whatyouhide/vim-tmux-syntax'
-" syntax and navigator for kitty
+" syntax for kitty
 Plug 'fladson/vim-kitty'
 source ~/.vim/configs/i3wm-kitty-vim-tmux-navigator.vim
 " command to align text (never used it yet, learn or remove)
@@ -86,7 +86,7 @@ Plug 'junegunn/vim-slash'
 " visualize undo trees
 Plug 'sjl/gundo.vim'
 " doesn't open misspelled files
-Plug 'einfachtoll/didyoumean'
+" Plug 'einfachtoll/didyoumean'
 " did you mean will use fzf
 let g:dym_use_fzf = 1
 " dispatch commands in the background
@@ -134,6 +134,12 @@ Plug 'vim-scripts/LargeFile'
 Plug 'puremourning/vimspector'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
+
+
+" database fun
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 if has('nvim')
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 endif

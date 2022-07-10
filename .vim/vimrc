@@ -23,6 +23,7 @@ call plug#begin('~/.vim/plugged')
 " should be coloring changes by char, but messes up colorscheme
 " it is also in conflict with unimpaired so needs to be before
 " Plug 'rickhowe/diffchar.vim'
+source ~/.vim/configs/floaterm.vim
 Plug 'ferdinandyb/diffchar.vim'
 source ~/.vim/configs/theme-setup.vim
 " install language packs, but disable any you hand tweak
@@ -150,7 +151,7 @@ source ~/.vim/configs/settings.vim
 
 
 " better escape and exiting when using arrows
-inoremap jk <Esc>
+inoremap jj <Esc>
 
 " format paragraph
 nnoremap <leader>q gqap

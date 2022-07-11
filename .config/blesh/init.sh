@@ -254,7 +254,7 @@ bleopt exec_errexit_mark=
 ## history is shared with the other Bash ble.sh sessions with the history
 ## sharing turned on.
 
-#bleopt history_share=
+bleopt history_share=1
 
 
 ## This option controls the target range in the command history for
@@ -879,7 +879,7 @@ function blerc/vim-load-hook {
 
   ## The following settings specify the name of modes in the mode line.
 
-  #bleopt keymap_vi_mode_name_insert=INSERT
+  bleopt keymap_vi_mode_name_insert=
   #bleopt keymap_vi_mode_name_replace=REPLACE
   #bleopt keymap_vi_mode_name_vreplace=VREPLACE
   #bleopt keymap_vi_mode_name_visual=VISUAL
@@ -1104,3 +1104,33 @@ blehook/eval-after-load keymap_vi blerc/vim-load-hook
 _ble_contrib_fzf_base=$HOME/.fzf
 ble-import -d contrib/fzf-completion
 ble-import -d contrib/fzf-key-bindings
+
+function ferdinandyb/set-up-status-line {
+  bleopt keymap_vi_mode_show=
+  bleopt keymap_vi_mode_update_prompt=1
+
+  function ble/prompt/backslash:ferdinandyb/currentmode {
+    local mode; ble/keymap:vi/script/get-mode
+    case $mode in
+    (*n)  ble/prompt/print $'\e[1m-- NORMAL --\e[m' ;;
+    (*v)  ble/prompt/print $'\e[1m-- VISUAL --\e[m' ;;
+    (*V)  ble/prompt/print $'\e[1m-- V-LINE --\e[m' ;;
+    (*^V) ble/prompt/print $'\e[1m-- V-BLOQ --\e[m' ;;
+    (*s)  ble/prompt/print $'\e[1m-- SELECT --\e[m' ;;
+    (*S)  ble/prompt/print $'\e[1m-- S-LINE --\e[m' ;;
+    (*^S) ble/prompt/print $'\e[1m-- S-BLOQ --\e[m' ;;
+    (i)   ;;
+    (R)   ble/prompt/print $'\e[1m-- RPLACE --\e[m' ;;
+    (^R)  ble/prompt/print $'\e[1m-- VPLACE --\e[m' ;;
+    (*)   ble/prompt/print $'\e[1m-- ?????? --\e[m' ;;
+    esac
+
+    ble-face prompt_status_line=none
+  }
+
+  bleopt prompt_status_line='\q{ferdinandyb/currentmode}'
+}
+blehook/eval-after-load keymap_vi ferdinandyb/set-up-status-line
+
+
+ble-bind -m vi_imap -f C-RET accept-line

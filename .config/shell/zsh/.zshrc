@@ -5,35 +5,35 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_FIND_NO_DUPS
-setopt HIST_SAVE_NO_DUPS
-# options that should be mostly pretty agreeable: from https://github.com/willghatch/zsh-saneopt/blob/master/saneopt.plugin.zsh
+HISTSIZE=500000
+HISTFILE="$HOME/.zsh_history"
+SAVEHIST=500000
+setopt appendhistory
+setopt INC_APPEND_HISTORY
+setopt SHARE_HISTORY
+# # options that should be mostly pretty agreeable: from https://github.com/willghatch/zsh-saneopt/blob/master/saneopt.plugin.zsh
 
 # no c-s/c-q output freezing
 setopt noflowcontrol
-# allow expansion in prompts
-setopt prompt_subst
-# this is default, but set for share_history
-setopt append_history
-# save each command's beginning timestamp and the duration to the history file
-setopt extended_history
-# display PID when suspending processes as well
-setopt longlistjobs
-# try to avoid the 'zsh: no matches found...'
-setopt nonomatch
-# report the status of backgrounds jobs immediately
-setopt notify
-# whenever a command completion is attempted, make sure the entire command path
-# is hashed first.
-setopt hash_list_all
-# not just at the end
-setopt completeinword
-# use zsh style word splitting
-setopt noshwordsplit
+# # allow expansion in prompts
+# setopt prompt_subst
+# # this is default, but set for share_history
+# setopt append_history
+# # save each command's beginning timestamp and the duration to the history file
+# # setopt extended_history
+# # display PID when suspending processes as well
+# setopt longlistjobs
+# # try to avoid the 'zsh: no matches found...'
+# setopt nonomatch
+# # report the status of backgrounds jobs immediately
+# setopt notify
+# # whenever a command completion is attempted, make sure the entire command path
+# # is hashed first.
+# setopt hash_list_all
+# # not just at the end
+# setopt completeinword
+# # use zsh style word splitting
+# setopt noshwordsplit
 # allow use of comments in interactive code
 setopt interactivecomments
 
@@ -76,8 +76,6 @@ function confed(){
 
 # Plugins
 source $HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-# bindkey '\t' autosuggest-accept
-bindkey 'C-z' autosuggest-accept
 source $HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source $HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -89,6 +87,7 @@ zvm_after_init() {
   # Key bindings
   # ------------
   source "/home/fbence/.fzf/shell/key-bindings.zsh"
+  bindkey "\C-z" autosuggest-accept
 }
 # Setup fzf
 # ---------

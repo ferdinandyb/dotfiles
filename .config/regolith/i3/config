@@ -767,6 +767,7 @@ assign [instance="calendar.google.com__calendar_r"] workspace $ws6
 assign [instance="calendar.google.com__calendar_u_2_r"] workspace $ws6
 for_window [instance="calendar.google.com__calendar_r"] mark c
 for_window [instance="calendar.google.com__calendar_r"] floating disable
+for_window [instance="calendar.google.com__calendar_u_2_r"] floating disable
 assign [instance="trello.com__benceferdinandy_boards"] workspace $ws6
 for_window [instance="trello.com__benceferdinandy_boards"] floating disable
 workspace "$ws6" output $secondary_group
@@ -774,7 +775,7 @@ workspace "$ws6" output $secondary_group
 workspace "$ws0" output primary
 
 exec --no-startup-id spotify
-exec --no-startup-id /home/fbence/.config/regolith/i3/event_listener.py
+exec --no-startup-id /usr/bin/x-terminal-emulator
 # exec --no-startup-id telegram-desktop
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox

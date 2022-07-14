@@ -1134,3 +1134,4 @@ blehook/eval-after-load keymap_vi ferdinandyb/set-up-status-line
 
 
 ble-bind -m vi_imap -f C-RET accept-line
+bleopt term_modifyOtherKeys_passthrough_kitty_protocol=1

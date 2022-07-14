@@ -26,4 +26,3 @@ For the shell prompt execute:
 ```
 :PromptlineSnapshot ~/.config/shell/promptline_theme.sh
 ```
-

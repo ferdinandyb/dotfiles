@@ -1,19 +1,22 @@
 "$schema" = 'https://starship.rs/config-schema.json'
+continuation_prompt = "▶▶"
 
-[aws]
-symbol = "  "
 
-[buf]
-symbol = " "
+add_newline = false
+format="$sudo$all"
+
 
 [c]
 symbol = " "
 
-[conda]
-symbol = " "
 
-[dart]
-symbol = " "
+[character]
+error_symbol = "[❯](bold #ff5555)"
+success_symbol = "[❯](bold #50fa7b)"
+
+[cmd_duration]
+style = "bold #f1fa8c"
+
 
 [directory]
 read_only = " "
@@ -23,38 +26,24 @@ truncation_symbol = ".../"
 [docker_context]
 symbol = " "
 
-[elixir]
-symbol = " "
-
-[elm]
-symbol = " "
 
 [git_branch]
 symbol = " "
+style = "bold #ff79c6"
+
+[git_state]
+disabled = false
+
+[git_status]
+style = "bold #ff5555"
 
 [golang]
 symbol = " "
 
-[haskell]
-symbol = " "
-
-[hg_branch]
-symbol = " "
-
-[java]
-symbol = " "
 
 [julia]
 symbol = " "
 
-[memory_usage]
-symbol = " "
-
-[nim]
-symbol = " "
-
-[nix_shell]
-symbol = " "
 
 [nodejs]
 symbol = " "
@@ -62,12 +51,17 @@ symbol = " "
 [package]
 symbol = " "
 
+
 [python]
 symbol = " "
 pyenv_version_name = false
-
-[spack]
-symbol = "🅢 "
+style = "bold #ffb86c"
 
 [rust]
 symbol = " "
+
+[sudo]
+disabled = false
+symbol="root"
+style = "bold red"
+format='\[[$symbol]($style)\]'

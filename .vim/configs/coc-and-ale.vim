@@ -37,7 +37,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gz <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 " maybe instead of coc-rename refactor?
 nmap <leader>dn <Plug>(coc-rename)

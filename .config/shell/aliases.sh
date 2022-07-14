@@ -11,6 +11,7 @@ alias r='. ranger'
 alias lsr="ls -tr"
 alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
+alias s="kitty +kitten ssh"
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

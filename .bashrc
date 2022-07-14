@@ -187,16 +187,16 @@ if [ -d $HOME/.pyenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-if [ -f /etc/profile.d/bash_completion.sh ]; then
-    source /etc/profile.d/bash_completion.sh
-fi
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
+# if [ -f /etc/profile.d/bash_completion.sh ]; then
+#     source /etc/profile.d/bash_completion.sh
+# fi
+# if ! shopt -oq posix; then
+#   if [ -f /usr/share/bash-completion/bash_completion ]; then
+#     . /usr/share/bash-completion/bash_completion
+#   elif [ -f /etc/bash_completion ]; then
+#     . /etc/bash_completion
+#   fi
+# fi
 
 # Generated for envman. Do not edit.
 # [ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"

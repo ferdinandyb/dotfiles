@@ -11,6 +11,8 @@ SAVEHIST=500000
 setopt appendhistory
 setopt INC_APPEND_HISTORY
 setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt nonomatch
 # # options that should be mostly pretty agreeable: from https://github.com/willghatch/zsh-saneopt/blob/master/saneopt.plugin.zsh
 
 # no c-s/c-q output freezing
@@ -88,6 +90,7 @@ zvm_after_init() {
   # ------------
   source "/home/fbence/.fzf/shell/key-bindings.zsh"
   bindkey "\C-z" autosuggest-accept
+  # bindkey "^M" autosuggest-accept
 }
 # Setup fzf
 # ---------
@@ -110,3 +113,5 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
+
+export PATH=$PATH:/usr/local/cuda-11.7/bin

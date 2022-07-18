@@ -1,0 +1,17 @@
+regolith.look.path: /usr/share/regolith-look/blackhole
+i3-wm.bar.trayoutput: primary
+i3-wm.workspace.00.name: 0: 0 
+i3-wm.workspace.01.name: 1: 1 
+i3-wm.workspace.09.name: 9: 9 
+i3-wm.workspace.08.name: 8: 8 
+i3-wm.workspace.07.name: 7: 7 
+i3-wm.workspace.06.name: 6: 6 
+i3-wm.binding.next_free: u
+i3-wm.binding.take_next_free: Mod1+u
+i3-wm.binding.move_next_free: Shift+u
+i3-wm.binding.focus_child: y
+i3-wm.auto_back_and_forth: yes
+i3xrocks.date.format2: %b. %d. %H:%M:%S
+i3-wm.program.files: /usr/bin/gtk-launch ranger
+i3-wm.binding.split_h: ü
+i3-wm.binding.split_v: ö

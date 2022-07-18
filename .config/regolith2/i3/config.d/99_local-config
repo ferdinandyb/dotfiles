@@ -1,0 +1,110 @@
+######
+# My bindings mostly
+######
+
+bindsym $mod+comma workspace back_and_forth
+bindsym $mod+$alt+comma move container to workspace back_and_forth; workspace back_and_forth
+# this is less keys then the default binding
+bindsym $mod+minus move workspace to output right
+bindsym $mod+Ctrl+minus move workspace to output left
+# read 1 character and mark the current window with this character
+bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
+# # read 1 character and go to the window with the character
+bindsym $mod+p exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+
+bindsym $mod+Ctrl+u [urgent="latest"] focus
+bindsym $mod+. [con_mark=_last] focus
+
+# named scratchpad
+
+# exec --no-startup-id gnome-terminal --title="scratch_terminal" --command "tmux new -Asscratchpad"
+bindsym $mod+Ctrl+t [title="scratch_terminal"] scratchpad show, resize set width 50 ppt height 50 ppt, move position center
+for_window [title="scratch_terminal"] move to scratchpad
+
+workspace_layout tabbed
+bindsym $mod+z layout toggle splith splitv
+
+set_from_resource $secondary_group i3-wm.workspace.secondary_group primary
+
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+for_window [window_role="task_dialog"] floating enable
+for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+
+bindsym $mod+Ctrl+c exec --no-startup-id gnome-calculator
+for_window [class="Gnome-calculator"] floating enable
+# assign [class="Spotify"] workspace $ws9 # Spotify doesn't start up properly for assign to work
+for_window [class="Spotify"] move to workspace $ws9
+# for_window [class="Spotify"] layout tabbed # this is only needed if the default layout is not tabbed
+for_window [class="Spotify"] mark s
+assign [class="Deluge"] workspace $ws9
+workspace "$ws9" output $secondary_group
+
+# music control
+# for special character: xmodmap -pke
+bindsym $mod+odoubleacute exec --no-startup-id dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2  org.mpris.MediaPlayer2.Player.PlayPause
+bindsym $mod+odiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+udiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+oacute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+uacute exec --no-startup-id amixer set Capture toggle
+
+# bindsym $mod+Ctrl+p exec  "sleep 0.3 && xdotool key XF86AudioPlay"
+# bindsym $mod+Ctrl+i exec  "sleep 0.3 && xdotool key XF86AudioLowerVolume"
+# bindsym $mod+Ctrl+o exec  "sleep 0.3 && xdotool key XF86AudioRaiseVolume"
+# bindsym $mod+Ctrl+n exec  "sleep 0.3 && xdotool key XF86AudioMute"
+# bindsym $mod+Ctrl+b exec  "sleep 0.3 && xdotool key XF86AudioMicMute"
+# XF86AudioPrev/Next
+
+
+
+
+assign [class="Viber"] workspace $ws8
+assign [class="Slack"] workspace $ws8
+assign [class="Telegram"] workspace $ws8
+# for_window [class="Telegram"] layout tabbed
+for_window [class="Telegram"] mark t
+assign [class="Teams"] workspace $ws8
+assign [class="Skype"] workspace $ws8
+assign [class="discord"] workspace $ws8
+assign [instance="messenger.com"] workspace $ws8
+for_window [instance="messenger.com"] floating disable
+assign [instance="twitter.com__home"] workspace $ws8
+for_window [instance="twitter.com__home"] floating disable
+# workspace "$ws8" output $secondary_group
+
+assign [instance="mail.google.com__mail_u_0"] workspace $ws7
+for_window [instance="mail.google.com__mail_u_0"] floating disable
+assign [instance="mail.google.com__mail_u_2"] workspace $ws7
+for_window [instance="mail.google.com__mail_u_2"] floating disable
+assign [instance="outlook.office.com"] workspace $ws7
+for_window [instance="outlook.office.com"] mark o
+for_window [instance="outlook.office.com"] floating disable
+# workspace "$ws7" output $secondary_group
+
+assign [instance="calendar.google.com__calendar_r"] workspace $ws6
+assign [instance="calendar.google.com__calendar_u_2_r"] workspace $ws6
+for_window [instance="calendar.google.com__calendar_r"] mark c
+for_window [instance="calendar.google.com__calendar_r"] floating disable
+for_window [instance="calendar.google.com__calendar_u_2_r"] floating disable
+assign [instance="trello.com__benceferdinandy_boards"] workspace $ws6
+for_window [instance="trello.com__benceferdinandy_boards"] floating disable
+workspace "$ws6" output $secondary_group
+
+workspace "$ws0" output primary
+
+exec --no-startup-id spotify
+exec --no-startup-id /usr/bin/x-terminal-emulator
+# exec --no-startup-id telegram-desktop
+# exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
+# exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox
+# exec --no-startup-id /opt/google/chrome/chrome --app=https://outlook.office.com
+# exec --no-startup-id /opt/google/chrome/chrome --app=https://trello.com/benceferdinandy/boards
+# fix for pdfpc
+for_window [ class="Pdfpc" window_role="presentation" ] move to output left, fullscreen
+for_window [ class="Pdfpc" window_role="presenter" ] move to output primary, fullscreen
+
+# this allows for opening several windows from a file manager in split and then
+# placing all other windows into a new tab
+bindsym $mod+Shift+i exec --no-startup-id "~/.config/regolith/i3/focused_to_tabbed"

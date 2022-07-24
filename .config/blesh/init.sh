@@ -1105,32 +1105,48 @@ _ble_contrib_fzf_base=$HOME/.fzf
 ble-import -d contrib/fzf-completion
 ble-import -d contrib/fzf-key-bindings
 
-function ferdinandyb/set-up-status-line {
-  bleopt keymap_vi_mode_show=
-  bleopt keymap_vi_mode_update_prompt=1
-
-  function ble/prompt/backslash:ferdinandyb/currentmode {
-    local mode; ble/keymap:vi/script/get-mode
-    case $mode in
-    (*n)  ble/prompt/print $'\e[1m-- NORMAL --\e[m' ;;
-    (*v)  ble/prompt/print $'\e[1m-- VISUAL --\e[m' ;;
-    (*V)  ble/prompt/print $'\e[1m-- V-LINE --\e[m' ;;
-    (*^V) ble/prompt/print $'\e[1m-- V-BLOQ --\e[m' ;;
-    (*s)  ble/prompt/print $'\e[1m-- SELECT --\e[m' ;;
-    (*S)  ble/prompt/print $'\e[1m-- S-LINE --\e[m' ;;
-    (*^S) ble/prompt/print $'\e[1m-- S-BLOQ --\e[m' ;;
-    (i)   ;;
-    (R)   ble/prompt/print $'\e[1m-- RPLACE --\e[m' ;;
-    (^R)  ble/prompt/print $'\e[1m-- VPLACE --\e[m' ;;
-    (*)   ble/prompt/print $'\e[1m-- ?????? --\e[m' ;;
-    esac
-
-    ble-face prompt_status_line=none
+function ferdinandyb/set-up-mode-indicator {
+  # Define \q{ferdinandyb/mode-indicator}
+  function ble/prompt/backslash:ferdinandyb/mode-indicator {
+    if local mode; ble/keymap:vi/script/get-mode; [[ $mode != i ]]; then
+      # call the built-in mode indicator
+      ble/prompt/process-prompt-string '\q{keymap:vi/mode-indicator}'
+    fi
   }
 
-  bleopt prompt_status_line='\q{ferdinandyb/currentmode}'
+  # Specify \q{ferdinandyb/mode-indicator} in the mode-indicator prompt
+  bleopt prompt_vi_mode_indicator='\q{ferdinandyb/mode-indicator}'
+
+  # In case you would like to show "-- NORMAL --" instead of "~"
+  bleopt keymap_vi_mode_string_nmap=$'\e[1m-- NORMAL --\e[m'
 }
-blehook/eval-after-load keymap_vi ferdinandyb/set-up-status-line
+blehook/eval-after-load keymap_vi ferdinandyb/set-up-mode-indicator
+# function ferdinandyb/set-up-status-line {
+#   bleopt keymap_vi_mode_show=
+#   bleopt keymap_vi_mode_update_prompt=1
+
+#   function ble/prompt/backslash:ferdinandyb/currentmode {
+#     local mode; ble/keymap:vi/script/get-mode
+#     case $mode in
+#     (*n)  ble/prompt/print $'\e[1m-- NORMAL --\e[m' ;;
+#     (*v)  ble/prompt/print $'\e[1m-- VISUAL --\e[m' ;;
+#     (*V)  ble/prompt/print $'\e[1m-- V-LINE --\e[m' ;;
+#     (*^V) ble/prompt/print $'\e[1m-- V-BLOQ --\e[m' ;;
+#     (*s)  ble/prompt/print $'\e[1m-- SELECT --\e[m' ;;
+#     (*S)  ble/prompt/print $'\e[1m-- S-LINE --\e[m' ;;
+#     (*^S) ble/prompt/print $'\e[1m-- S-BLOQ --\e[m' ;;
+#     (i)   ;;
+#     (R)   ble/prompt/print $'\e[1m-- RPLACE --\e[m' ;;
+#     (^R)  ble/prompt/print $'\e[1m-- VPLACE --\e[m' ;;
+#     (*)   ble/prompt/print $'\e[1m-- ?????? --\e[m' ;;
+#     esac
+
+#     ble-face prompt_status_line=none
+#   }
+
+#   bleopt prompt_status_line='\q{ferdinandyb/currentmode}'
+# }
+# blehook/eval-after-load keymap_vi ferdinandyb/set-up-status-line
 
 
 ble-bind -m vi_imap -f C-RET accept-line

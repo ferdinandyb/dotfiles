@@ -13,3 +13,5 @@
 	excludesfile = /home/fbence/.gitignore
 [mergetool "fugitive"]
 	cmd = vim -c \"Gvdiffsplit!\" \"$MERGED\"
+[init]
+	defaultBranch = master

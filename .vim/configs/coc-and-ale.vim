@@ -11,6 +11,7 @@ let s:cocextensions = [
     \ 'coc-tag',
     \ 'coc-tsserver',
     \ 'coc-vimtex',
+    \ 'coc-go',
     \ 'coc-texlab']
 
 " if g:os == 'Android'
@@ -26,11 +27,12 @@ let g:ale_disable_lsp = 1
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\	'python': ['flake8']
+\   'python': ['flake8']
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],
-\   'python': ['black', 'isort']
+\   'python': ['black', 'isort'],
+\   'go': ['gofmt']
 \}
 
 autocmd CursorHold * silent call CocActionAsync('highlight')

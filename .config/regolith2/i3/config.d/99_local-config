@@ -2,7 +2,7 @@
 # My bindings mostly
 ######
 
-bindsym $mod+comma workspace back_and_forth
+bindsym $mod+Ctrl+comma workspace back_and_forth
 bindsym $mod+$alt+comma move container to workspace back_and_forth; workspace back_and_forth
 # this is less keys then the default binding
 bindsym $mod+minus move workspace to output right
@@ -13,7 +13,6 @@ bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 bindsym $mod+p exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 bindsym $mod+Ctrl+u [urgent="latest"] focus
-bindsym $mod+. [con_mark=_last] focus
 
 # named scratchpad
 
@@ -94,8 +93,8 @@ workspace "$ws6" output $secondary_group
 
 workspace "$ws0" output primary
 
-exec --no-startup-id spotify
 exec --no-startup-id /usr/bin/x-terminal-emulator
+exec --no-startup-id spotify
 # exec --no-startup-id telegram-desktop
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox

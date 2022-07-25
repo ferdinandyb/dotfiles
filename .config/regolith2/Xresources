@@ -3,6 +3,8 @@ gtk.font_name: Source Sans Pro
 gtk.monospace_font_name: Cascadia Code
 
 i3-wm.bar.trayoutput: primary
+/* i3-wm.bar.status_command: ~/.cargo/bin/i3status-rs ~/.config/regolith2/i3status-rs.toml */
+i3-wm.bar.status_command: i3xrocks -u ~/.config/regolith2/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d
 
 # workspaces
 ## fancy names
@@ -40,5 +42,10 @@ i3-wm.binding.swap_focus: comma
 
 i3-wm.auto_back_and_forth: yes
 i3-wm.program.files: /usr/bin/gtk-launch ranger
+i3-wm.program.launcher.app: rofi -show drun
+i3-wm.program.launcher.cmd: rofi -show run
+i3-wm.program.launcher.window: rofi -show window
+i3-wm.program.launcher.file_search:rofi -show filebrowser
 
 i3xrocks.date.format2: %b. %d. %H:%M:%S
+i3xrocks.time.interval: 1

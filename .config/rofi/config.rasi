@@ -1,5 +1,5 @@
 configuration {
-	modi: "window,run,ssh,drun";
+	modi: "window,run,ssh,drun,recentfiles:/home/fbence/.config/regolith2/scripts/searchrecentrofi.sh";
 	font: "Cascadia Code 12";
 /*	location: 0;*/
 /*	yoffset: 0;*/

@@ -96,7 +96,7 @@ workspace "$ws0" output primary
 # exec --no-startup-id /usr/bin/x-terminal-emulator
 exec --no-startup-id i3-msg "workspace $ws0; exec /usr/bin/x-terminal-emulator"
 exec --no-startup-id spotify
-exec --no-startup-id telegram-desktop
+exec --no-startup-id /opt/telegram/Telegram
 exec --no-startup-id greenclip daemon
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox
@@ -122,8 +122,10 @@ bindsym --release Ctrl+Shift+Print exec --no-startup-id "scrot - | xclip -select
 
 # clipboard manager
 ## $mod+v: select and paste right away; $mod+Ctrl+v: place on clipboard but do not paste (for issues with vim)
-bindsym $mod+Ctrl+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
-bindsym $mod+v exec --no-startup-id "rofi -modi 'paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show paste"
+bindsym $mod+Ctrl+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print,paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show clipboard -run-command '{cmd}'"
+bindsym $mod+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print,paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show paste -run-command '{cmd}'"
+# bindsym $mod+Ctrl+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+# bindsym $mod+v exec --no-startup-id "rofi -modi 'paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show paste"
 bindsym $mod+Ctrl+e exec --no-startup-id  "~/.config/regolith2/scripts/rofi-emoji.sh"
 
 bindsym $mod+Ctrl+n exec --no-startup-id "~/.config/regolith2/scripts/openlastdownloaded.sh"

@@ -116,7 +116,7 @@ bindsym $mod+Shift+i exec --no-startup-id "~/.config/regolith/i3/focused_to_tabb
 ## PrintScreen: selection
 ## Ctrl+PrintScreen: window
 ## Ctrl+Shift+PrintScreen: screen
-bindsym --release Print exec --no-startup-id "scrot -s - | xclip -selection clipboard -target image/png"
+bindsym --release Print exec --no-startup-id "scrot -s --freeze - | xclip -selection clipboard -target image/png"
 bindsym --release Ctrl+Print exec --no-startup-id "scrot -u - | xclip -selection clipboard -target image/png"
 bindsym --release Ctrl+Shift+Print exec --no-startup-id "scrot - | xclip -selection clipboard -target image/png"
 
@@ -126,6 +126,7 @@ bindsym $mod+Ctrl+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print,
 bindsym $mod+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print,paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show paste -run-command '{cmd}'"
 # bindsym $mod+Ctrl+v exec --no-startup-id "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
 # bindsym $mod+v exec --no-startup-id "rofi -modi 'paste:~/.config/regolith2/scripts/greenclip-paste-modi.sh' -show paste"
-bindsym $mod+Ctrl+e exec --no-startup-id  "~/.config/regolith2/scripts/rofi-emoji.sh"
+bindsym $mod+Ctrl+i exec --no-startup-id  "~/.config/regolith2/scripts/rofi-emoji.sh"
 
 bindsym $mod+Ctrl+n exec --no-startup-id "~/.config/regolith2/scripts/openlastdownloaded.sh"
+bindsym $mod+s exec regolith-control-center --class=floating_window sound

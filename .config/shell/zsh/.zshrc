@@ -80,6 +80,7 @@ function confed(){
 source $HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source $HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOME/.local/share/zsh/ohmyzsh/plugins/dirhistory/dirhistory.plugin.zsh
 
 zvm_after_init() {
   # Auto-completion
@@ -114,4 +115,4 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-export PATH=$PATH:/usr/local/cuda-11.7/bin
+. "$HOME/.cargo/env"

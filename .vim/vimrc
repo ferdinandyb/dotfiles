@@ -225,7 +225,7 @@ nnoremap <F7> :NERDTreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 " spelling
-nnoremap zü 1z=
+nnoremap zó 1z=
 
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y

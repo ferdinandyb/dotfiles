@@ -1,5 +1,5 @@
 configuration {
-	modi: "window,run,ssh,drun,recentfiles:/home/fbence/.config/regolith2/scripts/searchrecentrofi.sh";
+	modi: "window,run,drun";
 	font: "Cascadia Code 12";
 /*	location: 0;*/
 /*	yoffset: 0;*/
@@ -22,7 +22,7 @@ configuration {
 /*	drun-url-launcher: "xdg-open";*/
 /*	disable-history: false;*/
 /*	ignored-prefixes: "";*/
-/*	sort: false;*/
+	sort: true;
 	sorting-method: "fzf";
 /*	case-sensitive: false;*/
 /*	cycle: true;*/

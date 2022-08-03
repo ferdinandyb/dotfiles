@@ -45,7 +45,7 @@ i3-wm.program.files: /usr/bin/gtk-launch ranger
 i3-wm.program.launcher.app: rofi -show drun
 i3-wm.program.launcher.cmd: rofi -show run
 i3-wm.program.launcher.window: rofi -show window
-i3-wm.program.file_search: rofi -show recentfiles
+i3-wm.program.file_search: rofi -show recentfiles -modi "recentfiles:/home/fbence/.config/regolith2/scripts/searchrecentrofi.sh"
 
 i3xrocks.date.format2: %b. %d. %H:%M:%S
 i3xrocks.time.interval: 1

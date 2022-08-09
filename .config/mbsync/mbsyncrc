@@ -1,6 +1,7 @@
 IMAPAccount ferdinandy.bence_elte
 Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
+AuthMechs LOGIN
 PassCmd "pass show elte/microsoftonline.com/login | head -n1"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
@@ -60,7 +61,7 @@ IMAPAccount bence.ferdinandy_formsense
 Host imap.gmail.com
 User bence.ferdinandy@formsense.com
 # To store the password in an encrypted file use PassCmd instead of Pass
-PassCmd "mailctl access formsense/googleoauth"
+PassCmd "mailctl access formsense"
 #
 # Use SSL
 SSLType IMAPS

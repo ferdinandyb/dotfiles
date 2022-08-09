@@ -1,20 +1,40 @@
-theme = "solarized-dark"
-icons = "awesome"
+theme = "semi-native"
+icons = "material-nf"
+
+[[block]]
+block = "focused_window"
+[block.format]
+full = "$title.str(10)"
+short = "$title.str(5)"
+
+[[block]]
+block = "bluetooth"
+mac = "04:ED:33:CA:23:E8"
+hide_disconnected = true
+format = ""
+
+[[block]]
+block = "music"
+format = "$combo.str(20)"
+player = "spotify"
+
+[[block]]
+block = "rofication"
+interval = 1
+socket_path = "/tmp/rofi_notification_daemon"
 
 [[block]]
 block = "disk_space"
-path = "/"
 info_type = "available"
-unit = "GB"
-interval = 20
-warning = 20.0
+alert_unit = "GB"
 alert = 10.0
-format = "root: $available.eng(2)"
+warning = 15.0
+format = "$percentage.eng(2)"
 
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "$mem_total_used_percents.eng(2)"
+format_mem = "$mem_used_percents.eng(1)"
 format_swap = "$swap_used_percents.eng(2)"
 
 [[block]]
@@ -28,6 +48,16 @@ interval = 5
 block = "sound"
 
 [[block]]
+block = "custom"
+command="~/.config/regolith2/scripts/notification"
+interval=1
+json=true
+
+[[block]]
 block = "time"
-interval = 5
-format = "%a %d/%m %R"
+interval = 1
+format = "%b. %d. %H:%M:%S"
+
+[[block]]
+block = "battery"
+format = "$percentage|N/A"

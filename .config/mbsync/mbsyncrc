@@ -1,0 +1,89 @@
+IMAPAccount ferdinandy.bence_elte
+Host outlook.office365.com
+User ferdinandy.bence@ttk.elte.hu
+PassCmd "pass show elte/microsoftonline.com/login | head -n1"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore ferdinandy.bence_elte-remote
+Account ferdinandy.bence_elte
+
+MaildirStore ferdinandy.bence_elte-local
+SubFolders Verbatim
+Path ~/.mail/ferdinandy.bence_elte/
+Inbox ~/.mail/ferdinandy.bence_elte/Inbox
+
+Channel ferdinandy.bence_elte
+Far :ferdinandy.bence_elte-remote:
+Near :ferdinandy.bence_elte-local:
+Patterns *
+Create Both
+# Expunge Both
+
+IMAPAccount priestoferis_gmail
+# Address to connect to
+Host imap.gmail.com
+User priestoferis@gmail.com
+# To store the password in an encrypted file use PassCmd instead of Pass
+PassCmd "mailctl access priestoferis"
+#
+# Use SSL
+SSLType IMAPS
+# The following line should work. If you get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore priestoferis_gmail-remote
+Account priestoferis_gmail
+
+MaildirStore priestoferis_gmail-local
+SubFolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/priestoferis_gmail/
+Inbox ~/.mail/priestoferis_gmail/Inbox
+
+Channel priestoferis_gmail
+Far :priestoferis_gmail-remote:
+Near :priestoferis_gmail-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+# Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything
+Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both
+
+IMAPAccount bence.ferdinandy_formsense
+# Address to connect to
+Host imap.gmail.com
+User bence.ferdinandy@formsense.com
+# To store the password in an encrypted file use PassCmd instead of Pass
+PassCmd "mailctl access formsense/googleoauth"
+#
+# Use SSL
+SSLType IMAPS
+# The following line should work. If you get certificate errors, uncomment the two following lines and read the "Troubleshooting" section.
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+#CertificateFile ~/.cert/imap.gmail.com.pem
+#CertificateFile ~/.cert/Equifax_Secure_CA.pem
+
+IMAPStore bence.ferdinandy_formsense-remote
+Account bence.ferdinandy_formsense
+
+MaildirStore bence.ferdinandy_formsense-local
+SubFolders Verbatim
+# The trailing "/" is important
+Path ~/.mail/bence.ferdinandy_formsense/
+Inbox ~/.mail/bence.ferdinandy_formsense/Inbox
+
+Channel bence.ferdinandy_formsense
+Far :bence.ferdinandy_formsense-remote:
+Near :bence.ferdinandy_formsense-local:
+# Exclude everything under the internal [Gmail] folder, except the interesting folders
+# Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"
+# Or include everything
+Patterns *
+# Automatically create missing mailboxes, both locally and on the server
+Create Both

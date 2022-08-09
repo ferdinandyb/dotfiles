@@ -136,7 +136,7 @@ Plug 'puremourning/vimspector'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
 
-
+Plug 'Fymyte/mbsync.vim'
 " database fun
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'

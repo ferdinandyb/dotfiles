@@ -10,7 +10,7 @@ bindsym $mod+Ctrl+minus move workspace to output left
 # read 1 character and mark the current window with this character
 bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 # # read 1 character and go to the window with the character
-bindsym $mod+p exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+bindsym $mod+udoubleacute exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 bindsym $mod+Ctrl+u [urgent="latest"] focus
 
@@ -75,18 +75,18 @@ for_window [instance="twitter.com__home"] floating disable
 
 assign [instance="mail.google.com__mail_u_0"] workspace $ws7
 for_window [instance="mail.google.com__mail_u_0"] floating disable
-assign [instance="mail.google.com__mail_u_2"] workspace $ws7
-for_window [instance="mail.google.com__mail_u_2"] floating disable
+assign [instance="mail.google.com__mail_u_1"] workspace $ws7
+for_window [instance="mail.google.com__mail_u_1"] floating disable
 assign [instance="outlook.office.com"] workspace $ws7
 for_window [instance="outlook.office.com"] mark o
 for_window [instance="outlook.office.com"] floating disable
 # workspace "$ws7" output $secondary_group
 
 assign [instance="calendar.google.com__calendar_r"] workspace $ws6
-assign [instance="calendar.google.com__calendar_u_2_r"] workspace $ws6
+assign [instance="calendar.google.com__calendar_u_1_r"] workspace $ws6
 for_window [instance="calendar.google.com__calendar_r"] mark c
 for_window [instance="calendar.google.com__calendar_r"] floating disable
-for_window [instance="calendar.google.com__calendar_u_2_r"] floating disable
+for_window [instance="calendar.google.com__calendar_u_1_r"] floating disable
 assign [instance="trello.com__benceferdinandy_boards"] workspace $ws6
 for_window [instance="trello.com__benceferdinandy_boards"] floating disable
 workspace "$ws6" output $secondary_group

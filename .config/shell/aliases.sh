@@ -4,7 +4,8 @@ alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t="tmux"
 alias tls="tmux ls"
 alias tns="tmux new -s"
-alias tnt="tmux new-session -t"
+alias tna="tmux new-session -t"
+alias ta="tmux attach -t"
 alias jn="jupyter notebook"
 alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
@@ -15,6 +16,7 @@ alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias s="kitty +kitten ssh"
 alias xo="xargs -i xdg-open {}"
+alias clip="xclip -selection c"
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

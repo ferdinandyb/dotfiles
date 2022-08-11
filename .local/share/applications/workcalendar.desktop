@@ -2,7 +2,7 @@
 Version=1.0
 Name=Work Google Calendar
 Comment=Google Calendar as a Chrome app
-Exec=/opt/google/chrome/chrome --app=https://calendar.google.com/calendar/u/2/r
+Exec=/opt/google/chrome/chrome --app=https://calendar.google.com/calendar/u/1/r
 Icon=googlecalendar
 Terminal=false
 StartupWMClass=GoogleCalendarDesktop

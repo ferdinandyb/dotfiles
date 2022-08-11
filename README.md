@@ -42,3 +42,13 @@ vim inside a tmux session and execute:
 :Tmuxline airline full
 :TmuxlineSnapshot ~/.tmux/tmuxline_theme.sh
 ```
+
+## Email
+
+Wow, so this was super not easy to set up.
+
+### Fetching email
+
+- `mbsync` (`isync`) is used for syncing with IMAP. Gmail in particular is pretty messy so set up, because labels are presented as folder over IMAP but of course they are not. This has a separate README in this repo.
+- `mailctl` is used for OAUTH and `pass` is used for just password authentication
+- [goimapnotify](https://gitlab.com/shackra/goimapnotify)

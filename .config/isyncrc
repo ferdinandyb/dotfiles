@@ -1,3 +1,5 @@
+Create Near
+
 ##############
 #### ELTE ####
 ##############
@@ -7,7 +9,7 @@ Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
 AuthMechs LOGIN
 PassCmd "pass show elte/microsoftonline.com/login | head -n1"
-SSLType IMAPS
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 IMAPStore ferdinandy.bence_elte-remote
@@ -23,7 +25,7 @@ Far :ferdinandy.bence_elte-remote:
 Near :ferdinandy.bence_elte-local:
 Patterns *
 Create Both
-# Expunge Both
+Expunge Both
 
 
 ######################
@@ -34,8 +36,8 @@ IMAPAccount priestoferis_gmail
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
-PassCmd "mailctl access priestoferis"
-SSLType IMAPS
+PassCmd "/home/fbence/bin/mailctl access priestoferis"
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 IMAPStore priestoferis_gmail-remote
@@ -43,7 +45,6 @@ Account priestoferis_gmail
 
 MaildirStore priestoferis_gmail-local
 SubFolders Verbatim
-# The trailing "/" is important
 Path ~/.mail/priestoferis_gmail/
 Inbox ~/.mail/priestoferis_gmail/Inbox
 
@@ -51,38 +52,52 @@ Channel priestoferis_gmail-labels
 Far :priestoferis_gmail-remote:
 Near :priestoferis_gmail-local:
 Patterns * ![Gmail]*
-Create Both
+Create Near
 
 Channel priestoferis_gmail-sent
 Far ":priestoferis_gmail-remote:[Gmail]/Elküldött levelek"
-Near :priestoferis_gmail-local:Sent
+Near ":priestoferis_gmail-local:Sent"
 Sync Pull
+Create Near
 Expunge Both
 
 Channel priestoferis_gmail-trash
 Far ":priestoferis_gmail-remote:[Gmail]/Kuka"
-Near :priestoferis_gmail-local:Trash
+Near ":priestoferis_gmail-local:Trash"
 Sync Pull
+Create Near
 Expunge Both
 
 Channel priestoferis_gmail-drafts
 Far ":priestoferis_gmail-remote:[Gmail]/Piszkozatok"
-Near :priestoferis_gmail-local:Drafts
+Near ":priestoferis_gmail-local:Drafts"
 Sync Pull
+Create Near
 Expunge Both
 
 Channel priestoferis_gmail-archive
 Far ":priestoferis_gmail-remote:[Gmail]/Összes levél"
-Near :priestoferis_gmail-local:Archive
+Near ":priestoferis_gmail-local:Archive"
+Sync All
+Create Near
+Expunge Both
+
+Channel priestoferis_gmail-spam
+Far ":priestoferis_gmail-remote:[Gmail]/Spam"
+Near ":priestoferis_gmail-local:Spam"
+Create Near
 Sync Pull
 Expunge Both
 
 Group priestoferis_gmail
-Channel priestoferis_gmail-labels
-Channel priestoferis_gmail-sent
-Channel priestoferis_gmail-trash
 Channel priestoferis_gmail-drafts
+Channel priestoferis_gmail-trash
+Channel priestoferis_gmail-sent
+Channel priestoferis_gmail-labels
+Channel priestoferis_gmail-spam
 Channel priestoferis_gmail-archive
+
+
 ###################
 #### formsense ####
 ###################
@@ -90,8 +105,8 @@ Channel priestoferis_gmail-archive
 IMAPAccount bence.ferdinandy_formsense
 Host imap.gmail.com
 User bence.ferdinandy@formsense.com
-PassCmd "mailctl access formsense"
-SSLType IMAPS
+PassCmd "/home/fbence/bin/mailctl access formsense"
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 IMAPStore bence.ferdinandy_formsense-remote
@@ -104,43 +119,49 @@ Inbox ~/.mail/bence.ferdinandy_formsense/Inbox
 
 Channel bence.ferdinandy_formsense-labels
 Far :bence.ferdinandy_formsense-remote:
-Near :bence.ferdinandy_formsense-local:
+Near ":bence.ferdinandy_formsense-local:"
 Patterns * ![Gmail]*
-Create Both
+Create Near
 
 Channel bence.ferdinandy_formsense-sent
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Sent Mail"
 Near ":bence.ferdinandy_formsense-local:Sent"
+Create Near
 Sync Pull
 Expunge Both
 
 Channel bence.ferdinandy_formsense-spam
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Spam"
-Near :bence.ferdinandy_formsense-local:Spam
+Near ":bence.ferdinandy_formsense-local:Spam"
+Create Near
 Sync Pull
 Expunge Both
 
 Channel bence.ferdinandy_formsense-trash
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Trash"
-Near :bence.ferdinandy_formsense-local:Trash
+Near ":bence.ferdinandy_formsense-local:Trash"
+Create Near
 Sync Pull
 Expunge Both
 
 Channel bence.ferdinandy_formsense-drafts
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Drafts"
-Near :bence.ferdinandy_formsense-local:Drafts
+Near ":bence.ferdinandy_formsense-local:Drafts"
+Create Near
 Sync Pull
 Expunge Both
 
 Channel bence.ferdinandy_formsense-archive
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/All Mail"
-Near :bence.ferdinandy_formsense-local:Archive
+Near ":bence.ferdinandy_formsense-local:Archive"
+Create Near
 Sync Pull
 Expunge Both
 
 Group bence.ferdinandy_formsense
-Channel bence.ferdinandy_formsense-labels
-Channel bence.ferdinandy_formsense-sent
-Channel bence.ferdinandy_formsense-trash
 Channel bence.ferdinandy_formsense-drafts
+Channel bence.ferdinandy_formsense-trash
+Channel bence.ferdinandy_formsense-spam
+Channel bence.ferdinandy_formsense-sent
+Channel bence.ferdinandy_formsense-labels
 Channel bence.ferdinandy_formsense-archive

@@ -20,6 +20,6 @@ make
 sudo make install
 ```
 
-# Naming
+# Versions
 
-Do NOT use @ in the name of any store/acccount/etc. mbsync will say it can't connect to certain folders (channels).
+You need to build from master currently, which has a breaking change with folder and config placements with 1.4.4.

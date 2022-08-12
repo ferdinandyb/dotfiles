@@ -6,11 +6,7 @@ After=network.target
 
 
 [Service]
-Type=oneshot
-Nice=10
 ExecStart=/home/fbence/.local/bin/mbsync -a
 
-[Install]
-WantedBy=default.target
 
 # https://usher.dev/posts/my-email-setup/

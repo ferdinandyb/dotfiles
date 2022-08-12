@@ -17,6 +17,8 @@ alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias s="kitty +kitten ssh"
 alias xo="xargs -i xdg-open {}"
 alias clip="xclip -selection c"
+alias scu="systemctl --user"
+alias jcu="journalctl --user"
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

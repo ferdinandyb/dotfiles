@@ -1,13 +1,10 @@
 [Unit]
 Description=Mbsync timer
-Requires=mbsync-run.service
 
 [Timer]
 OnBootSec=2min
 OnUnitActiveSec=5m
 Persistent=true
-
-Unit=mbsync-run.service
 
 [Install]
 WantedBy=default.target

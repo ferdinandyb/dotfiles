@@ -1,0 +1,13 @@
+[Unit]
+Description=start goimapnotify for various mailboxes
+OnFailure=status-email-user@%n.service
+After=local-fs.target
+After=network.target
+
+
+[Service]
+ExecStart=/home/fbence/go/bin/goimapnotify -conf /home/fbence/.config/emailconfiguration/%i.conf
+
+[Install]
+WantedBy=default.target
+# https://usher.dev/posts/my-email-setup/

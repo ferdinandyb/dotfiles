@@ -29,3 +29,5 @@ You need to build from master currently, which has a breaking change with folder
 - `mbsync` (`isync`) is used for syncing with IMAP. Gmail in particular is pretty messy so set up, because labels are presented as folder over IMAP but of course they are not. This has a separate README in this repo.
 - `mailctl` is used for OAUTH and `pass` is used for just password authentication
 - [goimapnotify](https://gitlab.com/shackra/goimapnotify)
+
+calling template service: `systemctl --user enable  goimapnotify@formsense_imapnotify.service`

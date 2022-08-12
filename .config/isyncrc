@@ -20,13 +20,23 @@ SubFolders Verbatim
 Path ~/.mail/ferdinandy.bence_elte/
 Inbox ~/.mail/ferdinandy.bence_elte/Inbox
 
-Channel ferdinandy.bence_elte
+Channel ferdinandy.bence_elte-folders
 Far :ferdinandy.bence_elte-remote:
 Near :ferdinandy.bence_elte-local:
-Patterns *
+Patterns * !INBOX
 Create Both
 Expunge Both
 
+Channel ferdinandy.bence_elte-inbox
+Far ":ferdinandy.bence_elte-remote:INBOX"
+Near ":ferdinandy.bence_elte-local:Inbox"
+Create Near
+Sync Pull
+Expunge Both
+
+Group ferdinandy.bence_elte
+Channel ferdinandy.bence_elte-inbox
+Channel ferdinandy.bence_elte-folders
 
 ######################
 #### priestoferis ####
@@ -51,8 +61,15 @@ Inbox ~/.mail/priestoferis_gmail/Inbox
 Channel priestoferis_gmail-labels
 Far :priestoferis_gmail-remote:
 Near :priestoferis_gmail-local:
-Patterns * ![Gmail]*
+Patterns * ![Gmail]* !INBOX
 Create Near
+
+Channel priestoferis_gmail-inbox
+Far ":priestoferis_gmail-remote:INBOX"
+Near ":priestoferis_gmail-local:Inbox"
+Create Near
+Sync Pull
+Expunge Both
 
 Channel priestoferis_gmail-sent
 Far ":priestoferis_gmail-remote:[Gmail]/Elküldött levelek"
@@ -90,6 +107,7 @@ Sync Pull
 Expunge Both
 
 Group priestoferis_gmail
+Channel priestoferis_gmail-inbox
 Channel priestoferis_gmail-drafts
 Channel priestoferis_gmail-trash
 Channel priestoferis_gmail-sent
@@ -120,8 +138,15 @@ Inbox ~/.mail/bence.ferdinandy_formsense/Inbox
 Channel bence.ferdinandy_formsense-labels
 Far :bence.ferdinandy_formsense-remote:
 Near ":bence.ferdinandy_formsense-local:"
-Patterns * ![Gmail]*
+Patterns * ![Gmail]* !INBOX
 Create Near
+
+Channel bence.ferdinandy_formsense-inbox
+Far ":bence.ferdinandy_formsense-remote:INBOX"
+Near ":bence.ferdinandy_formsense-local:Inbox"
+Create Near
+Sync Pull
+Expunge Both
 
 Channel bence.ferdinandy_formsense-sent
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Sent Mail"
@@ -159,6 +184,7 @@ Sync Pull
 Expunge Both
 
 Group bence.ferdinandy_formsense
+Channel bence.ferdinandy_formsense-inbox
 Channel bence.ferdinandy_formsense-drafts
 Channel bence.ferdinandy_formsense-trash
 Channel bence.ferdinandy_formsense-spam

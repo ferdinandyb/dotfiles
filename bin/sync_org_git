@@ -1,3 +1,5 @@
+#!/bin/bash
+
 CURDIR=`pwd`
 cd $HOME/org
 git pull

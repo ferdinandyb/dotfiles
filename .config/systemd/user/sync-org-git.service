@@ -1,0 +1,6 @@
+[Unit]
+Description=sync org to git
+
+
+[Service]
+ExecStart=/home/fbence/bin/sync_org_git

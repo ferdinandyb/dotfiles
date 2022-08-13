@@ -6,7 +6,9 @@ After=network.target
 
 
 [Service]
+Type=oneshot
 ExecStart=/home/fbence/.local/bin/mbsync -a
+ExecStartPost=/usr/bin/notmuch new
 
 
 # https://usher.dev/posts/my-email-setup/

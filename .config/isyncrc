@@ -1,5 +1,3 @@
-Create Near
-
 ##############
 #### ELTE ####
 ##############
@@ -26,12 +24,13 @@ Near :ferdinandy.bence_elte-local:
 Patterns * !INBOX
 Create Both
 Expunge Both
+Sync All
 
 Channel ferdinandy.bence_elte-inbox
 Far ":ferdinandy.bence_elte-remote:INBOX"
 Near ":ferdinandy.bence_elte-local:Inbox"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Group ferdinandy.bence_elte
@@ -68,27 +67,27 @@ Channel priestoferis_gmail-inbox
 Far ":priestoferis_gmail-remote:INBOX"
 Near ":priestoferis_gmail-local:Inbox"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel priestoferis_gmail-sent
 Far ":priestoferis_gmail-remote:[Gmail]/Elküldött levelek"
 Near ":priestoferis_gmail-local:Sent"
-Sync Pull
+Sync All
 Create Near
 Expunge Both
 
 Channel priestoferis_gmail-trash
 Far ":priestoferis_gmail-remote:[Gmail]/Kuka"
 Near ":priestoferis_gmail-local:Trash"
-Sync Pull
+Sync All
 Create Near
 Expunge Both
 
 Channel priestoferis_gmail-drafts
 Far ":priestoferis_gmail-remote:[Gmail]/Piszkozatok"
 Near ":priestoferis_gmail-local:Drafts"
-Sync Pull
+Sync All
 Create Near
 Expunge Both
 
@@ -103,7 +102,7 @@ Channel priestoferis_gmail-spam
 Far ":priestoferis_gmail-remote:[Gmail]/Spam"
 Near ":priestoferis_gmail-local:Spam"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Group priestoferis_gmail
@@ -145,42 +144,42 @@ Channel bence.ferdinandy_formsense-inbox
 Far ":bence.ferdinandy_formsense-remote:INBOX"
 Near ":bence.ferdinandy_formsense-local:Inbox"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel bence.ferdinandy_formsense-sent
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Sent Mail"
 Near ":bence.ferdinandy_formsense-local:Sent"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel bence.ferdinandy_formsense-spam
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Spam"
 Near ":bence.ferdinandy_formsense-local:Spam"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel bence.ferdinandy_formsense-trash
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Trash"
 Near ":bence.ferdinandy_formsense-local:Trash"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel bence.ferdinandy_formsense-drafts
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/Drafts"
 Near ":bence.ferdinandy_formsense-local:Drafts"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Channel bence.ferdinandy_formsense-archive
 Far ":bence.ferdinandy_formsense-remote:[Gmail]/All Mail"
 Near ":bence.ferdinandy_formsense-local:Archive"
 Create Near
-Sync Pull
+Sync All
 Expunge Both
 
 Group bence.ferdinandy_formsense

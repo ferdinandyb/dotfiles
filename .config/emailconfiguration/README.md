@@ -31,3 +31,36 @@ You need to build from master currently, which has a breaking change with folder
 - [goimapnotify](https://gitlab.com/shackra/goimapnotify)
 
 calling template service: `systemctl --user enable  goimapnotify@formsense_imapnotify.service`
+
+# Sending email (msmtp)
+
+Need to add `mailctl` to msmtp apparmor: `/home/fbence/bin/mailctl{,2} PUx,`
+
+`sudo vim /etc/apparmor.d/usr.bin.msmtp` -> add line
+`sudo apparmor_parser -r /etc/apparmor.d/usr.bin.msmtp` <- for reloading
+
+this is where the line should go:
+```
+  profile helpers {
+    #include <abstractions/base>
+    /{,usr/}bin/bash mr,
+    /{,usr/}bin/dash mr,
+    /tmp/            rw,
+    owner /tmp/*     rw,
+
+    /usr/bin/secret-tool PUx,
+    /usr/bin/gpg{,2}     PUx,
+    /home/fbence/bin/mailctl{,2} PUx,
+    /usr/bin/pass        PUx,
+    /usr/bin/head        PUx,
+    /usr/bin/keyring     PUx,
+    /{,usr/}bin/cat      PUx,
+  }
+```
+
+# AERC
+
+```
+GOFLAGS=-tags=notmuch make PREFIX=/home/fbence/.local
+GOFLAGS=-tags=notmuch make install PREFIX=/home/fbence/.local
+```

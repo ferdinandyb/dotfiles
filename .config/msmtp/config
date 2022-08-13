@@ -1,0 +1,64 @@
+# Set default values for all following accounts.
+defaults
+auth           on
+tls            on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+logfile        ~/.msmtp.log
+
+# Gmail
+account        priestoferis
+host           smtp.gmail.com
+port           587
+auth           oauthbearer
+tls_starttls   on
+from           priestoferis@gmail.com
+user           priestoferis@gmail.com
+passwordeval   /home/fbence/bin/mailctl access priestoferis
+
+# Formsense
+account        formsense
+host           smtp.gmail.com
+port           587
+auth           oauthbearer
+tls_starttls   on
+from           bence.ferdinandy@formsense.com
+user           bence.ferdinandy@formsense.com
+passwordeval   /home/fbence/bin/mailctl access formsense
+
+# ELTE
+account        elte
+host           smtp.office365.com
+port           587
+auth           on
+tls_starttls   on
+tls_certcheck  on
+from           ferdinandy.bence@ttk.elte.hu
+user           ferdinandy.bence@ttk.elte.hu
+passwordeval   "pass show elte/microsoftonline.com/login | head -n1"
+
+# securebox: ferdinandy
+account        ferdinandy
+host           mail.securebox.hu
+port           465
+auth           on
+tls            on
+tls_starttls   off
+tls_certcheck  on
+from           bence@ferdinandy.com
+user           bence@ferdinandy.com
+passwordeval   "pass show webmail.securebox.hu/ferdinandy | head -n1"
+
+# securebox: pharmahungary
+account        pharmahungary
+host           mail.securebox.hu
+port           465
+auth           on
+tls            on
+tls_starttls   off
+tls_certcheck  on
+from           bence.ferdinandy@pharmahungary.com
+user           bence.ferdinandy@pharmahungary.com
+passwordeval   "pass show webmail.securebox.hu/pharmahungary | head -n1"
+
+# Set a default account
+account default : ferdinandy

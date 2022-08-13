@@ -3,4 +3,5 @@ Description=sync org to git
 
 
 [Service]
+Type=oneshot
 ExecStart=/home/fbence/bin/sync_org_git

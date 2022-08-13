@@ -82,3 +82,4 @@ other_email=priestoferis@gmail.com;bence.ferdinandy@formsense.com;ferdinandy.ben
 #	commands will notice tag changes and update flags in filenames
 #
 [maildir]
+synchronize_flags=true

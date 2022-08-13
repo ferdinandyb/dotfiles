@@ -99,7 +99,9 @@ Plug 'tpope/vim-unimpaired'
 " wrap unix commands
 Plug 'tpope/vim-eunuch'
 " asynchronous linting
-source ~/.vim/configs/coc-and-ale.vim
+if !exists("g:lightweight")
+    source ~/.vim/configs/coc-and-ale.vim
+endif
 " switch between multiple lines and single lines
 Plug 'AndrewRadev/splitjoin.vim'
 

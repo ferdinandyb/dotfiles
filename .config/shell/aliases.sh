@@ -1,5 +1,8 @@
 alias vims="/usr/bin/vim --servername VIMSERVER"
 alias nv="/usr/bin/nvim"
+alias v="vim"
+alias vl="vim --cmd 'let g:lightweight=1'"
+
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias t="tmux"
 alias tls="tmux ls"

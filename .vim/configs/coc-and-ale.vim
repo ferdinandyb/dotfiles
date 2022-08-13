@@ -2,7 +2,7 @@
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'antoinemadec/coc-fzf', {'branch': 'release'}
 Plug 'dense-analysis/ale'
-
+" https://github.com/neoclide/coc.nvim/pull/3862
 let s:cocextensions = [
     \ 'coc-json',
     \ 'coc-vetur',
@@ -76,20 +76,20 @@ nmap <silent> ]w <Plug>(ale_next_wrap)
 
 
 
-let g:coc_snippet_prev = '<s-tab>'
-let g:coc_snippet_next = '<tab>'
-imap <C-y> <Plug>(coc-snippets-expand)
+" let g:coc_snippet_prev = '<s-tab>'
+" let g:coc_snippet_next = '<tab>'
+" imap <C-y> <Plug>(coc-snippets-expand)
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 
 

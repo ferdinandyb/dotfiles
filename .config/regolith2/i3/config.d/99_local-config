@@ -35,10 +35,21 @@ for_window [window_type="menu"] floating enable
 bindsym $mod+Ctrl+c exec --no-startup-id gnome-calculator
 for_window [class="Gnome-calculator"] floating enable
 # assign [class="Spotify"] workspace $ws9 # Spotify doesn't start up properly for assign to work
-for_window [class="Spotify"] move to workspace $ws9
+# for_window [class="Spotify"] move to workspace $ws9
+for_window [class="Spotify"] move scratchpad
+for_window [class="Spotify" floating] resize set 1728 972
+exec --no-startup-id spotify
 # for_window [class="Spotify"] layout tabbed # this is only needed if the default layout is not tabbed
-for_window [class="Spotify"] mark s
-assign [class="Deluge"] workspace $ws9
+# for_window [class="Spotify"] mark s
+# assign [class="Deluge"] workspace $ws9
+exec --no-startup-id deluge
+for_window [class="Deluge"] move scratchpad
+for_window [class="Deluge" floating] resize set 1728 972
+
+exec --no-startup-id /opt/zotero/zotero-bin -app /opt/zotero/application.ini -url
+for_window [class="Zotero"] move scratchpad
+for_window [class="Zotero" floating] resize set 1728 972
+
 workspace "$ws9" output $secondary_group
 
 # music control
@@ -72,7 +83,7 @@ for_window [instance="messenger.com"] floating disable
 assign [instance="twitter.com__home"] workspace $ws8
 for_window [instance="twitter.com__home"] floating disable
 # workspace "$ws8" output $secondary_group
-
+assign [title="aerc"] workspace $ws7
 assign [instance="mail.google.com__mail_u_0"] workspace $ws7
 for_window [instance="mail.google.com__mail_u_0"] floating disable
 assign [instance="mail.google.com__mail_u_1"] workspace $ws7
@@ -95,7 +106,6 @@ workspace "$ws0" output primary
 
 # exec --no-startup-id /usr/bin/x-terminal-emulator
 exec --no-startup-id i3-msg "workspace $ws0; exec /usr/bin/x-terminal-emulator"
-exec --no-startup-id spotify
 exec --no-startup-id /opt/telegram/Telegram
 exec --no-startup-id greenclip daemon
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r

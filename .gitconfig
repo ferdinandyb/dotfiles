@@ -1,8 +1,13 @@
 [user]
 	email = bence@ferdinandy.com
 	name = Bence Ferdinandy
-[credential]
-	helper = store
+[credential "smtp://bence%40ferdinandy.com@mail.securebox.hu%3a465"]
+	helper = "!f() { test \"$1\" = get && echo \"password=$(pass show webmail.securebox.hu/ferdinandy | head -n1)\"; }; f"
+[sendemail]
+	smtpserver = mail.securebox.hu
+	smtpuser = bence@ferdinandy.com
+	smtpencryption = ssl
+	smtpserverport = 465
 [diff]
 	tool = vimdiff
 [difftool]

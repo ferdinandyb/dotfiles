@@ -22,6 +22,8 @@ let s:cocextensions = [
 
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
+" let coc-config-notification-disabledProgressSources = * <- this is not
+" working somehow
 
 let g:ale_disable_lsp = 1
 

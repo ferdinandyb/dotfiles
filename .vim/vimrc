@@ -196,7 +196,9 @@ vnoremap > >gv
 nnoremap <leader>w :set wrap!<cr>
 
 " this also has a sideeffect of Q NOT taking you to ex mode
-nnoremap Q :qa<CR>
+nnoremap Q :wqa<CR>
+" this shadowd dl but who uses that anyway?
+nnoremap X :qa!<CR>
 
 " jk will work visually except when taking a count
 nnoremap <expr> k (v:count == 0 ? 'gk' : 'k')

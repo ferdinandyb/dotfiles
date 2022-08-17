@@ -6,6 +6,7 @@ After=network.target
 
 
 [Service]
+Restart=on-failure
 ExecStart=/home/fbence/go/bin/goimapnotify -conf /home/fbence/.config/emailconfiguration/%i.conf
 
 [Install]

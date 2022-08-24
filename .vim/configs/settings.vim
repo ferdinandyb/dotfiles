@@ -64,7 +64,7 @@ set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " Show line numbers, but relative to current line
-set number relativenumber
+set number
 set signcolumn=auto
 set sidescroll=1
 

@@ -3,6 +3,7 @@ alias nv="/usr/bin/nvim"
 alias v="vim"
 alias vl="vim --cmd 'let g:lightweight=1'"
 
+alias icat="kitty +kitten icat"
 
 
 alias t="tmux"
@@ -15,7 +16,6 @@ alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias r='. ranger'
 alias r.="kitty ranger"
-alias lsr="ls -tr"
 alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias s="kitty +kitten ssh"
@@ -39,6 +39,7 @@ alias la='ls -A'
 alias lh='ls -lh'
 alias lt='ls -ltrh'
 alias l='ls'
+alias lf="ls -tr | tail -n1" #usage: command `lf`
 
 ## cetli.vim
 ##

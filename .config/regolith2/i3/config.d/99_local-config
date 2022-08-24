@@ -36,18 +36,15 @@ bindsym $mod+Ctrl+c exec --no-startup-id gnome-calculator
 for_window [class="Gnome-calculator"] floating enable
 # assign [class="Spotify"] workspace $ws9 # Spotify doesn't start up properly for assign to work
 # for_window [class="Spotify"] move to workspace $ws9
-for_window [class="Spotify"] move scratchpad
 for_window [class="Spotify" floating] resize set 1728 972
-exec --no-startup-id spotify
+exec --no-startup-id spotify, move scratchpad
 # for_window [class="Spotify"] layout tabbed # this is only needed if the default layout is not tabbed
 # for_window [class="Spotify"] mark s
 # assign [class="Deluge"] workspace $ws9
-exec --no-startup-id deluge
-for_window [class="Deluge"] move scratchpad
+exec --no-startup-id deluge, move scratchpad
 for_window [class="Deluge" floating] resize set 1728 972
 
-exec --no-startup-id /opt/zotero/zotero-bin -app /opt/zotero/application.ini -url
-for_window [class="Zotero"] move scratchpad
+exec --no-startup-id /opt/zotero/zotero-bin -app /opt/zotero/application.ini -url, move scratchpad
 for_window [class="Zotero" floating] resize set 1728 972
 
 workspace "$ws9" output $secondary_group
@@ -83,7 +80,7 @@ for_window [instance="messenger.com"] floating disable
 assign [instance="twitter.com__home"] workspace $ws8
 for_window [instance="twitter.com__home"] floating disable
 # workspace "$ws8" output $secondary_group
-for_window [title="^aerc$"] move to workspace $ws7
+# for_window [title="^aerc$"] move to workspace $ws7
 bindsym $mod+Ctrl+Return exec --no-startup-id kitty aerc
 assign [instance="mail.google.com__mail_u_0"] workspace $ws7
 for_window [instance="mail.google.com__mail_u_0"] floating disable
@@ -128,8 +125,9 @@ bindsym $mod+Shift+i exec --no-startup-id "~/.config/regolith/i3/focused_to_tabb
 ## Ctrl+PrintScreen: window
 ## Ctrl+Shift+PrintScreen: screen
 bindsym --release Print exec --no-startup-id "scrot -s --freeze - | xclip -selection clipboard -target image/png"
-bindsym --release Ctrl+Print exec --no-startup-id "scrot -u - | xclip -selection clipboard -target image/png"
-bindsym --release Ctrl+Shift+Print exec --no-startup-id "scrot - | xclip -selection clipboard -target image/png"
+bindsym --release Ctrl+Print exec --no-startup-id "scrot -s --freeze '/home/fbence/Downloads/%Y-%m-%d_%H-%M-%S_$wx$h.png'"
+# bindsym --release Ctrl+Print exec --no-startup-id "scrot -u - | xclip -selection clipboard -target image/png"
+# bindsym --release Ctrl+Shift+Print exec --no-startup-id "scrot - | xclip -selection clipboard -target image/png"
 
 # clipboard manager
 ## $mod+v: select and paste right away; $mod+Ctrl+v: place on clipboard but do not paste (for issues with vim)

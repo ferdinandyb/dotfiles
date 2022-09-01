@@ -41,6 +41,8 @@ alias lt='ls -ltrh'
 alias l='ls'
 alias lf="ls -tr | tail -n1" #usage: command `lf`
 
+alias t1="tree -L 1"
+
 ## cetli.vim
 ##
 #function ccn(){

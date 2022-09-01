@@ -1,7 +1,6 @@
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
-Plug 'ferdinandyb/vim', { 'as': 'dracula' }
-" Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/promptline.vim'
@@ -38,7 +37,10 @@ autocmd User PlugLoaded ++nested let g:promptline_preset = {
 
 " sets the title to the open buffer, useful for tmux pane search
 set title
-set titlestring=VIM:\ %(%m%)%(%{expand(\"%:~\")}%)
+" aerc dies on this sometimes it seems
+if !exists("g:lightweight")
+    set titlestring=VIM:\ %(%m%)%(%{expand(\"%:~\")}%)
+endif
 " powerline
 " set rtp+=$HOME/.local/lib/python3.8/site-packages/powerline/bindings/vim/
 
@@ -51,5 +53,3 @@ set noshowmode
 let &t_ut=''
 
 autocmd User PlugLoaded ++nested colorscheme dracula
-
-

@@ -10,8 +10,8 @@ header.fg=#BD93F9
 tab.selected.fg=black
 tab.selected.bg=#BD93F9
 tab.selected.bold=false
-dirlist*.selected.bg=#BD93F9
-dirlist*.selected.fg=black
+dirlist*.selected.bg=#44475A
+dirlist*.selected.fg=white
 dirlist*.selected.bold=false
 
 *error.bold=true
@@ -42,5 +42,5 @@ default.selected.bold=false
 default.selected.fg=white
 default.selected.bg=#44475A
 
-completion_default.selected.bg=#BD93F9
-completion_default.selected.fg=black
+completion_default.selected.bg=#44475A
+completion_default.selected.fg=white

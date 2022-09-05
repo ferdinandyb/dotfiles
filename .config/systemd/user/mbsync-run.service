@@ -8,6 +8,7 @@ After=network.target
 [Service]
 Type=oneshot
 ExecStart=-/home/fbence/.local/bin/mbsync -a
+ExecStartPost=/home/fbence/.local/bin/msmtpq-queue -r
 ExecStartPost=/usr/local/bin/notmuch new
 
 

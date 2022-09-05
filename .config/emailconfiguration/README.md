@@ -40,24 +40,37 @@ Need to add `mailctl` to msmtp apparmor: `/home/fbence/bin/mailctl{,2} PUx,`
 `sudo apparmor_parser -r /etc/apparmor.d/usr.bin.msmtp` <- for reloading
 
 this is where the line should go:
-```
-  profile helpers {
-    #include <abstractions/base>
-    /{,usr/}bin/bash mr,
-    /{,usr/}bin/dash mr,
-    /tmp/            rw,
-    owner /tmp/*     rw,
 
-    /usr/bin/secret-tool PUx,
-    /usr/bin/gpg{,2}     PUx,
-    /home/fbence/bin/mailctl{,2} PUx,
-    /usr/bin/pass        PUx,
-    /usr/bin/head        PUx,
-    /usr/bin/keyring     PUx,
-    /{,usr/}bin/cat      PUx,
-  }
+```
+profile helpers {
+  #include <abstractions/base>
+  /{,usr/}bin/bash mr,
+  /{,usr/}bin/dash mr,
+  /tmp/            rw,
+  owner /tmp/*     rw,
+
+  /usr/bin/secret-tool PUx,
+  /usr/bin/gpg{,2}     PUx,
+  /home/fbence/bin/mailctl{,2} PUx,
+  /usr/bin/pass        PUx,
+  /usr/bin/head        PUx,
+  /usr/bin/keyring     PUx,
+  /{,usr/}bin/cat      PUx,
+}
 ```
 
+Also, the `msmtpq` script can be used to send things offline
+
+in `/etc/logrotate.d/`:
+```
+/home/fbence/.msmtp.log /home/fbence/.msmtp.queue.log {
+  rotate 9999
+  weekly
+  compress
+  notifempty
+  missingok
+}
+```
 # AERC
 
 ```

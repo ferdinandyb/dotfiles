@@ -17,3 +17,4 @@
 - save: empty save should assume current directory
 - figure out the strings-all-over-the-terminal issue (https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMCE8KH71EYW.389PSC31IBYBG%40mashenka%3E)
 - fuzzy finding on open links and a more intutive way to open links
+- preview attachments somehow in the review-before-send-screen

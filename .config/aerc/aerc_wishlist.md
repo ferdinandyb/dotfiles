@@ -12,9 +12,15 @@
 - show new mail in account tab view
 - do not quit aerc with unsaved message open
 - persistent command history
-- zoxide integration -> (see https://lists.sr.ht/~rjarry/aerc-devel/patches/35133)
 - attach glob should not list hidden unless flag?
 - save: empty save should assume current directory
 - figure out the strings-all-over-the-terminal issue (https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMCE8KH71EYW.389PSC31IBYBG%40mashenka%3E)
 - fuzzy finding on open links and a more intutive way to open links
 - preview attachments somehow in the review-before-send-screen
+- unable to see all "to" addresses in message view
+- automatic draft saving during compose
+- maildir operation callback command
+
+# solved
+
+- ~~zoxide integration -> (see https://lists.sr.ht/~rjarry/aerc-devel/patches/35133)~~

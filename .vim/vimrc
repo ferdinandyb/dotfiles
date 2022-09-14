@@ -19,9 +19,30 @@ let maplocalleader="\<Space>"
 " this is needed so kitty's protocol doesn't turn the menu key into a large undo
 set <F20>=57363u
 
+source ~/.vim/configs/settings.vim
 call plug#begin('~/.vim/plugged')
-" should be coloring changes by char, but messes up colorscheme
-" it is also in conflict with unimpaired so needs to be before
+if !exists("g:lightweight")
+    " these plugins are mostly IDE plugins that don't make sense otherwise
+    " or need external dependencies and are thus irritating on systems without
+    " them
+    source ~/.vim/configs/coc-and-ale.vim
+    source ~/.vim/configs/git.vim
+    Plug 'ludovicchabant/vim-gutentags'
+    Plug 'preservim/tagbar'
+    " adds a context line to where you are
+    Plug 'wellle/context.vim'
+    " dispatch commands in the background
+    Plug 'tpope/vim-dispatch'
+    " run tests with e.g. Dispatch
+    Plug 'vim-test/vim-test'
+    " database fun
+    Plug 'tpope/vim-dadbod'
+    Plug 'kristijanhusak/vim-dadbod-ui'
+    Plug 'kristijanhusak/vim-dadbod-completion'
+    " vim debugger
+    Plug 'puremourning/vimspector'
+endif
+" it is  in conflict with unimpaired so needs to be before
 Plug 'rickhowe/diffchar.vim'
 source ~/.vim/configs/floaterm.vim
 source ~/.vim/configs/theme-setup.vim
@@ -50,7 +71,6 @@ Plug 'machakann/vim-sandwich'
 source ~/.vim/configs/vim-swap.vim
 " register viewing
 Plug 'junegunn/vim-peekaboo'
-source ~/.vim/configs/git.vim
 
 " substitution for singular and plurals + changing the from snake_case to
 " camelCase
@@ -79,28 +99,23 @@ source ~/.vim/configs/fzf.vim
 
 " generate tags for jumping between latex tags and others
 " requires https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'preservim/tagbar'
 " clears searches smarter
 Plug 'junegunn/vim-slash'
 " visualize undo trees
 Plug 'sjl/gundo.vim'
+
+
 " doesn't open misspelled files
 " Plug 'einfachtoll/didyoumean'
+" let g:dym_use_fzf = 1
 " did you mean will use fzf
-let g:dym_use_fzf = 1
-" dispatch commands in the background
-Plug 'tpope/vim-dispatch'
-" run tests with e.g. Dispatch
+
+
 " vim unimpaired might not be really needed ...
-Plug 'vim-test/vim-test'
 Plug 'tpope/vim-unimpaired'
 " wrap unix commands
 Plug 'tpope/vim-eunuch'
 " asynchronous linting
-if !exists("g:lightweight")
-    source ~/.vim/configs/coc-and-ale.vim
-endif
 " switch between multiple lines and single lines
 Plug 'AndrewRadev/splitjoin.vim'
 
@@ -133,22 +148,16 @@ Plug 'tmhedberg/SimpylFold'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'Konfekt/FastFold'
 Plug 'vim-scripts/LargeFile'
-Plug 'puremourning/vimspector'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
 
 Plug 'Fymyte/mbsync.vim'
-" database fun
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui'
-Plug 'kristijanhusak/vim-dadbod-completion'
 if has('nvim')
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
 endif
 call plug#end()
 
 doautocmd User PlugLoaded
-source ~/.vim/configs/settings.vim
 
 
 " better escape and exiting when using arrows

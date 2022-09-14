@@ -1,6 +1,6 @@
 # AERC wishlist
 
-- switch accounts during compose ([ticket](https://todo.sr.ht/~rjarry/aerc/72)))
+- switch accounts during compose ([ticket](https://todo.sr.ht/~rjarry/aerc/72))
 - preview emails during message list (i.e. preview pane)
 - message list: show single line of body like outlook/gmail
 - notmuch search: be able to get entire thread (notmuch can search like this so possible currently, but clunky, so could have a convenience function which wraps search terms in thread:)

@@ -3,7 +3,7 @@ Description=Mbsync timer
 
 [Timer]
 OnBootSec=2min
-OnUnitActiveSec=5m
+OnUnitActiveSec=1m
 Persistent=true
 
 [Install]

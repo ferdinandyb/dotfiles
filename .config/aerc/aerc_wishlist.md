@@ -22,6 +22,7 @@
 - maildir operation callback command? ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E))
 - undo message sending for X seconds?
 - view of INBOX while writing mail ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E#%3CCMWGBF579PWF.28Z2HZIRKXINL@TimBook-Arch%3E))
+- send encrypted email
 
 # solved
 

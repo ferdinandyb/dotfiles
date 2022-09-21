@@ -46,7 +46,7 @@ tls_starttls   off
 tls_certcheck  on
 from           bence@ferdinandy.com
 user           bence@ferdinandy.com
-passwordeval   "pass show webmail.securebox.hu/ferdinandy | head -n1"
+passwordeval   "pass show web/webmail.securebox.hu/ferdinandy | head -n1"
 
 # securebox: pharmahungary
 account        pharmahungary
@@ -58,7 +58,7 @@ tls_starttls   off
 tls_certcheck  on
 from           bence.ferdinandy@pharmahungary.com
 user           bence.ferdinandy@pharmahungary.com
-passwordeval   "pass show webmail.securebox.hu/pharmahungary | head -n1"
+passwordeval   "pass show web/webmail.securebox.hu/pharmahungary | head -n1"
 
 # Set a default account
 account default : ferdinandy

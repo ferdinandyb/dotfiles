@@ -20,3 +20,22 @@
 	cmd = vim -c \"Gvdiffsplit!\" \"$MERGED\"
 [init]
 	defaultBranch = master
+[rebase]
+	autoSquash = true
+#TODO just copied this, so do a readup
+[alias]
+	s = status --short --branch
+	ri = rebase -i
+	ra = rebase --abort
+	rc = rebase --continue
+	rp = reset -p HEAD^
+	ci = commit -s
+	ca = commit --amend
+	can = commit --amend --no-edit
+	co = checkout
+	a = add -u
+	l = log --oneline --topo-order
+	ll = log --pretty=lineauthor --date=short --topo-order
+	lfixes = log --pretty=fixes
+	fixup = commit --fixup
+	wip = commit -asm 'wip'

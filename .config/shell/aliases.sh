@@ -5,6 +5,8 @@ alias vl="vim --cmd 'let g:lightweight=1'"
 
 alias icat="kitty +kitten icat"
 
+alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
+
 
 alias t="tmux"
 alias tls="tmux ls"

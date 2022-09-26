@@ -22,6 +22,8 @@
 - send encrypted email
 - gmail like warning when sender is using a different domain then the actual email?
 - when archiving the last message in a folder the tab should be closed and the view return to the account tab (showing the empty message list)
+- be able to toggle sidebar via `:set` (`set` seems to be broken)
+- if a new mail arrives into an empty Inbox nothing is selected -> maybe something should be?
 
 # solved
 

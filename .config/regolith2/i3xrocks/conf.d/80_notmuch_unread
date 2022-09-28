@@ -1,0 +1,5 @@
+# notmuch unread
+[notmuch]
+# Uncomment to show an icon
+label=✉ 
+interval=10

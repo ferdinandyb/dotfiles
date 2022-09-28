@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Zulip
+StartupNotify=true
+Terminal=false
+Exec=/home/fbence/.local/bin/Zulip-5.9.3-x86_64.AppImage
+Icon=/home/fbence/.local/share/applications/zulip.svg
+Type=Application

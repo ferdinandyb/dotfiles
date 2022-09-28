@@ -1,0 +1,16 @@
+[Desktop Entry]
+Version=1.0
+Name=aerc
+
+GenericName=Mail Client
+GenericName[de]=Email Client
+Comment=Launches the aerc email client
+Comment[de]=Startet den aerc Email-Client
+Keywords=Email,Mail,IMAP,SMTP
+Categories=Office;Network;Email;ConsoleOnly
+
+Type=Application
+Icon=utilities-terminal
+Terminal=true
+Exec=aerc %u
+MimeType=x-scheme-handler/mailto

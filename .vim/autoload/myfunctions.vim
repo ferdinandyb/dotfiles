@@ -26,3 +26,31 @@ function! myfunctions#coc_toggle()
         endif
     endif
 endfunction
+
+function! myfunctions#ale_fix_toggle()
+    if exists('b:ale_fix_on_save')
+        if b:ale_fix_on_save
+            let b:ale_fix_on_save = 0
+        else
+            let b:ale_fix_on_save = 1
+        endif
+    else
+        if g:ale_fix_on_save
+            let b:ale_fix_on_save = 0
+        else
+            let b:ale_fix_on_save = 1
+        endif
+    endif
+endfunction
+
+function! myfunctions#set_softwrap()
+  set columns=90
+  set textwidth=0
+  set wrap
+endfunction
+
+function! myfunctions#set_hardwrap()
+  " silent !tput cols
+  set textwidth=80
+  set nowrap
+endfunction

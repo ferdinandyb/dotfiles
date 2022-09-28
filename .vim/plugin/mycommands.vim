@@ -1,4 +1,5 @@
 command! CocToggle call myfunctions#coc_toggle()
+command! ALEFixToggle call myfunctions#ale_fix_toggle()
 
 " Customise the Files command to use rg which respects .gitignore files
 command! -bang -nargs=? -complete=dir FFiles
@@ -20,3 +21,6 @@ command! -bang -nargs=? -complete=dir FYadm
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,
             \ 'source': 'yadmlistall' }), <bang>0))
+
+command! WrapHard call myfunctions#set_hardwrap()
+command! WrapSoft call myfunctions#set_softwrap()

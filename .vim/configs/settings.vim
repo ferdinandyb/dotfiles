@@ -64,7 +64,7 @@ set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " Show line numbers, but relative to current line
-set number
+set relativenumber
 set signcolumn=auto
 set sidescroll=1
 
@@ -101,6 +101,11 @@ endif
 if !isdirectory(&backupdir)
   call mkdir(&backupdir, 'p')
 endif
+
+"don't save for temp files and don't leak passwords through pass
+au BufWritePre /tmp/* setlocal noundofile
+au BufWritePre /dev/shm/* setlocal noundofile
+set backupskip+=/dev/shm/*
 
 " always be where the file is
 " set autochdir

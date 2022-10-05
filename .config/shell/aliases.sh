@@ -26,6 +26,8 @@ alias clip="xclip -selection c"
 alias scu="systemctl --user"
 alias jcu="journalctl --user"
 
+alias ad="aerc > ~/.aerc.log"
+
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'

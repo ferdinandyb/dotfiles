@@ -1,0 +1,7 @@
+X-Mailer: aerc {{version}}
+To: aerc-devel <u.rjarry.aerc-devel@lists.sr.ht>, {{(index .OriginalFrom 0)}}
+
+{{(index .OriginalFrom 0).Name}}, {{dateFormat (.OriginalDate | toLocal) "Jan 02, 2006 at 15:04"}}:
+{{.OriginalText | quote}}
+
+Tested-by: Bence Ferdinandy <bence@ferdinandy.com>

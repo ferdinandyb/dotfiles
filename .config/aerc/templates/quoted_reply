@@ -1,0 +1,8 @@
+X-Mailer: aerc {{version}}
+
+On {{dateFormat (.OriginalDate | toLocal) "Mon Jan 2, 2006 at 16:04"}}, {{(index .OriginalFrom 0).Name}} wrote:
+{{ if eq .OriginalMIMEType "text/html" -}}
+{{- exec `text/html=~/.local/softwarefromsource/aerc/filters/html` .OriginalText | quote -}}
+{{- else -}}
+{{- .OriginalText | quote -}}
+{{- end}}

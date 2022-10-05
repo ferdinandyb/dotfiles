@@ -1,0 +1,5 @@
+#!/bin/bash
+
+/home/fbence/.local/bin/mbsync -a
+/home/fbence/.local/bin/msmtp-queue -r
+/usr/local/bin/notmuch new

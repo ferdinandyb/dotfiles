@@ -1,8 +1,13 @@
+Create Both
+Sync Full
+Remove Both
+Expunge Both
+
 ##############
 #### ELTE ####
 ##############
 
-IMAPAccount ferdinandy.bence_elte
+IMAPAccount elte
 Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
 AuthMechs LOGIN
@@ -10,38 +15,57 @@ PassCmd "pass show elte/microsoftonline.com/login | head -n1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore ferdinandy.bence_elte-remote
-Account ferdinandy.bence_elte
+IMAPStore elte-remote
+Account elte
 
-MaildirStore ferdinandy.bence_elte-local
+MaildirStore elte-local
 SubFolders Verbatim
-Path ~/.mail/ferdinandy.bence_elte/
-Inbox ~/.mail/ferdinandy.bence_elte/Inbox
+Path ~/.mail/elte/
+Inbox ~/.mail/elte/Inbox
 
-Channel ferdinandy.bence_elte-folders
-Far :ferdinandy.bence_elte-remote:
-Near :ferdinandy.bence_elte-local:
-Patterns * !INBOX
-Create Both
-Expunge Both
-Sync All
+Channel elte-folders
+Far :elte-remote:
+Near :elte-local:
+Patterns * !INBOX !Archive !Drafts !Sent !Spam !Trash !Archívum !Levélszemét !"Elküldött elemek" !"Törölt elemek" !Piszkozatok !Feladatok* !Feljegyzések !Napló !"Kimenő levelek" !Névjegyek !Naptár !"Beszélgetési előzmények"
 
-Channel ferdinandy.bence_elte-inbox
-Far ":ferdinandy.bence_elte-remote:INBOX"
-Near ":ferdinandy.bence_elte-local:Inbox"
-Create Near
-Sync All
-Expunge Both
+Channel elte-inbox
+Far ":elte-remote:INBOX"
+Near ":elte-local:Inbox"
 
-Group ferdinandy.bence_elte
-Channel ferdinandy.bence_elte-inbox
-Channel ferdinandy.bence_elte-folders
+Channel elte-sent
+Far ":elte-remote:Elküldött elemek"
+Near ":elte-local:Sent"
+
+Channel elte-trash
+Far ":elte-remote:Törölt elemek"
+Near ":elte-local:Trash"
+
+Channel elte-drafts
+Far ":elte-remote:Piszkozatok"
+Near ":elte-local:Drafts"
+
+Channel elte-archive
+Far ":elte-remote:Archívum"
+Near ":elte-local:Archive"
+
+Channel elte-spam
+Far ":elte-remote:Levélszemét"
+Near ":elte-local:Spam"
+
+Group elte
+Channel elte-inbox
+Channel elte-folders
+Channel elte-drafts
+Channel elte-trash
+Channel elte-sent
+Channel elte-spam
+Channel elte-archive
 
 ######################
 #### priestoferis ####
 ######################
 
-IMAPAccount priestoferis_gmail
+IMAPAccount priestoferis
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
@@ -49,144 +73,152 @@ PassCmd "/home/fbence/bin/mailctl access priestoferis"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore priestoferis_gmail-remote
-Account priestoferis_gmail
+IMAPStore priestoferis-remote
+Account priestoferis
 
-MaildirStore priestoferis_gmail-local
+MaildirStore priestoferis-local
 SubFolders Verbatim
-Path ~/.mail/priestoferis_gmail/
-Inbox ~/.mail/priestoferis_gmail/Inbox
+Path ~/.mail/priestoferis/
+Inbox ~/.mail/priestoferis/Inbox
 
-Channel priestoferis_gmail-labels
-Far :priestoferis_gmail-remote:
-Near :priestoferis_gmail-local:
-Patterns * ![Gmail]* !INBOX
-Create Near
+Channel priestoferis-labels
+Far :priestoferis-remote:
+Near :priestoferis-local:
+Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash
 
-Channel priestoferis_gmail-inbox
-Far ":priestoferis_gmail-remote:INBOX"
-Near ":priestoferis_gmail-local:Inbox"
-Create Near
-Sync All
-Expunge Both
+Channel priestoferis-inbox
+Far ":priestoferis-remote:INBOX"
+Near ":priestoferis-local:Inbox"
 
-Channel priestoferis_gmail-sent
-Far ":priestoferis_gmail-remote:[Gmail]/Elküldött levelek"
-Near ":priestoferis_gmail-local:Sent"
-Sync All
-Create Near
-Expunge Both
+Channel priestoferis-sent
+Far ":priestoferis-remote:[Gmail]/Elküldött levelek"
+Near ":priestoferis-local:Sent"
 
-Channel priestoferis_gmail-trash
-Far ":priestoferis_gmail-remote:[Gmail]/Kuka"
-Near ":priestoferis_gmail-local:Trash"
-Sync All
-Create Near
-Expunge Both
+Channel priestoferis-trash
+Far ":priestoferis-remote:[Gmail]/Kuka"
+Near ":priestoferis-local:Trash"
 
-Channel priestoferis_gmail-drafts
-Far ":priestoferis_gmail-remote:[Gmail]/Piszkozatok"
-Near ":priestoferis_gmail-local:Drafts"
-Sync All
-Create Near
-Expunge Both
+Channel priestoferis-drafts
+Far ":priestoferis-remote:[Gmail]/Piszkozatok"
+Near ":priestoferis-local:Drafts"
 
-Channel priestoferis_gmail-archive
-Far ":priestoferis_gmail-remote:[Gmail]/Összes levél"
-Near ":priestoferis_gmail-local:Archive"
-Sync All
-Create Near
-Expunge Both
+Channel priestoferis-archive
+Far ":priestoferis-remote:[Gmail]/Összes levél"
+Near ":priestoferis-local:Archive"
 
-Channel priestoferis_gmail-spam
-Far ":priestoferis_gmail-remote:[Gmail]/Spam"
-Near ":priestoferis_gmail-local:Spam"
-Create Near
-Sync All
-Expunge Both
+Channel priestoferis-spam
+Far ":priestoferis-remote:[Gmail]/Spam"
+Near ":priestoferis-local:Spam"
 
-Group priestoferis_gmail
-Channel priestoferis_gmail-inbox
-Channel priestoferis_gmail-drafts
-Channel priestoferis_gmail-trash
-Channel priestoferis_gmail-sent
-Channel priestoferis_gmail-labels
-Channel priestoferis_gmail-spam
-Channel priestoferis_gmail-archive
+Group priestoferis
+Channel priestoferis-inbox
+Channel priestoferis-drafts
+Channel priestoferis-trash
+Channel priestoferis-sent
+Channel priestoferis-labels
+Channel priestoferis-spam
+Channel priestoferis-archive
 
 
 ###################
 #### formsense ####
 ###################
 
-IMAPAccount bence.ferdinandy_formsense
+IMAPAccount formsense
 Host imap.gmail.com
 User bence.ferdinandy@formsense.com
 PassCmd "/home/fbence/bin/mailctl access formsense"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
-IMAPStore bence.ferdinandy_formsense-remote
-Account bence.ferdinandy_formsense
+IMAPStore formsense-remote
+Account formsense
 
-MaildirStore bence.ferdinandy_formsense-local
+MaildirStore formsense-local
 SubFolders Verbatim
-Path ~/.mail/bence.ferdinandy_formsense/
-Inbox ~/.mail/bence.ferdinandy_formsense/Inbox
+Path ~/.mail/formsense/
+Inbox ~/.mail/formsense/Inbox
 
-Channel bence.ferdinandy_formsense-labels
-Far :bence.ferdinandy_formsense-remote:
-Near ":bence.ferdinandy_formsense-local:"
-Patterns * ![Gmail]* !INBOX
+Channel formsense-labels
+Far :formsense-remote:
+Near ":formsense-local:"
+Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash
 Create Near
 
-Channel bence.ferdinandy_formsense-inbox
-Far ":bence.ferdinandy_formsense-remote:INBOX"
-Near ":bence.ferdinandy_formsense-local:Inbox"
-Create Near
-Sync All
-Expunge Both
-
-Channel bence.ferdinandy_formsense-sent
-Far ":bence.ferdinandy_formsense-remote:[Gmail]/Sent Mail"
-Near ":bence.ferdinandy_formsense-local:Sent"
+Channel formsense-inbox
+Far ":formsense-remote:INBOX"
+Near ":formsense-local:Inbox"
 Create Near
 Sync All
 Expunge Both
 
-Channel bence.ferdinandy_formsense-spam
-Far ":bence.ferdinandy_formsense-remote:[Gmail]/Spam"
-Near ":bence.ferdinandy_formsense-local:Spam"
+Channel formsense-sent
+Far ":formsense-remote:[Gmail]/Sent Mail"
+Near ":formsense-local:Sent"
 Create Near
 Sync All
 Expunge Both
 
-Channel bence.ferdinandy_formsense-trash
-Far ":bence.ferdinandy_formsense-remote:[Gmail]/Trash"
-Near ":bence.ferdinandy_formsense-local:Trash"
+Channel formsense-spam
+Far ":formsense-remote:[Gmail]/Spam"
+Near ":formsense-local:Spam"
 Create Near
 Sync All
 Expunge Both
 
-Channel bence.ferdinandy_formsense-drafts
-Far ":bence.ferdinandy_formsense-remote:[Gmail]/Drafts"
-Near ":bence.ferdinandy_formsense-local:Drafts"
+Channel formsense-trash
+Far ":formsense-remote:[Gmail]/Trash"
+Near ":formsense-local:Trash"
 Create Near
 Sync All
 Expunge Both
 
-Channel bence.ferdinandy_formsense-archive
-Far ":bence.ferdinandy_formsense-remote:[Gmail]/All Mail"
-Near ":bence.ferdinandy_formsense-local:Archive"
-Create Near
-Sync All
-Expunge Both
+Channel formsense-drafts
+Far ":formsense-remote:[Gmail]/Drafts"
+Near ":formsense-local:Drafts"
 
-Group bence.ferdinandy_formsense
-Channel bence.ferdinandy_formsense-inbox
-Channel bence.ferdinandy_formsense-drafts
-Channel bence.ferdinandy_formsense-trash
-Channel bence.ferdinandy_formsense-spam
-Channel bence.ferdinandy_formsense-sent
-Channel bence.ferdinandy_formsense-labels
-Channel bence.ferdinandy_formsense-archive
+Channel formsense-archive
+Far ":formsense-remote:[Gmail]/All Mail"
+Near ":formsense-local:Archive"
+
+Group formsense
+Channel formsense-inbox
+Channel formsense-drafts
+Channel formsense-trash
+Channel formsense-spam
+Channel formsense-sent
+Channel formsense-labels
+Channel formsense-archive
+
+#######################
+#### PHARMAHUNGARY ####
+#######################
+
+IMAPAccount pharmahungary
+Host mail.securebox.hu
+User bence.ferdinandy@pharmahungary.com
+AuthMechs LOGIN
+PassCmd "pass show web/webmail.securebox.hu/pharmahungary | head -n1"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore pharmahungary-remote
+Account pharmahungary
+
+MaildirStore pharmahungary-local
+SubFolders Verbatim
+Path ~/.mail/pharmahungary/
+Inbox ~/.mail/pharmahungary/Inbox
+
+Channel pharmahungary-folders
+Far :pharmahungary-remote:
+Near :pharmahungary-local:
+Patterns * !INBOX
+
+Channel pharmahungary-inbox
+Far ":pharmahungary-remote:INBOX"
+Near ":pharmahungary-local:Inbox"
+
+Group pharmahungary
+Channel pharmahungary-inbox
+Channel pharmahungary-folders

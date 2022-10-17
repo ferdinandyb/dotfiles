@@ -2,12 +2,14 @@
 	email = bence@ferdinandy.com
 	name = Bence Ferdinandy
 [credential "smtp://bence%40ferdinandy.com@mail.securebox.hu%3a465"]
-	helper = "!f() { test \"$1\" = get && echo \"password=$(pass show webmail.securebox.hu/ferdinandy | head -n1)\"; }; f"
+	helper = "!f() { test \"$1\" = get && echo \"password=$(pass show web/webmail.securebox.hu/ferdinandy | head -n1)\"; }; f"
 [sendemail]
 	smtpserver = mail.securebox.hu
 	smtpuser = bence@ferdinandy.com
 	smtpencryption = ssl
 	smtpserverport = 465
+	chainreplyto = false
+	confirm = always
 [diff]
 	tool = vimdiff
 [difftool]
@@ -39,3 +41,13 @@
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
 	wip = commit -asm 'wip'
+[pull]
+	rebase = true
+[pretty]
+	fixes = Fixes: %h (\"%s\")
+	lineauthor = %C(auto)%h %C(auto,cyan)%ad %C(auto,magenta)%<(14,trunc)%an%C(auto)%d %C(auto,reset)%s%C(auto,cyan) %(trailers:key=Acked-by,key=Reviewed-by,key=Tested-by,unfold,separator=%x2C )%C(auto,reset)
+[format]
+	notes = true
+[notes]
+	rewriteRef = refs/notes/commits
+	rewriteMode = concatenate

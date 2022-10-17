@@ -70,15 +70,15 @@ for msg in msgs:
     msg.add_tag("inbox")
 
 del msgs
-# sync unread
-msgs = Query(
-    db,
-    f"tag:unread and not (path:{path1} or path:{path2} or path:{path3} or path:{path4})",
-).search_messages()
+# # sync unread
+# msgs = Query(
+#     db,
+#     f"tag:unread and not (path:{path1} or path:{path2} or path:{path3} or path:{path4})",
+# ).search_messages()
 
-for msg in msgs:
-    msg.remove_tag("unread", sync_maildir_flags=True)
-del msgs
+# for msg in msgs:
+#     msg.remove_tag("unread", sync_maildir_flags=True)
+# del msgs
 
 db.close()
 del db

@@ -14,10 +14,7 @@ FREQUENCY_WEIGHT = 0.5
 # RFC 5322 compliant regex from Moritz Poldrack (moritz@poldrack.dev)
 ADDRREGEX = r"""(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
 
-# same, but with capital letters allowed
-ADDRREGEXCAP = r"""(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"""
-
-PARSEADDRESS = re.compile(f"(.*?)<?({ADDRREGEXCAP})>?")
+PARSEADDRESS = re.compile(f"(.*?)<?({ADDRREGEX})>?")
 
 COMMA_MATCHER = re.compile(r",(?=(?:[^\"']*[\"'][^\"']*[\"'])*[^\"']*$)")
 
@@ -32,11 +29,9 @@ def filterAddress(address):
 def checkIfMail(path):
     if path.is_dir():
         return False
-    if "uidvalidity" in path.name:
-        return False
-    if ".notmuch" in path.name:
-        return False
-    return True
+    if path.parent.stem in ["cur", "tmp", "new"]:
+        return True
+    return False
 
 
 def parseAddress(address):
@@ -48,7 +43,7 @@ def parseAddress(address):
             part = part.decode(encoding)
         parts.append(part.strip().replace("\n", ""))
     address = " ".join(parts)
-    m = PARSEADDRESS.search(address)
+    m = PARSEADDRESS.search(address, re.IGNORECASE)
     if m:
         name, address = m.group(1, 2)
         name = name.replace('"', "").strip()

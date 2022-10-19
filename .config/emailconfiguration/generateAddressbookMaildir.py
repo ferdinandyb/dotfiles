@@ -37,11 +37,14 @@ def checkIfMail(path):
 def parseAddress(address):
     parts = []
     for part, encoding in decode_header(address.strip()):
-        if encoding is None and type(part) == bytes:
-            part = part.decode()
-        elif encoding is not None:
-            part = part.decode(encoding)
-        parts.append(part.strip().replace("\n", ""))
+        try:
+            if encoding is None and type(part) == bytes:
+                part = part.decode()
+            elif encoding is not None:
+                part = part.decode(encoding)
+            parts.append(part.strip().replace("\n", ""))
+        except UnicodeDecodeError:
+            pass
     address = " ".join(parts)
     m = PARSEADDRESS.search(address, re.IGNORECASE)
     if m:

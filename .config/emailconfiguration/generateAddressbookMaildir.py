@@ -44,7 +44,7 @@ def parseAddress(address):
                 part = part.decode(encoding)
             parts.append(part.strip().replace("\n", ""))
         except UnicodeDecodeError:
-            pass
+            return None
     address = " ".join(parts)
     m = PARSEADDRESS.search(address, re.IGNORECASE)
     if m:

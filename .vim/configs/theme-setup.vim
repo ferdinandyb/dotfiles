@@ -45,7 +45,7 @@ endif
 " set rtp+=$HOME/.local/lib/python3.8/site-packages/powerline/bindings/vim/
 
 " Always show statusline
-set laststatus=2
+set laststatus=0
 " set showtabline=2
 set noshowmode
 

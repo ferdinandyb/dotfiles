@@ -143,35 +143,22 @@ Channel formsense-labels
 Far :formsense-remote:
 Near ":formsense-local:"
 Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash
-Create Near
 
 Channel formsense-inbox
 Far ":formsense-remote:INBOX"
 Near ":formsense-local:Inbox"
-Create Near
-Sync All
-Expunge Both
 
 Channel formsense-sent
 Far ":formsense-remote:[Gmail]/Sent Mail"
 Near ":formsense-local:Sent"
-Create Near
-Sync All
-Expunge Both
 
 Channel formsense-spam
 Far ":formsense-remote:[Gmail]/Spam"
 Near ":formsense-local:Spam"
-Create Near
-Sync All
-Expunge Both
 
 Channel formsense-trash
 Far ":formsense-remote:[Gmail]/Trash"
 Near ":formsense-local:Trash"
-Create Near
-Sync All
-Expunge Both
 
 Channel formsense-drafts
 Far ":formsense-remote:[Gmail]/Drafts"

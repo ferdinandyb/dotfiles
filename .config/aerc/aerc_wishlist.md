@@ -22,7 +22,7 @@
 - when archiving the last message in a folder the tab should be closed and the view return to the account tab (showing the empty message list)
 - be able to toggle sidebar via `:set` (`set` seems to be broken)
 - if a new mail arrives into an empty Inbox nothing is selected -> maybe something should be?
-- aerc should have a mkdir command so it makes saving attachments easier
+- color different types of tabs differently
 
 # solved
 
@@ -31,4 +31,4 @@
 - save: empty save should assume current directory (already worked, set:  `default-save-path=.`)
 - switch accounts during compose ([ticket](https://todo.sr.ht/~rjarry/aerc/72))
 - preview emails during message list (i.e. preview pane)
-- proper image preview via sixels or kitty ([in progress](https://lists.sr.ht/~rjarry/aerc-devel/patches/35291))
+- proper image preview via sixels or kitty ([in progress](https://lists.sr.ht/~rjarry/aerc-devel/patches/35291)) (via kitty directly)

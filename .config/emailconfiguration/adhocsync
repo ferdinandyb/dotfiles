@@ -11,4 +11,4 @@ ls ~/.msmtp.queue/*msmtp | xargs -i sed -i "s/~rjarry\/aerc/u.rjarry.aerc/" {}
 # snyc up notmuch tags
 /home/fbence/.config/emailconfiguration/syncnotmuchtag.py
 # set all unread emails not in mailbox to read
-fd -E '*/Inbox/' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S
+# fd -E '*/Inbox/' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S

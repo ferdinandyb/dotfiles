@@ -24,3 +24,5 @@ command! -bang -nargs=? -complete=dir FYadm
 
 command! WrapHard call myfunctions#set_hardwrap()
 command! WrapSoft call myfunctions#set_softwrap()
+command -nargs=* -complete=file W w <args>
+command -nargs=* -complete=file Wq wq <args>

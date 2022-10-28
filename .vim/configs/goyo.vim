@@ -5,8 +5,10 @@ function! s:goyo_enter()
     silent !tmux set status off
     silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
   endif
-  CocDisable
-  ALEDisable
+  if !exists("g:lightweight")
+    CocDisable
+    ALEDisable
+  endif
   " set noshowmode
   " set noshowcmd
   " set scrolloff=999
@@ -22,8 +24,10 @@ function! s:goyo_leave()
   " set showcmd
   " set scrolloff=5
   " ...
-  CocEnable
-  ALEEnable
+  if !exists("g:lightweight")
+    CocEnable
+    ALEEnable
+  endif
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()

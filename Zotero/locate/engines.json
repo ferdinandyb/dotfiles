@@ -75,7 +75,7 @@
 		"_description": "SciHub URL Lookup",
 		"_icon": "https://lh3.googleusercontent.com/sOX00LxhvUoMVoBEtSGXV9t10d57n4G1Q26wGc2nDmbh2l_elVUti-ULnTsUBnDlNM4_aab70w=s128-h128-e365",
 		"_hidden": false,
-		"_urlTemplate": "http://sci-hub.tw/{z:url}",
+		"_urlTemplate": "http://sci-hub.se/{z:url}",
 		"_urlParams": [],
 		"_urlNamespaces": {
 			"z": "http://www.zotero.org/namespaces/openSearch#"

@@ -1,0 +1,270 @@
+#!/usr/bin/awk -f
+# ex: ft=awk
+#
+# awk filter for aerc to parse text/calendar mime-types
+#
+# Based on the ical2org.awk script by Eric S Fraga and updated by Guide Van
+# Hoecke. Adapted to aerc by Koni Marti <koni.marti@gmail.com>
+#
+
+BEGIN {
+	UIDS[0];
+	people_attending[0];
+	people_partstat[0];
+	people_rsvp[0];
+
+	# use a colon to separate the type of data line from the actual contents
+	FS = ":";
+}
+
+{
+	# remove carriage return from every line
+	gsub(/\r/, "")
+}
+
+/^[ ]/ {
+	# this block deals with the continuation lines that start with a whitespace
+	#
+	line = $0
+	# remove trailing whitespaces
+	gsub(/^[ ]/, "", line)
+
+	# assumes continuation lines start with a space
+	if (indescription) {
+		entry = entry line
+	} else if (insummary) {
+		summary = summary line
+	} else if (inattendee) {
+		attendee = attendee line
+	} else if (inorganizer) {
+		organizer = organizer line
+	} else if (inlocation) {
+		location = location unescape(line, 0)
+	}
+}
+
+/^BEGIN:VALARM/,/^END:VALARM/ {
+	next
+}
+
+/^BEGIN:VEVENT/ {
+	# start of an event: initialize global values used for each event
+	start_date = "";
+	end_date = "";
+	entry = ""
+	id = ""
+
+	indescription = 0;
+	insummary = 0
+	inattendee = 0
+	inorganizer = 0
+	inlocation = 0
+
+	location = ""
+	status = ""
+	summary = ""
+	attendee = ""
+	organizer = ""
+
+	rrend = ""
+	rcount = ""
+	intfreq = ""
+	idx = 0
+
+	delete people_attending;
+	delete people_partstat;
+	delete people_rsvp;
+}
+
+/^[A-Z]/ {
+	if (attendee != "" && inattendee==1)
+		add_attendee(attendee)
+
+	if (organizer != "" && inorganizer==1)
+		organizer = find_full_name(organizer)
+
+	indescription = 0;
+	insummary = 0;
+	inattendee = 0;
+	inorganizer = 0;
+	inlocation = 0;
+}
+
+/^DTSTART[:;]/ {
+	tz = get_value($0, "TZID=[^:;]*", "=")
+	start_date = datetimestring($2, tz);
+}
+
+/^DTEND[:;]/ {
+	tz = get_value($0, "TZID=[^:;]*", "=")
+	end_date = datetimestring($2, tz);
+}
+
+/^RRULE[:]/ {
+	freq = get_value($0, "FREQ=[^:;]*", "=")
+	interval = get_value($0, "INTERVAL=[^:;]*", "=")
+	rrend = get_value($0, "UNTIL=[^:;]*", "=")
+	rcount = get_value($0, "COUNT=[^:;]*", "=")
+	intfreq = tolower(freq)
+	if (interval != "")
+		intfreq = " +" interval intfreq
+}
+
+/^METHOD/ {
+	method = $2
+}
+
+/^UID/ {
+	line = prepare($0)
+	id = line
+}
+
+/^STATUS/ {
+	line = prepare($0)
+	status = line
+}
+
+/^DESCRIPTION/ {
+	line = prepare($0)
+	entry = entry line
+	indescription = 1;
+}
+
+/^SUMMARY/ {
+	line = prepare($0)
+	summary = line
+	insummary = 1;
+}
+
+/^ORGANIZER/ {
+	organizer = $0
+	inorganizer = 1;
+}
+
+/^LOCATION/ {
+	line = prepare($0)
+	location = unescape(line, 0);
+	inlocation = 1;
+}
+
+/^ATTENDEE/ {
+	attendee = $0
+	inattendee = 1;
+}
+
+/^END:VEVENT/ {
+	#output event
+	if (method != "") {
+		printf    "\n  This is a meeting %s\n\n",  method
+	}
+	fmt = "  %-14s%s\n"
+	is_duplicate = (id in UIDS);
+	if(is_duplicate == 0) {
+		printf fmt, "SUMMARY", unescape(summary, 0)
+		if(location != "")
+			printf fmt, "LOCATION",  location
+		if(organizer != "")
+			printf fmt, "ORGANIZER", organizer
+		for (idx in people_attending) {
+			printf fmt, "ATTENDEE [" idx "]", people_attending[idx]
+			partstat = people_partstat[idx]
+			if (partstat != "") {
+				printf fmt, "", "STATUS\t" partstat
+			}
+			rsvp = people_rsvp[idx]
+			if (rsvp != "") {
+				printf fmt, "", "RSVP\t" rsvp
+			}
+		}
+		printf fmt, "START", start_date
+		printf fmt, "END", end_date
+		if (intfreq != "") {
+			printf "\n"fmt, "RECURRENCE", intfreq
+			if (rcount != "")
+				printf fmt, "COUNTS", rcount
+			if (rrend != "")
+				printf fmt, "END DATE", rrend
+
+		}
+		if(entry != "")
+			print "\n" unescape(entry, 1);
+		UIDS[id] = 1;
+	}
+}
+
+func prepare(line) {
+	gsub($1, "", line)
+	gsub(/^[: ]/, "", line)
+	return line
+}
+
+function unescape(input, preserve_newlines)
+{
+	ret = input
+	gsub(/\\,/, ",", ret)
+	gsub(/\\;/, ";", ret)
+	if (preserve_newlines)
+		gsub(/\\n/, "\n", ret)
+	else
+		gsub(/\\n/, " ", ret)
+	return ret
+}
+
+
+function datetimestring(input, tzInput)
+{
+	timestr = input
+	pos = index(timestr, "T")
+	if (pos < 0) {
+		return timestr
+	}
+
+	date = substr(timestr, 1, pos)
+	time = substr(timestr, pos+1, length(timestr))
+
+	year = substr(date, 1, 4)
+	month = substr(date, 5, 2)
+	day = substr(date, 7, 2)
+
+	hour = substr(time, 1, 2)
+	min = substr(time, 3, 2)
+	sec = substr(time, 5, 2)
+
+	return sprintf("%4d/%02d/%02d %02d:%02d:%02d %s", year, month, day, hour, min, sec, tzInput)
+}
+
+function add_attendee(attendee)
+{
+	CN = find_full_name(attendee)
+	if (CN != "") {
+		idx = idx + 1
+		people_attending[idx] = CN;
+		people_partstat[idx] = get_value(attendee, "PARTSTAT=[^;:]+", "=")
+		people_rsvp[idx] = get_value(attendee, "RSVP=[^;:]+", "=")
+	}
+}
+
+function find_full_name(line)
+{
+	name = get_value(line, "CN=[^;:]+", "=")
+	gsub(/"[^"]*"/,"",line)
+	email = get_value(line, "(mailto|MAILTO):[^;]+", ":")
+
+	if (name == "") {
+		return sprintf("<%s>", email)
+	} else {
+		return sprintf("%s <%s>", name, email)
+	}
+}
+
+function get_value(line, regexp, sep) {
+	value = ""
+	match(line, regexp)
+	{
+		z = split(substr(line,RSTART,RLENGTH),data,sep)
+		if (z > 1) {
+			value = data[2]
+		}
+	}
+	return value
+}

@@ -1,0 +1,8 @@
+maildir = "/home/fbence/.mail"
+addresses = [
+    "bence@ferdinandy.com",
+    "ferdinandy.bence@ttk.elte.hu",
+    "priestoferis@gmail.com",
+    "bence.ferdinandy@pharmahungary.com",
+    "bence.ferdinandy@formsense.com"
+]

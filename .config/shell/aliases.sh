@@ -13,7 +13,7 @@ alias tls="tmux ls"
 alias tns="tmux new -s"
 alias tna="tmux new-session -t"
 alias ta="tmux attach -t"
-alias jn="jupyter notebook"
+alias jn="PYENV_VERSION=jupyter jupyter notebook"
 alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias r='. ranger'
@@ -25,6 +25,9 @@ alias xo="xargs -i xdg-open {}"
 alias clip="xclip -selection c"
 alias scu="systemctl --user"
 alias jcu="journalctl --user"
+
+alias g="git"
+alias lazyadm="lazygit -w ~ -g ~/.local/share/yadm/repo.git"
 
 alias ad="aerc > ~/.aerc.log"
 

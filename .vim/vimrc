@@ -139,8 +139,8 @@ Plug 'hauleth/vim-backscratch'
 Plug 'pangloss/vim-javascript'
 Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
-Plug 'jupyter-vim/jupyter-vim'
-Plug 'goerz/jupytext.vim'
+" Plug 'jpalardy/vim-slime', { 'for': 'python' }
+" Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }"
 " PYTHON
 " python code folding
 Plug 'tmhedberg/SimpylFold'
@@ -150,6 +150,10 @@ Plug 'Konfekt/FastFold'
 Plug 'vim-scripts/LargeFile'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
+"
+Plug 'untitled-ai/jupyter_ascending.vim'
+Plug 'jupyter-vim/jupyter-vim'
+Plug 'goerz/jupytext.vim'
 
 Plug 'Fymyte/mbsync.vim'
 if has('nvim')

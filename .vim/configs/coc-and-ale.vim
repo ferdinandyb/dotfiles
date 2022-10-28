@@ -12,7 +12,8 @@ let s:cocextensions = [
     \ 'coc-tsserver',
     \ 'coc-vimtex',
     \ 'coc-go',
-    \ 'coc-texlab']
+    \ 'coc-texlab',
+    \ 'coc-sourcekit']
 
 " if g:os == 'Android'
 "     let g:coc_global_extensions = s:cocextensions
@@ -29,7 +30,7 @@ let g:ale_disable_lsp = 1
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['flake8']
+\   'python': ['pylint']
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],

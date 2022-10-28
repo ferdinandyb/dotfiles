@@ -18,5 +18,9 @@ Plug 'airblade/vim-gitgutter'
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'
 let g:fugitive_gitlab_domains = ['https://gitlab.formsense.com/']
-" nnoremap <Leader>gy :.GBrowse!<CR>
-" xnoremap <Leader>gy :'<'>GBrowse!<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <Leader>Gb :.GBrowse!<CR>
+xnoremap <Leader>Gb :'<'>GBrowse!<CR>
+
+" fugitive 3way split:
+" obtain hunk: d2o ours, d3o theirs

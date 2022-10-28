@@ -149,6 +149,10 @@ nnoremap zó 1z=
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y
 nnoremap Y yg_
+vnoremap Y <esc>:'<,'>:w !curl -LSsF file=@- https://0x0.st<CR>
+" nnoremap F gqap
+" vnoremap F gq
+
 
 
 " Ctrl-p pastes the last yank: vim unimpaired may have better maps
@@ -161,5 +165,5 @@ nnoremap <leader>o o<ESC>"+P
 " nnoremap <leader>gv "+gp
 " Maintain the cursor position when yanking a visual selection
 " http://ddrscott.github.io/blog/2016/yank-without-jank/
-vnoremap <expr>y "my\"" . v:register . "y`y"
-vnoremap <expr>Y "mY\"" . v:register . "Y`Y"
+" vnoremap <expr>y "my\"" . v:register . "y`y"
+" vnoremap <expr>Y "mY\"" . v:register . "Y`Y"

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-/home/fbence/.local/bin/mbsync -a
-notmuch new

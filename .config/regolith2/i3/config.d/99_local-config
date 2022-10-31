@@ -141,3 +141,6 @@ bindsym $mod+Ctrl+i exec --no-startup-id  "~/.config/regolith2/scripts/rofi-emoj
 bindsym $mod+Ctrl+n exec --no-startup-id "~/.config/regolith2/scripts/openlastdownloaded.sh"
 bindsym $mod+s exec regolith-control-center --class=floating_window sound
 bindsym $mod+Ctrl+q focus parent,kill
+
+for_window [class="Google-chrome"] border none
+for_window [class="Element"] border none

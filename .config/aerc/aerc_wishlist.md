@@ -3,7 +3,6 @@
 - notmuch search: be able to get entire thread (notmuch can search like this so possible currently, but clunky, so could have a convenience function which wraps search terms in thread:)
 - notmuch search II: if you are on a message, fetch it's thread and show only that
 - see side pane when messages are opened
-- proper handling of message/rfc822 attachments ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMFX6Y1EK9IN.3EDGQCN38PELF%40mashenka%3E))
 - show new mail in account tab name (maybe with parentheses? [ticket](https://todo.sr.ht/~rjarry/aerc/82))
 - do not quit aerc with unsaved message open
 - attach glob should not list hidden unless flag? ([ticket](https://todo.sr.ht/~rjarry/aerc/83))
@@ -19,6 +18,9 @@
 - if a new mail arrives into an empty Inbox nothing is selected -> maybe something should be?
 - color different types of tabs differently
 - show "has attachment" icon in message list
+- sort setting with [ui:X=Y] seem to be broken
+- ability to have a "unified" notmuch account to show actual maildir account as
+  receiving account
 
 # solved
 
@@ -31,6 +33,7 @@
 - unable to see all "to" addresses in message view ([ticket](https://todo.sr.ht/~rjarry/aerc/85))
 - figure out the strings-all-over-the-terminal issue ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMCE8KH71EYW.389PSC31IBYBG%40mashenka%3E))
 - maildir support in notmuch accounts, likely via `notmuch insert` ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCME4HD5R5320.1OX7WHTBT4XPO%40mashenka%3E))
+- proper handling of message/rfc822 attachments ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMFX6Y1EK9IN.3EDGQCN38PELF%40mashenka%3E)) (wrote caeml utility + incoming patch from Koni handling eml)
 
 # proved unnecessary
 

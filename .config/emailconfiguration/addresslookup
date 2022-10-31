@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # -Zn does n distance levenshtein, ommiting n makes n = 1
-ugrep -i -Z --color=never $1 /home/fbence/.cache/maildir-rank-addr/addressbook.tsv
+ugrep -i --color=never $1 /home/fbence/.cache/maildir-rank-addr/addressbook.tsv

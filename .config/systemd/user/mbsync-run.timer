@@ -3,8 +3,7 @@ Description=Mbsync timer
 
 [Timer]
 OnBootSec=2min
-OnUnitActiveSec=1m
-Persistent=true
+OnUnitActiveSec=2m
 
 [Install]
 WantedBy=default.target

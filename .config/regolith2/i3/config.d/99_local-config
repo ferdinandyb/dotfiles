@@ -123,10 +123,13 @@ bindsym $mod+Shift+i exec --no-startup-id "~/.config/regolith/i3/focused_to_tabb
 ## PrintScreen: selection
 ## Ctrl+PrintScreen: window
 ## Ctrl+Shift+PrintScreen: screen
-bindsym --release Print exec --no-startup-id "scrot -s --freeze - | xclip -selection clipboard -target image/png"
-bindsym --release Ctrl+Print exec --no-startup-id "scrot -s --freeze '/home/fbence/Downloads/%Y-%m-%d_%H-%M-%S_$wx$h.png'"
+# bindsym --release Print exec --no-startup-id "scrot -s --freeze - | xclip -selection clipboard -target image/png"
+# bindsym --release Ctrl+Print exec --no-startup-id "scrot -s --freeze '/home/fbence/Downloads/%Y-%m-%d_%H-%M-%S_$wx$h.png'"
 # bindsym --release Ctrl+Print exec --no-startup-id "scrot -u - | xclip -selection clipboard -target image/png"
 # bindsym --release Ctrl+Shift+Print exec --no-startup-id "scrot - | xclip -selection clipboard -target image/png"
+bindsym --release Print exec --no-startup-id "flameshot gui -c"
+bindsym --release Ctrl+Print exec --no-startup-id "flameshot gui -r | haste"
+bindsym --release Shift+Print exec --no-startup-id "flameshot gui -p /home/fbence/Downloads"
 
 # clipboard manager
 ## $mod+v: select and paste right away; $mod+Ctrl+v: place on clipboard but do not paste (for issues with vim)

@@ -1,9 +1,9 @@
 [Unit]
-Description=Mbsync timer
+Description=fast mail sync timer
 
 [Timer]
 OnBootSec=2min
-OnUnitActiveSec=2m
+OnUnitActiveSec=1m
 
 [Install]
 WantedBy=default.target

@@ -1,5 +1,5 @@
 [Unit]
-Description=Sync mail with mbsync
+Description=mbsync all
 OnFailure=status-email-user@%n.service
 After=local-fs.target
 After=network.target
@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/fbence/.config/emailconfiguration/adhocsync
+ExecStart=/home/fbence/.local/bin/mbsync
 
 
 # https://usher.dev/posts/my-email-setup/

@@ -61,6 +61,11 @@ Channel elte-sent
 Channel elte-spam
 Channel elte-archive
 
+Group elte-fast
+Channel elte-inbox
+Channel elte-folders
+Channel elte-drafts
+
 ######################
 #### priestoferis ####
 ######################
@@ -84,7 +89,12 @@ Inbox ~/.mail/priestoferis/Inbox
 Channel priestoferis-labels
 Far :priestoferis-remote:
 Near :priestoferis-local:
-Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash
+Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash !zzzzzzz*
+
+Channel priestoferis-zzzzzzz
+Far :priestoferis-remote:
+Near :priestoferis-local:
+Patterns zzzzzzz*
 
 Channel priestoferis-inbox
 Far ":priestoferis-remote:INBOX"
@@ -118,7 +128,12 @@ Channel priestoferis-sent
 Channel priestoferis-labels
 Channel priestoferis-spam
 Channel priestoferis-archive
+Channel priestoferis-zzzzzzz
 
+Group priestoferis-fast
+Channel priestoferis-inbox
+Channel priestoferis-drafts
+Channel priestoferis-labels
 
 ###################
 #### formsense ####
@@ -177,6 +192,11 @@ Channel formsense-sent
 Channel formsense-labels
 Channel formsense-archive
 
+Group formsense-fast
+Channel formsense-inbox
+Channel formsense-drafts
+Channel formsense-labels
+
 #######################
 #### PHARMAHUNGARY ####
 #######################
@@ -207,5 +227,9 @@ Far ":pharmahungary-remote:INBOX"
 Near ":pharmahungary-local:Inbox"
 
 Group pharmahungary
+Channel pharmahungary-inbox
+Channel pharmahungary-folders
+
+Group pharmahungary-fast
 Channel pharmahungary-inbox
 Channel pharmahungary-folders

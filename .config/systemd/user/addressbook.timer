@@ -1,0 +1,9 @@
+[Unit]
+Description=maildir-rank-addr update timer
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=12h
+
+[Install]
+WantedBy=default.target

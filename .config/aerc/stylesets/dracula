@@ -13,6 +13,7 @@ tab.selected.bold=false
 dirlist*.selected.bg=#44475A
 dirlist*.selected.fg=white
 dirlist*.selected.bold=false
+dirlist*.selected.italic=false
 
 *error.bold=true
 *error.fg=red

@@ -4,6 +4,8 @@ alias v="vim"
 alias vl="vim --cmd 'let g:lightweight=1'"
 
 alias icat="kitty +kitten icat"
+alias kd="kitty +kitten diff"
+alias week="date +%V"
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 

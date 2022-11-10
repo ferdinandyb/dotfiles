@@ -1,6 +1,5 @@
 " Langmap is broken currently, see https://github.com/vim/vim/issues/3018
 
-
 set langmap=\
             \ő[,
             \Ő{,
@@ -35,8 +34,8 @@ nmap ó =
 " nnoremap , ;
 " nnoremap ; ,
 
-nnoremap <leader>ö :new<CR>
-nnoremap <leader>ü :vnew<CR>
+nnoremap <leader>ö :split<CR>
+nnoremap <leader>ü :vsplit<CR>
 
 
 " there's a conflict with diffchar
@@ -49,7 +48,6 @@ nnoremap <leader>, :b#<cr> " alternate buffer
 nnoremap <silent> K :call myfunctions#show_documentation()<CR>
 
 
-nnoremap gs :Git<CR>
 
 nnoremap <leader>g :FGitFiles!<cr>
 nnoremap <leader>ft :FTags!<cr>
@@ -128,6 +126,7 @@ cnoremap <C-h> <Left>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
+imap <expr> <C-z> pumvisible() ? "<C-y>" :"<C-z>"
 
 " imap <C-i> <Esc>saiW_Wi
 " imap <C-b> <Esc>saiW*.Whi

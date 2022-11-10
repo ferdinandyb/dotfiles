@@ -40,7 +40,7 @@ if !exists("g:lightweight")
     Plug 'kristijanhusak/vim-dadbod-ui'
     Plug 'kristijanhusak/vim-dadbod-completion'
     " vim debugger
-    Plug 'puremourning/vimspector'
+    source ~/.vim/configs/vimspector.vim
 endif
 " it is  in conflict with unimpaired so needs to be before
 Plug 'rickhowe/diffchar.vim'

@@ -38,13 +38,13 @@ for_window [class="Gnome-calculator"] floating enable
 # assign [class="Spotify"] workspace $ws9 # Spotify doesn't start up properly for assign to work
 # for_window [class="Spotify"] move to workspace $ws9
 for_window [class="Spotify" floating] resize set 1728 972
-exec --no-startup-id spotify, move scratchpad
+exec --no-startup-id /usr/bin/spotify, move scratchpad
 # for_window [class="Spotify"] layout tabbed # this is only needed if the default layout is not tabbed
 # for_window [class="Spotify"] mark s
 # assign [class="Deluge"] workspace $ws9
-exec --no-startup-id deluge, move scratchpad
+# exec --no-startup-id deluge, move scratchpad
 
-exec --no-startup-id /opt/zotero/zotero-bin -app /opt/zotero/application.ini -url, move scratchpad
+# exec --no-startup-id /opt/zotero/zotero-bin -app /opt/zotero/application.ini -url, move scratchpad
 
 workspace "$ws9" output $secondary_group
 
@@ -147,3 +147,4 @@ bindsym $mod+Ctrl+q focus parent,kill
 
 for_window [class="Google-chrome"] border none
 for_window [class="Element"] border none
+tiling_drag modifier

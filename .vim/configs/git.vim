@@ -6,6 +6,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tommcdo/vim-fubitive'
 Plug 'shumphrey/fugitive-gitlab.vim'
 Plug 'tpope/vim-rhubarb'
+Plug 'https://git.sr.ht/~willdurand/srht.vim'
 
 " fugitive plugin for branch management
 Plug 'sodapopcan/vim-twiggy'

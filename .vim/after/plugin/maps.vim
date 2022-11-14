@@ -126,7 +126,6 @@ cnoremap <C-h> <Left>
 cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
-imap <expr> <C-z> pumvisible() ? "<C-y>" :"<C-z>"
 
 " imap <C-i> <Esc>saiW_Wi
 " imap <C-b> <Esc>saiW*.Whi

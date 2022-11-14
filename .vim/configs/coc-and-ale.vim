@@ -96,6 +96,8 @@ nmap <silent> ]w <Plug>(ale_next_wrap)
 
 
 
+inoremap <silent><expr> <C-z> coc#pum#visible() ? coc#pum#confirm() : (pumvisible() ? "\<C-y>" : "\<C-z>")
+" inoremap <expr> <C-z> pumvisible() ? "<C-y>" :"<C-z>"
 
 
 " Remap <C-f> and <C-b> for scroll float windows/popups.

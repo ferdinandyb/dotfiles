@@ -85,6 +85,7 @@ set viminfo='100,<9999,s100
 
 
 " Use persistent history.
+set history=10000
 if has("nvim")
     set undodir=$HOME/.cache/nvim/undo
     set backupdir=$HOME/.cache/nvim/backup

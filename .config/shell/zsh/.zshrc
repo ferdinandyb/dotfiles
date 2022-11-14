@@ -9,8 +9,6 @@ HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=500000
 setopt appendhistory
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt nonomatch
 # # options that should be mostly pretty agreeable: from https://github.com/willghatch/zsh-saneopt/blob/master/saneopt.plugin.zsh

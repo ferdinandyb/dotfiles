@@ -233,3 +233,13 @@ Channel pharmahungary-folders
 Group pharmahungary-fast
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
+
+#####################
+###### GENERAL ######
+#####################
+
+Group inboxes
+Channel pharmahungary-inbox
+Channel formsense-inbox
+Channel priestoferis-inbox
+Channel elte-inbox

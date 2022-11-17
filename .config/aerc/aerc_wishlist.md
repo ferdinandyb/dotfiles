@@ -6,7 +6,6 @@
 - show new mail in account tab name (maybe with parentheses? [ticket](https://todo.sr.ht/~rjarry/aerc/82))
 - do not quit aerc with unsaved message open
 - attach glob should not list hidden unless flag? ([ticket](https://todo.sr.ht/~rjarry/aerc/83))
-- preview attachments somehow in the review-before-send-screen ([ticket](https://todo.sr.ht/~rjarry/aerc/86))
 - automatic draft saving during compose
 - maildir operation callback command? ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E))
 - undo message sending for X seconds? ([ticket](https://todo.sr.ht/~rjarry/aerc/84))
@@ -14,13 +13,14 @@
 - send encrypted email
 - gmail like warning when sender is using a different domain then the actual email?
 - when archiving the last message in a folder the tab should be closed and the view return to the account tab (showing the empty message list)
-- be able to toggle sidebar via `:set` (`set` seems to be broken)
+- be able to toggle sidebar
 - if a new mail arrives into an empty Inbox nothing is selected -> maybe something should be?
 - color different types of tabs differently
 - show "has attachment" icon in message list
 - sort setting with [ui:X=Y] seem to be broken
 - ability to have a "unified" notmuch account to show actual maildir account as
   receiving account
+- scrolling in view should scroll message instead of cycling through parts
 
 # solved
 
@@ -34,6 +34,7 @@
 - figure out the strings-all-over-the-terminal issue ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMCE8KH71EYW.389PSC31IBYBG%40mashenka%3E))
 - maildir support in notmuch accounts, likely via `notmuch insert` ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCME4HD5R5320.1OX7WHTBT4XPO%40mashenka%3E))
 - proper handling of message/rfc822 attachments ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMFX6Y1EK9IN.3EDGQCN38PELF%40mashenka%3E)) (wrote caeml utility + incoming patch from Koni handling eml)
+- preview attachments somehow in the review-before-send-screen ([ticket](https://todo.sr.ht/~rjarry/aerc/86))
 
 # proved unnecessary
 

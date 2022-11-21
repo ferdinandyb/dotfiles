@@ -5,9 +5,9 @@ let g:vimspector_install_gadgets = [ 'debugpy', 'CodeLLDB', 'delve' ]
 let g:vimspectorpy#tmux#split = "h"
 let g:vimspectorpy#tmux#size = 100
 " for normal mode - the word under the cursor
-nmap di <Plug>VimspectorBalloonEval
+nmap <leader>di <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
-xmap di <Plug>VimspectorBalloonEval
+xmap <leader>di <Plug>VimspectorBalloonEval
 
 nmap vc <Plug>VimspectorContinue
 nmap vs <Plug>VimspectorStop

@@ -10,8 +10,7 @@ Expunge Both
 IMAPAccount elte
 Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
-AuthMechs LOGIN
-PassCmd "pass show elte/microsoftonline.com/login | head -n1"
+PassCmd "/home/fbence/.config/emailconfiguration/mutt_oauth2.py /home/fbence/.config/emailconfiguration/eltetoken"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -243,3 +242,72 @@ Channel pharmahungary-inbox
 Channel formsense-inbox
 Channel priestoferis-inbox
 Channel elte-inbox
+
+######################
+#### testaccount ####
+######################
+
+IMAPAccount testaccount
+# Address to connect to
+Host imap.gmail.com
+User testbenceaerc@gmail.com
+PassCmd "/home/fbence/bin/mailctl access testaccount"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore testaccount-remote
+Account testaccount
+
+MaildirStore testaccount-local
+SubFolders Verbatim
+Path ~/.mail/testaccount/
+Inbox ~/.mail/testaccount/Inbox
+
+Channel testaccount-labels
+Far :testaccount-remote:
+Near :testaccount-local:
+Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash !zzzzzzz*
+
+Channel testaccount-zzzzzzz
+Far :testaccount-remote:
+Near :testaccount-local:
+Patterns zzzzzzz*
+
+Channel testaccount-inbox
+Far ":testaccount-remote:INBOX"
+Near ":testaccount-local:Inbox"
+
+Channel testaccount-sent
+Far ":testaccount-remote:[Gmail]/Elküldött levelek"
+Near ":testaccount-local:Sent"
+
+Channel testaccount-trash
+Far ":testaccount-remote:[Gmail]/Kuka"
+Near ":testaccount-local:Trash"
+
+Channel testaccount-drafts
+Far ":testaccount-remote:[Gmail]/Piszkozatok"
+Near ":testaccount-local:Drafts"
+
+Channel testaccount-archive
+Far ":testaccount-remote:[Gmail]/Összes levél"
+Near ":testaccount-local:Archive"
+
+Channel testaccount-spam
+Far ":testaccount-remote:[Gmail]/Spam"
+Near ":testaccount-local:Spam"
+
+Group testaccount
+Channel testaccount-inbox
+Channel testaccount-drafts
+Channel testaccount-trash
+Channel testaccount-sent
+Channel testaccount-labels
+Channel testaccount-spam
+Channel testaccount-archive
+Channel testaccount-zzzzzzz
+
+Group testaccount-fast
+Channel testaccount-inbox
+Channel testaccount-drafts
+Channel testaccount-labels

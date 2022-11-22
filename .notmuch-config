@@ -49,6 +49,7 @@ path=/home/fbence/.mail
 #
 [new]
 tags=inbox;unread
+ignore=.uidvalidity
 # Search configuration
 #
 # The following option is supported here:

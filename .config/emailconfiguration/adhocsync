@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # sync IMAP
-/home/fbence/.local/bin/mbsync elte-fast priestoferis-fast formsense-fast pharmahungary-fast
+/home/fbence/.local/bin/mbsync elte-fast priestoferis-fast formsense-fast pharmahungary-fast 2> >(xargs -r -I{} notify-send "mbsync error" {} --urgency=critical)
 # fix so I can send to sourcehut
 ls ~/.msmtp.queue/*msmtp | xargs -i sed -i "s/~rjarry\/aerc/u.rjarry.aerc/" {}
 # send all stuck emails
-/home/fbence/.local/bin/msmtp-queue -r
+/home/fbence/.local/bin/msmtp-queue -r 2> >(xargs -r -I{} notify-send "mstmpq error" {} --urgency=critical)
 # update notmuch
-/usr/local/bin/notmuch new
+/usr/local/bin/notmuch new 2> >(xargs -r -I{} notify-send "notmuch error" {} --urgency=critical)
 # snyc up notmuch tags
-/home/fbence/.config/emailconfiguration/syncnotmuchtag.py
+/home/fbence/.config/emailconfiguration/syncnotmuchtag.py 2> >(xargs -r -I{} notify-send "sync tag error" {} --urgency=critical)
 # set all unread emails not in mailbox to read
 # fd -E '*/Inbox/' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S

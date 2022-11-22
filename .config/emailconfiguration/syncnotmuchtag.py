@@ -14,7 +14,12 @@ def move_maildir(msg, folder):
     account = "/".join(path.split("/")[:5])
     account = account.replace("/.notmuch", "")
     filename = path.split("/")[-1]
-    name, uid, flags = filename.split(",")
+    print(filename)
+    try:
+        name, _, flags = filename.split(",")
+    except ValueError:
+        name, flags = filename.split(",")
+    
     os.rename(path, f"{account}/{folder}/cur/{name}:2,{flags}")
 
 

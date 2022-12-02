@@ -1,0 +1,25 @@
+#/bin/bash
+
+export ROS_MASTER_URI=http://192.168.0.200:11311
+export ROS_HOSTNAME=192.168.0.98 #your computer's IP
+
+if [ "$1" ];then
+    # also works with the simulation container
+    docker run -it \
+        --user=$(id -u $USER):$(id -g $USER) \
+        --env="DISPLAY" \
+        --env="ROS_MASTER_URI" \
+        --env="ROS_HOSTNAME" \
+        --net=host \
+        --workdir="/home/$USER" \
+        --volume="/home/$USER:/home/$USER" \
+        --volume="/etc/group:/etc/group:ro" \
+        --volume="/etc/passwd:/etc/passwd:ro" \
+        --volume="/etc/shadow:/etc/shadow:ro" \
+        --volume="/etc/sudoers.d:/etc/sudoers.d:ro" \
+        --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+        osrf/ros:melodic-desktop-full \
+        $1
+else
+    echo "call with something to run"
+fi

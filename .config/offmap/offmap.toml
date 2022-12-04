@@ -1,0 +1,6 @@
+maildir         = ".testmaildir"
+host            = "imap.gmail.com:993"
+username        = "testbenceaerc@gmail.com"
+password-cmd    = "/home/fbence/bin/mailctl access testaccount"
+auth-mech       = "oauth2"
+max-connections = 4

@@ -38,6 +38,7 @@
 	a = add -u
 	l = log --oneline --topo-order
 	ll = log --pretty=lineauthor --date=short --topo-order
+	lh = log --pretty=lineauthor --date=short --topo-order -10
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
 	wip = commit -asm 'wip'

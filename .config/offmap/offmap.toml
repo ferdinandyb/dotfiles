@@ -1,4 +1,5 @@
-maildir         = ".testmaildir"
+[testaccount]
+maildir         = "/home/fbence/.testmaildir"
 host            = "imap.gmail.com:993"
 username        = "testbenceaerc@gmail.com"
 password-cmd    = "/home/fbence/bin/mailctl access testaccount"

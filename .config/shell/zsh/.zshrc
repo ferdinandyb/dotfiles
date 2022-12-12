@@ -64,6 +64,9 @@ if [ -d $HOME/.pyenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
+export PATH=$PATH:/usr/local/go/bin
+
+
 eval "$(zoxide init zsh)"
 
 function confed(){

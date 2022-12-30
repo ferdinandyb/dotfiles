@@ -35,7 +35,7 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],
 \   'python': ['black', 'isort'],
-\   'go': ['gofmt']
+\   'go': ['gofumpt']
 \}
 
 autocmd CursorHold * silent call CocActionAsync('highlight')

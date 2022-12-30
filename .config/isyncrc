@@ -3,6 +3,67 @@ Sync Full
 Remove Both
 Expunge Both
 
+#######################
+######## BENCE   ######
+#######################
+
+IMAPAccount bence
+Host mail.ferdinandy.com
+User bence@ferdinandy.com
+AuthMechs LOGIN
+PassCmd "pass show email/ferdinandy/bence | head -n1"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore bence-remote
+Account bence
+
+MaildirStore bence-local
+SubFolders Verbatim
+Path ~/.mail/bence/
+Inbox ~/.mail/bence/Inbox
+
+Channel bence-folders
+Far :bence-remote:
+Near :bence-local:
+Patterns * !INBOX
+
+Channel bence-inbox
+Far ":bence-remote:INBOX"
+Near ":bence-local:Inbox"
+
+Group bence
+Channel bence-inbox
+Channel bence-folders
+
+Group bence-fast
+Channel bence-inbox
+Channel bence-folders
+
+##############
+#### ELOSZEREPJATEK ####
+##############
+
+IMAPAccount eloszerepjatek
+Host mail.ferdinandy.com
+User bence.ferdinandy@eloszerepjatek.hu
+PassCmd "pass show email/eloszerepjatek/bence | head -n1"
+TLSType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+IMAPStore eloszerepjatek-remote
+Account eloszerepjatek
+
+MaildirStore eloszerepjatek-local
+SubFolders Verbatim
+Path ~/.mail/eloszerepjatek/
+Inbox ~/.mail/eloszerepjatek/Inbox
+
+Channel eloszerepjatek
+Far :eloszerepjatek-remote:
+Near :eloszerepjatek-local:
+Patterns *
+
 ##############
 #### ELTE ####
 ##############
@@ -73,7 +134,7 @@ IMAPAccount priestoferis
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
-PassCmd "/home/fbence/bin/mailctl access priestoferis"
+PassCmd "/home/fbence/bin/mailctl access testpriestoferis"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -141,7 +202,7 @@ Channel priestoferis-labels
 IMAPAccount formsense
 Host imap.gmail.com
 User bence.ferdinandy@formsense.com
-PassCmd "/home/fbence/bin/mailctl access formsense"
+PassCmd "/home/fbence/bin/mailctl access testformsense"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -242,72 +303,4 @@ Channel pharmahungary-inbox
 Channel formsense-inbox
 Channel priestoferis-inbox
 Channel elte-inbox
-
-######################
-#### testaccount ####
-######################
-
-IMAPAccount testaccount
-# Address to connect to
-Host imap.gmail.com
-User testbenceaerc@gmail.com
-PassCmd "/home/fbence/bin/mailctl access testaccount"
-TLSType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-IMAPStore testaccount-remote
-Account testaccount
-
-MaildirStore testaccount-local
-SubFolders Verbatim
-Path ~/.mail/testaccount/
-Inbox ~/.mail/testaccount/Inbox
-
-Channel testaccount-labels
-Far :testaccount-remote:
-Near :testaccount-local:
-Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash !zzzzzzz*
-
-Channel testaccount-zzzzzzz
-Far :testaccount-remote:
-Near :testaccount-local:
-Patterns zzzzzzz*
-
-Channel testaccount-inbox
-Far ":testaccount-remote:INBOX"
-Near ":testaccount-local:Inbox"
-
-Channel testaccount-sent
-Far ":testaccount-remote:[Gmail]/Elküldött levelek"
-Near ":testaccount-local:Sent"
-
-Channel testaccount-trash
-Far ":testaccount-remote:[Gmail]/Kuka"
-Near ":testaccount-local:Trash"
-
-Channel testaccount-drafts
-Far ":testaccount-remote:[Gmail]/Piszkozatok"
-Near ":testaccount-local:Drafts"
-
-Channel testaccount-archive
-Far ":testaccount-remote:[Gmail]/Összes levél"
-Near ":testaccount-local:Archive"
-
-Channel testaccount-spam
-Far ":testaccount-remote:[Gmail]/Spam"
-Near ":testaccount-local:Spam"
-
-Group testaccount
-Channel testaccount-inbox
-Channel testaccount-drafts
-Channel testaccount-trash
-Channel testaccount-sent
-Channel testaccount-labels
-Channel testaccount-spam
-Channel testaccount-archive
-Channel testaccount-zzzzzzz
-
-Group testaccount-fast
-Channel testaccount-inbox
-Channel testaccount-drafts
-Channel testaccount-labels
+Channel bence-inbox

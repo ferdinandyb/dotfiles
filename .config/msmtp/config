@@ -36,9 +36,9 @@ from           ferdinandy.bence@ttk.elte.hu
 user           ferdinandy.bence@ttk.elte.hu
 passwordeval   /home/fbence/.config/emailconfiguration/mutt_oauth2.py /home/fbence/.config/emailconfiguration/eltetoken
 
-# securebox: ferdinandy
-account        ferdinandy
-host           mail.securebox.hu
+# ferdinandy: bence
+account        bence
+host           mail.ferdinandy.com
 port           465
 auth           on
 tls            on
@@ -46,7 +46,19 @@ tls_starttls   off
 tls_certcheck  on
 from           bence@ferdinandy.com
 user           bence@ferdinandy.com
-passwordeval   "pass show web/webmail.securebox.hu/ferdinandy | head -n1"
+passwordeval   "pass show email/ferdinandy/bence | head -n1"
+
+# eloszerepjatek: bence
+account        eloszerepjatek
+host           mail.ferdinandy.com
+port           465
+auth           on
+tls            on
+tls_starttls   off
+tls_certcheck  on
+from           bence.ferdinandy@eloszerepjatek.hu
+user           bence.ferdinandy@eloszerepjatek.hu
+passwordeval   "pass show email/eloszerepjatek/bence | head -n1"
 
 # securebox: pharmahungary
 account        pharmahungary
@@ -61,4 +73,4 @@ user           bence.ferdinandy@pharmahungary.com
 passwordeval   "pass show web/webmail.securebox.hu/pharmahungary | head -n1"
 
 # Set a default account
-account default : ferdinandy
+account default : bence

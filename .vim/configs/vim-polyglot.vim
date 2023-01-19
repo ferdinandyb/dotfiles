@@ -2,7 +2,8 @@ Plug 'sheerun/vim-polyglot'
 
 let g:polyglot_disabled = [
             \'sensible',
-            \'markdown.plugin',
+            \'markdown',
             \'python',
             \'vue',
-            \'javascript']
+            \'javascript',
+            \'csv']

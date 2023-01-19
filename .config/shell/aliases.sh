@@ -15,7 +15,7 @@ alias tls="tmux ls"
 alias tns="tmux new -s"
 alias tna="tmux new-session -t"
 alias ta="tmux attach -t"
-alias jn="PYENV_VERSION=jupyter jupyter notebook"
+alias jn="jupyter notebook"
 alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias r='. ranger'

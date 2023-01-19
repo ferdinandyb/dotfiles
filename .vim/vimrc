@@ -144,17 +144,16 @@ Plug 'elzr/vim-json'
 " PYTHON
 " python code folding
 Plug 'tmhedberg/SimpylFold'
-" python textobjects: isn't this covered by the LSP?
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'untitled-ai/jupyter_ascending.vim'
+Plug 'goerz/jupytext.vim'
+
+" python textobjects: isn't this covered by the LSP?
 Plug 'Konfekt/FastFold'
 Plug 'vim-scripts/LargeFile'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
 "
-Plug 'untitled-ai/jupyter_ascending.vim'
-Plug 'jupyter-vim/jupyter-vim'
-Plug 'goerz/jupytext.vim'
-
 Plug 'Fymyte/mbsync.vim'
 if has('nvim')
     Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }

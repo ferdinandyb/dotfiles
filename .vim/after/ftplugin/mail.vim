@@ -12,4 +12,4 @@ augroup END " }
 " let b:auto_save = 1
 " let b:auto_save_events = ["InsertLeave", "TextChanged"]
 
-nmap o 3]<space>jji
+nmap <C-o> 3]<space>jji

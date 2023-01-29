@@ -1,6 +1,6 @@
 
 
---
+-- 
 Bence Ferdinandy, PhD
 
 R&D associate, Pharmahungary Group

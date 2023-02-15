@@ -17,6 +17,7 @@ let g:airline_right_sep = ''
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#searchcount#enabled = 0
 let g:airline_detect_spell=1
 let g:airline_detect_spelllang=1
 let g:airline_experimental=1

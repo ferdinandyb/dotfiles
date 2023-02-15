@@ -3,7 +3,7 @@ X-Mailer: aerc {{version}}
 
 On {{dateFormat (.OriginalDate | toLocal) "Mon Jan 02, 2006 at 15:04"}}, {{(index .OriginalFrom 0).Name}} wrote:
 {{ if eq .OriginalMIMEType "text/html" -}}
-{{- exec `~/.local/softwarefromsource/aerc/filters/html` .OriginalText | quote -}}
+{{- trimSignature (exec `~/.local/softwarefromsource/aerc/filters/html` .OriginalText) | quote -}}
 {{- else -}}
 {{- trimSignature .OriginalText | quote -}}
 {{- end}}

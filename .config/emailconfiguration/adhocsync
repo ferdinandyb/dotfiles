@@ -12,4 +12,4 @@
 # snyc up notmuch tags
 /home/fbence/.config/emailconfiguration/syncnotmuchtag.py 2> >(xargs -r -I{} notify-send "sync tag error" {} --urgency=critical)
 # set all unread emails not in mailbox to read
-# fd -E '*/Inbox/' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S
+fd -E '*/Inbox/' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S

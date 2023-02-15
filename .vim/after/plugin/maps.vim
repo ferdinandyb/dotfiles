@@ -87,7 +87,6 @@ omap iq <Plug>(textobj-sandwich-query-i)
 xmap aq <Plug>(textobj-sandwich-query-a)
 omap aq <Plug>(textobj-sandwich-query-a)
 
-inoremap jj <Esc>
 
 " format paragraph
 nnoremap <leader>q gqap
@@ -142,7 +141,9 @@ nnoremap <F7> :NERDTreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 " spelling
-nnoremap zó 1z=
+nnoremap zü 1z=
+nnoremap z> 1z=
+
 
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y

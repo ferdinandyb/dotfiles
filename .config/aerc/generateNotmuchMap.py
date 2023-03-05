@@ -1,11 +1,4 @@
-MAILDIRS = [
-    "elte",
-    "priestoferis",
-    "formsense",
-    "pharmahungary",
-    "elte",
-    "bence"
-]
+MAILDIRS = ["elte", "priestoferis", "pharmahungary", "elte", "bence"]
 
 FOLDERS = [
     "Inbox",
@@ -43,12 +36,10 @@ with open("notmuchmap.conf", "w") as f:
 
     # FOLDERS
     for folder in FOLDERS:
-        s = f'{folder}=('
+        s = f"{folder}=("
         for i, m in enumerate(MAILDIRS):
             s += f"path:{m}/{folder}/**"
             if i != len(MAILDIRS) - 1:
                 s += " or "
         s += ') and not tag:aerc}"\n'
         f.write(s)
-
-

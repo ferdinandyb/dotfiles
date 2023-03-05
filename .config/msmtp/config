@@ -15,16 +15,6 @@ from           priestoferis@gmail.com
 user           priestoferis@gmail.com
 passwordeval   /home/fbence/bin/mailctl access priestoferis
 
-# Formsense
-account        formsense
-host           smtp.gmail.com
-port           587
-auth           oauthbearer
-tls_starttls   on
-from           bence.ferdinandy@formsense.com
-user           bence.ferdinandy@formsense.com
-passwordeval   /home/fbence/bin/mailctl access formsense
-
 # ELTE
 account        elte
 host           smtp.office365.com

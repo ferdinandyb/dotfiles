@@ -19,7 +19,7 @@ def move_maildir(msg, folder):
         name, _, flags = filename.split(",")
     except ValueError:
         name, flags = filename.split(",")
-    
+
     os.rename(path, f"{account}/{folder}/cur/{name}:2,{flags}")
 
 
@@ -53,13 +53,12 @@ del msgs
 
 path1 = "elte/Inbox/**"
 path2 = "priestoferis/Inbox/**"
-path3 = "formsense/Inbox/**"
 path4 = "pharmahungary/Inbox/**"
 path5 = "bence/Inbox/**"
 
 msgs = Query(
     db,
-    f"tag:inbox and not (path:{path1} or path:{path2} or path:{path3} or path:{path4} or path:{path5})",
+    f"tag:inbox and not (path:{path1} or path:{path2} or path:{path4} or path:{path5})",
 ).search_messages()
 
 for msg in msgs:
@@ -69,7 +68,7 @@ del msgs
 
 msgs = Query(
     db,
-    f"(path:{path1} or path:{path2} or path:{path3} or path:{path4} or path:{path5}) and not tag:inbox",
+    f"(path:{path1} or path:{path2} or path:{path4} or path:{path5}) and not tag:inbox",
 ).search_messages()
 
 for msg in msgs:

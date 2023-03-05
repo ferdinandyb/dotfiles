@@ -31,7 +31,7 @@ path=/home/fbence/.mail
 # [user]
 # name=Bence Ferdinandy
 # primary_email=bence@ferdinandy.com
-# other_email=priestoferis@gmail.com;bence.ferdinandy@formsense.com;ferdinandy.bence@ttk.elte.hu;
+# other_email=priestoferis@gmail.com;ferdinandy.bence@ttk.elte.hu;
 
 # Configuration for "notmuch new"
 #

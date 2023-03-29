@@ -30,7 +30,12 @@ if !exists("g:lightweight")
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'preservim/tagbar'
     " adds a context line to where you are
-    Plug 'wellle/context.vim'
+    if has('nvim')
+        Plug 'nvim-treesitter/nvim-treesitter'
+        Plug 'nvim-treesitter/nvim-treesitter-context'
+    " else
+    "     Plug 'wellle/context.vim'
+    endif
     " dispatch commands in the background
     Plug 'tpope/vim-dispatch'
     " run tests with e.g. Dispatch

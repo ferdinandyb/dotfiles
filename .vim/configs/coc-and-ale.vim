@@ -5,7 +5,7 @@ Plug 'dense-analysis/ale'
 " https://github.com/neoclide/coc.nvim/pull/3862
 let s:cocextensions = [
     \ 'coc-json',
-    \ 'coc-vetur',
+    \ 'coc-volar',
     \ 'coc-pyright',
     \ 'coc-snippets',
     \ 'coc-tag',
@@ -30,12 +30,14 @@ let g:ale_disable_lsp = 1
 
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'vue': ['eslint'],
 \   'python': ['pylint']
 \}
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],
 \   'python': ['black', 'isort'],
-\   'go': ['gofumpt']
+\   'go': ['gofumpt'],
+\   'vue': ['prettier']
 \}
 
 autocmd CursorHold * silent call CocActionAsync('highlight')

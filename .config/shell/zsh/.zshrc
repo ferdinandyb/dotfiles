@@ -82,6 +82,7 @@ source $HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 source $HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $HOME/.local/share/zsh/ohmyzsh/plugins/dirhistory/dirhistory.plugin.zsh
+source $HOME/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
 
 zvm_after_init() {
   # Auto-completion
@@ -117,3 +118,10 @@ _fzf_compgen_dir() {
 }
 
 . "$HOME/.cargo/env"
+
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null

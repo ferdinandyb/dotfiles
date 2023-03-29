@@ -25,6 +25,7 @@
 	defaultBranch = master
 [rebase]
 	autoSquash = true
+	autoStash = true
 #TODO just copied this, so do a readup
 [alias]
 	s = status --short --branch
@@ -32,7 +33,7 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	rp = reset -p HEAD^
-	ci = commit -s
+	cs = commit -s
 	ca = commit --amend
 	can = commit --amend --no-edit
 	co = checkout
@@ -40,8 +41,10 @@
 	l = log --oneline --topo-order
 	ll = log --pretty=lineauthor --date=short --topo-order
 	lh = log --pretty=lineauthor --date=short --topo-order -10
+	lm = log --pretty=lineauthor --date=short --topo-order origin^..
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
+	fp = commit --fixup
 	wip = commit -asm 'wip'
 [pull]
 	rebase = true

@@ -2,7 +2,7 @@
 Version=1.0
 Name=Trello
 Comment=Trello as a Chrome app
-Exec=/opt/google/chrome/chrome --app=https://trello.com/benceferdinandy/boards
+Exec=/usr/bin/brave-browser --app=https://trello.com/benceferdinandy/boards
 Icon=trello
 Terminal=false
 StartupWMClass=TrelloDesktop

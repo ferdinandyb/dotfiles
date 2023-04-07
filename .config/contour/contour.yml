@@ -111,7 +111,7 @@ mouse_block_selection_modifier: Control
 #                               This is not supported on all platforms.
 #
 # Default: CopyToSelectionClipboard
-on_mouse_select: CopyToSelectionClipboard
+on_mouse_select: CopyToClipboard
 
 # Inline image related default configuration and limits
 # -----------------------------------------------------
@@ -155,7 +155,7 @@ profiles:
 
         # When this profile is *activated*, this flag decides
         # whether or not the title bar will be shown
-        show_title_bar: true
+        show_title_bar: false
         # When this profile is being *activated*, this flag decides
         # whether or not to put the terminal's screen into fullscreen mode.
         #
@@ -196,7 +196,7 @@ profiles:
 
         history:
             # Number of lines to preserve (-1 for infinite).
-            limit: 1000
+            limit: 10000
             # Boolean indicating whether or not to scroll down to the bottom on screen updates.
             auto_scroll_on_update: true
             # Number of lines to scroll on ScrollUp & ScrollDown events.
@@ -206,7 +206,7 @@ profiles:
         # visual scrollbar support
         scrollbar:
             # scroll bar position: Left, Right, Hidden (ignore-case)
-            position: right
+            position: Hidden
             # whether or not to hide the scrollbar when in alt-screen.
             hide_in_alt_screen: true
 
@@ -224,11 +224,12 @@ profiles:
             # Allows capturing the screen buffer via `CSI > Pm ; Ps ; Pc ST`.
             # The response can be read from stdin as sequence `OSC 314 ; <screen capture> ST`
             capture_buffer: ask
+            display_host_writable_statusline: deny
 
         # Font related configuration (font face, styles, size, rendering mode).
         font:
             # Initial font size in pixels.
-            size: 12
+            size: 13
 
             # DPI scaling factor applied on top of the system configured on (default: 1.0).
             dpi_scale: 1.0
@@ -269,7 +270,7 @@ profiles:
 
             # Indicates whether or not to include *only* monospace fonts in the font and
             # font-fallback list (Default: true).
-            strict_spacing: true
+            strict_spacing: false
 
             # Font family to use for displaying text.
             #
@@ -279,12 +280,12 @@ profiles:
             regular:
                 # Font family defines the font family name, such as:
                 # Fira Code", "Courier New", or "monospace" (default).
-                family: "monospace"
+                family: "CaskaydiaCove Nerd Font Light"
 
                 # Font weight can be one of:
                 #   thin, extra_light, light, demilight, book, normal,
                 #   medium, demibold, bold, extra_bold, black, extra_black.
-                weight: regular
+                weight: light
 
                 # Font slant can be one of: normal, italic, oblique.
                 slant: normal
@@ -300,9 +301,9 @@ profiles:
 
             # If bold/italic/bold_italic are not explicitely specified, the regular font with
             # the respective weight and slant will be used.
-            #bold: "Hack"
-            #italic: "Hack"
-            #bold_italic: "Hack"
+            bold: "CaskaydiaCove Nerd Font Semibold"
+            italic: "CaskaydiaCove Nerd Font Light Italic"
+            bold_italic: "CaskaydiaCove Nerd Font Semibold Italic"
 
             # This is a special font to be used for displaying unicode symbols
             # that are to be rendered in emoji presentation.
@@ -364,7 +365,7 @@ profiles:
             blur: false
 
         # Specifies a colorscheme to use (alternatively the colors can be inlined).
-        colors: "default"
+        colors: "dracula"
 
         # If true, bold text is also using bright colors as well.
         #
@@ -384,6 +385,79 @@ profiles:
 # You may alternatively use 0x as prefix instead of #.
 # For example 0x102030 is equal to '#102030'.
 color_schemes:
+    dracula:  # Imported from Alacritty
+          default:
+            background: '0x282a36'
+            foreground: '0xf8f8f2'
+
+          cursor:
+              default: CellForeground
+              text: CellBackground
+
+          hyperlink_decoration:
+              normal: '#f0f000'
+              hover: '#ff0000'
+
+          vi_mode_highlight:
+              foreground: CellForeground
+              foreground_alpha: 1.0
+              background: '#fcf75e'
+              background_alpha: 1.0
+
+          selection:
+              foreground: '#000000'
+              foreground_alpha: 1.0
+              background: '#d0d0d0'
+              background_alpha: 1.0
+
+          search_highlight:
+              foreground: '#000000'
+              background: '#fcf75e'
+              foreground_alpha: 1.0
+              background_alpha: 1.0
+
+          search_highlight_focused:
+              foreground: '#d0d0d0'
+              background: '#646225'
+              foreground_alpha: 1.0
+              background_alpha: 1.0
+
+          indicator_statusline:
+              foreground: '0xe6e6d1'
+              background: '0x14151b'
+
+          indicator_statusline_inactive:
+              foreground: '0xbfbfbf'
+              background: '0x000000'
+
+          normal:
+            black:   '0x000000'
+            red:     '0xff5555'
+            green:   '0x50fa7b'
+            yellow:  '0xf1fa8c'
+            blue:    '0xbd93f9'
+            magenta: '0xff79c6'
+            cyan:    '0x8be9fd'
+            white:   '0xbfbfbf'
+          bright:
+            black:   '0x4d4d4d'
+            red:     '0xff6e67'
+            green:   '0x5af78e'
+            yellow:  '0xf4f99d'
+            blue:    '0xcaa9fa'
+            magenta: '0xff92d0'
+            cyan:    '0x9aedfe'
+            white:   '0xe6e6e6'
+          dim:
+            black:   '0x14151b'
+            red:     '0xff2222'
+            green:   '0x1ef956'
+            yellow:  '0xebf85b'
+            blue:    '0x4d5b86'
+            magenta: '0xff46b0'
+            cyan:    '0x59dffc'
+            white:   '0xe6e6d1'
+
     default:
         # Default colors
         default:

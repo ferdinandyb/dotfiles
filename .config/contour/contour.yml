@@ -622,13 +622,16 @@ color_schemes:
 # - CopySelection     Copies the current selection into the clipboard buffer.
 # - DecreaseFontSize  Decreases the font size by 1 pixel.
 # - DecreaseOpacity   Decreases the default-background opacity by 5%.
+# - FocusNextSearchMatch     Focuses the next search match (if any).
+# - FocusPreviousSearchMatch Focuses the next previous match (if any).
 # - FollowHyperlink   Follows the hyperlink that is exposed via OSC 8 under the current cursor position.
 # - IncreaseFontSize  Increases the font size by 1 pixel.
 # - IncreaseOpacity   Increases the default-background opacity by 5%.
 # - NewTerminal       Spawns a new terminal at the current terminals current working directory.
+# - NoSearchHighlight Disables current search highlighting, if anything is still highlighted due to a prior search.
 # - OpenConfiguration Opens the configuration file.
 # - OpenFileManager   Opens the current working directory in a system file manager.
-# - PasteClipboard    Pastes clipboard to standard input.
+# - PasteClipboard    Pastes clipboard to standard input. Pass boolean parameter 'strip' to indicate whether or not to strip repetitive whitespaces down to one and newlines to whitespaces.
 # - PasteSelection    Pastes current selection to standard input.
 # - Quit              Quits the application.
 # - ReloadConfig      Forces a configuration reload.
@@ -645,14 +648,19 @@ color_schemes:
 # - ScrollToBottom    Scrolls to the bottom of the screen buffer.
 # - ScrollToTop       Scrolls to the top of the screen buffer.
 # - ScrollUp          Scrolls up by the multiplier factor.
+# - SearchReverse     Initiates search mode (starting to search at current cursor position, moving upwards).
 # - SendChars         Writes given characters in `chars` member to the applications input.
 # - ToggleAllKeyMaps  Disables/enables responding to all keybinds (this keybind will be preserved when disabling all others).
 # - ToggleFullScreen  Enables/disables full screen mode.
 # - ToggleInputProtection Enables/disables terminal input protection.
 # - ToggleStatusLine  Shows/hides the VT320 compatible Indicator status line.
 # - ToggleTitleBar    Shows/Hides titlebar
-# - ViNormalMode      Enters Vi-like normal mode. The cursor can then be moved via h/j/k/l movements and text can be selected via v, yanked via y, and clipboard pasted via p.
-# - WriteScreen       Writes VT sequence in `chars` member to the screen (bypassing the application).
+# - TraceBreakAtEmptyQueue Executes any pending VT sequence from the VT sequence buffer in trace mode, then waits.
+# - TraceEnter        Enables trace mode, suspending execution until explicitly requested to continue (See TraceLeave and TraceStep).
+# - TraceLeave        Disables trace mode. Any pending VT sequence will be flushed out and normal execution will be resumed.
+# - TraceStep         Executes a single VT sequence that is to be executed next.
+# - ViNormalMode      Enters/Leaves Vi-like normal mode. The cursor can then be moved via h/j/k/l movements in normal mode and text can be selected via v, yanked via y, and clipboard pasted vi a p.
+# - WriteScreen       Writes VT sequence in `chars` member to the screen (bypassing the application).#
 
 input_mapping:
     - { mods: [Control],        mouse: Left,        action: FollowHyperlink }
@@ -668,11 +676,11 @@ input_mapping:
     - { mods: [Control, Shift], key: Minus,         action: DecreaseFontSize }
     - { mods: [Control, Shift], key: '_',           action: DecreaseFontSize }
     - { mods: [Control, Shift], key: N,             action: NewTerminal }
-    - { mods: [Control, Shift], key: C,             action: CopySelection }
-    - { mods: [Control, Shift], key: V,             action: PasteClipboard }
+    - { mods: [Control, Shift], key: V,             action: PasteClipboard, strip: false }
+    - { mods: [Control, Alt],   key: V,             action: PasteClipboard, strip: true }
     - { mods: [Control],        key: C,             action: CopySelection, mode: 'Select|Insert' }
     - { mods: [Control],        key: C,             action: CancelSelection, mode: 'Select|Insert' }
-    - { mods: [Control],        key: V,             action: PasteClipboard, mode: 'Select|Insert' }
+    - { mods: [Control],        key: V,             action: PasteClipboard, strip: false, mode: 'Select|Insert' }
     - { mods: [Control],        key: V,             action: CancelSelection, mode: 'Select|Insert' }
     - { mods: [],               key: Escape,        action: CancelSelection, mode: 'Select|Insert' }
     - { mods: [Control, Shift], key: Space,         action: ViNormalMode, mode: 'Insert' }
@@ -692,3 +700,7 @@ input_mapping:
     - { mods: [Shift],          mouse: WheelUp,     action: ScrollPageUp }
     - { mods: [Control, Alt],   key: O,             action: OpenFileManager }
     - { mods: [Control, Alt],   key: '.',           action: ToggleStatusLine }
+    - { mods: [Control, Shift], key: 'F',           action: SearchReverse }
+    - { mods: [Control, Shift], key: 'H',           action: NoSearchHighlight }
+    - { mods: [],               key: 'F3',          action: FocusNextSearchMatch }
+    - { mods: [Shift],          key: 'F3',          action: FocusPreviousSearchMatch }

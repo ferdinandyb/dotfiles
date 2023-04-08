@@ -87,18 +87,18 @@ source $HOME/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
 zvm_after_init() {
   # Auto-completion
   # ---------------
-  [[ $- == *i* ]] && source "/home/fbence/.fzf/shell/completion.zsh" 2> /dev/null
+  [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
   # Key bindings
   # ------------
-  source "/home/fbence/.fzf/shell/key-bindings.zsh"
+  source "$HOME/.fzf/shell/key-bindings.zsh"
   bindkey "\C-z" autosuggest-accept
   # bindkey "^M" autosuggest-accept
 }
 # Setup fzf
 # ---------
-if [[ ! "$PATH" == */home/fbence/.fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}/home/fbence/.fzf/bin"
+if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
+  export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
 export FZF_DEFAULT_COMMAND='fd --type f'

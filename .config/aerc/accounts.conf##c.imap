@@ -1,0 +1,12 @@
+# [bence]
+# source=imaps://bence%40ferdinandy.com@mail.ferdinandy.com
+# source-cred-cmd="pass show email/ferdinandy/bence | head -n1"
+# outgoing=msmtpq -a bence
+# from=Bence Ferdinandy <bence@ferdinandy.com>
+# default=INBOX
+# folders-sort=INBOX
+# copy-to=Sent
+# pgp-key-id=D92449B0F2D9363A2DE3260B207C0A2055199A65
+# pgp-auto-sign=false
+# pgp-opportunistic-encrypt=false
+# signature-file=/home/fbence/.config/emailconfiguration/ferdinandy_signature.txt

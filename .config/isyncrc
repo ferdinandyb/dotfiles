@@ -134,7 +134,7 @@ IMAPAccount priestoferis
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
-PassCmd "/home/fbence/bin/mailctl access testpriestoferis"
+PassCmd "/home/fbence/bin/mailctl access priestoferis"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 

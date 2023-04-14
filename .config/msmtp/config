@@ -13,7 +13,7 @@ auth           oauthbearer
 tls_starttls   on
 from           priestoferis@gmail.com
 user           priestoferis@gmail.com
-passwordeval   /home/fbence/bin/mailctl access priestoferis
+passwordeval   mailctl access priestoferis
 
 # ELTE
 account        elte
@@ -24,7 +24,7 @@ tls_starttls   on
 tls_certcheck  on
 from           ferdinandy.bence@ttk.elte.hu
 user           ferdinandy.bence@ttk.elte.hu
-passwordeval   /home/fbence/.config/emailconfiguration/mutt_oauth2.py /home/fbence/.config/emailconfiguration/eltetoken
+passwordeval   mailctl access ferdinandy.bence@ttk.elte.hu
 
 # ferdinandy: bence
 account        bence

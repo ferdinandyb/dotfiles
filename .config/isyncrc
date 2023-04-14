@@ -71,7 +71,7 @@ Patterns *
 IMAPAccount elte
 Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
-PassCmd "/home/fbence/.config/emailconfiguration/mutt_oauth2.py /home/fbence/.config/emailconfiguration/eltetoken"
+PassCmd "mailctl access ferdinandy.bence@ttk.elte.hu"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -134,7 +134,7 @@ IMAPAccount priestoferis
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
-PassCmd "/home/fbence/bin/mailctl access priestoferis"
+PassCmd "mailctl access priestoferis"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 

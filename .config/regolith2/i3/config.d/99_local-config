@@ -148,3 +148,5 @@ bindsym $mod+Ctrl+q focus parent,kill
 for_window [class="Google-chrome"] border none
 for_window [class="Element"] border none
 tiling_drag modifier
+assign [class="rviz"] workspace $ws2
+assign [class="Gazeb"] workspace $ws2

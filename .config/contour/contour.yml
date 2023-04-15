@@ -122,7 +122,7 @@ images:
     sixel_register_count: 4096
     # If enabled, the ANSI text cursor is placed at the position of the sixel graphics cursor after
     # image rendering, otherwise (if disabled) the cursor is placed underneath the image.
-    sixel_cursor_conformance: true
+    # sixel_cursor_conformance: true
     # maximum width in pixels of an image to be accepted (0 defaults to system screen pixel width)
     max_width: 0
     # maximum height in pixels of an image to be accepted (0 defaults to system screen pixel height)
@@ -310,7 +310,7 @@ profiles:
             # Defaults to "emoji".
             emoji: "emoji"
 
-        bold_is_bright: false
+        # bold_is_bright: false
 
         # Terminal cursor display configuration
         cursor:

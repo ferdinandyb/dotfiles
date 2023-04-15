@@ -29,9 +29,9 @@ signature-file=/home/fbence/.config/emailconfiguration/ferdinandy_signature.txt
 # check-mail=1m
 
 [pharmahungary]
-source=imaps://bence.ferdinandy%40pharmahungary.com@mail.securebox.com
+source=imaps://bence.ferdinandy%40pharmahungary.com@mail.securebox.hu
 source-cred-cmd="pass show web/webmail.securebox.hu/pharmahungary | head -n1"
-outgoing=smtps://bence.ferdinandy%40pharmahungary.com@mail.securebox.com
+outgoing=smtps://bence.ferdinandy%40pharmahungary.com@mail.securebox.hu
 outgoing-cred-cmd="pass show web/webmail.securebox.hu/pharmahungary | head -n1"
 from=Bence Ferdinandy <bence.ferdinandy@pharmahungary.com>
 default=INBOX

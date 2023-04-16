@@ -8,13 +8,21 @@ I choose [yadm](https://github.com/TheLocehiliosan/yadm) because it is basically
 a bare git repo if I don't need anything fancy, meaning the structure and files
 are the same as on the machine, but it has the fancy things I occasionally need.
 
-`.local/bin/yamdlistall` will list all files managed by `yamd` until hopefully
-`yamd` will have a built-in [solution
+`.local/bin/yadmlistall` will list all files managed by `yadm` until hopefully
+`yadm` will have a built-in [solution
 ](https://github.com/TheLocehiliosan/yadm/issues/392).
+
+### alternates
+
+Way to set the alternates:
+`yadm config local.class imap`
+
+Current existing alternates:
+ - class = imap: set aerc to use imap instead of maildir
 
 ### bootstrap and update
 
-Bootstrap will run on every `yadm clone` and `yadm pull`, so make bootstrap be
+Bootstrap will run on every `yadm clone` and `yadm pull`, so make bootstrap
 idempotent.
 
 ## Desktop

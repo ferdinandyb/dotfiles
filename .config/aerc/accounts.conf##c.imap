@@ -15,7 +15,7 @@ signature-file=/home/fbence/.config/emailconfiguration/ferdinandy_signature.txt
 [elte]
 source=imaps+xoauth2://ferdinandy.bence%40ttk.elte.hu@outlook.office365.com
 source-cred-cmd="mailctl access ferdinandy.bence@ttk.elte.hu"
-outgoing=smtps+xoauth2://ferdinandy.bence%40ttk.elte.hu@smtp.office365.com
+outgoing=smtp+xoauth2://ferdinandy.bence%40ttk.elte.hu@smtp.office365.com
 outgoing-cred-cmd="mailctl access ferdinandy.bence@ttk.elte.hu"
 from=Bence Ferdinandy <ferdinandy.bence@ttk.elte.hu>
 aliases=Bence Ferdinandy <fbence@elte.hu>

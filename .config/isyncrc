@@ -11,7 +11,7 @@ IMAPAccount bence
 Host mail.ferdinandy.com
 User bence@ferdinandy.com
 AuthMechs LOGIN
-PassCmd "pass show email/ferdinandy/bence | head -n1"
+PassCmd "pass show aerc/bence | head -n1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -204,7 +204,7 @@ IMAPAccount pharmahungary
 Host mail.securebox.hu
 User bence.ferdinandy@pharmahungary.com
 AuthMechs LOGIN
-PassCmd "pass show web/webmail.securebox.hu/pharmahungary | head -n1"
+PassCmd "pass show aerc/pharmahungary | head -n1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -232,6 +232,7 @@ Channel pharmahungary-folders
 Group pharmahungary-fast
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
+
 
 #####################
 ###### GENERAL ######

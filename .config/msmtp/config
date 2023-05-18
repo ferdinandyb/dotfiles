@@ -36,7 +36,7 @@ tls_starttls   off
 tls_certcheck  on
 from           bence@ferdinandy.com
 user           bence@ferdinandy.com
-passwordeval   "pass show email/ferdinandy/bence | head -n1"
+passwordeval   "pass show aerc/bence | head -n1"
 
 # eloszerepjatek: bence
 account        eloszerepjatek
@@ -60,7 +60,7 @@ tls_starttls   off
 tls_certcheck  on
 from           bence.ferdinandy@pharmahungary.com
 user           bence.ferdinandy@pharmahungary.com
-passwordeval   "pass show web/webmail.securebox.hu/pharmahungary | head -n1"
+passwordeval   "pass show aerc/pharmahungary | head -n1"
 
 # Set a default account
 account default : bence

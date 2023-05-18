@@ -6,9 +6,12 @@
 - when modify-labels move the message out of the message list select the next message
 - currently, you need to run a `check-mail` command to update the view, but it would be good to have this without needing any `check-mail` command
 
-## non notmuch related
+## imap related
+- rename folders like isync
+- be able to handle root dirs where everything is under `INBOX.`
+
+## other
 - see side pane when messages are opened
-- show new mail in account tab name (maybe with parentheses? [ticket](https://todo.sr.ht/~rjarry/aerc/82))
 - do not quit aerc with unsaved message open
 - attach glob should not list hidden unless flag? ([ticket](https://todo.sr.ht/~rjarry/aerc/83))
 - automatic draft saving during compose
@@ -39,6 +42,7 @@
 - maildir support in notmuch accounts, likely via `notmuch insert` ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCME4HD5R5320.1OX7WHTBT4XPO%40mashenka%3E))
 - proper handling of message/rfc822 attachments ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMFX6Y1EK9IN.3EDGQCN38PELF%40mashenka%3E)) (wrote caeml utility + incoming patch from Koni handling eml)
 - preview attachments somehow in the review-before-send-screen ([ticket](https://todo.sr.ht/~rjarry/aerc/86))
+- show new mail in account tab name (maybe with parentheses? [ticket](https://todo.sr.ht/~rjarry/aerc/82))
 
 # proved unnecessary
 

@@ -41,5 +41,8 @@ with open("notmuchmap.conf", "w") as f:
             s += f"path:{m}/{folder}/**"
             if i != len(MAILDIRS) - 1:
                 s += " or "
-        s += ') and not tag:aerc}"\n'
+        if folder == "Archive":
+            s += ' or path:oldmail/**) and not tag:aerc"\n'
+        else:
+            s += ') and not tag:aerc"\n'
         f.write(s)

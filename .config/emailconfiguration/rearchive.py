@@ -20,9 +20,13 @@ def main(path):
     for i, msgpath in enumerate(Path(path).glob("cur/*")):
         print(msgpath)
         msg = parser.parse(open(msgpath, "rb"), headersonly=True)
+        print(msg["date"])
         if msg["date"] is None:
             continue
-        dateheader = msg["date"].replace("Date:", "")
+        try:
+            dateheader = msg["date"].replace("Date:", "")
+        except AttributeError:
+            pass
         try:
             date = dateparser.parse(dateheader)
         except dateparser.ParserError:

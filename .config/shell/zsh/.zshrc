@@ -125,3 +125,15 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
+
+source $HOME/.local/softwarefromsource/contour/src/contour/shell-integration/shell-integration.zsh
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+# fnm
+export PATH="/home/fbence/.fnm:$PATH"
+eval "`fnm env`"
+
+[ -f "/home/fbence/.ghcup/env" ] && source "/home/fbence/.ghcup/env" # ghcup-env

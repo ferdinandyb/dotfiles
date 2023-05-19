@@ -1,0 +1,13 @@
+[Unit]
+Description=Mail Sync high frequency
+#OnFailure=status-email-user@%n.service
+After=local-fs.target
+After=network.target
+
+
+[Service]
+Type=oneshot
+ExecStart=/home/fbence/.config/emailconfiguration/mailsync-high
+
+
+# https://usher.dev/posts/my-email-setup/

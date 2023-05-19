@@ -1,5 +1,5 @@
 [Unit]
-Description=fast mail sync timer
+Description=Mail Sync high frequency timer
 
 [Timer]
 OnBootSec=2min

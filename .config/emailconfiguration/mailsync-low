@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# generate addressbook
+maildir-rank-addr
+
+# move any email older than 1 year from flat Archive to Archive/year
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Archive
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Archive
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Archive
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Archive
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Sent

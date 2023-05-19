@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Sync all channels
+/home/fbence/.local/bin/mbsync -a 2> >(xargs -r -I{} notify-send "mbsync error" {} --urgency=critical)

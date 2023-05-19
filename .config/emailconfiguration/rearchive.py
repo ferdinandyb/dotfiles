@@ -1,4 +1,5 @@
 import argparse
+import re
 from datetime import datetime, timezone
 from email.parser import BytesParser
 from email.utils import parsedate_to_datetime
@@ -15,12 +16,27 @@ def setUpMaildir(date):
     Path.mkdir(Path(date) / "new", parents=True, exist_ok=True)
 
 
+def move_maildir(path, targetfolder):
+    # print("moving:", path.name, targetfolder)
+    filename = path.name
+    # print(filename)
+    try:
+        name, _, flags = filename.split(",")
+    except ValueError:
+        name, flags = filename.split(",")
+    path.rename(targetfolder / "cur" / f"{name}:2,{flags}")
+
+
 def main(path):
     parser = BytesParser()
+    print(path)
+    totalmessages = 0
+    movedmessages = 0
     for i, msgpath in enumerate(Path(path).glob("cur/*")):
-        print(msgpath)
+        totalmessages += 1
+        # print(msgpath)
         msg = parser.parse(open(msgpath, "rb"), headersonly=True)
-        print(msg["date"])
+        # print(msg["date"])
         if msg["date"] is None:
             continue
         try:
@@ -36,7 +52,9 @@ def main(path):
         if datetime.now(timezone.utc) - relativedelta(years=1) >= date:
             targetfolder = Path(path) / str(date.year)
             setUpMaildir(targetfolder)
-            msgpath.rename(targetfolder / "cur" / msgpath.name)
+            move_maildir(msgpath, targetfolder)
+            movedmessages += 1
+    print(f"Moved {movedmessages} messages out of {totalmessages}")
 
 
 if __name__ == "__main__":

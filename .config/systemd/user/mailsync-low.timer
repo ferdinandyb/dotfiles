@@ -1,8 +1,8 @@
 [Unit]
-Description=maildir-rank-addr update timer
+Description=Mail Sync low frequency timer
 
 [Timer]
-OnBootSec=15min
+OnBootSec=1h
 OnUnitActiveSec=6h
 
 [Install]

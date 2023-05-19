@@ -86,7 +86,7 @@ Inbox ~/.mail/elte/Inbox
 Channel elte-folders
 Far :elte-remote:
 Near :elte-local:
-Patterns * !INBOX !Archive !Drafts !Sent !Spam !Trash !Archívum !Levélszemét !"Elküldött elemek" !"Törölt elemek" !Piszkozatok !Feladatok* !Feljegyzések !Napló !"Kimenő levelek" !Névjegyek !Naptár !"Beszélgetési előzmények"
+Patterns * !INBOX !Archive* !Drafts !Sent* !Spam !Trash !Archívum* !Levélszemét !"Elküldött elemek"* !"Törölt elemek" !Piszkozatok !Feladatok* !Feljegyzések !Napló !"Kimenő levelek" !Névjegyek !Naptár !"Beszélgetési előzmények"
 
 Channel elte-inbox
 Far ":elte-remote:INBOX"
@@ -95,6 +95,7 @@ Near ":elte-local:Inbox"
 Channel elte-sent
 Far ":elte-remote:Elküldött elemek"
 Near ":elte-local:Sent"
+Patterns *
 
 Channel elte-trash
 Far ":elte-remote:Törölt elemek"
@@ -107,6 +108,7 @@ Near ":elte-local:Drafts"
 Channel elte-archive
 Far ":elte-remote:Archívum"
 Near ":elte-local:Archive"
+Patterns *
 
 Channel elte-spam
 Far ":elte-remote:Levélszemét"
@@ -149,7 +151,7 @@ Inbox ~/.mail/priestoferis/Inbox
 Channel priestoferis-labels
 Far :priestoferis-remote:
 Near :priestoferis-local:
-Patterns * ![Gmail]* !INBOX !Archive !Drafts !Sent !Spam !Trash !zzzzzzz*
+Patterns * ![Gmail]* !INBOX !Archive* !Drafts !Sent* !Spam !Trash !zzzzzzz*
 
 Channel priestoferis-zzzzzzz
 Far :priestoferis-remote:
@@ -163,6 +165,7 @@ Near ":priestoferis-local:Inbox"
 Channel priestoferis-sent
 Far ":priestoferis-remote:[Gmail]/Elküldött levelek"
 Near ":priestoferis-local:Sent"
+Patterns *
 
 Channel priestoferis-trash
 Far ":priestoferis-remote:[Gmail]/Kuka"
@@ -175,6 +178,7 @@ Near ":priestoferis-local:Drafts"
 Channel priestoferis-archive
 Far ":priestoferis-remote:[Gmail]/Összes levél"
 Near ":priestoferis-local:Archive"
+Patterns *
 
 Channel priestoferis-spam
 Far ":priestoferis-remote:[Gmail]/Spam"

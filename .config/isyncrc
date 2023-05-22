@@ -14,6 +14,7 @@ AuthMechs LOGIN
 PassCmd "pass show aerc/bence | head -n1"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
+Timeout 120
 
 IMAPStore bence-remote
 Account bence
@@ -26,15 +27,21 @@ Inbox ~/.mail/bence/Inbox
 Channel bence-folders
 Far :bence-remote:
 Near :bence-local:
-Patterns * !INBOX
+Patterns * !INBOX !Archive*
 
 Channel bence-inbox
 Far ":bence-remote:INBOX"
 Near ":bence-local:Inbox"
 
+Channel bence-archive
+Far ":bence-remote:Archive"
+Near ":bence-local:Archive"
+Patterns *
+
 Group bence
 Channel bence-inbox
 Channel bence-folders
+Channel bence-arcive
 
 Group bence-fast
 Channel bence-inbox
@@ -74,6 +81,7 @@ User ferdinandy.bence@ttk.elte.hu
 PassCmd "mailctl access ferdinandy.bence@ttk.elte.hu"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
+Timeout 360
 
 IMAPStore elte-remote
 Account elte
@@ -86,7 +94,7 @@ Inbox ~/.mail/elte/Inbox
 Channel elte-folders
 Far :elte-remote:
 Near :elte-local:
-Patterns * !INBOX !Archive* !Drafts !Sent* !Spam !Trash !Archívum* !Levélszemét !"Elküldött elemek"* !"Törölt elemek" !Piszkozatok !Feladatok* !Feljegyzések !Napló !"Kimenő levelek" !Névjegyek !Naptár !"Beszélgetési előzmények"
+Patterns * !INBOX !Archive* !Drafts !Sent* !Spam !Trash* !Archívum* !Levélszemét* !"Elküldött elemek"* !"Törölt elemek"* !Piszkozatok !Feladatok* !Feljegyzések !Napló !"Kimenő levelek" !Névjegyek !Naptár !"Beszélgetési előzmények"
 
 Channel elte-inbox
 Far ":elte-remote:INBOX"
@@ -139,6 +147,7 @@ User priestoferis@gmail.com
 PassCmd "mailctl access priestoferis"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
+Timeout 360
 
 IMAPStore priestoferis-remote
 Account priestoferis
@@ -223,15 +232,21 @@ Inbox ~/.mail/pharmahungary/Inbox
 Channel pharmahungary-folders
 Far :pharmahungary-remote:
 Near :pharmahungary-local:
-Patterns * !INBOX
+Patterns * !INBOX !Archive*
 
 Channel pharmahungary-inbox
 Far ":pharmahungary-remote:INBOX"
 Near ":pharmahungary-local:Inbox"
 
+Channel pharmahungary-archive
+Far ":pharmahungary-remote:Archive"
+Near ":pharmahungary-local:Archive"
+Patterns *
+
 Group pharmahungary
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
+Channel pharmahungary-archive
 
 Group pharmahungary-fast
 Channel pharmahungary-inbox

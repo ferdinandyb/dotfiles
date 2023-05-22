@@ -77,3 +77,8 @@ in `/etc/logrotate.d/`:
 GOFLAGS=-tags=notmuch make PREFIX=/home/fbence/.local
 GOFLAGS=-tags=notmuch make install PREFIX=/home/fbence/.local
 ```
+
+
+# Deduplication
+
+ for i in {2007..2022}; do mdedup $i -i maildir -s discard-all-but-one -a delete-discarded; done

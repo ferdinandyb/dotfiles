@@ -27,14 +27,15 @@ def move_maildir(path, targetfolder):
     path.rename(targetfolder / "cur" / f"{name}:2,{flags}")
 
 
-def main(path):
+def main(path, targetpath):
     parser = BytesParser()
-    print(path)
+    if targetpath is None:
+        targetpath = path
+    print("source:", path, "target:", targetpath)
     totalmessages = 0
     movedmessages = 0
     for i, msgpath in enumerate(Path(path).glob("cur/*")):
         totalmessages += 1
-        # print(msgpath)
         msg = parser.parse(open(msgpath, "rb"), headersonly=True)
         # print(msg["date"])
         if msg["date"] is None:
@@ -50,7 +51,7 @@ def main(path):
         if date.tzinfo is None or date.tzinfo.utcoffset(date) is None:
             date = date.replace(tzinfo=timezone.utc)
         if datetime.now(timezone.utc) - relativedelta(years=1) >= date:
-            targetfolder = Path(path) / str(date.year)
+            targetfolder = Path(targetpath) / str(date.year)
             setUpMaildir(targetfolder)
             move_maildir(msgpath, targetfolder)
             movedmessages += 1
@@ -59,16 +60,18 @@ def main(path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        usage="""python3 rearchive.py ~/mail/account/Archive
+        usage="""python3 rearchive.py ~/mail/account/Archive [-t ~/mail/otherfolder/Archive]
 
 The script will look for messages in ~/mail/account/Archive/cur and move them
 to yearly archived folders in the maildir (e.g. to Archive/2022/cur) if the
 message is older than one year. That is if the current date is 2023.03.15, then
 all emails from 2021 will be in the 2021 folder, but emails from after
-2022.03.15 will still be in the top folder.
+2022.03.15 will still be in the top folder. The target folder can optionally be
+changed to a different one then the original.
 
 """
     )
     parser.add_argument("folder", type=str)
+    parser.add_argument("-t", "--target", type=str)
     args = parser.parse_args()
-    main(args.folder)
+    main(args.folder, args.target)

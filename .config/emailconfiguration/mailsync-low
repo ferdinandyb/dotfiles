@@ -5,10 +5,11 @@ maildir-rank-addr
 
 # move any email older than 1 year from flat Archive to Archive/year
 python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Sent -t ~/.mail/bence/Archive
 python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Sent
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Sent -t ~/.mail/elte/Archive
 python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Sent
+python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Sent -t ~/.mail/pharmahungary/Archive
+# Due to how gmail's imap works, unfortunately, this does not make sense
+# python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Archive
+# python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/priestoferis/Sent -t ~/.mail/priestoferis/Archive

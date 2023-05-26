@@ -1,15 +1,16 @@
 #!/bin/bash
 
-HDDPATH=/home/fbence/mounted/lacie
+HDDPATH=/media/fbence/LaCie
 
 echo email
 for backend in \
     local:$HDDPATH/restic/email \
-    rclone:onedrive:mashenka-restic/mail
+    rclone:onedrive:mashenka-restic/email
 do
     echo backend: $backend
     restic backup -r $backend --password-command "pass show restic" \
-        /home/fbence/.mail
+        /home/fbence/.mail \
+        --exclude=".notmuch/**"
 
     restic forget -r $backend --password-command "pass show restic" \
         --keep-within-daily 7d   \

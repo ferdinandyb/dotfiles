@@ -6,3 +6,4 @@ addresses = [
     "bence.ferdinandy@pharmahungary.com",
     "bence.ferdinandy@formsense.com"
 ]
+template = "{{.Address}}\t{{.Name}}\t{{.NormalizedName}}"

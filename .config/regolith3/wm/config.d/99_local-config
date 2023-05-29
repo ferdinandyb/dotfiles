@@ -24,7 +24,7 @@ for_window [title="scratch_terminal"] move to scratchpad
 workspace_layout tabbed
 bindsym $mod+z layout toggle splith splitv
 
-set_from_resource $secondary_group i3-wm.workspace.secondary_group primary
+set_from_resource $secondary_group wm.workspace.secondary_group primary
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="bubble"] floating enable

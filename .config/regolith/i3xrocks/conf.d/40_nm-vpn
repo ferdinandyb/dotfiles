@@ -1,5 +1,0 @@
-# nm-vpn
-#
-# Displays VPN
-[nm-vpn]
-interval=30

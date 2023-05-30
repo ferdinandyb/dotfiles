@@ -1,6 +1,6 @@
 [Unit]
 Description=start goimapnotify for various mailboxes
-OnFailure=status-email-user@%n.service
+# OnFailure=status-email-user@%n.service
 After=local-fs.target
 After=network.target
 

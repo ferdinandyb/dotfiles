@@ -1,0 +1,10 @@
+[Unit]
+Description=Restic backup timer
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+
+[Install]
+WantedBy=default.target

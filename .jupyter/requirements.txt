@@ -1,0 +1,6 @@
+jupyter
+ipykernel
+remote-kernel
+black[jupyter]
+isort
+jupyter_contrib_nbextensions

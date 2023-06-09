@@ -56,3 +56,21 @@ do
         --keep-within-yearly 75y
 
 done
+
+echo org
+for backend in \
+    local:$HDDPATH/restic/org \
+    rclone:onedrive:mashenka-restic/org
+do
+    echo backend: $backend
+    restic backup -r $backend --password-command "pass show restic" \
+        /home/fbence/org \
+        /home/fbence/.task
+
+    restic forget -r $backend --password-command "pass show restic" \
+        --keep-within-daily 7d   \
+        --keep-within-weekly 1m  \
+        --keep-within-monthly 1y \
+        --keep-within-yearly 75y
+
+done

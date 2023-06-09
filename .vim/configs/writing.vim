@@ -4,7 +4,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 " required by vim-markdown but easy-align is probably better
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
-Plug 'alok/notational-fzf-vim'
+" Plug 'alok/notational-fzf-vim'
 Plug 'ferdinandyb/bibtexcite.vim'
 Plug 'ferdinandyb/cetli.vim'
 Plug 'vim-scripts/loremipsum'
@@ -13,8 +13,9 @@ Plug 'vim-scripts/loremipsum'
 
 " These are overkill but good for inspiration
 
-" Plug 'vimwiki/vimwiki'
-" Plug 'michal-h21/vim-zettel'
+Plug 'vimwiki/vimwiki'
+Plug 'michal-h21/vim-zettel'
+Plug 'tools-life/taskwiki'
 " Plug 'michal-h21/vimwiki-sync'
 " https://github.com/Aarleks/zettel.vim
 " https://github.com/AndrewCopeland/zettelkasten"
@@ -37,13 +38,19 @@ let g:vim_markdown_conceal_code_blocks = 0
 let g:vim_markdown_strikethrough = 1
 let g:vim_markdown_new_list_item_indent = 2
 let g:vim_markdown_frontmatter = 1
-let g:nv_search_paths = ['~/org/cetlidoboz','~/org/fecnidoboz', '~/org/projects', '~/org/meetings']
 
 
 
 let g:bibtexcite_bibfile = $HOME . "/org/zotero.bib"
 let g:bibtexcite_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
 let g:bibtexcite_openfilecommand = 'zathura'
+
+"
+
+let g:vimwiki_list = [{'path': '~/org/', 'syntax': 'markdown', 'ext': '.md'}]
+
+"
+"cetli
 
 
 let g:cetli_configuration = [

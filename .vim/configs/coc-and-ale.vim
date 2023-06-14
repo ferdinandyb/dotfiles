@@ -13,7 +13,9 @@ let s:cocextensions = [
     \ 'coc-vimtex',
     \ 'coc-go',
     \ 'coc-texlab',
-    \ 'coc-sourcekit']
+    \ 'coc-sourcekit',
+    \ 'coc-sql',
+    \ 'coc-db']
 
 " if g:os == 'Android'
 "     let g:coc_global_extensions = s:cocextensions

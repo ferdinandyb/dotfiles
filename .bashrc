@@ -246,3 +246,4 @@ fi
 # Removing Linux SSH socket and replacing it by link to wsl2-ssh-pageant socket
 
 complete -C '/usr/local/bin/aws_completer' aws
+source ~/.local/share/blesh/ble.sh

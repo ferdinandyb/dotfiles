@@ -4,6 +4,20 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+source $HOME/.config/shell/zsh/antigen.zsh
+# Plugins
+antigen bundle Aloxaf/fzf-tab
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle jeffreytse/zsh-vi-mode
+
+antigen use oh-my-zsh
+antigen bundle dirhistory
+
+antigen theme romkatv/powerlevel10k
+
+antigen apply
+
 
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
@@ -37,7 +51,6 @@ setopt noflowcontrol
 # allow use of comments in interactive code
 setopt interactivecomments
 
-source ~/.local/share/zsh/powerlevel10k/powerlevel10k.zsh-theme
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -55,12 +68,16 @@ export PATH=$HOME/go/bin:$PATH
 if [ -d $HOME/.fnm ]; then
     export PATH=$HOME/.fnm:$PATH
     eval "`fnm env`"
+
+elif [ -d $HOME/.local/share/fnm ]; then
+  export PATH=$HOME/.local/share/fnm:$PATH
+  eval "`fnm env`"
 fi
 
 
 if [ -d $HOME/.pyenv ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$(pyenv init --path)"
+  export PATH="$HOME/.pyenv/bin:$PATH"
+  eval "$(pyenv init --path)"
     eval "$(pyenv virtualenv-init -)"
 fi
 
@@ -77,12 +94,7 @@ function confed(){
 }
 
 
-# Plugins
-source $HOME/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.local/share/zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
-source $HOME/.local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $HOME/.local/share/zsh/ohmyzsh/plugins/dirhistory/dirhistory.plugin.zsh
-source $HOME/.local/share/zsh/fzf-tab/fzf-tab.plugin.zsh
+
 
 zvm_after_init() {
   # Auto-completion
@@ -119,21 +131,36 @@ _fzf_compgen_dir() {
 
 . "$HOME/.cargo/env"
 
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+    export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+    ss -a | grep -q $SSH_AUTH_SOCK
+    if [ $? -ne 0 ]; then
+    rm -f $SSH_AUTH_SOCK
+    setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe &>/dev/null &
+    fi
+    # GPG Socket
+    # Removing Linux GPG Agent socket and replacing it by link to wsl2-ssh-pageant GPG socket
+    export GPG_AGENT_SOCK=$HOME/.gnupg/S.gpg-agent
+    ss -a | grep -q $GPG_AGENT_SOCK
+    if [ $? -ne 0 ]; then
+    rm -rf $GPG_AGENT_SOCK
+    setsid nohup socat UNIX-LISTEN:$GPG_AGENT_SOCK,fork EXEC:"/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe --gpg S.gpg-agent" &>/dev/null &
+    fi
+elif [ $(hostname) = mashenka ]; then
+  unset SSH_AGENT_PID
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+  fi
+  export GPG_TTY=$(tty)
+  gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
-export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye >/dev/null
 
+if [ -d $HOME/.local/softwarefromsource/contour/src/contour/shell-integration ]; then
 source $HOME/.local/softwarefromsource/contour/src/contour/shell-integration/shell-integration.zsh
+fi
 
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
-# fnm
-export PATH="/home/fbence/.fnm:$PATH"
-eval "`fnm env`"
-
-[ -f "/home/fbence/.ghcup/env" ] && source "/home/fbence/.ghcup/env" # ghcup-env
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env

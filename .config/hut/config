@@ -1,0 +1,8 @@
+instance "sr.ht" {
+	access-token-cmd pass show sourcehut/tokens/hut
+	meta {
+	     # You can set the origin for each service. As fallback hut will
+	     # construct the origin from the instance name and the service.
+	     origin "https://meta.sr.ht"
+	}
+}

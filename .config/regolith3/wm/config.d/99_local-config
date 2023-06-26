@@ -69,8 +69,10 @@ bindsym $mod+uacute exec --no-startup-id amixer set Capture toggle
 assign [class="Viber"] workspace $ws8
 assign [class="Slack"] workspace $ws8
 assign [class="Telegram"] workspace $ws8
+assign [class="Element"] workspace $ws8
 # for_window [class="Telegram"] layout tabbed
 for_window [class="Telegram"] mark t
+for_window [class="Element"] mark m
 assign [class="Teams"] workspace $ws8
 assign [class="Skype"] workspace $ws8
 assign [class="discord"] workspace $ws8
@@ -103,7 +105,7 @@ workspace "$ws0" output primary
 
 # exec --no-startup-id /usr/bin/x-terminal-emulator
 exec --no-startup-id i3-msg "workspace $ws0; exec /usr/bin/x-terminal-emulator"
-exec --no-startup-id /opt/telegram/Telegram
+exec --no-startup-id /usr/bin/element-desktop
 exec --no-startup-id greenclip daemon
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox

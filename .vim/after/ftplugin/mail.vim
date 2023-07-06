@@ -13,3 +13,26 @@ augroup END " }
 " let b:auto_save_events = ["InsertLeave", "TextChanged"]
 
 nmap <C-o> 3]<space>jji
+
+
+
+function! InsertAddressAerc()
+    call fzf#run(fzf#wrap("insertaddress", {
+    \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
+    \ 'sink*': function("InsertContacts"),
+    \ 'options': '--no-sort -i --multi'
+    \}))
+endfunction
+
+function! InsertContacts(names) abort
+    for name in a:names
+        call InsertContact(name)
+    endfor
+endfunction
+
+function! InsertContact(name) abort
+    let [address, name, uname] = split(a:name,"\t")
+    call append(line('.'), '    ' . name . " <" . address . ">,")
+endfunction
+
+nnoremap <leader>a :call InsertAddressAerc()<CR>

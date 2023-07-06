@@ -3,8 +3,9 @@ gtk.font_name: Source Sans Pro
 gtk.monospace_font_name: Cascadia Code
 
 wm.bar.trayoutput: primary
-/* wm.bar.status_command: ~/.cargo/bin/i3status-rs ~/.config/regolith2/i3status-rs.toml */
-wm.bar.status_command: i3xrocks -u ~/.config/regolith2/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d
+wm.bar.status_command: i3status-rs ~/.config/regolith3/i3status-rs.toml
+wm.bar.status_command: i3xrocks   -d /usr/share/i3xrocks/conf.d
+/* wm.bar.status_command: i3xrocks -u ~/.config/regolith3/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d */
 
 # workspaces
 ## fancy names

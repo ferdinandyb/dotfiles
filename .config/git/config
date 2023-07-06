@@ -59,3 +59,7 @@
 [notes]
 	rewriteRef = refs/notes/commits
 	rewriteMode = concatenate
+[pager]
+	branch = false
+[push]
+	autoSetupRemote = true

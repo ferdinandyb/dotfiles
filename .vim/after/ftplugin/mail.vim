@@ -19,20 +19,35 @@ nmap <C-o> 3]<space>jji
 function! InsertAddressAerc()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
-    \ 'sink*': function("InsertContacts"),
+    \ 'sink*': function("InsertContactsLine"),
     \ 'options': '--no-sort -i --multi'
     \}))
 endfunction
 
-function! InsertContacts(names) abort
+
+function! InsertAddress()
+    call fzf#run(fzf#wrap("insertaddress", {
+    \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
+    \ 'sink': function("InsertContact"),
+    \ 'options': '--no-sort -i'
+    \}))
+endfunction
+
+function! InsertContactsLine(names) abort
     for name in a:names
-        call InsertContact(name)
+        call InsertContactLine(name)
     endfor
 endfunction
 
-function! InsertContact(name) abort
-    let [address, name, uname] = split(a:name,"\t")
+function! InsertContactLine(name) abort
+    let [address, name; rest] = split(a:name,"\t")
     call append(line('.'), '    ' . name . " <" . address . ">,")
 endfunction
 
+function! InsertContact(name) abort
+    let [address, name; rest] = split(a:name,"\t")
+    exec 'normal! a'  . name . " <" . address . ">\<Esc>"
+endfunction
+
 nnoremap <leader>a :call InsertAddressAerc()<CR>
+nnoremap <leader>A :call InsertAddress()<CR>

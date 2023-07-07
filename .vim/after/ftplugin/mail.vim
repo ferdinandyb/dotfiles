@@ -24,7 +24,6 @@ function! InsertAddressAerc()
     \}))
 endfunction
 
-
 function! InsertAddress()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
@@ -51,3 +50,17 @@ endfunction
 
 nnoremap <leader>a :call InsertAddressAerc()<CR>
 nnoremap <leader>A :call InsertAddress()<CR>
+
+function! InsertInput(input) abort
+    exec 'normal! a'  . a:input . '\<Esc>'
+endfunction
+
+function! InsertTrailer()
+    call fzf#run(fzf#wrap("insertrailer", {
+    \ 'source':'cat ~/.config/emailconfiguration/trailers',
+    \ 'sink': function("InsertInput")
+    \}))
+endfunction
+
+
+nnoremap <leader>t :call InsertTrailer()<CR>

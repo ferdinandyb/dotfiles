@@ -29,9 +29,10 @@
 [rebase]
 	autoSquash = true
 	autoStash = true
-#TODO just copied this, so do a readup
 [alias]
 	s = status --short --branch
+	sb = switch
+	r = restore
 	ri = rebase -i
 	ra = rebase --abort
 	rc = rebase --continue
@@ -48,7 +49,7 @@
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
 	fp = commit --fixup
-	wip = commit -asm 'wip'
+	wip = commit -am 'wip'
 [pull]
 	rebase = true
 [pretty]

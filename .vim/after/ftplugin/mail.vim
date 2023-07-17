@@ -12,7 +12,8 @@ augroup END " }
 " let b:auto_save = 1
 " let b:auto_save_events = ["InsertLeave", "TextChanged"]
 
-nmap <C-o> 3]<space>jji
+nmap <leader>i 3]<space>jji
+nmap <leader>s }o
 
 
 
@@ -52,7 +53,7 @@ nnoremap <leader>a :call InsertAddressAerc()<CR>
 nnoremap <leader>A :call InsertAddress()<CR>
 
 function! InsertInput(input) abort
-    exec 'normal! a'  . a:input . '\<Esc>'
+    exec 'normal! a'  . a:input
 endfunction
 
 function! InsertTrailer()

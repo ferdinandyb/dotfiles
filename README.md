@@ -30,12 +30,12 @@ idempotent.
 Regolith 2. Most notable customizations from base Regolith:
 
 - switched back to `rofi` from `ilia` as it is more generic, with more community support;
-- `scrot` instead of `gnome-screenshot` with more useful bindings than Ubuntu/Regolith defaults
+- `flameshot` instead of `gnome-screenshot` with more useful bindings than Ubuntu/Regolith defaults
 - `ranger` set up as default filebrowser: makes more sense for me to use the same as I would in the terminal
 
 ## Terminal stuff
 
-- `kitty`
+- `kitty` although now looking at `contour` and `wezterm`
 - `zsh`: took a long time to switch from bash, but the very `powerlevel10k` prompt (vs `starship.rs` which lagged) was the final say, although I still have bash set up with `ble.sh`, which is pretty great (probably a bit better than what zsh provides through the vim-mode and syntax highlight plugins)
 - `tmux`
 - `fzf`, `fd-find`, `ripgrep` wherever they make sense
@@ -53,4 +53,10 @@ vim inside a tmux session and execute:
 
 ## Email
 
-Wow, so this was super not easy to set up, see [separate readme](.config/emailconfiguration/README.md)
+I wrote a [tutorial](https://bence.ferdinandy.com/2023/07/20/email-in-the-terminal-a-complete-guide-to-the-unix-way-of-email/) which basically covers my setup.
+
+Deduplication of emails:
+
+```
+for i in {2007..2022}; do mdedup $i -i maildir -s discard-all-but-one -a delete-discarded; done
+```

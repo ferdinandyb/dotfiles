@@ -159,6 +159,10 @@ if [ -d $HOME/.local/softwarefromsource/contour/src/contour/shell-integration ];
 source $HOME/.local/softwarefromsource/contour/src/contour/shell-integration/shell-integration.zsh
 fi
 
+if [ -d $HOME/.config/glab-cli/completion.zsh ]; then
+  source $HOME/.config/glab-cli/completion.zsh
+fi
+
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc

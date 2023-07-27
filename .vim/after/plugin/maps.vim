@@ -126,11 +126,6 @@ cnoremap <C-j> <Down>
 cnoremap <C-k> <Up>
 cnoremap <C-l> <Right>
 
-" imap <C-i> <Esc>saiW_Wi
-" imap <C-b> <Esc>saiW*.Whi
-" most editors will have these for bold and italic
-imap <C-e> <Esc>saiW_Wa
-imap <C-b> <Esc>saiW*.Wa
 
 nnoremap <F2> :CocToggle<CR>
 nnoremap <F3> :ALEToggle<CR>
@@ -166,3 +161,13 @@ nnoremap <leader>o o<ESC>"+P
 " http://ddrscott.github.io/blog/2016/yank-without-jank/
 " vnoremap <expr>y "my\"" . v:register . "y`y"
 " vnoremap <expr>Y "mY\"" . v:register . "Y`Y"
+
+
+" insert mode stuff
+" a newline will start a new undo block
+inoremap <CR> <C-]><C-G>u<CR>
+
+
+" most editors will have these for bold and italic
+imap <C-e> <Esc>saiW_Wa
+imap <C-b> <Esc>saiW*.Wa

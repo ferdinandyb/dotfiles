@@ -1,5 +1,5 @@
-services_file: /home/fbence/.config/mailctl/services.yaml
-oauth2_dir: /home/fbence/.local/var/mailctl
+services_file: ~/.config/mailctl/services.yaml
+oauth2_dir: ~/.local/var/mailctl
 # This encryption method using gnupg.
 # Alternatives like gnome-keyring can also be configured here.
 encrypt_cmd:

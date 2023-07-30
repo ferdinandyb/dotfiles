@@ -11,6 +11,7 @@
 	smtpDomain = ferdinandy.com
 	chainreplyto = false
 	confirm = always
+	assume8bitEncoding = UTF-8
 [diff]
 	tool = vimdiff
 [difftool]

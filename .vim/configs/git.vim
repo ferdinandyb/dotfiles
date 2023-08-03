@@ -18,7 +18,10 @@ Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'
-let g:fugitive_gitlab_domains = ['https://gitlab.formsense.com/']
+let g:fugitive_gitlab_oldstyle_urls = 1
+let g:fugitive_gitlab_domains = ['https://gitlab.org','https://mrbd15.pgsm.hu']
+let g:gitlab_api_keys = {'mrbd15.pgsm.hu': readfile(expand('~/.config/glab-cli/token'))[0]}
+
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gs :Git<CR>
 nnoremap gS :vert Git<CR>

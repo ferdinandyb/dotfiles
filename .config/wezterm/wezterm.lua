@@ -28,5 +28,5 @@ config.keys = {
     action = wezterm.action.PasteFrom 'Clipboard'
   },
 }
-config.font = wezterm.font('JetBrains Mono', { weight = 'Light' })
+config.font = wezterm.font('CaskaydiaCove Nerd Font', { weight = 'Light' })
 return config

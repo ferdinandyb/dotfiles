@@ -21,7 +21,7 @@ function! InsertAddressAerc()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
     \ 'sink*': function("InsertContactsLine"),
-    \ 'options': '--no-sort -i --multi'
+    \ 'options': '--no-sort -i --multi --exact'
     \}))
 endfunction
 
@@ -29,7 +29,7 @@ function! InsertAddress()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
     \ 'sink': function("InsertContact"),
-    \ 'options': '--no-sort -i'
+    \ 'options': '--no-sort -i --exact'
     \}))
 endfunction
 

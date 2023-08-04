@@ -18,9 +18,12 @@ Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'
+
 let g:fugitive_gitlab_oldstyle_urls = 1
 let g:fugitive_gitlab_domains = ['https://gitlab.org','https://mrbd15.pgsm.hu']
-let g:gitlab_api_keys = {'mrbd15.pgsm.hu': readfile(expand('~/.config/glab-cli/token'))[0]}
+if !empty(glob(expand('~/.config/glab-cli/token')))
+  let g:gitlab_api_keys = {'mrbd15.pgsm.hu': readfile(expand('~/.config/glab-cli/token'))[0]}
+endif
 
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap gs :Git<CR>
@@ -30,3 +33,12 @@ xnoremap <Leader>Gb :'<'>GBrowse!<CR>
 
 " fugitive 3way split:
 " obtain hunk: d2o ours, d3o theirs
+" Plug 'seanbreckenridge/yadm-git.vim'"
+" let g:yadm_git_enabled = 1
+" let g:yadm_git_verbose = 0
+
+" let g:yadm_git_fugitive_enabled = 1
+" let g:yadm_git_gitgutter_enabled = 1
+
+" let g:yadm_git_repo_path = "~/.local/share/yadm/repo.git"
+" let g:yadm_git_default_git_path = "git""

@@ -13,6 +13,7 @@ antigen bundle jeffreytse/zsh-vi-mode
 
 antigen use oh-my-zsh
 antigen bundle dirhistory
+antigen bundle taskwarrior
 
 antigen theme romkatv/powerlevel10k
 

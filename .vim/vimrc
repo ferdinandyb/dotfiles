@@ -23,14 +23,14 @@ let maplocalleader="\<Space>"
 " this is needed so kitty's protocol doesn't turn the menu key into a large undo
 set <F20>=57363u
 
-source ~/.vim/configs/settings.vim
+runtime configs/settings.vim
 call plug#begin('~/.vim/plugged')
 if !exists("g:lightweight")
     " these plugins are mostly IDE plugins that don't make sense otherwise
     " or need external dependencies and are thus irritating on systems without
     " them
-    source ~/.vim/configs/coc-and-ale.vim
-    source ~/.vim/configs/git.vim
+    runtime configs/coc-and-ale.vim
+    runtime configs/git.vim
     Plug 'ludovicchabant/vim-gutentags'
     Plug 'preservim/tagbar'
     " adds a context line to where you are
@@ -49,14 +49,14 @@ if !exists("g:lightweight")
     Plug 'kristijanhusak/vim-dadbod-ui'
     Plug 'kristijanhusak/vim-dadbod-completion'
     " vim debugger
-    source ~/.vim/configs/vimspector.vim
+    runtime configs/vimspector.vim
 endif
 " it is  in conflict with unimpaired so needs to be before
 Plug 'rickhowe/diffchar.vim'
-source ~/.vim/configs/floaterm.vim
-source ~/.vim/configs/theme-setup.vim
+runtime configs/floaterm.vim
+runtime configs/theme-setup.vim
 " install language packs, but disable any you hand tweak
-source ~/.vim/configs/vim-polyglot.vim
+runtime configs/vim-polyglot.vim
 " extended %
 Plug 'andymass/vim-matchup'
 " add new targets to vim eg c2i)
@@ -67,9 +67,9 @@ Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
 Plug 'whatyouhide/vim-tmux-syntax'
 " syntax for kitty
 Plug 'fladson/vim-kitty'
-source ~/.vim/configs/i3wm-kitty-vim-tmux-navigator.vim
+runtime configs/i3wm-kitty-vim-tmux-navigator.vim
 " command to align text (never used it yet, learn or remove)
-source ~/.vim/configs/vim-easy-align.vim
+runtime configs/vim-easy-align.vim
 " make path also when writing a new file with
 Plug 'jessarcher/vim-heritage'
 " open files at the last edit with some smart settings
@@ -77,7 +77,7 @@ Plug 'farmergreg/vim-lastplace'
 " better surrounds than tpope's
 Plug 'machakann/vim-sandwich'
 " swap delimited items
-source ~/.vim/configs/vim-swap.vim
+runtime configs/vim-swap.vim
 " register viewing
 Plug 'junegunn/vim-peekaboo'
 
@@ -93,18 +93,18 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-speeddating'
 " makes speeddating repeatable
 Plug 'tpope/vim-repeat'
-source ~/.vim/configs/vim-obsession.vim
+runtime configs/vim-obsession.vim
 " simple comment facilities
 Plug 'tpope/vim-commentary'
 " file browser
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-vinegar'
-source ~/.vim/configs/vim-auto-save.vim
+runtime configs/vim-auto-save.vim
 
 Plug 'honza/vim-snippets'
 
-source ~/.vim/configs/fzf.vim
+runtime configs/fzf.vim
 
 " generate tags for jumping between latex tags and others
 " requires https://askubuntu.com/questions/796408/installing-and-using-universal-ctags-instead-of-exuberant-ctags
@@ -128,7 +128,7 @@ Plug 'tpope/vim-eunuch'
 " switch between multiple lines and single lines
 Plug 'AndrewRadev/splitjoin.vim'
 
-source ~/.vim/configs/movements.vim
+runtime configs/movements.vim
 Plug 'nanotee/zoxide.vim'
 " auto switch to root dir
 Plug 'airblade/vim-rooter'
@@ -141,8 +141,8 @@ Plug 'mattn/emmet-vim'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css,vue EmmetInstall
 
-source ~/.vim/configs/writing.vim
-source ~/.vim/configs/goyo.vim
+runtime configs/writing.vim
+runtime configs/goyo.vim
 Plug 'hauleth/vim-backscratch'
 
 Plug 'pangloss/vim-javascript'

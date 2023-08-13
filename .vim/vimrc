@@ -1,5 +1,9 @@
 set nocompatible
-set exrc
+" taken from defaults.vim
+inoremap <C-U> <C-G>u<C-U>
+
+" run vimrc found in local folder, not safe
+" set exrc
 if empty(glob('~/.vim/autoload/plug.vim'))
       silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
              \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

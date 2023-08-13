@@ -1,6 +1,4 @@
 set nocompatible
-" taken from defaults.vim
-inoremap <C-U> <C-G>u<C-U>
 
 " run vimrc found in local folder, not safe
 " set exrc
@@ -20,10 +18,7 @@ endif
 " leaders need to be set early because it is not dynamical
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
-" this is needed so kitty's protocol doesn't turn the menu key into a large undo
-set <F20>=57363u
 
-runtime configs/settings.vim
 call plug#begin('~/.vim/plugged')
 if !exists("g:lightweight")
     " these plugins are mostly IDE plugins that don't make sense otherwise

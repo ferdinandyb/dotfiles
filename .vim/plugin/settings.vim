@@ -64,8 +64,8 @@ set list
 set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " Show line numbers, but relative to current line
-set relativenumber
-set signcolumn=auto
+set number
+set signcolumn=number "auto
 set sidescroll=1
 
 " Encoding
@@ -129,3 +129,6 @@ endif
 " au WinLeave * set nocursorline nocursorcolumn
 " au WinEnter * set cursorline cursorcolumn
 " set cursorline cursorcolumn
+
+" this is needed so kitty's protocol doesn't turn the menu key into a large undo
+set <F20>=57363u

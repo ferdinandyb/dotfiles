@@ -1,5 +1,3 @@
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -9,6 +7,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'ryanoasis/vim-devicons'
 
 let g:airline_theme = 'dracula'
+" let g:airline_theme = 'solarized'
 let g:airline_powerline_fonts = 1
 let g:airline_skip_empty_sections = 1
 
@@ -17,7 +16,7 @@ let g:airline_right_sep = ''
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#searchcount#enabled = 0
+let g:airline#extensions#searchcount#enabled = 1
 let g:airline_detect_spell=1
 let g:airline_detect_spelllang=1
 let g:airline_experimental=1

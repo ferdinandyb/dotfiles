@@ -1,0 +1,27 @@
+[general]
+targets = github
+taskrc = ~/.config/task/taskrc
+
+[elteeto]
+service = bitbucket
+bitbucket.default_priority =
+bitbucket.add_tags = bitb-eto
+bitbucket.only_if_assigned = ferdinandyb
+bitbucket.include_merge_requests = True
+bitbucket.username = ferdinandyb
+bitbucket.key = @oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/key
+bitbucket.secret = @oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/secret
+bitbucket.login = bence@ferdinandy.com
+
+[github]
+service = github
+github.login = ferdinandyb
+github.token =@oracle:eval:pass show bugwarrior/github
+github.username = ferdinandyb
+github.default_priority =
+github.add_tags = github
+#bitbucket.only_if_assigned = ferdinandyb
+github.include_merge_requests = True
+github.query = assignee:ferdinandyb is:open
+#github.project_template = github.{{project}}
+github.annotation_comments = False

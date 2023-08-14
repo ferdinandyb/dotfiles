@@ -139,14 +139,7 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
     rm -f $SSH_AUTH_SOCK
     setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe &>/dev/null &
     fi
-    # GPG Socket
-    # Removing Linux GPG Agent socket and replacing it by link to wsl2-ssh-pageant GPG socket
-    export GPG_AGENT_SOCK=$HOME/.gnupg/S.gpg-agent
-    ss -a | grep -q $GPG_AGENT_SOCK
-    if [ $? -ne 0 ]; then
-    rm -rf $GPG_AGENT_SOCK
-    setsid nohup socat UNIX-LISTEN:$GPG_AGENT_SOCK,fork EXEC:"/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe --gpg S.gpg-agent" &>/dev/null &
-    fi
+    # to use gpg on wsl simply symlink the windows executable
 elif [ $(hostname) = mashenka ]; then
   unset SSH_AGENT_PID
   if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then

@@ -1,0 +1,9 @@
+[Unit]
+Description=taskwarrior sync
+
+[Service]
+ExecStart=task sync
+Type=oneshot
+
+[Install]
+WantedBy=default.target

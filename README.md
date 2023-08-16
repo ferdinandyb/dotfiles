@@ -12,18 +12,45 @@ are the same as on the machine, but it has the fancy things I occasionally need.
 `yadm` will have a built-in [solution
 ](https://github.com/TheLocehiliosan/yadm/issues/392).
 
-### alternates
+## getting started
 
-Way to set the alternates:
-`yadm config local.class imap`
+```
+curl -fLo ~/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x ~/.local/bin/yadm
+```
 
-Current existing alternates:
- - class = imap: set aerc to use imap instead of maildir
+```
+yadm clone https://github.com/ferdinandyb/dotfiles.git
+```
+
+Or if you have a key on the machine:
+```
+yadm clone git@github.com:ferdinandyb/dotfiles.git
+```
+
+### sparse-checkout and alternates
+
+Way to set the classes (currently all alternates are based on this):
+
+```
+yadm config --add local.class imap
+```
+
+Current existing classes:
+ - imap: set aerc to use imap instead of maildir
+ - minimal: sparse-checkout
+ - org: sparse-checkout
+
+To use sparse-checkout after cloning set the appropriate classes then run
+
+```
+yadm sparse-checkout reapply
+```
+
+See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template)
 
 ### bootstrap and update
 
-Bootstrap will run on every `yadm clone` and `yadm pull`, so make bootstrap
-idempotent.
+Don't bootstrap. It probably doesn't make sense with sparse-checkout anyway.
 
 ## Desktop
 

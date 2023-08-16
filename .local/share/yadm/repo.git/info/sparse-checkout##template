@@ -1,0 +1,18 @@
+# never ever remove the template
+.local/share/yadm/repo.git/info/sparse-checkout##template
+# bare minimum on a remote computer
+{% if yadm.class == "minimal" %}
+.vim/**
+.zshenv
+.p10k.zsh
+.bashrc
+.tmux.conf
+.config/shell/**
+.config/git/**
+{% endif %}
+
+{% if yadm.class == "org" %}
+.config/task/**
+.config/vit/**
+.config/bugwarrior/**
+{% endif %}

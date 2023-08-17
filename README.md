@@ -4,9 +4,7 @@ My dotfiles and explanations/documentation for myself.
 
 ## dotfile management
 
-I choose [yadm](https://github.com/TheLocehiliosan/yadm) because it is basically
-a bare git repo if I don't need anything fancy, meaning the structure and files
-are the same as on the machine, but it has the fancy things I occasionally need.
+I use [yadm](https://github.com/TheLocehiliosan/yadm) because it is essentially a bare git repo, with some nice additional features.
 
 `.local/bin/yadmlistall` will list all files managed by `yadm` until hopefully
 `yadm` will have a built-in [solution
@@ -40,13 +38,13 @@ Current existing classes:
  - minimal: sparse-checkout
  - org: sparse-checkout
 
-To use sparse-checkout after cloning set the appropriate classes then run
+To use sparse-checkout after cloning set the appropriate classes then run:
 
 ```
 yadm sparse-checkout reapply
 ```
 
-See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template)
+See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template).
 
 ### bootstrap and update
 
@@ -54,7 +52,7 @@ Don't bootstrap. It probably doesn't make sense with sparse-checkout anyway.
 
 ## Desktop
 
-Regolith 2. Most notable customizations from base Regolith:
+Regolith 3. Most notable customizations from base Regolith:
 
 - switched back to `rofi` from `ilia` as it is more generic, with more community support;
 - `flameshot` instead of `gnome-screenshot` with more useful bindings than Ubuntu/Regolith defaults
@@ -63,9 +61,9 @@ Regolith 2. Most notable customizations from base Regolith:
 ## Terminal stuff
 
 - `kitty` although now looking at `contour` and `wezterm`
-- `zsh`: took a long time to switch from bash, but the very `powerlevel10k` prompt (vs `starship.rs` which lagged) was the final say, although I still have bash set up with `ble.sh`, which is pretty great (probably a bit better than what zsh provides through the vim-mode and syntax highlight plugins)
+- `zsh`: took a long time to switch from bash, but the fast `powerlevel10k` prompt (vs `starship.rs` which lagged) was the final nail in the coffin, although I still have bash set up with `ble.sh`, which is pretty great (probably a bit better than what zsh provides through the vim-mode and syntax highlight plugins)
 - `tmux`
-- `fzf`, `fd-find`, `ripgrep` wherever they make sense
+- `fzf`, `fd-find`, `ripgrep`, and [ugrep](https://github.com/Genivia/ugrep) wherever they make sense
 - `zoxide` for navigation: also integrates with `ranger`
 
 

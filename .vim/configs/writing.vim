@@ -47,7 +47,8 @@ let g:bibtexcite_openfilecommand = 'zathura'
 
 "
 
-let g:vimwiki_list = [{'path': '~/org/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [{'path':'~/testwiki'},{'path': '~/org/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:zettel_options = [{},{'rel_path': 'zettel/'}]
 
 "
 "cetli

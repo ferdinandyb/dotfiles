@@ -15,4 +15,5 @@
 .config/task/**
 .config/vit/**
 .config/bugwarrior/**
+.config/systemd/user/**
 {% endif %}

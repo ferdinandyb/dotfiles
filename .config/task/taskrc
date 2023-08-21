@@ -42,3 +42,4 @@ include /usr/share/taskwarrior/solarized-dark-256.theme
 news.version=2.6.0
 include ~/.config/task/bugwarrioruda
 include ~/.config/task/adhoc-configs
+include ~/.config/task/taskserver

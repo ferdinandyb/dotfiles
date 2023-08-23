@@ -1,6 +1,5 @@
 " need to have npm and yarn for markdown preview
 Plug 'lervag/vimtex'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 " required by vim-markdown but easy-align is probably better
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'

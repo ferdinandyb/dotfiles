@@ -1,7 +1,8 @@
 # never ever remove the template
 .local/share/yadm/repo.git/info/sparse-checkout##template
-# bare minimum on a remote computer
+
 {% if yadm.class == "minimal" %}
+# bare minimum on a remote computer
 .vim/**
 
 # these plugins take a lot of space
@@ -22,6 +23,7 @@
 {% endif %}
 
 {% if yadm.class == "org" %}
+# org stuff
 .config/task/**
 .config/vit/**
 .config/bugwarrior/**

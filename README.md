@@ -6,9 +6,6 @@ My dotfiles and explanations/documentation for myself.
 
 I use [yadm](https://github.com/TheLocehiliosan/yadm) because it is essentially a bare git repo, with some nice additional features.
 
-`.local/bin/yadmlistall` will list all files managed by `yadm` until hopefully
-`yadm` will have a built-in [solution
-](https://github.com/TheLocehiliosan/yadm/issues/392).
 
 ## getting started
 

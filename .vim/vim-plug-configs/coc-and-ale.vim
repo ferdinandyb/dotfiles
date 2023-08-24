@@ -32,6 +32,7 @@ let g:ale_disable_lsp = 1
 let g:ale_cursor_detail = 1
 let g:ale_detail_to_floating_preview=1
 let g:ale_echo_msg_format = '%linter% - %code: %%s'
+let g:ale_cache_executable_check_failures = 1
 
 let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰', '│', '─']
 let g:ale_hover_to_preview = 1

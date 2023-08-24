@@ -1,6 +1,4 @@
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'preservim/tagbar'
-" adds a context line to where you are
+Plug 'dstein64/vim-startuptime'
 " dispatch commands in the background
 Plug 'tpope/vim-dispatch'
 " run tests with e.g. Dispatch
@@ -28,7 +26,6 @@ Plug 'jessarcher/vim-heritage'
 Plug 'farmergreg/vim-lastplace'
 " better surrounds than tpope's
 Plug 'machakann/vim-sandwich'
-" swap delimited items
 " register viewing
 Plug 'junegunn/vim-peekaboo'
 

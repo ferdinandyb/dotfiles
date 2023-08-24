@@ -9,6 +9,8 @@
 !.vim/vim-plug-configs/vimspector.vim
 
 # these plugins have complicated external dependencies
+!.vim/vim-plug-configs/coc.vim
+!.vim/vim-plug-configs/tags.vim
 # TODO: coc.nvim, ctags?
 
 .zshenv

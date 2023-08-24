@@ -23,9 +23,9 @@ let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
 call plug#begin()
-runtime! vim-plug-configs/*
+runtime! vim-plug-configs/*.vim
 if has('nvim')
-    runtime! nvim-plug-configs/*
+    runtime! nvim-plug-configs/*.vim
 endif
 call plug#end()
 

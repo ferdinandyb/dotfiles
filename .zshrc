@@ -123,6 +123,8 @@ if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
   export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_COMPLETION_TRIGGER='óó'
@@ -139,7 +141,10 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-. "$HOME/.cargo/env"
+if [ -d $HOME/.cargo/env ]; then
+  . "$HOME/.cargo/env"
+fi
+
 
 if [[ $(grep -i Microsoft /proc/version) ]]; then
     export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock

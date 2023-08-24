@@ -88,8 +88,6 @@ Plug 'elzr/vim-json'
 " python code folding
 Plug 'tmhedberg/SimpylFold'
 Plug 'jeetsukumaran/vim-pythonsense'
-Plug 'untitled-ai/jupyter_ascending.vim'
-Plug 'goerz/jupytext.vim'
 
 " python textobjects: isn't this covered by the LSP?
 Plug 'Konfekt/FastFold'

@@ -19,7 +19,7 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
-
+export LANG=hu_HU.UTF-8
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=500000
@@ -85,7 +85,9 @@ fi
 export PATH=$PATH:/usr/local/go/bin
 
 
-eval "$(zoxide init zsh)"
+if ! type "$zoxide" > /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
 function confed(){
   env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "FYadm!"

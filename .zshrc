@@ -19,6 +19,16 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 export LANG=hu_HU.UTF-8
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"

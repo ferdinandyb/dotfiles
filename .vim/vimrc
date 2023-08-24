@@ -1,4 +1,5 @@
 set nocompatible
+set encoding=utf8
 
 " run vimrc found in local folder, not safe
 " set exrc

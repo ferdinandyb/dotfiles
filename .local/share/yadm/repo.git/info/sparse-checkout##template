@@ -14,7 +14,7 @@
 !.vim/vim-plug-configs/tags.vim
 # TODO: coc.nvim, ctags?
 
-.zshenv
+.zshrc
 .p10k.zsh
 .bashrc
 .tmux.conf

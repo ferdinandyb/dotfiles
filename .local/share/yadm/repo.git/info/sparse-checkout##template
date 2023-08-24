@@ -6,7 +6,7 @@
 .vim/**
 
 # these plugins take a lot of space
-!.vim/vim-plug-configs/iamcoo-markdown-preview.vim
+!.vim/vim-plug-configs/iamcco-markdown-preview.vim
 !.vim/vim-plug-configs/vimspector.vim
 
 # these plugins have complicated external dependencies

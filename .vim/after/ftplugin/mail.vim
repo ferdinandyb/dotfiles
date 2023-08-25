@@ -1,4 +1,4 @@
-nnoremap dq :.,$global/^>\($\<bar>\s\)/delete<CR>:noh<cr>
+nnoremap <buffer> dq :.,$global/^>\($\<bar>\s\)/delete<CR>:noh<cr>
 setlocal spell! spelllang=en_gb,hu
 set ff=unix
 set columns=90
@@ -64,4 +64,9 @@ function! InsertTrailer()
 endfunction
 
 
-nnoremap <leader>t :call InsertTrailer()<CR>
+nnoremap <buffer> <leader>t :call InsertTrailer()<CR>
+
+
+
+let b:coc_enabled = 0
+let b:ale_enabled = 0

@@ -1,1 +1,1 @@
-nnoremap gq :q<CR>
+nnoremap <buffer> gq :q<CR>

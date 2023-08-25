@@ -1,2 +1,2 @@
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'preservim/tagbar'
+Plug 'preservim/tagbar',  { 'on': 'TagbarToggle' }

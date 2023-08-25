@@ -30,6 +30,7 @@ alias jcu="journalctl --user"
 
 alias g="git"
 alias lazyadm="lazygit -w ~ -g ~/.local/share/yadm/repo.git"
+alias yadiff="diff <(ls) <(yadm list)"
 
 alias ad="aerc > ~/.aerc.log"
 

@@ -99,6 +99,7 @@
     # ram                   # free RAM
     # swap                  # used swap
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
+    xterm
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
     taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     # time                  # current time
@@ -1565,6 +1566,9 @@
   # Type `p10k help segment` for documentation and a more sophisticated example.
   function prompt_example() {
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
+  }
+  function prompt_xterm() {
+    p10k segment -f 247  -t $TERM
   }
 
   # User-defined prompt segments may optionally provide an instant_prompt_* function. Its job

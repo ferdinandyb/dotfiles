@@ -29,7 +29,6 @@ if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
 
-export LANG=hu_HU.UTF-8
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
 SAVEHIST=500000

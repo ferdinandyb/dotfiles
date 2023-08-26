@@ -10,15 +10,18 @@ curl -fLo ~/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/y
 ~/.local/bin/yadm config --add local.class minimal
 ~/.local/bin/yadm sparse-checkout reapply
 
-echo -e "\033[1minstalling fzf\033[0m"
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install
 
 echo -e "\033[1minstalling zoxide\033[0m"
 curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
 
 echo -e "\033[1minstalling vim plugins\033[0m"
 vim +PlugUpdate +qall
+
+
+echo -e "\033[1minstalling fzf\033[0m"
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+
 
 echo -e "\033[1mchange default shell to zsh\033[0m"
 chsh -s $(which zsh)

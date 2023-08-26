@@ -18,6 +18,7 @@
 .p10k.zsh
 .bashrc
 .tmux.conf
+.tmux/**
 .config/shell/**
 .config/git/**
 {% endif %}

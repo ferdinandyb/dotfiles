@@ -9,10 +9,19 @@ I use [yadm](https://github.com/TheLocehiliosan/yadm) because it is essentially 
 
 ## getting started
 
+### minimal quickstart
+
+```
+curl -sS https://raw.githubusercontent.com/ferdinandyb/dotfiles/master/.config/yadm/minimalbootstrap | bash
+```
+
+### manual
+Install yadm:
 ```
 curl -fLo ~/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm && chmod a+x ~/.local/bin/yadm
 ```
 
+Clone the repo:
 ```
 yadm clone https://github.com/ferdinandyb/dotfiles.git
 ```

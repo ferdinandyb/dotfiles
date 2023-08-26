@@ -9,6 +9,11 @@ I use [yadm](https://github.com/TheLocehiliosan/yadm) because it is essentially 
 
 ## getting started
 
+Requirements (just approximate):
+- git >= 2.34.1
+- zsh >= 5.1
+- vim >= 8.2 (much newer for everything)
+
 ### minimal quickstart
 
 ```
@@ -52,9 +57,6 @@ yadm sparse-checkout reapply
 
 See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template).
 
-### bootstrap and update
-
-Don't bootstrap. It probably doesn't make sense with sparse-checkout anyway.
 
 ## Desktop
 

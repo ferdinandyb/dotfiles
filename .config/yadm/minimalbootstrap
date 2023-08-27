@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# https://stackoverflow.com/questions/76984446/bash-script-seems-to-be-skipping-lines
+# see the above thread for some interesting things
+
+# TODO: detect if we're running in a terminal and remove escape sequences if not
+
 echo -e "\033[1mrunning minimal bootstrap\033[0m"
 
 mkdir -p ~/.local/bin

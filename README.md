@@ -17,7 +17,7 @@ Requirements (just approximate):
 ### minimal quickstart
 
 ```
-curl -sS https://raw.githubusercontent.com/ferdinandyb/dotfiles/master/.config/yadm/minimalbootstrap | bash
+bash <(curl -sS https://raw.githubusercontent.com/ferdinandyb/dotfiles/master/.config/yadm/minimalbootstrap)
 ```
 
 ### manual

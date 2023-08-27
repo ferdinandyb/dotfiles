@@ -308,7 +308,8 @@ profiles:
             # This is a special font to be used for displaying unicode symbols
             # that are to be rendered in emoji presentation.
             # Defaults to "emoji".
-            emoji: "CaskaydiaCove Nerd Font Light"
+            # emoji: "Noto Color Emoji"
+            emoji: "Noto Emoji Nerd Font Complete Mono"
 
         # bold_is_bright: false
 

@@ -302,13 +302,13 @@ profiles:
             # If bold/italic/bold_italic are not explicitely specified, the regular font with
             # the respective weight and slant will be used.
             bold: "CaskaydiaCove Nerd Font Semibold"
-            italic: "CaskaydiaCove Nerd Font Light Italic"
-            bold_italic: "CaskaydiaCove Nerd Font Semibold Italic"
+            # italic: "CaskaydiaCove Nerd Font Light Italic"
+            # bold_italic: "CaskaydiaCove Nerd Font Semibold Italic"
 
             # This is a special font to be used for displaying unicode symbols
             # that are to be rendered in emoji presentation.
             # Defaults to "emoji".
-            emoji: "emoji"
+            emoji: "CaskaydiaCove Nerd Font Light"
 
         # bold_is_bright: false
 

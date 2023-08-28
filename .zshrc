@@ -100,7 +100,7 @@ if ! type "$zoxide" > /dev/null; then
 fi
 
 function confed(){
-  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "FYadm!"
+  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "FYadm! ~"
 }
 
 

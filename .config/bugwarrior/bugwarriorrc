@@ -1,6 +1,7 @@
 [general]
-targets = github
+targets = github,trello
 taskrc = ~/.config/task/taskrc
+#log.level = DEBUG
 
 [elteeto]
 service = bitbucket
@@ -11,7 +12,8 @@ bitbucket.include_merge_requests = True
 bitbucket.username = ferdinandyb
 bitbucket.key = @oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/key
 bitbucket.secret = @oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/secret
-bitbucket.login = bence@ferdinandy.com
+bitbucket.login = ferdinandyb
+#bitbucket.password = @oracle:eval:pass show bugwarrior/bitbucket/pass
 
 [github]
 service = github
@@ -25,3 +27,13 @@ github.include_merge_requests = True
 github.query = assignee:ferdinandyb is:open
 #github.project_template = github.{{project}}
 github.annotation_comments = False
+github.import_labels_as_tags = True
+
+[trello]
+service = trello
+trello.api_key = d9b874cb64f9a3d38c5f8c2f8d818548
+trello.token = @oracle:eval:pass show bugwarrior/trello/token
+trello.annotation_comments = False
+trello.only_if_assigned = benceferdinandy
+trello.add_tags = trello
+trello.import_labels_as_tags = true

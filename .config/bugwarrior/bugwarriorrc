@@ -25,15 +25,20 @@ github.add_tags = github
 #bitbucket.only_if_assigned = ferdinandyb
 github.include_merge_requests = True
 github.query = assignee:ferdinandyb is:open
-#github.project_template = github.{{project}}
+github.project_template = github.{{project}}
 github.annotation_comments = False
 github.import_labels_as_tags = True
+github.label_template = github_{{label}}
+
 
 [trello]
 service = trello
 trello.api_key = d9b874cb64f9a3d38c5f8c2f8d818548
 trello.token = @oracle:eval:pass show bugwarrior/trello/token
 trello.annotation_comments = False
+trello.default_priority =
 trello.only_if_assigned = benceferdinandy
 trello.add_tags = trello
 trello.import_labels_as_tags = true
+trello.label_template = trello_{{label}}
+trello.project_template = trello.{{project | replace(" ","_")}}

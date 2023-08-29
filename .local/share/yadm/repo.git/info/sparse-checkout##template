@@ -12,7 +12,6 @@
 # these plugins have complicated external dependencies
 !.vim/vim-plug-configs/coc.vim
 !.vim/vim-plug-configs/tags.vim
-# TODO: coc.nvim, ctags?
 
 .zshrc
 .p10k.zsh
@@ -29,4 +28,6 @@
 .config/vit/**
 .config/bugwarrior/**
 .config/systemd/user/**
+{% else %}
+!.vim/vim-plug-configs/org.vim
 {% endif %}

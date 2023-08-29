@@ -17,6 +17,7 @@
 # Files
 data.location=$HOME/.task
 
+
 # To use the default location of the XDG directories,
 # move this configuration file from ~/.taskrc to ~/.config/task/taskrc and uncomment below
 
@@ -39,7 +40,12 @@ include /usr/share/taskwarrior/solarized-dark-256.theme
 # include solarized-light-256.theme
 #include no-color.theme
 
+report.next.filter = status:pending -WAITING limit:20
+
+search.case.sensitive=no
+
 news.version=2.6.0
 include ~/.config/task/bugwarrioruda
 include ~/.config/task/adhoc-configs
 include ~/.config/task/taskserver
+include ~/.config/task/taskwarrior-tui

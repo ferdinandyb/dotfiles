@@ -2,6 +2,7 @@
 targets = github,trello
 taskrc = ~/.config/task/taskrc
 #log.level = DEBUG
+merge_annotation = False
 
 [elteeto]
 service = bitbucket

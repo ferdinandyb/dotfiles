@@ -9,6 +9,10 @@ alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zot
 
 alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
+alias t="task"
+alias ta="task add"
+alias tt="taskwarrior-tui"
+
 alias r='. ranger'
 alias r.="kitty ranger"
 alias bm="bashmount"

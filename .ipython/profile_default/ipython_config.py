@@ -1,6 +1,15 @@
+import imp
+
 c = get_config()  # noqa
 c.TerminalInteractiveShell.confirm_exit = False
 c.TerminalIPythonApp.display_banner = False
+
+try:
+    imp.find_module("pyflyby")
+    c.InteractiveShellApp.extensions.append("pyflyby")
+except ImportError:
+    pass
+
 # c.TerminalInteractiveShell.shortcuts = [
 #     {
 #         "command": "IPython:auto_suggest.accept",

@@ -1,10 +1,10 @@
 [Default Applications]
-text/html=google-chrome.desktop
-x-scheme-handler/http=google-chrome.desktop
-x-scheme-handler/https=google-chrome.desktop
-x-scheme-handler/about=google-chrome.desktop
-x-scheme-handler/unknown=google-chrome.desktop
-x-scheme-handler/webcal=google-chrome.desktop
+text/html=brave-browser.desktop
+x-scheme-handler/http=brave-browser.desktop
+x-scheme-handler/https=brave-browser.desktop
+x-scheme-handler/about=brave-browser.desktop
+x-scheme-handler/unknown=brave-browser.desktop
+x-scheme-handler/webcal=brave-browser.desktop
 x-scheme-handler/mailto=aerc.desktop
 x-scheme-handler/viber=viber.desktop
 x-scheme-handler/msteams=teams.desktop
@@ -18,16 +18,17 @@ application/fdf=FoxitReader.desktop
 inode/directory=ranger.desktop
 text/plain=vim.desktop
 text/x-python=vim.desktop
+application/lrf=calibre-lrfviewer.desktop
 
 [Added Associations]
 image/x-portable-graymap=gimp.desktop;
 image/png=gimp.desktop;
 text/x-bibtex=gvim.desktop;
-text/csv=vim.desktop;org.gnome.gedit.desktop;libreoffice-calc.desktop;
+text/csv=libreoffice-calc.desktop;vim.desktop;org.gnome.gedit.desktop;
 application/epub+zip=FBReader.desktop;
 video/mp4=mpv.desktop;vlc.desktop;openshot-qt.desktop;
 image/jpeg=gimp.desktop;pdfshuffler.desktop;
-application/pdf=xournal.desktop;org.gnome.Evince.desktop;libreoffice-draw.desktop;gimp.desktop;mupdf.desktop;org.pwmt.zathura-pdf-mupdf.desktop;org.pwmt.zathura-pdf-poppler.desktop;
+application/pdf=org.gnome.Evince.desktop;xournal.desktop;pdfsam.desktop;org.inkscape.Inkscape.desktop;libreoffice-draw.desktop;gimp.desktop;mupdf.desktop;org.pwmt.zathura-pdf-mupdf.desktop;org.pwmt.zathura-pdf-poppler.desktop;
 text/plain=libreoffice-calc.desktop;vim.desktop;
 text/markdown=vim.desktop;
 image/svg+xml=gimp.desktop;
@@ -50,3 +51,5 @@ application/pgp-keys=nvim.desktop;
 x-scheme-handler/mailto=aerc.desktop;
 text/calendar=vim.desktop;google-chrome.desktop;
 video/x-matroska=vlc.desktop;
+application/x-cd-image=org.gnome.FileRoller.desktop;
+application/x-raw-disk-image=gnome-disk-image-mounter.desktop;

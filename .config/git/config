@@ -51,6 +51,7 @@
 	fixup = commit --fixup
 	fp = commit --fixup
 	wip = commit -am 'wip'
+	whichadded = log --diff-filter=A
 [pull]
 	rebase = true
 [pretty]

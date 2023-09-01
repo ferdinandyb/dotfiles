@@ -6,6 +6,7 @@ c.TerminalIPythonApp.display_banner = False
 c.InteractiveShell.colors = "linux"
 c.TerminalInteractiveShell.highlighting_style = "dracula"  # "solarized-dark"
 c.TerminalInteractiveShell.autoformatter = "black"
+c.InteractiveShell.pdb = 1
 
 try:
     imp.find_module("pyflyby")

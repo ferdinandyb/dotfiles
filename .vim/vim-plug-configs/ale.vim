@@ -1,6 +1,6 @@
 Plug 'dense-analysis/ale'
 let g:ale_disable_lsp = 1
-let g:ale_cursor_detail = 1
+let g:ale_cursor_detail = 0
 let g:ale_detail_to_floating_preview=1
 let g:ale_echo_msg_format = '%linter% - %code: %%s'
 let g:ale_cache_executable_check_failures = 1
@@ -22,7 +22,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],
-\   'python': ['black', 'isort'],
+\   'python': ['black', 'pyflyby', 'isort'],
 \   'go': ['gofumpt'],
 \   'vue': ['prettier']
 \}

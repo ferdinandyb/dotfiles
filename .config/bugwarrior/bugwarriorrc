@@ -3,11 +3,12 @@ targets = github,trello
 taskrc = ~/.config/task/taskrc
 #log.level = DEBUG
 merge_annotation = False
+# replace_tags = True
 
 [elteeto]
 service = bitbucket
 bitbucket.default_priority =
-bitbucket.add_tags = bitb-eto
+bitbucket.add_tags = bb-eto
 bitbucket.only_if_assigned = ferdinandyb
 bitbucket.include_merge_requests = True
 bitbucket.username = ferdinandyb
@@ -26,10 +27,10 @@ github.add_tags = github
 #bitbucket.only_if_assigned = ferdinandyb
 github.include_merge_requests = True
 github.query = assignee:ferdinandyb is:open
-github.project_template = github.{{project}}
+github.project_template = github.{{project | replace(".","")}}
 github.annotation_comments = False
 github.import_labels_as_tags = True
-github.label_template = github_{{label}}
+github.label_template = gh_{{label | replace(" ","")}}
 
 
 [trello]
@@ -41,5 +42,6 @@ trello.default_priority =
 trello.only_if_assigned = benceferdinandy
 trello.add_tags = trello
 trello.import_labels_as_tags = true
-trello.label_template = trello_{{label}}
-trello.project_template = trello.{{project | replace(" ","_")}}
+trello.label_template = tr_{{label | replace(" ","") }}
+trello.project_template = trello.{{project | replace(" ","") | replace(".","") | replace("-","") }}
+trello.exclude_lists = Done

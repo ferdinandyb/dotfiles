@@ -174,6 +174,10 @@ if [ -d $HOME/.local/softwarefromsource/contour/src/contour/shell-integration ];
 source $HOME/.local/softwarefromsource/contour/src/contour/shell-integration/shell-integration.zsh
 fi
 
+if [ -d $HOME/.local/share/zsh/site-functions/_hut ]; then
+source  /home/fbence/.local/share/zsh/site-functions/_hut
+fi
+
 if [ -d $HOME/.config/glab-cli/completion.zsh ]; then
   source $HOME/.config/glab-cli/completion.zsh
 fi

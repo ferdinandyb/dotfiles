@@ -3,6 +3,8 @@ targets = github,trello
 taskrc = ~/.config/task/taskrc
 #log.level = DEBUG
 merge_annotation = False
+annotation_comments = False
+static_fields = priority
 # replace_tags = True
 
 [elteeto]

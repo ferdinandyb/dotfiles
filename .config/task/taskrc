@@ -40,10 +40,11 @@ include /usr/share/taskwarrior/solarized-dark-256.theme
 # include solarized-light-256.theme
 #include no-color.theme
 
-report.next.filter = status:pending -WAITING limit:20
+# report.next.filter = status:pending -WAITING limit:20
 
 search.case.sensitive=no
 uda.priority.values=H,M,,L # no priority is higher than low
+reserved.lines=2
 
 news.version=2.6.0
 include ~/.config/task/bugwarrioruda

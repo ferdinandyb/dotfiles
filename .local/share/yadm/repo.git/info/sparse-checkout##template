@@ -20,6 +20,7 @@
 .tmux/**
 .config/shell/**
 .config/git/**
+.ipython/**
 {% endif %}
 
 {% if yadm.class == "org" %}

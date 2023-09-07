@@ -14,18 +14,21 @@
 	assume8bitEncoding = UTF-8
 [diff]
 	tool = vimdiff
+	colorMoved = default
 [difftool]
 	prompt = false
 [merge]
 	tool = fugitive
+	conflictstyle = diff3
 [core]
 	excludesfile = /home/fbence/.gitignore
-	pager = less -F
+	pager = delta
 [mergetool "fugitive"]
 	hideResolved = true
 	; cmd = vim -c \"Git mergetool\" -c \"Gvdiffsplit!\" \"$MERGED\"
 	; note: you can always call Gvdiffsplit! manually, if the default is not enough
 	cmd = vim -c \"Git mergetool\" \"$MERGED\"
+
 [init]
 	defaultBranch = master
 [rebase]
@@ -67,3 +70,10 @@
 	branch = false
 [push]
 	autoSetupRemote = true
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+[delta]
+	navigate = true
+	side-by-side = true
+	hyperlinks = true
+	syntax-theme = Dracula

@@ -1,10 +1,13 @@
 import imp
 
+from pygments.styles import get_all_styles
+
 c = get_config()  # noqa
 c.TerminalInteractiveShell.confirm_exit = False
 c.TerminalIPythonApp.display_banner = False
 c.InteractiveShell.colors = "linux"
-c.TerminalInteractiveShell.highlighting_style = "dracula"  # "solarized-dark"
+if "dracula" in list(get_all_styles()):
+    c.TerminalInteractiveShell.highlighting_style = "dracula"  # "solarized-dark"
 c.TerminalInteractiveShell.autoformatter = "black"
 # c.InteractiveShell.pdb = 1
 

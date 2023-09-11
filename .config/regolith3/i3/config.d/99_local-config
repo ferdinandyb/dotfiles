@@ -2,6 +2,7 @@
 # My bindings mostly
 ######
 
+bindsym Mod1+Tab exec --no-startup-id pkill -USR1 -F "${XDG_RUNTIME_DIR}/swap_focus.pid"
 bindsym $mod+Ctrl+comma workspace back_and_forth
 bindsym $mod+$alt+comma move container to workspace back_and_forth; workspace back_and_forth
 # this is less keys then the default binding

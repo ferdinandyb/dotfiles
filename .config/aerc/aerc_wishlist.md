@@ -1,14 +1,9 @@
 # AERC wishlist
 
 ## notmuch related
-- search: be able to get entire thread (notmuch can search like this so possible currently, but clunky, so could have a convenience function which wraps search terms in thread:)
-- search II: if you are on a message, fetch it's thread and show only that
 - when modify-labels move the message out of the message list select the next message
-- currently, you need to run a `check-mail` command to update the view, but it would be good to have this without needing any `check-mail` command
 
 ## imap related
-- rename folders like isync
-- be able to handle root dirs where everything is under `INBOX.`
 
 ## other
 - see side pane when messages are opened
@@ -31,6 +26,10 @@
 
 # solved
 
+- search: be able to get entire thread (notmuch can search like this so possible currently, but clunky, so could have a convenience function which wraps search terms in thread:)
+- search II: if you are on a message, fetch it's thread and show only that
+- be able to handle root dirs where everything is under `INBOX.`
+- rename folders like isync
 - zoxide integration -> (see https://lists.sr.ht/~rjarry/aerc-devel/patches/35133)
 - persistent command history ([in progress](https://lists.sr.ht/~rjarry/aerc-devel/patches/35310))
 - save: empty save should assume current directory (already worked, set:  `default-save-path=.`)

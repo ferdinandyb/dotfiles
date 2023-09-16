@@ -17,12 +17,12 @@ try:
 except ImportError:
     pass
 
-# c.TerminalInteractiveShell.shortcuts = [
-#     {
-#         "command": "IPython:auto_suggest.accept",
-#         "new_keys": ["c-z"],
-#     }
-# ]
+c.TerminalInteractiveShell.shortcuts = [
+    {
+        "command": "IPython:auto_suggest.accept",
+        "match_keys": ["c-z"],
+    }
+]
 ## Shortcut style to use at the prompt. 'vi' or 'emacs'.
 #  Default: 'emacs'
 c.TerminalInteractiveShell.editing_mode = "vi"

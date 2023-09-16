@@ -75,7 +75,7 @@ Plug 'AndrewRadev/splitjoin.vim'
 
 Plug 'nanotee/zoxide.vim'
 " auto switch to root dir
-Plug 'airblade/vim-rooter'
+" Plug 'airblade/vim-rooter'
 
 Plug 'hauleth/vim-backscratch'
 

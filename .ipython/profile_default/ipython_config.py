@@ -23,6 +23,65 @@ c.TerminalInteractiveShell.shortcuts = [
         "match_keys": ["c-z"],
     }
 ]
+
+from IPython.terminal.prompts import Prompts
+from prompt_toolkit.enums import EditingMode
+from prompt_toolkit.formatted_text import fragment_list_width
+from pygments.token import Token
+
+
+class Prompt(Prompts):
+    """
+    This is a copy of the original prompt, which I plan to upgrade slightly.
+    """
+
+    def vi_mode(self):
+        if (
+            getattr(self.shell.pt_app, "editing_mode", None) == EditingMode.VI
+            and self.shell.prompt_includes_vi_mode
+        ):
+            mode = str(self.shell.pt_app.app.vi_state.input_mode)
+            if mode.startswith("InputMode."):
+                # mode is one of INSERT, NAVIGATION, INSERT_MULTIPLE, REPLACE, REPLACE_SINGLE
+                mode = mode[10:13].lower()
+            elif mode.startswith("vi-"):
+                mode = mode[3:6]
+            return "[" + mode + "] "
+        return ""
+
+    def in_prompt_tokens(self):
+        return [
+            (Token.Prompt, self.vi_mode()),
+            (Token.Prompt, "In ["),
+            (Token.PromptNum, str(self.shell.execution_count)),
+            (Token.Prompt, "]: "),
+        ]
+
+    def _width(self):
+        return fragment_list_width(self.in_prompt_tokens())
+
+    def continuation_prompt_tokens(self, width=None):
+        if width is None:
+            width = self._width()
+        return [
+            (Token.Prompt, (" " * (width - 5)) + "...: "),
+        ]
+
+    def rewrite_prompt_tokens(self):
+        width = self._width()
+        return [
+            (Token.Prompt, ("-" * (width - 2)) + "> "),
+        ]
+
+    def out_prompt_tokens(self):
+        return [
+            (Token.OutPrompt, "Out["),
+            (Token.OutPromptNum, str(self.shell.execution_count)),
+            (Token.OutPrompt, "]: "),
+        ]
+
+
+c.TerminalInteractiveShell.prompts_class = Prompt
 ## Shortcut style to use at the prompt. 'vi' or 'emacs'.
 #  Default: 'emacs'
 c.TerminalInteractiveShell.editing_mode = "vi"

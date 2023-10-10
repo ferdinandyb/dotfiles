@@ -12,9 +12,12 @@
 	chainreplyto = false
 	confirm = always
 	assume8bitEncoding = UTF-8
+[log]
+	follow = true
 [diff]
 	tool = vimdiff
 	colorMoved = default
+	renames = copies
 [difftool]
 	prompt = false
 [merge]

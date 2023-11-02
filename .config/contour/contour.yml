@@ -196,7 +196,7 @@ profiles:
 
         history:
             # Number of lines to preserve (-1 for infinite).
-            limit: 10000
+            limit: 1000000
             # Boolean indicating whether or not to scroll down to the bottom on screen updates.
             auto_scroll_on_update: true
             # Number of lines to scroll on ScrollUp & ScrollDown events.

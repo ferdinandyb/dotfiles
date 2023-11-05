@@ -44,6 +44,8 @@ include /usr/share/taskwarrior/solarized-dark-256.theme
 
 search.case.sensitive=no
 uda.priority.values=H,M,,L # no priority is higher than low
+urgency.user.tag.trello.coefficient=-2
+urgency.user.tag.github.coefficient=-2
 reserved.lines=2
 
 news.version=2.6.0

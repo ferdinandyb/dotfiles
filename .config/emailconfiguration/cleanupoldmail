@@ -1,0 +1,10 @@
+#!/bin/bash
+
+re='[0-9]+$'
+#mdedup ~/.mail/oldmail/ -i maildir -s discard-all-but-one -a delete-discarded
+for d in ~/.mail/oldmail/*
+do
+    if [[ $d =~ $re ]] ; then
+        mdedup $d -i maildir -s discard-all-but-one -a delete-discarded
+    fi
+done

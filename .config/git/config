@@ -53,12 +53,14 @@
 	l = log --oneline --topo-order
 	ll = log --pretty=lineauthor --date=short --topo-order
 	lh = log --pretty=lineauthor --date=short --topo-order -10
-	lm = log --pretty=lineauthor --date=short --topo-order origin^..
+	lm = log --pretty=lineauthor --date=short --topo-order refs/remotes/origin/HEAD^..
+	lg = log --pretty=lineauthor --date=short --topo-order --graph --all
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
 	fp = commit --fixup
 	wip = commit -am 'wip'
 	whichadded = log --diff-filter=A
+	fetchall = !git fetch --all && git remote | xargs -i git remote set-head -a {}
 [pull]
 	rebase = true
 [pretty]

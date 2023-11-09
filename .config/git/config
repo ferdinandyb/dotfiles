@@ -26,6 +26,7 @@
 [core]
 	excludesfile = /home/fbence/.gitignore
 	pager = delta
+	logAllRefUpdates = always
 [mergetool "fugitive"]
 	hideResolved = true
 	; cmd = vim -c \"Git mergetool\" -c \"Gvdiffsplit!\" \"$MERGED\"

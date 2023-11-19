@@ -72,6 +72,7 @@
 [notes]
 	rewriteRef = refs/notes/commits
 	rewriteMode = concatenate
+	displayRef = refs/notes/*
 [pager]
 	branch = false
 [push]
@@ -83,3 +84,7 @@
 	side-by-side = true
 	hyperlinks = true
 	syntax-theme = Dracula
+[advice]
+	detachedHead = false
+[remote "origin"]
+	fetch = +refs/notes/*:refs/notes/*

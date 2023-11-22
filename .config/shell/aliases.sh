@@ -3,6 +3,7 @@ alias v="vim"
 alias vl="vim --cmd 'let g:lightweight=1'"
 
 alias week="date +%V"
+alias diary="vim +VimwikiMakeDiaryNote"
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 

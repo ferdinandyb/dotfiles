@@ -1,6 +1,0 @@
-X-Mailer: aerc {{version}}
-
-{{(index .OriginalFrom 0).Name}}, {{dateFormat (.OriginalDate | toLocal) "Jan 02, 2006 at 15:04"}}:
-{{.OriginalText | quote}}
-
-Tested-by: Bence Ferdinandy <bence@ferdinandy.com>

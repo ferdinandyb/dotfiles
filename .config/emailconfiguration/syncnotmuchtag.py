@@ -10,7 +10,9 @@ db = Database(
 
 def move_maildir(msg, folder):
     print(msg, folder)
-    path = msg.get_filename().replace("/.notmuch", "")
+    path = msg.get_filename().replace(
+        "/.notmuch", ""
+    )  # get filename returns a single filename, although it could be in multipe places
     account = "/".join(path.split("/")[:5])
     account = account.replace("/.notmuch", "")
     filename = path.split("/")[-1]

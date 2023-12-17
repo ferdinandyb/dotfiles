@@ -56,6 +56,7 @@
 	lh = log --pretty=lineauthor --date=short --topo-order -10
 	lm = log --pretty=lineauthor --date=short --topo-order refs/remotes/origin/HEAD^..
 	lg = log --pretty=lineauthor --date=short --topo-order --graph --all
+	ls = ls-tree --full-tree --name-only -r HEAD
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
 	fp = commit --fixup

@@ -4,8 +4,11 @@
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
-source $HOME/.config/shell/zsh/antigen.zsh
-source $HOME/.config/shell/zsh/contour.sh
+
+for file in $HOME/.config/shell/zsh/*.zsh; do
+  source $file
+done
+
 # Plugins
 antigen bundle Aloxaf/fzf-tab
 antigen bundle zsh-users/zsh-autosuggestions

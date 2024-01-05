@@ -6,3 +6,5 @@ Forwarded message from {{(index .OriginalFrom 0).Name}} on {{dateFormat .Origina
 {{- else -}}
 {{- .OriginalText -}}
 {{- end}}
+
+{{.Signature}}

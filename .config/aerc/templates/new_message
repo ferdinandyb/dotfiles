@@ -1,1 +1,2 @@
 X-Mailer: aerc {{version}}
+{{.Signature}}

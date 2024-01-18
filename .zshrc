@@ -187,3 +187,5 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+
+export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc

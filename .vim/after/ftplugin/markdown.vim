@@ -6,3 +6,14 @@ nnoremap <buffer> <silent> <leader>nc :BibtexciteInsert<CR>
 inoremap <buffer> <silent> @@ <Esc>:BibtexciteInsert<CR>
 
 let b:auto_save_events = ["WinLeave","BufLeave","CursorHold","CursorHoldI"]
+
+
+function! VisualCodeBlock()
+  call search('```', 'b')
+  normal! j0v
+  call search('```')
+  normal! k$
+endfunction
+
+vnoremap iq <Cmd>call VisualCodeBlock()<CR>
+omap iq :normal Viq<CR>

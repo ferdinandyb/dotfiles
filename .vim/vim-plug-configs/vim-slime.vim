@@ -9,6 +9,8 @@ xmap <leader>s <Plug>SlimeRegionSend
 nmap <leader>sp <Plug>SlimeParagraphSend
 nmap <leader>ss <Plug>SlimeLineSend
 nmap <leader>s <Plug>SlimeMotionSend
+
+nmap <leader>s7 <Plug>SlimeMotionSendiq
 " nmap <c-c>v     <Plug>SlimeConfig
 
 

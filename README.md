@@ -57,6 +57,33 @@ yadm sparse-checkout reapply
 
 See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template).
 
+## usage
+
+The below function sets up vim so that fugitive works properly with yadm and my
+editing history is preserved.
+
+```sh
+function confed(){
+  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME \
+  vim -c "cd ~" \
+      -c "let g:rooter_change_directory_for_non_project_files = 'home'" \
+      -c "silent AutoSaveToggle" \
+      -S ~/.local/share/yadm/Session.vim
+}
+```
+
+And the below vim setup allows for fzf search among my dotfiles.
+
+```vim
+command! -bang -nargs=? -complete=dir FYadm
+            \ call fzf#run(fzf#wrap('yadm',
+            \ fzf#vim#with_preview(
+            \ { 'dir': <q-args>,
+            \ 'source': 'yadm list -a' }), <bang>0))
+
+nmap <leader>y :FYadm!<CR>
+```
+
 
 ## Desktop
 

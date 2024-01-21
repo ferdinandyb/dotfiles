@@ -102,9 +102,6 @@ if ! type "$zoxide" > /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
-function confed(){
-  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME vim -c "FYadm! ~"
-}
 
 function confed(){
   env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME \

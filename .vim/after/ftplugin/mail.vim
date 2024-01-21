@@ -71,3 +71,4 @@ nnoremap <buffer> <leader>t :call InsertTrailer()<CR>
 
 let b:coc_enabled = 0
 let b:ale_enabled = 0
+let b:ale_fix_on_save = 0

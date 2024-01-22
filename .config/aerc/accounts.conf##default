@@ -45,7 +45,7 @@ pgp-auto-sign=false
 pgp-opportunistic-encrypt=false
 signature-file=~/.config/emailconfiguration/pharmahungary_signature.txt
 
-[gmail]
+[priestoferis]
 # source=notmuch://~/.mail/
 # maildir-store=~/.mail/
 # maildir-account-path=priestoferis

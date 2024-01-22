@@ -47,7 +47,7 @@ pgp-opportunistic-encrypt=false
 signature-file=~/.config/emailconfiguration/pharmahungary_signature.txt
 folder-map=~/.config/aerc/imap-folder-map-pharmahungary.conf
 
-[gmail]
+[priestoferis]
 source=imaps+oauthbearer://priestoferis@imap.gmail.com
 source-cred-cmd="mailctl access priestoferis"
 outgoing=smtps+oauthbearer://priestoferis@smtp.gmail.com

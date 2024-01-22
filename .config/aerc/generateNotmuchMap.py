@@ -26,23 +26,23 @@ with open("notmuchmap.conf", "w") as f:
     f.write(s)
 
     # THREADED INBOX
-    s = 'InboxThreaded=thread:"{('
+    s = 'InboxThreaded=thread:"{'
     for i, m in enumerate(MAILDIRS):
         s += f"path:{m}/Inbox/**"
         if i != len(MAILDIRS) - 1:
             s += " or "
-    s += ') and not tag:aerc}"\n'
+    s += '}"\n'
     f.write(s)
 
     # FOLDERS
     for folder in FOLDERS:
-        s = f"{folder}=("
+        s = f"{folder}="
         for i, m in enumerate(MAILDIRS):
             s += f"path:{m}/{folder}/**"
             if i != len(MAILDIRS) - 1:
                 s += " or "
         if folder == "Archive":
-            s += ' or path:oldmail/**) and not tag:aerc"\n'
+            s += ' or path:oldmail/**"\n'
         else:
-            s += ') and not tag:aerc"\n'
+            s += '"\n'
         f.write(s)

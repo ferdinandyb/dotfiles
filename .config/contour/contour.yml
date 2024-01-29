@@ -134,6 +134,12 @@ images:
 # Dominates how your terminal visually looks like. You will need at least one terminal profile.
 profiles:
     main:
+        bell:
+            sound: "off"
+            alert: true
+        margins:
+            horizontal: 10
+            vertical: 2
         # You can override the process to be started inside the terminal.
         # If nothing is specified, the users' default login shell will be used.
         # But you may as well log in to a remote host.
@@ -396,7 +402,7 @@ color_schemes:
               text: CellBackground
 
           hyperlink_decoration:
-              normal: '#f0f000'
+              normal: '#1d1f21'
               hover: '#ff0000'
 
           vi_mode_highlight:

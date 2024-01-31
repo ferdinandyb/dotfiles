@@ -1,7 +1,9 @@
 #!/bin/sh
 
 if [ $# -eq 0 ]; then
-	exec curl -F file=@- https://0x0.st | xclip -selection clipboard
+	URL=$(exec curl -F file=@- https://0x0.st)
 else
-	exec curl -F file=@"$1" https://0x0.st | xclip -selection clipboard
+	URL=$(exec curl -F file=@"$1" https://0x0.st)
 fi
+echo $URL
+echo $URL | xclip -selection clipboard

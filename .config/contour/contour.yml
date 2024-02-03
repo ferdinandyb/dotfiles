@@ -285,8 +285,10 @@ input_mapping:
     - { mods: [Control],        key: '0',           action: ResetFontSize }
     - { mods: [Control, Shift], key: Minus,         action: DecreaseFontSize }
     - { mods: [Control, Shift], key: '_',           action: DecreaseFontSize }
+    # - { mods: [Control, Shift], key: R,             action: ReloadConfig }
     - { mods: [Control, Shift], key: N,             action: NewTerminal }
     - { mods: [Control, Shift], key: V,             action: PasteClipboard, strip: false }
+    - { mods: [Control, Shift], key: M,             action: CopyPreviousMarkRange, strip: false }
     - { mods: [Control, Alt],   key: V,             action: PasteClipboard, strip: true }
     - { mods: [Control],        key: C,             action: CopySelection, mode: 'Select|Insert' }
     - { mods: [Control],        key: C,             action: CancelSelection, mode: 'Select|Insert' }

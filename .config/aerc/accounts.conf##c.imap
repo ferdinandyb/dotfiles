@@ -14,8 +14,9 @@ signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 folder-map=~/.config/aerc/imap-folder-map-bence.conf
 
 [elte]
-source=imaps+xoauth2://ferdinandy.bence%40ttk.elte.hu@outlook.office365.com
-source-cred-cmd="mailctl access ferdinandy.bence@ttk.elte.hu"
+# cat ~/.local/var/mailctl/ferdinandy.bence@ttk.elte.hu.auth | gpg -d | jq -r .refresh_token | pass insert -e aerc/elte/refresh
+source=imaps+xoauth2://ferdinandy.bence%40ttk.elte.hu@outlook.office365.com?token_endpoint=https://login.microsoftonline.com/common/oauth2/v2.0/token&client_id=08162f7c-0fd2-4200-a84a-f25a4db0b584&client_secret=TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82
+source-cred-cmd="pass show aerc/elte/refresh"
 outgoing=smtp+xoauth2://ferdinandy.bence%40ttk.elte.hu@smtp.office365.com
 outgoing-cred-cmd="mailctl access ferdinandy.bence@ttk.elte.hu"
 from=Bence Ferdinandy <ferdinandy.bence@ttk.elte.hu>

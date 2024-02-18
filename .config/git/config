@@ -14,6 +14,7 @@
 	assume8bitEncoding = UTF-8
 [log]
 	follow = true
+	; date = iso
 [diff]
 	tool = vimdiff
 	colorMoved = default
@@ -22,7 +23,7 @@
 	prompt = false
 [merge]
 	tool = fugitive
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 [core]
 	excludesfile = /home/fbence/.gitignore
 	pager = delta
@@ -78,6 +79,12 @@
 	branch = false
 [push]
 	autoSetupRemote = true
+	default = current
+	followtags = true
+[rerere]
+	enabled = true
+[help]
+	autocorrect = 10
 [interactive]
 	diffFilter = delta --color-only --features=interactive
 [delta]
@@ -89,3 +96,15 @@
 	detachedHead = false
 [remote "origin"]
 	fetch = +refs/notes/*:refs/notes/*
+[transfer]
+	fsckobjects = true
+[fetch]
+	fsckobjects = true
+	; prune = true
+	; prunetags = true
+[receive]
+	fsckobjects = true
+[branch]
+	sort = committerdate
+[tag]
+	sort = committerdate

@@ -25,7 +25,7 @@ if !empty(glob(expand('~/.config/glab-cli/token')))
   let g:gitlab_api_keys = {'mrbd15.pgsm.hu': readfile(expand('~/.config/glab-cli/token'))[0]}
 endif
 
-nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>Gd :Gvdiff<CR>
 nnoremap gs :Git<CR>
 nnoremap gS :vert Git<CR>
 nnoremap <Leader>Gb :.GBrowse!<CR>

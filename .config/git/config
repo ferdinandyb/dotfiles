@@ -108,3 +108,5 @@
 	sort = committerdate
 [tag]
 	sort = committerdate
+[commit]
+	verbose = 1

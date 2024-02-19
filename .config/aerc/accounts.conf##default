@@ -73,7 +73,6 @@ source=notmuch://~/.mail/
 # check-mail-cmd=notmuch new
 maildir-store=~/.mail/
 # maildir-account-path=pharmahungary
-auto-switch-account=true
 outgoing=msmtpq -a bence
 default=Inbox
 folders-sort=Inbox

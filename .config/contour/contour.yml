@@ -1,3 +1,5 @@
+# contour generate config to - | bat --file-name config.yaml
+
 platform_plugin: auto
 
 renderer:

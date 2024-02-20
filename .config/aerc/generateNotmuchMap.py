@@ -42,7 +42,7 @@ with open("notmuchmap.conf", "w") as f:
             if i != len(MAILDIRS) - 1:
                 s += " or "
         if folder == "Archive":
-            s += ' or path:oldmail/**"\n'
+            s += " or path:oldmail/**\n"
         else:
-            s += '"\n'
+            s += "\n"
         f.write(s)

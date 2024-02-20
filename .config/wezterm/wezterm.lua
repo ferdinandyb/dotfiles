@@ -47,6 +47,7 @@ config.check_for_updates = false
 config.hide_tab_bar_if_only_one_tab = true
 config.scrollback_lines = 35000
 config.font_size = 13
+config.unicode_version = 15
 
 config.font = wezterm.font('CaskaydiaCove Nerd Font', { weight = 'Light' })
 return config

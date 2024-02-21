@@ -17,6 +17,7 @@ try:
 except ImportError:
     pass
 
+
 c.TerminalInteractiveShell.shortcuts = [
     {
         "command": "IPython:auto_suggest.accept",

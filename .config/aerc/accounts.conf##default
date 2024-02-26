@@ -83,4 +83,3 @@ pgp-auto-sign=false
 pgp-opportunistic-encrypt=false
 copy-to=bence/Sent
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
-# check-mail=1m

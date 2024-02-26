@@ -7,3 +7,5 @@ command! WrapHard call myfunctions#set_hardwrap()
 command! WrapSoft call myfunctions#set_softwrap()
 command -nargs=* -complete=file W w <args>
 command -nargs=* -complete=file Wq wq <args>
+
+command! FormatThousand call myfunctions#make_thousand_separators()

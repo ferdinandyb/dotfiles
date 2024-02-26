@@ -1,14 +1,14 @@
 function! myfunctions#show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
-  elseif (len(bibtexcite#getfilepath("pandoc")) > 1)
-    call bibtexcite#openfile("pandoc")
-  elseif (len(bibtexcite#getfilepath("latex")) > 1)
-    call bibtexcite#openfile("latex")
-  elseif (len(bibtexcite#getcitekey("pandoc")) > 1)
-    call bibtexcite#showcite("pandoc")
-  elseif (len(bibtexcite#getcitekey("latex")) > 1)
-    call bibtexcite#showcite("latex")
+  elseif (len(bibtexcite#getfilepath('pandoc')) > 1)
+    call bibtexcite#openfile('pandoc')
+  elseif (len(bibtexcite#getfilepath('latex')) > 1)
+    call bibtexcite#openfile('latex')
+  elseif (len(bibtexcite#getcitekey('pandoc')) > 1)
+    call bibtexcite#showcite('pandoc')
+  elseif (len(bibtexcite#getcitekey('latex')) > 1)
+    call bibtexcite#showcite('latex')
   elseif (coc#rpc#ready())
     call CocActionAsync('doHover')
   else
@@ -60,7 +60,7 @@ function! myfunctions#make_thousand_separators()
     " add spaces as thousands separator for the current word under the cursor
     " TODO: do it on ranges: https://stackoverflow.com/questions/10572996/passing-command-range-to-a-function
     " TODO: make it dot repeatable
-    let l:cword = expand("<cword>")
+    let l:cword = expand('<cword>')
     let l:newword = substitute(l:cword, '\(\d,\d*\)\@<!\d\ze\(\d\{3}\)\+\d\@!', '& ', 'g')
-    exe "norm! ciw" . l:newword
+    exe 'norm! ciw' . l:newword
 endfunction

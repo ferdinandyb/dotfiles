@@ -56,18 +56,32 @@ function! myfunctions#set_hardwrap()
 endfunction
 
 
-function! myfunctions#make_thousand_separators()
-    " add spaces as thousands separator for the current word under the cursor
-    " TODO: do it on ranges: https://stackoverflow.com/questions/10572996/passing-command-range-to-a-function
-    " TODO: make it dot repeatable
-    let l:cword = expand('<cWORD>')
-    if l:cword =~ '\<\d\.\d\+[eE]+\d\+\>'
-        let l:parts = split(l:cword,'\ce+')
+function! myfunctions#make_thousand_separators_get_word(word)
+    if a:word =~ '\<\d\.\d\+[eE]+\d\+\>'
+        let l:parts = split(a:word,'\ce+')
         let l:parts2 = split(l:parts[0],'\.')
         let znum = str2nr(l:parts[1]) - len(l:parts2[1])
         let l:cword = join(l:parts2) . repeat(0,l:znum)
-        echom l:cword
+    else
+        let l:cword = a:word
     endif
     let l:newword = substitute(l:cword, '\(\.\d\+\)\@<!\d\ze\(\d\{3}\)\+\d\@!', '& ', 'g')
-    exe 'norm! ciW' . l:newword
+    return l:newword
+endfunction
+
+function! myfunctions#make_thousand_separators_word()
+    let l:cword = expand('<cWORD>')
+    execute 'norm! ciW' . myfunctions#make_thousand_separators_get_word(l:cword)
+endfunction
+
+function! myfunctions#make_thousand_separators_line()
+    " add spaces as thousands separator for the current word under the cursor
+    " TODO: do it on ranges: https://stackoverflow.com/questions/10572996/passing-command-range-to-a-function
+    " TODO: make it dot repeatable
+    let l:newline = []
+    for word in split(getline(line('.')))
+        call add(l:newline, myfunctions#make_thousand_separators_get_word(word))
+    endfor
+    let l:newline = join(l:newline)
+    execute 'norm! cc' . l:newline
 endfunction

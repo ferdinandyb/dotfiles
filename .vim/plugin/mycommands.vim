@@ -7,4 +7,5 @@ command! WrapSoft call myfunctions#set_softwrap()
 command! -nargs=* -complete=file W w <args>
 command! -nargs=* -complete=file Wq wq <args>
 
-command! FormatThousand call myfunctions#make_thousand_separators()
+command! FormatThousandWord call myfunctions#make_thousand_separators_word()
+command! -range FormatThousandLine <line1>,<line2>call myfunctions#make_thousand_separators_line()

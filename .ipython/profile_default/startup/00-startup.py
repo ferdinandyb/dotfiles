@@ -19,7 +19,7 @@ try:
 
     clipman.init()
 
-    def clip(data=None):
+    def clip(data=None, **kwargs):
         """
 
         If no data is given, it will try to copy the last output stored in
@@ -32,7 +32,7 @@ try:
         def getrepr(data):
             try:
                 if isinstance(data, pd.DataFrame):
-                    data = data.to_markdown()
+                    data = data.to_markdown(**kwargs)
             except NameError:
                 pass
             if data is not None:

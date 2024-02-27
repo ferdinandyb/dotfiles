@@ -60,8 +60,14 @@ function! myfunctions#make_thousand_separators()
     " add spaces as thousands separator for the current word under the cursor
     " TODO: do it on ranges: https://stackoverflow.com/questions/10572996/passing-command-range-to-a-function
     " TODO: make it dot repeatable
-    " TODO: doesnt work if you are _after_ a decimal dot
     let l:cword = expand('<cWORD>')
+    if l:cword =~ '\<\d\.\d\+[eE]+\d\+\>'
+        let l:parts = split(l:cword,'\ce+')
+        let l:parts2 = split(l:parts[0],'\.')
+        let znum = str2nr(l:parts[1]) - len(l:parts2[1])
+        let l:cword = join(l:parts2) . repeat(0,l:znum)
+        echom l:cword
+    endif
     let l:newword = substitute(l:cword, '\(\.\d\+\)\@<!\d\ze\(\d\{3}\)\+\d\@!', '& ', 'g')
     exe 'norm! ciW' . l:newword
 endfunction

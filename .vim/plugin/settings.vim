@@ -129,6 +129,27 @@ if !has("nvim")
     end
 endif
 
+
+" Cursor shape
+if &term =~? 'contour' || &term =~? 'tmux-256color' || &term =~? 'xterm-256color'
+    " 1 or 0 -> blinking block
+    " 2 -> solid block
+    " 3 -> blinking underscore
+    " 4 -> solid underscore
+    " Recent versions of xterm (282 or above) also support
+    " 5 -> blinking vertical bar
+    " 6 -> solid vertical bar
+    " :h t_SI
+    " Enter Insert Mode
+    let &t_SI .= "\<Esc>[6 q"
+    " Enter Normal Mode
+    let &t_EI .= "\<Esc>[2 q"
+    " 'Usual' cursor
+    let &t_VS .= "\<Esc>[2 q"
+
+    au VimEnter * silent !echo -ne "\<Esc>[2 q"
+endif
+
 " this is pretty irritating really :)
 " au WinLeave * set nocursorline nocursorcolumn
 " au WinEnter * set cursorline cursorcolumn

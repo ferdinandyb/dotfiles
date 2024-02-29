@@ -1,0 +1,11 @@
+task_timeout = 30
+retry_sequence = [5,15,30,60,120,300,900]
+notification_cmd = 'notify-send throttle "code: {errcode} error: {stderr}"'
+
+[[filters]]
+regex = '^sleep \d$'
+result = "sleep 10"
+
+[[filters]]
+regex = '^sleep \d\d'
+result = "sleep 15"

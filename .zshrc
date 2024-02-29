@@ -189,3 +189,10 @@ fpath+=~/.zfunc
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 
 export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+  function notify-send() {
+    category=$1
+    shift
+    /mnt/c/bferdinandy/bin/wsl-notify-send.exe --category "$category" "$@"
+  }
+fi

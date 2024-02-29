@@ -18,7 +18,7 @@ let g:ale_hover_to_floating_preview  = 1
 " check the defaults before chaning this! TODO move to filetype?
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['ruff']
+\   'python': ['ruff','mypy']
 \}
 
 let g:ale_fixers = {

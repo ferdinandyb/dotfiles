@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# https://github.com/stuartleeks/wsl-notify-send
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+    category=$1
+    shift
+    /mnt/c/bferdinandy/bin/wsl-notify-send.exe --category "$category" "$@"
+else
+    notify-send "$@"
+fi

@@ -26,8 +26,12 @@ Plug 'jessarcher/vim-heritage'
 Plug 'farmergreg/vim-lastplace'
 " better surrounds than tpope's
 Plug 'machakann/vim-sandwich'
+
+
 " register viewing
 Plug 'junegunn/vim-peekaboo'
+let g:peekaboo_delay = 200
+
 
 " substitution for singular and plurals + changing the from snake_case to
 " camelCase

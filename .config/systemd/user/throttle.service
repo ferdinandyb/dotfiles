@@ -1,0 +1,11 @@
+[Unit]
+Description=throttle service
+
+[Service]
+ExecStart=%h/.local/bin/throttle --server
+Type=simple
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

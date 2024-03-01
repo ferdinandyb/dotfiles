@@ -6,5 +6,5 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
     shift
     /mnt/c/bferdinandy/bin/wsl-notify-send.exe --category "$category" "$@"
 else
-    notify-send "$@"
+    /usr/bin/notify-send "$@"
 fi

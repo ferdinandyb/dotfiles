@@ -1,6 +1,8 @@
 task_timeout = 30
 retry_sequence = [5,15,30,60,120,300,900]
-notification_cmd = 'notify-send throttle "code: {errcode} error: {stderr}"'
+notification_cmd = 'notify-send --urgency={urgency} --app-name="{key} (throttle)" "{job}" "({errcode}): {msg}"'
+notify_on_counter = 2
+job_timeout = 3
 
 [[filters]]
 regex = '^sleep \d$'

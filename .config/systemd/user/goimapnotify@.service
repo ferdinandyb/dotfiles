@@ -8,7 +8,7 @@ After=network.target
 [Service]
 Restart=always
 RestartSec=300
-ExecStart=/home/fbence/go/bin/goimapnotify -conf /home/fbence/.config/emailconfiguration/%i.conf
+ExecStart=%h/go/bin/goimapnotify -conf %h/.config/goimapnotify/%i.conf
 
 [Install]
 WantedBy=default.target

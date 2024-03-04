@@ -1,31 +1,31 @@
-function! InsertAddressAerc()
+function! contactfunction#insertAddressAerc()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
-    \ 'sink*': function("InsertContactsLine"),
+    \ 'sink*': function("contactfunction#insertContactsLine"),
     \ 'options': '--no-sort -i --multi --exact'
     \}))
 endfunction
 
-function! InsertAddress()
+function! contactfunction#insertAddress()
     call fzf#run(fzf#wrap("insertaddress", {
     \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
-    \ 'sink': function("InsertContact"),
+    \ 'sink': function("contactfunction#insertContact"),
     \ 'options': '--no-sort -i --exact'
     \}))
 endfunction
 
-function! InsertContactsLine(names) abort
+function! contactfunction#insertContactsLine(names) abort
     for name in a:names
-        call InsertContactLine(name)
+        call contactfunction#insertContactLine(name)
     endfor
 endfunction
 
-function! InsertContactLine(name) abort
+function! contactfunction#insertContactLine(name) abort
     let [address, name; rest] = split(a:name,"\t")
     call append(line('.'), '    ' . name . " <" . address . ">,")
 endfunction
 
-function! InsertContact(name) abort
+function! contactfunction#insertContact(name) abort
     let [address, name; rest] = split(a:name,"\t")
     exec 'normal! a'  . name . " <" . address . ">\<Esc>"
 endfunction

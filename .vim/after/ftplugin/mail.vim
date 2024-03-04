@@ -19,8 +19,8 @@ nmap <leader>s }o
 
 
 
-nnoremap <leader>a :call InsertAddressAerc()<CR>
-nnoremap <leader>A :call InsertAddress()<CR>
+nnoremap <leader>a :call contactfunction#insertAddressAerc()<CR>
+nnoremap <leader>A :call contactfunction#insertAddress()<CR>
 
 function! InsertInput(input) abort
     exec 'normal! a'  . a:input

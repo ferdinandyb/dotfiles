@@ -1,3 +1,11 @@
 #!/bin/bash
 
-notify-send hello "this is mail-sent"
+# AERC_ACCOUNT
+# AERC_FROM_NAME
+# AERC_FROM_ADDRESS
+# AERC_SUBJECT
+# AERC_TO
+# AERC_CC
+
+# TODO: sent folders should be synced
+AERC_FOLDER=Sent $HOME/.config/aerc/hooks/mail-added

@@ -1,1 +1,9 @@
 #!/bin/bash
+
+# AERC_ACCOUNT
+# AERC_FOLDER
+
+
+# exactly the same as mail-added really, so maybe I should just call that here
+
+$HOME/.config/aerc/hooks/mail-added

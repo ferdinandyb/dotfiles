@@ -1,1 +1,10 @@
 #!/bin/bash
+
+# AERC_ACCOUNT
+# AERC_FOLDER
+# AERC_FROM_NAME
+# AERC_FROM_ADDRES
+# AERC_SUBJECT
+# AERC_MESSAGE_ID
+
+# New mail should only come via mbsync, so there's no need to do anything here.

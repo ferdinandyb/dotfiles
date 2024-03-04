@@ -1,3 +1,10 @@
 #!/bin/bash
 
-notify-send hello "this ia aerc-startup"
+# $AERC_VERSION
+# $AERC_BINARY
+
+# This could be used to enable/disable goimapnotify if it seems to eat too much:
+# systemctl --user enable --now goimapnotify@bence.service
+# systemctl --user enable --now goimapnotify@elte.service
+# systemctl --user enable --now goimapnotify@pharmahungary.service
+# systemctl --user enable --now goimapnotify@priestoferis.service

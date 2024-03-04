@@ -27,7 +27,7 @@ Inbox ~/.mail/bence/Inbox
 Channel bence-folders
 Far :bence-remote:
 Near :bence-local:
-Patterns * !INBOX !Archive*
+Patterns * !INBOX !Archive* !Drafts* !Sent*
 
 Channel bence-inbox
 Far ":bence-remote:INBOX"
@@ -38,9 +38,19 @@ Far ":bence-remote:Archive"
 Near ":bence-local:Archive"
 Patterns *
 
+Channel bence-sent
+Far ":bence-remote:Sent"
+Near ":bence-local:Sent"
+
+Channel bence-drafts
+Far ":bence-remote:Drafts"
+Near ":bence-local:Drafts"
+
 Group bence
 Channel bence-inbox
 Channel bence-folders
+Channel bence-drafts
+Channel bence-sent
 Channel bence-archive
 
 Group bence-fast
@@ -157,7 +167,7 @@ SubFolders Verbatim
 Path ~/.mail/priestoferis/
 Inbox ~/.mail/priestoferis/Inbox
 
-Channel priestoferis-labels
+Channel priestoferis-folders
 Far :priestoferis-remote:
 Near :priestoferis-local:
 Patterns * ![Gmail]* !INBOX !Archive* !Drafts !Sent* !Spam !Trash !zzzzzzz*
@@ -232,7 +242,7 @@ Inbox ~/.mail/pharmahungary/Inbox
 Channel pharmahungary-folders
 Far :pharmahungary-remote:
 Near :pharmahungary-local:
-Patterns * !INBOX !Archive*
+Patterns * !INBOX !Archive* !Drafts* !Sent*
 
 Channel pharmahungary-inbox
 Far ":pharmahungary-remote:INBOX"
@@ -243,9 +253,20 @@ Far ":pharmahungary-remote:Archive"
 Near ":pharmahungary-local:Archive"
 Patterns *
 
+Channel pharmahungary-drafts
+Far ":pharmahungary-remote:Drafts"
+Near ":pharmahungary-local:Drafts"
+
+Channel pharmahungary-archive
+Far ":pharmahungary-remote:Archive"
+Near ":pharmahungary-local:Archive"
+Patterns *
+
 Group pharmahungary
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
+Channel pharmahungary-drafts
+Channel pharmahungary-sent
 Channel pharmahungary-archive
 
 Group pharmahungary-fast
@@ -257,8 +278,32 @@ Channel pharmahungary-folders
 ###### GENERAL ######
 #####################
 
-Group inboxes
+Group all-inbox
 Channel pharmahungary-inbox
 Channel priestoferis-inbox
 Channel elte-inbox
 Channel bence-inbox
+
+Group all-folders
+Channel pharmahungary-folders
+Channel priestoferis-folders
+Channel elte-folders
+Channel bence-folders
+
+Group all-archive
+Channel pharmahungary-archive
+Channel priestoferis-archive
+Channel elte-archive
+Channel bence-archive
+
+Group all-sent
+Channel pharmahungary-sent
+Channel priestoferis-sent
+Channel elte-sent
+Channel bence-sent
+
+Group all-draft
+Channel pharmahungary-draft
+Channel priestoferis-draft
+Channel elte-draft
+Channel bence-draft

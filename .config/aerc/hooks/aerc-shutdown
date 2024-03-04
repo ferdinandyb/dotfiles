@@ -1,3 +1,9 @@
 #!/bin/bash
 
-systemctl --user
+# AERC_LIFETIME
+
+# This could be used to enable/disable goimapnotify if it seems to eat too much:
+# systemctl --user disable goimapnotify@bence.service
+# systemctl --user disable goimapnotify@elte.service
+# systemctl --user disable goimapnotify@pharmahungary.service
+# systemctl --user disable goimapnotify@priestoferis.service

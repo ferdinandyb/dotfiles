@@ -10,7 +10,6 @@
 - do not quit aerc with unsaved message open
 - attach glob should not list hidden unless flag? ([ticket](https://todo.sr.ht/~rjarry/aerc/83))
 - automatic draft saving during compose
-- maildir operation callback command? ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E))
 - undo message sending for X seconds? ([ticket](https://todo.sr.ht/~rjarry/aerc/84))
 - view of INBOX while writing mail ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E#%3CCMWGBF579PWF.28Z2HZIRKXINL@TimBook-Arch%3E))
 - gmail like warning when sender is using a different domain then the actual email?
@@ -18,14 +17,15 @@
 - be able to toggle sidebar
 - if a new mail arrives into an empty Inbox nothing is selected -> maybe something should be?
 - color different types of tabs differently
-- show "has attachment" icon in message list ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCN6LJSLI2Y7J.H66FQ3S3T44C%40rob-itx-mini%3E#%3CCN6MOF6FJLVY.1VO7VC9MZVB8C@hades.moritz.sh%3E))
 - sort setting with [ui:X=Y] seem to be broken
-- ability to have a "unified" notmuch account to show actual maildir account as
   receiving account
 - mouse scrolling in view should scroll message instead of cycling through parts (the underlying terminal emulater needs to be patched)
 
 # solved
 
+- ability to have a "unified" notmuch account to show actual maildir account as
+- maildir operation callback command? ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCMWBLIUO8AIN.2AKI83RNTGNH7%40mashenka%3E))
+- show "has attachment" icon in message list ([mailing list discussion](https://lists.sr.ht/~rjarry/aerc-discuss/%3CCN6LJSLI2Y7J.H66FQ3S3T44C%40rob-itx-mini%3E#%3CCN6MOF6FJLVY.1VO7VC9MZVB8C@hades.moritz.sh%3E))
 - search: be able to get entire thread (notmuch can search like this so possible currently, but clunky, so could have a convenience function which wraps search terms in thread:)
 - search II: if you are on a message, fetch it's thread and show only that
 - be able to handle root dirs where everything is under `INBOX.`

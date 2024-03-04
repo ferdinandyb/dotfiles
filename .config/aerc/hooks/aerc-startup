@@ -8,3 +8,27 @@
 # systemctl --user enable --now goimapnotify@elte.service
 # systemctl --user enable --now goimapnotify@pharmahungary.service
 # systemctl --user enable --now goimapnotify@priestoferis.service
+
+throttle --cmd "mbsync bence-inbox" --cmd "notmuch new"
+throttle --cmd "mbsync bence-folders" --cmd "notmuch new"
+throttle --cmd "mbsync bence-archive" --cmd "notmuch new"
+throttle --cmd "mbsync bence-sent" --cmd "notmuch new"
+throttle --cmd "mbsync bence-drafts" --cmd "notmuch new"
+
+throttle --cmd "mbsync elte-inbox" --cmd "notmuch new"
+throttle --cmd "mbsync elte-folders" --cmd "notmuch new"
+throttle --cmd "mbsync elte-archive" --cmd "notmuch new"
+throttle --cmd "mbsync elte-sent" --cmd "notmuch new"
+throttle --cmd "mbsync elte-drafts" --cmd "notmuch new"
+
+throttle --cmd "mbsync pharmahungary-inbox" --cmd "notmuch new"
+throttle --cmd "mbsync pharmahungary-folders" --cmd "notmuch new"
+throttle --cmd "mbsync pharmahungary-archive" --cmd "notmuch new"
+throttle --cmd "mbsync pharmahungary-sent" --cmd "notmuch new"
+throttle --cmd "mbsync pharmahungary-drafts" --cmd "notmuch new"
+
+throttle --cmd "mbsync priestoferis-inbox" --cmd "notmuch new"
+throttle --cmd "mbsync priestoferis-folders" --cmd "notmuch new"
+throttle --cmd "mbsync priestoferis-archive" --cmd "notmuch new"
+throttle --cmd "mbsync priestoferis-sent" --cmd "notmuch new"
+throttle --cmd "mbsync priestoferis-drafts" --cmd "notmuch new"

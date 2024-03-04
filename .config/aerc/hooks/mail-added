@@ -3,6 +3,11 @@
 # AERC_ACCOUNT
 # AERC_FOLDER
 
+if [ $AERC_FOLDER == Trash ]
+then
+    exit 0
+fi
+
 if [ $AERC_ACCOUNT == notmuch ]
 then
     if [ $(dirname $AERC_FOLDER) == "." ]
@@ -15,4 +20,5 @@ then
 else
     mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
+
 throttle --cmd "mbsync $mbsynccmd" --cmd "notmuch new"

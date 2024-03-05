@@ -1,19 +1,19 @@
 #!/bin/bash
 
 # generate addressbook
-$HOME/go/bin/maildir-rank-addr
+throttle $HOME/go/bin/maildir-rank-addr
 
 # move any email older than 1 year from flat Archive to Archive/year
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Sent -t ~/.mail/bence/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/bence/Sent -t ~/.mail/bence/Archive
 throttle mbsync bence-sent
 throttle mbsync bence-archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Sent -t ~/.mail/elte/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/elte/Sent -t ~/.mail/elte/Archive
 throttle mbsync elte-sent
 throttle mbsync elte-archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Archive
-python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Sent -t ~/.mail/pharmahungary/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Archive
+throttle python3 ~/.config/emailconfiguration/rearchive.py ~/.mail/pharmahungary/Sent -t ~/.mail/pharmahungary/Archive
 throttle mbsync pharmahungary-sent
 throttle mbsync pharmahungary-archive
 # Due to how gmail's imap works, unfortunately, this does not make sense

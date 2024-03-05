@@ -262,6 +262,10 @@ Far ":pharmahungary-remote:Archive"
 Near ":pharmahungary-local:Archive"
 Patterns *
 
+Channel pharmahungary-sent
+Far ":pharmahungary-remote:Sent"
+Near ":pharmahungary-local:Sent"
+
 Group pharmahungary
 Channel pharmahungary-inbox
 Channel pharmahungary-folders

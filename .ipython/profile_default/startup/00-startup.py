@@ -30,8 +30,17 @@ try:
         """
 
         def getrepr(data):
+            """
+
+            We can't use match/case here to make sure it doesn't die in an
+            older environment.  We also need to try/except any reference to
+            certain types coming from modules which may or may not be present.
+
+            """
             try:
                 if isinstance(data, pd.DataFrame):
+                    data = data.to_markdown(**kwargs)
+                elif isinstance(data, pd.Series):
                     data = data.to_markdown(**kwargs)
             except NameError:
                 pass

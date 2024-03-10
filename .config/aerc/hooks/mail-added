@@ -21,4 +21,4 @@ else
     mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
-throttle --job "mbsync $mbsynccmd" --job "notmuch new"
+throttle --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"

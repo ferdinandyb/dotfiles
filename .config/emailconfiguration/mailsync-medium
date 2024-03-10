@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Sync all channels
-throttle mbsync -a
+throttle --origin "mailsync-medium" mbsync -a
 # set all unread emails not in mailbox to read
 fd -E '*/Inbox/' -E '~/.mail/priestoferis' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S
 # send all stuck emails
-throttle msmtp-queue -r
+throttle --origin "mailsync-medium" msmtp-queue -r

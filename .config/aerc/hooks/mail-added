@@ -21,4 +21,4 @@ else
     mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
-throttle --cmd "mbsync $mbsynccmd" --cmd "notmuch new"
+throttle --job "mbsync $mbsynccmd" --job "notmuch new"

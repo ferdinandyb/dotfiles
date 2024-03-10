@@ -2,7 +2,7 @@
 Description=throttle service
 
 [Service]
-ExecStartPre=/bin/sleep 5
+ExecStartPre=/bin/sleep 20
 ExecStart=%h/.local/bin/throttle --server --LOGLEVEL DEBUG
 Type=simple
 Restart=always

@@ -1,6 +1,6 @@
 task_timeout = 60
 retry_sequence = [5,15,30,60,120,300,900]
-notification_cmd = 'notify-send --urgency={urgency} --app-name="throttle" "{job}" "({errcode}): {msg}"'
+notification_cmd = 'notify-send --urgency={urgency} --app-name="throttle" "{job} ({origin})" "({errcode}): {msg}"'
 notify_on_counter = 3
 job_timeout = 3600
 

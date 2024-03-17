@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sync all channels
-throttle --origin "mailsync-medium" mbsync -a
+grep '^Channel' $HOME/.config/isyncrc | sort | uniq | sed 's/Channel //' | xargs -i throttle --origin "mailsync-medium" mbsync {}
 # set all unread emails not in mailbox to read
 fd -E '*/Inbox/' -E '~/.mail/priestoferis' '\d+\.\d+_\d+\.\w+,U=\d+:2,[^S]*$' ~/.mail -x mv {} {}S
 # send all stuck emails

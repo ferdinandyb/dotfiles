@@ -2,11 +2,12 @@
 Description=throttle service
 
 [Service]
-ExecStartPre=/bin/sleep 20
+ExecStartPre=/bin/sleep 5
 ExecStart=%h/.local/bin/throttle --server --LOGLEVEL DEBUG
 Type=simple
 Restart=always
 RestartSec=3
+KeyringMode=shared
 
 [Install]
 WantedBy=default.target

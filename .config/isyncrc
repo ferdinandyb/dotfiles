@@ -57,29 +57,29 @@ Group bence-fast
 Channel bence-inbox
 Channel bence-folders
 
-##############
-#### ELOSZEREPJATEK ####
-##############
-
-IMAPAccount eloszerepjatek
-Host mail.ferdinandy.com
-User bence.ferdinandy@eloszerepjatek.hu
-PassCmd "pass show email/eloszerepjatek/bence | head -n1"
-TLSType IMAPS
-CertificateFile /etc/ssl/certs/ca-certificates.crt
-
-IMAPStore eloszerepjatek-remote
-Account eloszerepjatek
-
-MaildirStore eloszerepjatek-local
-SubFolders Verbatim
-Path ~/.mail/eloszerepjatek/
-Inbox ~/.mail/eloszerepjatek/Inbox
-
-Channel eloszerepjatek
-Far :eloszerepjatek-remote:
-Near :eloszerepjatek-local:
-Patterns *
+# ##############
+# #### ELOSZEREPJATEK ####
+# ##############
+#
+# IMAPAccount eloszerepjatek
+# Host mail.ferdinandy.com
+# User bence.ferdinandy@eloszerepjatek.hu
+# PassCmd "pass show email/eloszerepjatek/bence | head -n1"
+# TLSType IMAPS
+# CertificateFile /etc/ssl/certs/ca-certificates.crt
+#
+# IMAPStore eloszerepjatek-remote
+# Account eloszerepjatek
+#
+# MaildirStore eloszerepjatek-local
+# SubFolders Verbatim
+# Path ~/.mail/eloszerepjatek/
+# Inbox ~/.mail/eloszerepjatek/Inbox
+#
+# Channel eloszerepjatek
+# Far :eloszerepjatek-remote:
+# Near :eloszerepjatek-local:
+# Patterns *
 
 ##############
 #### ELTE ####

@@ -2,6 +2,11 @@
 
 # AERC_ACCOUNT
 # AERC_FOLDER
+if [ $(hostname) = "BFERDINANDY-NB" ]; then
+    if [ $AERC_ACCOUNT != "yettel" ]; then
+        exit 0
+    fi
+fi
 
 if [ $AERC_FOLDER == Trash ]
 then
@@ -21,4 +26,4 @@ else
     mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
-throttle --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"
+$HOME/.local/bin/throttle --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"

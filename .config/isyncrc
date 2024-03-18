@@ -277,6 +277,57 @@ Group pharmahungary-fast
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
 
+#######################
+#### Yettel ####
+#######################
+
+IMAPAccount yettel
+Host localhost
+Port 1143
+User bferdinandy@yettel.hu
+Pass ""
+AuthMechs LOGIN
+TLSType None
+
+IMAPStore yettel-remote
+Account yettel
+
+MaildirStore yettel-local
+SubFolders Verbatim
+Path ~/.mail/yettel/
+Inbox ~/.mail/yettel/Inbox
+
+Channel yettel-folders
+Far :yettel-remote:
+Near :yettel-local:
+Patterns * !INBOX
+
+Channel yettel-inbox
+Far ":yettel-remote:INBOX"
+Near ":yettel-local:Inbox"
+
+Group yettel
+Channel yettel-folders
+Channel yettel-inbox
+
+Channel yettel-archive
+Far ":yettel-remote:Archive"
+Near ":yettel-local:Archive"
+Patterns *
+
+Channel yettel-drafts
+Far ":yettel-remote:Drafts"
+Near ":yettel-local:Drafts"
+
+Channel yettel-archive
+Far ":yettel-remote:Archive"
+Near ":yettel-local:Archive"
+Patterns *
+
+Channel yettel-sent
+Far ":yettel-remote:Sent"
+Near ":yettel-local:Sent"
+
 
 #####################
 ###### GENERAL ######

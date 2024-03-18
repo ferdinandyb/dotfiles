@@ -2,9 +2,14 @@
 
 # https://github.com/stuartleeks/wsl-notify-send
 if [[ $(grep -i Microsoft /proc/version) ]]; then
+    # expects this format:
+    #notify-send --urgency=HIGH --app-name="appname" "message" "details in detail"
+    shift
+    appname=`echo $1 | sed 's/--app-name/--appId/g'`
+    shift
     category=$1
     shift
-    /mnt/c/bferdinandy/bin/wsl-notify-send.exe --category "$category" "$@"
+    /mnt/c/bferdinandy/bin/wsl-notify-send.exe "$appname" --category="$category" "$1"
 else
     /usr/bin/notify-send "$@"
 fi

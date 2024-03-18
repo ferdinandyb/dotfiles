@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/home/fbence/.config/emailconfiguration/mailsync-medium
+ExecStart=%h/.config/emailconfiguration/mailsync-medium
 
 
 # https://usher.dev/posts/my-email-setup/

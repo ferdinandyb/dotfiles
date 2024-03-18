@@ -1,0 +1,11 @@
+[Unit]
+Description=davmail service
+
+[Service]
+ExecStart=/usr/bin/davmail %h/.config/davmail/davmail.properties
+Type=simple
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

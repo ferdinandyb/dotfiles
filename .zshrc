@@ -5,6 +5,21 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
+sourcesystemctl() {
+# case "$(tty)" in /dev/tty*)
+  tmp=$(mktemp)
+  systemctl --user show-environment | sed 's/^/export /' > "$tmp"
+  . "$tmp"
+  rm "$tmp"
+}
+
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+  sourcesystemctl
+elif [ "$(tty)" in /dev/tty/* ]; then
+  sourcesystemctl
+fi
+
 for file in $HOME/.config/shell/zsh/*.zsh; do
   source $file
 done

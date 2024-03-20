@@ -5,19 +5,22 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# source ~/.config/environment.d when we're not inheriting from systemd
+SOURCESYSTEMCTL=false
 
-sourcesystemctl() {
-# case "$(tty)" in /dev/tty*)
+case $(tty) in
+  (/dev/tty*) SOURCESYSTEMCTL=true ;;
+esac
+
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+  SOURCESYSTEMCTL=true
+fi
+
+if $SOURCESYSTEMCTL; then
   tmp=$(mktemp)
   systemctl --user show-environment | sed 's/^/export /' > "$tmp"
   . "$tmp"
   rm "$tmp"
-}
-
-if [[ $(grep -i Microsoft /proc/version) ]]; then
-  sourcesystemctl
-elif [ "$(tty)" in /dev/tty/* ]; then
-  sourcesystemctl
 fi
 
 for file in $HOME/.config/shell/zsh/*.zsh; do

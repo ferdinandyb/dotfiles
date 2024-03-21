@@ -10,10 +10,7 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
 fi
 
 if $SOURCESYSTEMCTL; then
-  tmp=$(mktemp)
-  systemctl --user show-environment | sed 's/^/export /' > "$tmp"
-  . "$tmp"
-  rm "$tmp"
+  export $(systemctl --user show-environment | xargs)
 fi
 
 

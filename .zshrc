@@ -31,15 +31,6 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-    PATH="$HOME/.local/bin:$PATH"
-fi
 
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
@@ -78,12 +69,10 @@ setopt interactivecomments
 
 
 export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
-export EDITOR=vim
+
 if [ -f $HOME/.config/shell/aliases.sh ]; then
   source $HOME/.config/shell/aliases.sh
 fi
-# go
-export PATH=$HOME/go/bin:$PATH
 
 # fnm
 
@@ -102,8 +91,6 @@ if [ -d $HOME/.pyenv ]; then
   eval "$(pyenv init --path)"
     eval "$(pyenv virtualenv-init -)"
 fi
-
-export PATH=$PATH:/usr/local/go/bin
 
 
 if ! type "$zoxide" > /dev/null; then
@@ -140,10 +127,6 @@ fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_COMPLETION_TRIGGER='óó'
-export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4 --bind "alt-a:select-all,alt-d:deselect-all"'
 
 
 
@@ -195,5 +178,3 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
-
-export RIPGREP_CONFIG_PATH=~/.config/ripgrep/ripgreprc

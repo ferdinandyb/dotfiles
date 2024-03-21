@@ -90,9 +90,6 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -112,17 +109,6 @@ export HISTSIZE=100000                   # big big history
 export HISTFILESIZE=100000               # big big history
 
 
-if [ $(hostname) == "etocentral" ]
-then
-  export PYTHONPATH="$PYTHONPATH:/disk2/$USER/Codes"
-  export PYTHONPATH="$JUPYTERPATH:/disk2/$USER/Codes"
-  export PATH="/home/fbence/.local/bin:$PATH"
-else
-  export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
-fi
-
-
-export EDITOR=vim
 
 # powerline-daemon -q
 # POWERLINE_BASH_CONTINUATION=1
@@ -141,11 +127,6 @@ fi
 # FZF and tmux
 #
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_COMPLETION_TRIGGER='óó'
-export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
-
 # Use fd (https://github.com/sharkdp/fd) instead of the default find
 # command for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
@@ -167,9 +148,6 @@ function ssht(){
   # autocomplete doesn't work this way
   /usr/bin/ssh -t $@ "tmux attach || tmux new || echo no tmux && /bin/bash";
 }
-
-# go
-export PATH=$HOME/go/bin:$PATH
 
 # fnm
 
@@ -214,9 +192,6 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 . "$HOME/.cargo/env"
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$HOME/go/bin:$PATH
-export PATH=$PATH:$HOME/.local/bin
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 export PATH="$HOME/.local/share/fnm:$PATH"
 # fnm

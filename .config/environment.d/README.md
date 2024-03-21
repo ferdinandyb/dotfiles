@@ -47,5 +47,7 @@ These are all the files that are loaded:
 > ordered later).
 
 This means that if you want to make non-system files in `~/.config/` take
-precedence, one must make sure they are last when sorted by name. Hence the
-`X_` prefix for all of them.
+precedence, one must make sure they are last when sorted by name. In
+particular, Ubuntu sets `$PATH` in `/etc/environment`, so anything modifying
+`$PATH` most come later in lexicographics sort than `environment`. Hence the
+`X_` prefix for all of my config files (even if `Z_` would be more logical).

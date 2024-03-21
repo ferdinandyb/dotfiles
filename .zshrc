@@ -1,15 +1,6 @@
 # source ~/.config/environment.d when we're not inheriting from systemd
-SOURCESYSTEMCTL=false
 
-case $(tty) in
-  (/dev/tty*) SOURCESYSTEMCTL=true ;;
-esac
-
-if [[ $(grep -i Microsoft /proc/version) ]]; then
-  SOURCESYSTEMCTL=true
-fi
-
-if $SOURCESYSTEMCTL; then
+if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
   export $(systemctl --user show-environment | xargs)
 fi
 

@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Restart=always
-RestartSec=300
+RestartSec=60
 ExecStart=%h/go/bin/goimapnotify -debug -wait 0 -conf %h/.config/goimapnotify/%i.conf
 KeyringMode=shared
 

@@ -108,6 +108,7 @@ function confed(){
 
 
 
+export ZVM_VI_SURROUND_BINDKEY=s-prefix
 zvm_after_init() {
   # Auto-completion
   # ---------------
@@ -116,7 +117,8 @@ zvm_after_init() {
   # Key bindings
   # ------------
   source "$HOME/.fzf/shell/key-bindings.zsh"
-  bindkey "\C-z" autosuggest-accept
+  bindkey "\C-z" vi-forward-word
+  bindkey "\C-]" autosuggest-accept
   # bindkey "^M" autosuggest-accept
 }
 # Setup fzf

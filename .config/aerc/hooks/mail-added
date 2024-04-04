@@ -26,4 +26,4 @@ else
     mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
-$HOME/.local/bin/throttle --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"
+$HOME/.local/bin/throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"

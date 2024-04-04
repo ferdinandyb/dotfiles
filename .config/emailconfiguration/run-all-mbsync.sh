@@ -13,7 +13,7 @@ throttlepath=$HOME/.local/bin/throttle
 channels=$(grep '^Channel' $HOME/.config/isyncrc | sort | uniq | sed 's/Channel //')
 # run the machine dependent channels
 case $(hostname) in
-  ("mashenka") echo "$channels" | grep -v ^yettel | xargs -i $throttlepath --origin $origin mbsync {};;
-  ("BFERDINANDY-NB") echo "$channels" | grep ^yettel | xargs -i $throttlepath --origin $origin mbsync {};;
+  ("mashenka") echo "$channels" | grep -v ^yettel | xargs -i $throttlepath --origin $origin --job "mbsync {}" --job "notmuch new";;
+  ("BFERDINANDY-NB") echo "$channels" | grep ^yettel | xargs -i $throttlepath --origin $origin --job "mbsync {}" --job "notmuch new";;
   (*)   echo "not on known machine";;
 esac

@@ -2,7 +2,7 @@
 Description=throttle service
 
 [Service]
-ExecStart=%h/.local/bin/throttle --server --LOGLEVEL DEBUG
+ExecStart=%h/.local/bin/throttle-server --LOGLEVEL DEBUG
 Type=simple
 Restart=always
 RestartSec=3

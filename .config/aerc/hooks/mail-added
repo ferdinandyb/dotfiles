@@ -1,29 +1,3 @@
 #!/bin/bash
 
-# AERC_ACCOUNT
-# AERC_FOLDER
-if [ $(hostname) = "BFERDINANDY-NB" ]; then
-    if [ $AERC_ACCOUNT != "yettel" ]; then
-        exit 0
-    fi
-fi
-
-if [ $AERC_FOLDER == Trash ]
-then
-    exit 0
-fi
-
-if [ $AERC_ACCOUNT == notmuch ]
-then
-    if [ $(dirname $AERC_FOLDER) == "." ]
-    then
-        # this is a suboptimal solution for now
-        mbsynccmd=all-${AERC_FOLDER,,}
-    else
-        mbsynccmd=$(dirname ${AERC_FOLDER,,})-$(basename ${AERC_FOLDER,,})
-    fi
-else
-    mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
-fi
-
-$HOME/.local/bin/throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync $mbsynccmd" --job "notmuch new" --origin "hook-mail-added"
+AERC_HOOK_ORIGIN="mail-added-hook" $HOME/.config/aerc/hooks/general

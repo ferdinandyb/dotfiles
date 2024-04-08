@@ -6,4 +6,4 @@
 
 # exactly the same as mail-added really, so maybe I should just call that here
 
-$HOME/.config/aerc/hooks/mail-added
+AERC_HOOK_ORIGIN="mail-deleted-hook" $HOME/.config/aerc/hooks/general

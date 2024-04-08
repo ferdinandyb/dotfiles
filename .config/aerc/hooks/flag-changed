@@ -1,0 +1,3 @@
+#!/bin/bash
+
+AERC_HOOK_ORIGIN="flag-changed-hook" $HOME/.config/aerc/hooks/general

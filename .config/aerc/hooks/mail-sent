@@ -7,5 +7,4 @@
 # AERC_TO
 # AERC_CC
 
-# TODO: sent folders should be synced
-AERC_FOLDER=Sent $HOME/.config/aerc/hooks/mail-added
+AERC_HOOK_ORIGIN="mail-added-hook" AERC_FOLDER=Sent $HOME/.config/aerc/hooks/general

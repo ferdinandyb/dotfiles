@@ -22,19 +22,8 @@ nmap <leader>s }o
 nnoremap <leader>a :call contactfunction#insertAddressAerc()<CR>
 nnoremap <leader>A :call contactfunction#insertAddress()<CR>
 
-function! InsertInput(input) abort
-    exec 'normal! a'  . a:input
-endfunction
 
-function! InsertTrailer()
-    call fzf#run(fzf#wrap("insertrailer", {
-    \ 'source':'cat ~/.config/emailconfiguration/trailers',
-    \ 'sink': function("InsertInput")
-    \}))
-endfunction
-
-
-nnoremap <buffer> <leader>t :call InsertTrailer()<CR>
+nnoremap <buffer> <leader>t :call insertlinesfzf#insertlines('~/.config/emailconfiguration/trailers')<CR>
 
 
 

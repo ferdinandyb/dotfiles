@@ -1,3 +1,10 @@
+default=Inbox
+folders-sort=Inbox
+copy-to=Sent
+pgp-key-id=D92449B0F2D9363A2DE3260B207C0A2055199A65
+pgp-auto-sign=false
+pgp-opportunistic-encrypt=false
+
 [bence]
 # source=notmuch://~/.mail/
 # maildir-store=~/.mail/
@@ -5,12 +12,6 @@
 source=maildir://~/.mail/bence
 outgoing=msmtpq -a bence
 from=Bence Ferdinandy <bence@ferdinandy.com>
-default=Inbox
-folders-sort=Inbox
-copy-to=Sent
-pgp-key-id=D92449B0F2D9363A2DE3260B207C0A2055199A65
-pgp-auto-sign=false
-pgp-opportunistic-encrypt=false
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 
 [elte]
@@ -21,12 +22,6 @@ source=maildir://~/.mail/elte
 outgoing=msmtpq -a elte
 from=Bence Ferdinandy <ferdinandy.bence@ttk.elte.hu>
 aliases=Bence Ferdinandy <fbence@elte.hu>
-default=Inbox
-folders-sort=Inbox
-copy-to=Sent
-pgp-key-id=D92449B0F2D9363A2DE3260B207C0A2055199A65
-pgp-auto-sign=false
-pgp-opportunistic-encrypt=false
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 # check-mail=1m
 
@@ -37,12 +32,6 @@ signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 source=maildir://~/.mail/pharmahungary
 outgoing=msmtpq -a pharmahungary
 from=Bence Ferdinandy <bence.ferdinandy@pharmahungary.com>
-default=Inbox
-folders-sort=Inbox
-copy-to=Sent
-pgp-key-id=D92449B0F2D9363A2DE3260B207C0A2055199A65
-pgp-auto-sign=false
-pgp-opportunistic-encrypt=false
 signature-file=~/.config/emailconfiguration/pharmahungary_signature.txt
 
 [priestoferis]
@@ -52,9 +41,6 @@ signature-file=~/.config/emailconfiguration/pharmahungary_signature.txt
 source=maildir://~/.mail/priestoferis
 outgoing=msmtpq -a priestoferis
 from=Bence Ferdinandy <priestoferis@gmail.com>
-default=Inbox
-folders-sort=Inbox
-copy-to=Sent
 signature-file=~/.config/emailconfiguration/priestoferis_signature.txt
 carddav-source = https://priestoferis@www.googleapis.com/carddav/v1/principals/priestoferis@gmail.com/lists/default
 carddav-source-cred-cmd = pass show gmail
@@ -74,12 +60,6 @@ source=notmuch://~/.mail/
 maildir-store=~/.mail/
 # maildir-account-path=pharmahungary
 outgoing=msmtpq -a bence
-default=Inbox
-folders-sort=Inbox
 from=Bence Ferdinandy <bence@ferdinandy.com>
 query-map=~/.config/aerc/notmuchmap.conf
-pgp-key-id=4A3641B69E9984012F396B31E3B23486302F2FA9
-pgp-auto-sign=false
-pgp-opportunistic-encrypt=false
-copy-to=bence/Sent
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt

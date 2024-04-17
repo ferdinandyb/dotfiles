@@ -26,7 +26,8 @@ let g:ale_fixers = {
 \   'python': ['black', 'ruff'],
 \   'go': ['gofumpt'],
 \   'vue': ['prettier','eslint'],
-\   'javascript': ['prettier','eslint']
+\   'javascript': ['prettier','eslint'],
+\   'sh': ['shfmt']
 \}
 
 let g:ale_fix_on_save = 1

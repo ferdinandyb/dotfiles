@@ -14,7 +14,8 @@ let g:ale_hover_to_floating_preview  = 1
 " g:ale_sign_warning                                         *g:ale_sign_warning*
 " g:ale_sign_error                                             *g:ale_sign_error*
 
-
+" ruff does not play nice with fugitive
+let g:ale_python_ruff_change_directory = 0
 " check the defaults before chaning this! TODO move to filetype?
 let g:ale_linters = {
 \   'javascript': ['eslint'],

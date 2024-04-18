@@ -31,6 +31,9 @@ nnoremap gS :vert Git<CR>
 nnoremap <Leader>Gb :.GBrowse!<CR>
 xnoremap <Leader>Gb :'<'>GBrowse!<CR>
 
+
+let g:flog_default_opts = {'date':'short', 'order':'topo'}
+
 " fugitive 3way split:
 " obtain hunk: d2o ours, d3o theirs
 " Plug 'seanbreckenridge/yadm-git.vim'"

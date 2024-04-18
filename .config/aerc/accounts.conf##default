@@ -21,6 +21,7 @@ signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 source=maildir://~/.mail/elte
 outgoing=msmtpq -a elte
 from=Bence Ferdinandy <ferdinandy.bence@ttk.elte.hu>
+copy-to=
 aliases=Bence Ferdinandy <fbence@elte.hu>
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
 # check-mail=1m

@@ -154,6 +154,8 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
     setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe &>/dev/null &
     fi
     # to use gpg on wsl simply symlink the windows executable
+    export VAXIS_FORCE_LEGACY_SGR=1
+    export VAXIS_FORCE_UNICODE=1
 elif [ $(hostname) = mashenka ]; then
   unset SSH_AGENT_PID
   if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then

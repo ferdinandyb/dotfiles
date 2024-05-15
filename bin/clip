@@ -1,0 +1,8 @@
+#!/bin/bash
+
+var=$(cat)
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+	/mnt/c/Windows/System32/clip.exe <<<$var
+else
+	xclip -selection c <<<$var
+fi

@@ -7,7 +7,6 @@ alias diary="vim +VimwikiMakeDiaryNote"
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 
-
 alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
 alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias t="task"
@@ -29,16 +28,15 @@ alias g="git"
 alias lazyadm="lazygit -w ~ -g ~/.local/share/yadm/repo.git"
 alias yadiff="diff <(ls) <(yadm list)"
 
-
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias ls='ls --color=auto'
+	#alias dir='dir --color=auto'
+	#alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
 fi
 
 alias ll='ls -ltrhA'

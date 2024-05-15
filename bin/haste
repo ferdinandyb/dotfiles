@@ -6,4 +6,4 @@ else
 	URL=$(exec curl -F file=@"$1" https://0x0.st)
 fi
 echo $URL
-echo $URL | xclip -selection clipboard
+echo $URL | $HOME/bin/clip

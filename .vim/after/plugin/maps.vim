@@ -113,7 +113,7 @@ nnoremap z> 1z=
 " Ctrl-c copies to system keyboard in visual
 vmap <C-C> "+y
 nnoremap Y yg_
-vnoremap Y <esc>:'<,'>:w !curl -LSsF file=@- https://0x0.st<CR>
+vnoremap Y <esc>:'<,'>:w !haste<CR>
 " nnoremap F gqap
 " vnoremap F gq
 

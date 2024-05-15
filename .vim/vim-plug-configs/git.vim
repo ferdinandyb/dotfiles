@@ -45,3 +45,5 @@ let g:flog_default_opts = {'date':'short', 'order':'topo'}
 
 " let g:yadm_git_repo_path = "~/.local/share/yadm/repo.git"
 " let g:yadm_git_default_git_path = "git""
+
+autocmd BufReadPost fugitive://* set bufhidden=delete

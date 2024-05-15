@@ -2,6 +2,11 @@
 
 var=$(cat)
 if [[ $(grep -i Microsoft /proc/version) ]]; then
+	# To make UTF-8 work properly on WSL
+	# after changing the system language to use Beta: Use Unicode UTF-8 for global
+	# language support in settings - and language - language settings - settings
+	# - system language >time >administrative >administrative >change
+	#
 	/mnt/c/Windows/System32/clip.exe <<<$var
 else
 	xclip -selection c <<<$var

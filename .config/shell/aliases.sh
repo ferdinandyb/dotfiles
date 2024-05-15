@@ -18,7 +18,11 @@ alias r.="kitty ranger"
 alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias xo="xargs -i xdg-open {}"
-alias clip="xclip -selection c"
+if [[ $(grep -i Microsoft /proc/version) ]]; then
+	alias clip="/mnt/c/Windows/System32/clip.exe"
+else
+	alias clip="xclip -selection c"
+fi
 alias scu="systemctl --user"
 alias jcu="journalctl --user"
 

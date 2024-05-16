@@ -1,0 +1,13 @@
+#!/bin/bash
+LIMIT="${2:-100}"
+
+if [ $LIMIT -eq 0 ]; then
+	LIMITARG=""
+else
+	LIMITARG="-m $LIMIT"
+fi
+
+FILES=$HOME/.cache/maildir-rank-addr/*.tsv
+
+# -Zn does n distance levenshtein, ommiting n makes n = 1
+ugrep -jPh $LIMITARG --color=never $1 $FILES || echo -e "addressbook@missing\tplease run maildir-rank-addr"

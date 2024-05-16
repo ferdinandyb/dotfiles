@@ -1,6 +1,6 @@
 function! contactfunction#insertAddressAerc()
     call fzf#run(fzf#wrap("insertaddress", {
-    \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
+    \ 'source':'addresslookup . 0',
     \ 'sink*': function("contactfunction#insertContactsLine"),
     \ 'options': '--no-sort -i --multi --exact'
     \}))
@@ -8,7 +8,7 @@ endfunction
 
 function! contactfunction#insertAddress()
     call fzf#run(fzf#wrap("insertaddress", {
-    \ 'source':'cat ~/.cache/maildir-rank-addr/addressbook.tsv',
+    \ 'source':'addresslookup . 0',
     \ 'sink': function("contactfunction#insertContact"),
     \ 'options': '--no-sort -i --exact'
     \}))

@@ -1,8 +1,0 @@
-#!/bin/bash
-FILE=/home/fbence/.cache/maildir-rank-addr/addressbook.tsv
-if [ -f "$FILE" ]; then
-    # -Zn does n distance levenshtein, ommiting n makes n = 1
-    ugrep -jP -m 100 --color=never $1 $FILE
-else
-    echo -e "addressbook@missing\tplease run maildir-rank-addr"
-fi

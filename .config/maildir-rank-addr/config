@@ -1,4 +1,4 @@
-maildir = "/home/fbence/.mail"
+maildir = "~/.mail"
 addresses = [
     "bence@ferdinandy.com",
     "ferdinandy.bence@ttk.elte.hu",

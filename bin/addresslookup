@@ -9,5 +9,6 @@ fi
 
 FILES=$HOME/.cache/maildir-rank-addr/*.tsv
 
+SEARCH="${1:-.}"
 # -Zn does n distance levenshtein, ommiting n makes n = 1
-ugrep -jPh $LIMITARG --color=never $1 $FILES || echo -e "addressbook@missing\tplease run maildir-rank-addr"
+ugrep -jPh $LIMITARG --color=never $SEARCH $FILES || echo -e "addressbook@missing\tplease run maildir-rank-addr"

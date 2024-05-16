@@ -4,40 +4,35 @@
 # AERC_FOLDER
 # AERC_HOOK_ORIGIN
 if [ $(hostname) = "BFERDINANDY-NB" ]; then
-    if [ $AERC_ACCOUNT != "yettel" ]; then
-        exit 0
-    fi
+	if [ ! "$AERC_ACCOUNT" = "yettel" ]; then
+		exit 0
+	fi
 fi
 
-if [ $AERC_FOLDER == Trash ]
-then
-    exit 0
+if [ "$AERC_FOLDER" = "Trash" ]; then
+	exit 0
 fi
 
-if [ $AERC_ACCOUNT == notmuch ]
-then
-    if echo $AERC_FOLDER | grep -Pv '(Inbox|Archive|Sent|Drafts|\d_\w+)'
-    then
-        # we're likely in an ad-hoc query folder
-        # we'd need to sync basically everything to make sure we match state
-        # but it's unlikely it is _that_ crucial
-        exit 0;
-    fi
+if [ "$AERC_ACCOUNT" = "notmuch" ]; then
+	if echo $AERC_FOLDER | grep -Pv '(Inbox|Archive|Sent|Drafts|\d_\w+)'; then
+		# we're likely in an ad-hoc query folder
+		# we'd need to sync basically everything to make sure we match state
+		# but it's unlikely it is _that_ crucial
+		exit 0
+	fi
 
-
-    if [ $(dirname $AERC_FOLDER) == "." ]
-    then
-        # we are in a unified folder and thus do not know which account we operated in
-        # this is a suboptimal solution for now, but we sync the folder for all accounts
-        accounts=$(grep '^IMAPAccount' $HOME/.config/isyncrc | sort | uniq | sed 's/IMAPAccount //' | grep -v '^yettel')
-        echo "$accounts" | xargs -i  throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync {}-${AERC_FOLDER,,}" --job "notmuch new" --origin $AERC_HOOK_ORIGIN
-        exit 0;
-    else
-        # we are in one of the maildir folders, so it's easy
-        mbsynccmd=$(dirname ${AERC_FOLDER,,})-$(basename ${AERC_FOLDER,,})
-    fi
+	if [ $(dirname $AERC_FOLDER) == "." ]; then
+		# we are in a unified folder and thus do not know which account we operated in
+		# this is a suboptimal solution for now, but we sync the folder for all accounts
+		accounts=$(grep '^IMAPAccount' $HOME/.config/isyncrc | sort | uniq | sed 's/IMAPAccount //' | grep -v '^yettel')
+		echo "$accounts" | xargs -i throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync {}-${AERC_FOLDER,,}" --job "notmuch new" --origin $AERC_HOOK_ORIGIN
+		exit 0
+	else
+		# we are in one of the maildir folders, so it's easy
+		mbsynccmd=$(dirname ${AERC_FOLDER,,})-$(basename ${AERC_FOLDER,,})
+	fi
 else
-    mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
+	mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
 throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync $mbsynccmd" --job "notmuch new" --origin $AERC_HOOK_ORIGIN

@@ -1,6 +1,6 @@
 X-Mailer: aerc {{version}}
 
-Forwarded message from {{(index .OriginalFrom 0).Name}} on {{dateFormat .OriginalDate "Mon Jan 2, 2006 at 15:04"}}:
+Forwarded message from {{(index .OriginalFrom 0).Name}} <{{(index .OriginalFrom 0).Address}}> on {{dateFormat (.OriginalDate | toLocal) "Mon Jan 2, 2006 at 15:04"}}:
 {{ if eq .OriginalMIMEType "text/html" -}}
 {{- exec `~/.local/softwarefromsource/aerc/filters/html` .OriginalText -}}
 {{- else -}}

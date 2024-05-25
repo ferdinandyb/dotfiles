@@ -1,0 +1,7 @@
+theme = Dracula
+font-family = "CaskaydiaCove Nerd Font Mono"
+font-size = 14
+mouse-hide-while-typing = true
+fullscreen = false
+window-decoration = false
+confirm-close-surface = false

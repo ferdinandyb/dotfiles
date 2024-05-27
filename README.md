@@ -120,3 +120,7 @@ Deduplication of emails:
 ```
 for i in {2007..2022}; do mdedup $i -i maildir -s discard-all-but-one -a delete-discarded; done
 ```
+
+## WSL
+
+See [here](.config/wsl/README.md).

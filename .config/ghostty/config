@@ -5,3 +5,70 @@ mouse-hide-while-typing = true
 fullscreen = false
 window-decoration = false
 confirm-close-surface = false
+# copy-on-select = true
+copy-on-select = clipboard
+
+# keybind:
+keybind = alt+one=goto_tab:1
+keybind = alt+two=goto_tab:2
+keybind = alt+three=goto_tab:3
+keybind = alt+four=goto_tab:4
+keybind = alt+five=goto_tab:5
+keybind = alt+six=goto_tab:6
+keybind = alt+seven=goto_tab:7
+keybind = alt+eight=goto_tab:8
+keybind = alt+nine=goto_tab:9
+
+keybind = alt+f4=close_window
+
+keybind = ctrl+alt+down=goto_split:bottom
+keybind = ctrl+alt+left=goto_split:left
+keybind = ctrl+alt+right=goto_split:right
+keybind = ctrl+alt+up=goto_split:top
+
+keybind = ctrl+alt+j=goto_split:bottom
+keybind = ctrl+alt+h=goto_split:left
+keybind = ctrl+alt+l=goto_split:right
+keybind = ctrl+alt+k=goto_split:top
+
+# keybind = ctrl+shift+ö=new_split:down
+# keybind = ctrl+shift+ü=new_split:right
+keybind = ctrl+shift+h=new_split:down
+keybind = ctrl+shift+enter=toggle_split_zoom
+
+keybind = ctrl+comma=open_config
+keybind = ctrl+shift+comma=reload_config
+
+keybind = ctrl+enter=toggle_fullscreen
+
+keybind = ctrl+shift+plus=increase_font_size:1
+keybind = ctrl+minus=decrease_font_size:1
+keybind = ctrl+zero=reset_font_size
+
+keybind = ctrl+page_down=next_tab
+keybind = ctrl+page_up=previous_tab
+keybind = ctrl+shift+a=select_all
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+i=inspector:toggle
+keybind = ctrl+shift+j=write_scrollback_file
+keybind = ctrl+shift+left=previous_tab
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+page_down=jump_to_prompt:1
+keybind = ctrl+shift+page_up=jump_to_prompt:-1
+keybind = ctrl+shift+q=quit
+keybind = ctrl+shift+right=next_tab
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+v=paste_from_clipboard
+keybind = ctrl+shift+w=close_surface
+keybind = shift+end=scroll_to_bottom
+keybind = shift+home=scroll_to_top
+keybind = shift+insert=paste_from_selection
+keybind = shift+page_down=scroll_page_down
+keybind = shift+page_up=scroll_page_up
+keybind = super+ctrl+left_bracket=goto_split:previous
+keybind = super+ctrl+right_bracket=goto_split:next
+keybind = super+ctrl+shift+down=resize_split:down,10
+keybind = super+ctrl+shift+equal=equalize_splits
+keybind = super+ctrl+shift+left=resize_split:left,10
+keybind = super+ctrl+shift+right=resize_split:right,10
+keybind = super+ctrl+shift+up=resize_split:up,10

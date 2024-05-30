@@ -12,6 +12,7 @@
 	chainreplyto = false
 	confirm = always
 	assume8bitEncoding = UTF-8
+	annotate = True
 [log]
 	follow = true
 	; date = iso

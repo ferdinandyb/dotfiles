@@ -26,7 +26,7 @@
 	tool = fugitive
 	conflictstyle = zdiff3
 [core]
-	excludesfile = /home/fbence/.gitignore
+	excludesfile = ~/.config/git/ignore
 	pager = delta
 	logAllRefUpdates = always
 [mergetool "fugitive"]

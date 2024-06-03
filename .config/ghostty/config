@@ -31,8 +31,8 @@ keybind = ctrl+alt+h=goto_split:left
 keybind = ctrl+alt+l=goto_split:right
 keybind = ctrl+alt+k=goto_split:top
 
-# keybind = ctrl+shift+ö=new_split:down
-# keybind = ctrl+shift+ü=new_split:right
+keybind = ctrl+shift+ö=new_split:down
+keybind = ctrl+shift+ü=new_split:right
 keybind = ctrl+shift+h=new_split:down
 keybind = ctrl+shift+enter=toggle_split_zoom
 

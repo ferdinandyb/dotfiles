@@ -47,10 +47,11 @@
 	ri = rebase -i
 	ra = rebase --abort
 	rc = rebase --continue
+	rf = rebase --autosquash
 	rp = reset -p HEAD^
 	cs = commit -s
 	ca = commit --amend
-	can = commit --amend --no-edit
+	ce = commit --amend --no-edit
 	co = checkout
 	a = add -u
 	l = log --oneline --topo-order

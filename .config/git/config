@@ -49,10 +49,13 @@
 	rc = rebase --continue
 	rf = rebase --autosquash
 	rp = reset -p HEAD^
+	rh = reset HEAD^
 	cs = commit -s
 	ca = commit --amend
 	ce = commit --amend --no-edit
+	ch = commit --reuse-message=ORIG_HEAD
 	co = checkout
+	cf = commit --fixup
 	a = add -u
 	l = log --oneline --topo-order
 	ll = log --pretty=lineauthor --date=short --topo-order
@@ -62,7 +65,6 @@
 	ls = ls-tree --full-tree --name-only -r HEAD
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup
-	fp = commit --fixup
 	wip = commit -am 'wip'
 	whichadded = log --diff-filter=A
 	fetchall = !git fetch --all && git remote | xargs -i git remote set-head -a {}

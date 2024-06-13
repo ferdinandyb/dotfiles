@@ -113,6 +113,9 @@ zvm_after_init() {
   # Auto-completion
   # ---------------
   [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
+  if [ -f  '/usr/local/bin/aws_completer' ]; then
+    complete -C '/usr/local/bin/aws_completer' aws
+  fi
 
   # Key bindings
   # ------------
@@ -178,7 +181,8 @@ if [ -d $HOME/.config/glab-cli/completion.zsh ]; then
   source $HOME/.config/glab-cli/completion.zsh
 fi
 
-autoload -Uz compinit
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 

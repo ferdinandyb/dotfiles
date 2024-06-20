@@ -64,3 +64,4 @@ outgoing=msmtpq -a bence
 from=Bence Ferdinandy <bence@ferdinandy.com>
 query-map=~/.config/aerc/notmuchmap.conf
 signature-file=~/.config/emailconfiguration/ferdinandy_signature.txt
+copy-to=bence/Sent

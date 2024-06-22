@@ -72,3 +72,8 @@ keybind = super+ctrl+shift+equal=equalize_splits
 keybind = super+ctrl+shift+left=resize_split:left,10
 keybind = super+ctrl+shift+right=resize_split:right,10
 keybind = super+ctrl+shift+up=resize_split:up,10
+
+
+# make stuff work:
+keybind = ctrl+ő=text:\x1b
+keybind = ctrl+ú=text:\x1d

@@ -1,7 +1,7 @@
 nnoremap <buffer> dq :.,$global/^>\($\<bar>\s\)/delete<CR>:noh<cr>
 setlocal spell! spelllang=en_gb,hu
 set formatoptions-=r
-set ff=unix
+set fileformat=unix
 set columns=90
 set textwidth=0
 set wrap

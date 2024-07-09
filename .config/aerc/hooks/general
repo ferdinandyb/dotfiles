@@ -35,4 +35,4 @@ else
 	mbsynccmd=${AERC_ACCOUNT,,}-${AERC_FOLDER,,}
 fi
 
-throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync $mbsynccmd" --job "notmuch new" --origin $AERC_HOOK_ORIGIN
+systemd-run --user throttle --job "notmuch new" --silent-job "testinternetconnection" --job "mbsync $mbsynccmd" --job "notmuch new" --origin $AERC_HOOK_ORIGIN

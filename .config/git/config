@@ -44,6 +44,7 @@
 [alias]
 	s = status --short --branch
 	sb = switch
+	bv = branch -vv
 	r = restore
 	ri = rebase -i
 	ra = rebase --abort
@@ -105,7 +106,7 @@
 	fsckobjects = true
 [fetch]
 	fsckobjects = true
-	; prune = true
+	prune = true
 	; prunetags = true
 [receive]
 	fsckobjects = true

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Running fetch --prune"
+git fetch --prune
+echo
+
+while getopts ":f" option; do
+	case $option in
+	f) # delete branches
+		echo "Deleting branches"
+		echo
+		STALE_BRANCHES=$(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}')
+		for branch in $STALE_BRANCHES; do
+			git branch -D $branch
+		done
+		exit
+		;;
+	esac
+done
+
+echo "Branches with deleted remotes:"
+git -c color.ui=always branch -vv | grep --color=never gone

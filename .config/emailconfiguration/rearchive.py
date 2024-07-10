@@ -16,18 +16,16 @@ def setUpMaildir(date):
     Path.mkdir(Path(date) / "new", parents=True, exist_ok=True)
 
 
-def move_maildir(path, targetfolder):
-    # print("moving:", path.name, targetfolder)
-    filename = path.name
-    # print(filename)
-    try:
-        name, _, flags = filename.split(",")
-    except ValueError:
-        name, flags = filename.split(",")
-    path.rename(targetfolder / "cur" / f"{name}:2,{flags}")
+def move_maildir(path, targetfolder, dry):
+    name = re.sub(r",U\=\d+", "", path.name)
+    newname = targetfolder / "cur" / name
+    if dry:
+        print(f"{path} -> {newname}")
+    else:
+        path.rename(newname)
 
 
-def main(path, targetpath):
+def main(path, targetpath, dry):
     parser = BytesParser()
     if targetpath is None:
         targetpath = path
@@ -53,7 +51,7 @@ def main(path, targetpath):
         if datetime.now(timezone.utc) - relativedelta(years=1) >= date:
             targetfolder = Path(targetpath) / str(date.year)
             setUpMaildir(targetfolder)
-            move_maildir(msgpath, targetfolder)
+            move_maildir(msgpath, targetfolder, dry)
             movedmessages += 1
     print(f"Moved {movedmessages} messages out of {totalmessages}")
 
@@ -73,5 +71,6 @@ changed to a different one then the original.
     )
     parser.add_argument("folder", type=str)
     parser.add_argument("-t", "--target", type=str)
+    parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    main(args.folder, args.target)
+    main(args.folder, args.target, args.dry_run)

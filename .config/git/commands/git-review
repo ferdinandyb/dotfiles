@@ -1,0 +1,7 @@
+#!/bin/bash
+
+REVIEW_BASE="${REVIEW_BASE:-refs/remotes/origin/HEAD}"
+CHANGED=$(git diff --name-only $(git merge-base HEAD $REVIEW_BASE))
+vim -p ${CHANGED} \
+	+"tabdo Gvdiffsplit $REVIEW_BASE" \
+	+"let g:gitgutter_diff_base = '$REVIEW_BASE'"

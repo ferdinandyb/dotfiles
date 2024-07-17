@@ -1,0 +1,5 @@
+#!/bin/bash
+
+REVIEW_BASE="${REVIEW_BASE:-refs/remotes/origin/HEAD}"
+
+git diff --stat $(git merge-base HEAD $REVIEW_BASE)

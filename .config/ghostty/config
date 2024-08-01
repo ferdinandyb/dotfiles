@@ -50,7 +50,7 @@ keybind = ctrl+page_up=previous_tab
 keybind = ctrl+shift+a=select_all
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = ctrl+shift+i=inspector:toggle
-keybind = ctrl+shift+j=write_scrollback_file
+keybind = ctrl+shift+j=write_scrollback_file:paste
 keybind = ctrl+shift+left=previous_tab
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+shift+page_down=jump_to_prompt:1

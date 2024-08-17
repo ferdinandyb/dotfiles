@@ -52,10 +52,11 @@
 	rf = rebase --autosquash
 	rp = reset -p HEAD^
 	rh = reset HEAD^
+	ch = !git commit --reuse-message=ORIG_HEAD && git notes copy ORIG_HEAD
+	restorecommit = ch
 	cs = commit -s
 	ca = commit --amend
 	ce = commit --amend --no-edit
-	ch = commit --reuse-message=ORIG_HEAD
 	co = checkout
 	cf = commit --fixup
 	a = add -u

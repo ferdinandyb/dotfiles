@@ -70,6 +70,7 @@
 	fixup = commit --fixup
 	wip = commit -am 'wip'
 	whichadded = log --diff-filter=A
+	pushnotes = push origin 'refs/notes/*'
 	fetchall = !git fetch --all && git remote | xargs -i git remote set-head -a {}
 [pull]
 	rebase = true

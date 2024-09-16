@@ -79,6 +79,7 @@
 	lineauthor = %C(auto)%h %C(auto,cyan)%ad %C(auto,magenta)%<(14,trunc)%an%C(auto)%d %C(auto,reset)%s%C(auto,cyan) %(trailers:key=Acked-by,key=Reviewed-by,key=Tested-by,unfold,separator=%x2C )%C(auto,reset)
 [format]
 	notes = true
+	coverFromDescription = auto
 [notes]
 	rewriteRef = refs/notes/commits
 	rewriteMode = concatenate

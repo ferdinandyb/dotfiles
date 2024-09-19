@@ -1,0 +1,3 @@
+#/bin/sh
+
+git switch $(git rev-parse --abbrev-ref origin/HEAD | sed 's:\w\+/\(\w\+\):\1:')

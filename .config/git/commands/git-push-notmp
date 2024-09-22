@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# This script is just a toy which I don't actually use.
+# Expect bugs.
+
+push() {
+	export GIT_SEQUENCE_EDITOR=git-push-notmp
+	git rebase -i origin/HEAD || git rebase --abort && exit 1
+	git push || git reset ORIG_HEAD && exit 1
+	git reset ORIG_HEAD
+}
+
+edittodo() {
+	sed -i 's/\w\+\(\s\+\w\+\s\+\(tmp$\|tmp:\)\)/drop\1/' $1
+}
+
+if [ -z "$1" ]; then
+	push
+else
+	edittodo $1
+fi

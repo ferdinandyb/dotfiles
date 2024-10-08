@@ -86,7 +86,7 @@ profiles:
                 slant: normal
                 features: []
 
-            bold: "CaskaydiaCove Nerd Font Semibold"
+            # bold: "CaskaydiaCove Nerd Font Semibold"
             # italic: "CaskaydiaCove Nerd Font Light Italic"
             # bold_italic: "CaskaydiaCove Nerd Font Semibold Italic"
 
@@ -288,7 +288,7 @@ input_mapping:
     - { mods: [Control, Shift], key: Minus,         action: DecreaseFontSize }
     - { mods: [Control, Shift], key: '_',           action: DecreaseFontSize }
     # - { mods: [Control, Shift], key: R,             action: ReloadConfig }
-    - { mods: [Control, Shift], key: N,             action: NewTerminal }
+    - { mods: [Control, Shift], key: T,             action: NewTerminal }
     - { mods: [Control, Shift], key: V,             action: PasteClipboard, strip: false }
     - { mods: [Control, Shift], key: M,             action: CopyPreviousMarkRange, strip: false }
     - { mods: [Control, Alt],   key: V,             action: PasteClipboard, strip: true }
@@ -321,3 +321,17 @@ input_mapping:
     - { mods: [Control, Shift], key: 'H',           action: NoSearchHighlight }
     - { mods: [],               key: 'F3',          action: FocusNextSearchMatch }
     - { mods: [Shift],          key: 'F3',          action: FocusPreviousSearchMatch }
+    - { mods: [Control, Shift], key: t,             action: CreateNewTab }
+    - { mods: [Control, Shift], key: w,             action: CloseTab }
+    - { mods: [Control, Shift], key: p,             action: SwitchToTabLeft }
+    - { mods: [Control, Shift], key: n,             action: SwitchToTabRight }
+    - { mods: [Control, Shift], key: 0,             action: SwitchToTab, position: 1 }
+    - { mods: [Control, Shift], key: 1,             action: SwitchToTab, position: 2 }
+    - { mods: [Control, Shift], key: 2,             action: SwitchToTab, position: 3 }
+    - { mods: [Control, Shift], key: 3,             action: SwitchToTab, position: 4 }
+    - { mods: [Control, Shift], key: 4,             action: SwitchToTab, position: 5 }
+    - { mods: [Control, Shift], key: 5,             action: SwitchToTab, position: 6 }
+    - { mods: [Control, Shift], key: 6,             action: SwitchToTab, position: 7 }
+    - { mods: [Control, Shift], key: 7,             action: SwitchToTab, position: 8 }
+    - { mods: [Control, Shift], key: 8,             action: SwitchToTab, position: 9 }
+    - { mods: [Control, Shift], key: 9,             action: SwitchToTab, position: 10 }

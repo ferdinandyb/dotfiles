@@ -80,6 +80,7 @@
 [format]
 	notes = true
 	coverFromDescription = auto
+	signoff = true
 [notes]
 	rewriteRef = refs/notes/commits
 	rewriteMode = concatenate

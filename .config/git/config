@@ -71,6 +71,7 @@
 	wip = commit -am 'wip'
 	whichadded = log --diff-filter=A
 	fetchall = !git fetch --all && git remote | xargs -i git remote set-head -a {}
+	deflate = !"perl -MCompress::Zlib -e 'undef $/; print uncompress(<>)'"
 [pull]
 	rebase = true
 [pretty]

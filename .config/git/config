@@ -106,7 +106,7 @@
 	detachedHead = false
 [remote "origin"]
 	fetch = +refs/notes/*:refs/notes/*
-	push = +refs/notes/*:refs/notes/*
+	; push = +refs/notes/*:refs/notes/*
 [transfer]
 	fsckobjects = true
 [fetch]

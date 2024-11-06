@@ -3,7 +3,11 @@
 BRANCHES=$(git branch --list --all --format='%(refname)')
 
 for branch in $BRANCHES; do
-	echo $branch
-	git log --format='%an <%ae>' origin/HEAD..$branch | sort | uniq | paste -sd "," -
-	echo ""
+	rev=origin/HEAD..$branch
+	num=$(git rev-list $rev | wc -l)
+	if [ "$num" -gt 0 ]; then
+		echo "$branch (commits: $num)"
+		git log --format='%an <%ae>' $rev | sort | uniq | paste -sd "," -
+		echo ""
+	fi
 done

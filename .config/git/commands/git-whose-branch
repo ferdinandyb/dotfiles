@@ -1,0 +1,9 @@
+#!/bin/bash
+
+BRANCHES=$(git branch --list --all --format='%(refname)')
+
+for branch in $BRANCHES; do
+	echo $branch
+	git log --format='%an <%ae>' origin/HEAD..$branch | sort | uniq | paste -sd "," -
+	echo ""
+done

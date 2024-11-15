@@ -72,6 +72,7 @@
 	whichadded = log --diff-filter=A
 	fetchall = !git fetch --all && git remote | xargs -i git remote set-head -a {}
 	deflate = !"perl -MCompress::Zlib -e 'undef $/; print uncompress(<>)'"
+	pushlease = push --force-with-lease
 [pull]
 	rebase = true
 [pretty]

@@ -64,7 +64,7 @@
 	ll = log --pretty=lineauthor --date=short --topo-order
 	lh = log --pretty=lineauthor --date=short --topo-order -10
 	lm = log --pretty=lineauthor --date=short --topo-order refs/remotes/origin/HEAD^..
-	lg = log --pretty=lineauthor --date=short --topo-order --graph --exclude=refs/notes/* --all
+	lg = log --pretty=lineauthor --date=short --topo-order --graph --exclude=refs/notes/*
 	ls = ls-tree --full-tree --name-only -r HEAD
 	lfixes = log --pretty=fixes
 	fixup = commit --fixup

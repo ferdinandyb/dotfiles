@@ -1,0 +1,2 @@
+
+bindsym $mod+space exec "rofi -show combi -modi window,run,combi -combi-modi window,run"

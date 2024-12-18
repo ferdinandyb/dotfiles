@@ -88,7 +88,7 @@ Channel bence-folders
 IMAPAccount elte
 Host outlook.office365.com
 User ferdinandy.bence@ttk.elte.hu
-PassCmd "mailctl access ferdinandy.bence@ttk.elte.hu"
+PassCmd "oama access ferdinandy.bence@ttk.elte.hu"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 Timeout 360
@@ -154,7 +154,7 @@ IMAPAccount priestoferis
 # Address to connect to
 Host imap.gmail.com
 User priestoferis@gmail.com
-PassCmd "mailctl access priestoferis"
+PassCmd "oama access priestoferis@gmail.com"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 Timeout 360
@@ -208,7 +208,7 @@ Channel priestoferis-inbox
 Channel priestoferis-drafts
 Channel priestoferis-trash
 Channel priestoferis-sent
-Channel priestoferis-labels
+Channel priestoferis-folders
 Channel priestoferis-spam
 Channel priestoferis-archive
 Channel priestoferis-zzzzzzz
@@ -216,7 +216,7 @@ Channel priestoferis-zzzzzzz
 Group priestoferis-fast
 Channel priestoferis-inbox
 Channel priestoferis-drafts
-Channel priestoferis-labels
+Channel priestoferis-folders
 
 
 #######################
@@ -276,57 +276,6 @@ Channel pharmahungary-archive
 Group pharmahungary-fast
 Channel pharmahungary-inbox
 Channel pharmahungary-folders
-
-#######################
-#### Yettel ####
-#######################
-
-IMAPAccount yettel
-Host localhost
-Port 1143
-User bferdinandy@yettel.hu
-Pass ""
-AuthMechs LOGIN
-TLSType None
-
-IMAPStore yettel-remote
-Account yettel
-
-MaildirStore yettel-local
-SubFolders Verbatim
-Path ~/.mail/yettel/
-Inbox ~/.mail/yettel/Inbox
-
-Channel yettel-folders
-Far :yettel-remote:
-Near :yettel-local:
-Patterns * !INBOX
-
-Channel yettel-inbox
-Far ":yettel-remote:INBOX"
-Near ":yettel-local:Inbox"
-
-Group yettel
-Channel yettel-folders
-Channel yettel-inbox
-
-Channel yettel-archive
-Far ":yettel-remote:Archive"
-Near ":yettel-local:Archive"
-Patterns *
-
-Channel yettel-drafts
-Far ":yettel-remote:Drafts"
-Near ":yettel-local:Drafts"
-
-Channel yettel-archive
-Far ":yettel-remote:Archive"
-Near ":yettel-local:Archive"
-Patterns *
-
-Channel yettel-sent
-Far ":yettel-remote:Sent"
-Near ":yettel-local:Sent"
 
 
 #####################

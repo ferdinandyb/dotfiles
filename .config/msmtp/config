@@ -13,7 +13,7 @@ auth           oauthbearer
 tls_starttls   on
 from           priestoferis@gmail.com
 user           priestoferis@gmail.com
-passwordeval   mailctl access priestoferis
+passwordeval   oama access priestoferis@gmail.com
 
 # ELTE
 account        elte
@@ -24,7 +24,7 @@ tls_starttls   on
 tls_certcheck  on
 from           ferdinandy.bence@ttk.elte.hu
 user           ferdinandy.bence@ttk.elte.hu
-passwordeval   mailctl access ferdinandy.bence@ttk.elte.hu
+passwordeval   oama access ferdinandy.bence@ttk.elte.hu
 
 # ferdinandy: bence
 account        bence

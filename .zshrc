@@ -119,7 +119,7 @@ zvm_after_init() {
 
   # Key bindings
   # ------------
-  source "$HOME/.fzf/shell/key-bindings.zsh"
+  source <(fzf --zsh)
   bindkey "\C-z" vi-forward-word
   bindkey "\C-]" autosuggest-accept
   bindkey "\C-ú" autosuggest-accept

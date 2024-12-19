@@ -64,7 +64,7 @@ font-4 = FontAwesome5Brands:style=Solid:pixelsize=10;3
 
 
 modules-left = i3 sp2 info-hackspeed sp2
-modules-right = weather sp1 linux-ver sp1 updates sp2 date sp2
+modules-right = weather sp1 updates sp2 date sp1 battery sp2
 
 tray-position = right
 tray-padding = 0
@@ -165,7 +165,7 @@ label = %output%
 type = internal/date
 interval = 1
 
-time = "%a %d %I:%M %P"
+time = "%a %d %H:%M:%S"
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
@@ -174,6 +174,34 @@ format-prefix-background = ${colors.background-alt}
 label = %time%
 label-foreground = ${colors.foreground-alt}
 label-background = ${colors.background-alt}
+
+[module/battery]
+type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+; Default: 100
+full-at = 99
+
+; format-low once this charge percentage is reached
+; Default: 10
+; New in version 3.6.0
+low-at = 5
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
+battery = BAT0
+adapter = AC
+
+; If an inotify event haven't been reported in this many
+; seconds, manually poll for new values.
+;
+; Needed as a fallback for systems that don't report events
+; on sysfs/procfs.
+;
+; Disable polling by setting the interval to 0.
+;
+; Default: 5
+poll-interval = 5
 
 [module/volume]
 type = internal/alsa

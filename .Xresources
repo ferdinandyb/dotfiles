@@ -1,0 +1,53 @@
+regolith.look.path: /usr/share/regolith-look/dracula
+gtk.font_name: Source Sans Pro
+gtk.monospace_font_name: Cascadia Code
+
+wm.bar.trayoutput: primary
+wm.bar.status_command: i3status-rs ~/.config/regolith3/i3status-rs.toml
+wm.bar.status_command: i3xrocks   -d /usr/share/i3xrocks/conf.d
+/* wm.bar.status_command: i3xrocks -u ~/.config/regolith3/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d */
+
+# workspaces
+## fancy names
+wm.workspace.00.name: 0: <span>0  </span>
+wm.workspace.01.name: 1: <span>1  </span>
+wm.workspace.06.name: 6: <span>6  </span>
+wm.workspace.07.name: 7: <span>7  </span>
+wm.workspace.08.name: 8: <span>8  </span>
+/* wm.workspace.09.name: 9: <span>9  </span> */
+wm.workspace.09.name: 9: <span>9 </span>
+## not fancy names
+wm.workspace.02.name: 2: <span>2 </span>
+wm.workspace.03.name: 3: <span>3 </span>
+wm.workspace.04.name: 4: <span>4 </span>
+wm.workspace.05.name: 5: <span>5 </span>
+wm.workspace.10.name: 10: <span>10 </span>
+wm.workspace.11.name: 11: <span>11 </span>
+wm.workspace.12.name: 12: <span>12 </span>
+wm.workspace.13.name: 13: <span>13 </span>
+wm.workspace.14.name: 14: <span>14 </span>
+wm.workspace.15.name: 15: <span>15 </span>
+wm.workspace.16.name: 16: <span>16 </span>
+wm.workspace.17.name: 17: <span>17 </span>
+wm.workspace.18.name: 18: <span>18 </span>
+wm.workspace.19.name: 19: <span>19 </span>
+
+
+wm.binding.split_h: ü
+wm.binding.split_v: ö
+wm.gaps.inner.size: 3
+wm.binding.next_free: u
+wm.binding.take_next_free: Mod1+u
+wm.binding.move_next_free: Shift+u
+wm.binding.focus_child: y
+wm.binding.swap_focus: comma
+
+wm.auto_back_and_forth: yes
+wm.program.files: /usr/bin/gtk-launch ranger
+wm.program.launcher.app: rofi -show drun
+wm.program.launcher.cmd: rofi -show run
+wm.program.launcher.window: rofi -show window
+wm.program.file_search: rofi -show recentfiles -modi "recentfiles:/home/fbence/.config/regolith2/scripts/searchrecentrofi.sh"
+
+i3xrocks.date.format2: %b. %d. %H:%M:%S
+i3xrocks.time.interval: 1

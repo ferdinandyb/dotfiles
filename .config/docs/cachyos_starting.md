@@ -36,6 +36,7 @@ paru -S \
     networkmanager \
     nm-connection-editor \
     nodejs \
+    npm \
     notmuch \
     oama \
     pandoc \

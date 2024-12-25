@@ -46,6 +46,7 @@ paru -S \
     rsync \
     sasl-xoauth-git \
     sasl-xoauth2-git \
+    spotify-launcher \
     scdoc \
     tmux \
     ugrep \

@@ -57,7 +57,8 @@ paru -S \
     xclip \
     yadm \
     zoxide \
-    w3m
+    w3m \
+    zip
 
 pipx \
     mail-deduplicate

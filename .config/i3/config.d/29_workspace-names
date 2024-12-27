@@ -1,0 +1,25 @@
+###############################################################################
+# Workspace Names
+# These are the labels which define each i3 workspace.
+###############################################################################
+
+set_from_resource $ws0  wm.workspace.00.name "0"
+set_from_resource $ws1  wm.workspace.01.name "1"
+set_from_resource $ws2  wm.workspace.02.name "2"
+set_from_resource $ws3  wm.workspace.03.name "3"
+set_from_resource $ws4  wm.workspace.04.name "4"
+set_from_resource $ws5  wm.workspace.05.name "5"
+set_from_resource $ws6  wm.workspace.06.name "6"
+set_from_resource $ws7  wm.workspace.07.name "7"
+set_from_resource $ws8  wm.workspace.08.name "8"
+set_from_resource $ws9  wm.workspace.09.name "9"
+set_from_resource $ws10 wm.workspace.10.name "10"
+set_from_resource $ws11 wm.workspace.11.name "11"
+set_from_resource $ws12 wm.workspace.12.name "12"
+set_from_resource $ws13 wm.workspace.13.name "13"
+set_from_resource $ws14 wm.workspace.14.name "14"
+set_from_resource $ws15 wm.workspace.15.name "15"
+set_from_resource $ws16 wm.workspace.16.name "16"
+set_from_resource $ws17 wm.workspace.17.name "17"
+set_from_resource $ws18 wm.workspace.18.name "18"
+set_from_resource $ws19 wm.workspace.19.name "19"

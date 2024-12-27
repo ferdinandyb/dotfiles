@@ -48,6 +48,7 @@ paru -S \
     python-dateutil \
     python-pipx \
     ripgrep \
+    rofi-greenclip \
     rsync \
     sasl-xoauth-git \
     sasl-xoauth2-git \

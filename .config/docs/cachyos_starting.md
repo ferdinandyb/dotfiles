@@ -25,8 +25,10 @@ paru -S \
     element-desktop \
     fd \
     fzf \
+    htop \
     git-delta \
     go \
+    gopls \
     goimapnotify \
     gnome-keyring \
     gvim \

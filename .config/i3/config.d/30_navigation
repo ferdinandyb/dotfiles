@@ -83,3 +83,7 @@ bindsym $mod+$wm.binding.ws_prev_on_output2 workspace prev_on_output
 ## Navigate // Scratchpad // <><Ctrl> a ##
 set_from_resource $wm.binding.scratchpad wm.binding.scratchpad Ctrl+a
 bindsym $mod+$wm.binding.scratchpad scratchpad show
+
+bindsym $mod+u exec --no-startup-id "~/.config/i3/scripts/i3-next-workspace"
+bindsym $mod+Shift+u exec --no-startup-id "~/.config/i3/scripts/i3-next-workspace --move-window"
+bindsym $mod+$alt+u exec --no-startup-id "~/.config/i3/scripts/i3-next-workspace --move-window-and-follow"

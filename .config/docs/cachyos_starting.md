@@ -46,6 +46,7 @@ paru -S \
     pandoc \
     pass \
     python-dateutil \
+    python-i3ipc \
     python-pipx \
     ripgrep \
     rofi-greenclip \

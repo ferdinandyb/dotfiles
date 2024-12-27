@@ -32,6 +32,7 @@ paru -S \
     goimapnotify \
     gnome-keyring \
     gvim \
+    libsixel \
     isync \
     jq \
     msmtp \

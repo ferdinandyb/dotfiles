@@ -28,6 +28,7 @@ paru -S \
     git-delta \
     go \
     goimapnotify \
+    gnome-keyring \
     gvim \
     isync \
     jq \

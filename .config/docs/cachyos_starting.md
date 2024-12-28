@@ -59,6 +59,7 @@ paru -S \
     spotify-launcher \
     scdoc \
     tmux \
+    tlp \
     unclutter \
     ugrep \
     xcape \

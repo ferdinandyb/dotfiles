@@ -46,6 +46,7 @@ paru -S \
     oama \
     pandoc \
     pass \
+    pavucontrol \
     python-dateutil \
     python-i3ipc \
     python-pipx \

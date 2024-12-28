@@ -157,3 +157,10 @@ for_window [class="Element"] border none
 tiling_drag modifier
 assign [class="rviz"] workspace $ws2
 assign [class="Gazeb"] workspace $ws2
+
+
+# Start the daemon which listens to focus changes and sets _back mark
+exec --no-startup-id i3-back
+
+# Bind a switch key, which focuses the previously focused window
+bindsym $mod+comma [con_mark=_back] focus

@@ -33,6 +33,7 @@ paru -S \
     gnome-keyring \
     gvim \
     libsixel \
+    i3-back \
     isync \
     jq \
     msmtp \

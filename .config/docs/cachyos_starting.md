@@ -16,6 +16,7 @@ paru -S \
     bashmount \
     bat \
     blueman \
+    brightnessctl \
     contour-git \
     ctags \
     cyrus-sasl \

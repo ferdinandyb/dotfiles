@@ -1,4 +1,4 @@
-import imp
+import importlib
 
 from pygments.styles import get_all_styles
 
@@ -11,11 +11,8 @@ if "dracula" in list(get_all_styles()):
 c.TerminalInteractiveShell.autoformatter = "black"
 # c.InteractiveShell.pdb = 1
 
-try:
-    imp.find_module("pyflyby")
+if importlib.util.find_spec("pyflyby") is not None:
     c.InteractiveShellApp.extensions.append("pyflyby")
-except ImportError:
-    pass
 
 
 c.TerminalInteractiveShell.shortcuts = [

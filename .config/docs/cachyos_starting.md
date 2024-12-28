@@ -57,6 +57,7 @@ paru -S \
     spotify-launcher \
     scdoc \
     tmux \
+    unclutter \
     ugrep \
     xclip \
     xss-lock \

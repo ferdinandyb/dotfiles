@@ -58,6 +58,7 @@ paru -S \
     tmux \
     ugrep \
     xclip \
+    xss-lock \
     yadm \
     zoxide \
     w3m \

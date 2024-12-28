@@ -146,7 +146,6 @@ bindsym $mod+v exec --no-startup-id "~/.config/rofi/copypastemodi.sh paste"
 bindsym $mod+Ctrl+i exec --no-startup-id  "~/.config/regolith2/scripts/rofi-emoji.sh"
 
 bindsym $mod+Ctrl+n exec --no-startup-id "~/.config/regolith2/scripts/openlastdownloaded.sh"
-bindsym $mod+s exec regolith-control-center --class=floating_window sound
 bindsym $mod+Ctrl+q focus parent,kill
 
 for_window [class="Google-chrome"] border none
@@ -164,3 +163,7 @@ bindsym $mod+comma [con_mark=_back] focus
 bindsym Mod1+Tab [con_mark=_back] focus
 
 exec --no-startup-id unclutter
+
+bindsym $mod+b blueman
+bindsym $mod+s pavucontrol
+bindsym $mod+x arandr

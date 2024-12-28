@@ -59,6 +59,7 @@ paru -S \
     tmux \
     unclutter \
     ugrep \
+    xcape \
     xclip \
     xss-lock \
     yadm \

@@ -35,6 +35,7 @@ paru -S \
     gvim \
     libsixel \
     i3-back \
+    ipython \
     isync \
     jq \
     msmtp \

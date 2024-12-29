@@ -1,0 +1,15 @@
+configurations:
+  -
+    host: mail.ferdinandy.com
+    port: 993
+    tls: true
+    tlsOptions:
+      rejectUnauthorized: true
+    username: bence@ferdinandy.com
+    passwordCmd: 'pass show aerc/bence | head -n1'
+    xoauth2: false
+    wait: 0
+    boxes:
+      -
+        mailbox: Inbox
+        onNewMail: "throttle --job 'mbsync bence-inbox' --job 'notmuch new' --origin 'goimap'"

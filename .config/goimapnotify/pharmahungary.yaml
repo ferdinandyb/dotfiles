@@ -1,0 +1,15 @@
+configurations:
+  -
+   host: mail.securebox.hu
+   port: 993
+   tls: true
+   tlsOptions:
+     rejectUnauthorized: true
+   username: bence.ferdinandy@pharmahungary.com
+   passwordCmd: "pass show aerc/pharmahungary | head -n1"
+   xoauth2: false
+   wait: 0
+   boxes:
+     -
+       mailbox: Inbox
+       onNewMail: throttle --job 'mbsync pharmahungary-inbox' --job 'notmuch new' --origin 'goimap'

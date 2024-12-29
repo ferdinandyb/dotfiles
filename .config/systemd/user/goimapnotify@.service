@@ -3,12 +3,14 @@ Description=start goimapnotify for various mailboxes
 # OnFailure=status-email-user@%n.service
 After=local-fs.target
 After=network.target
+StartLimitIntervalSec=3600
+StartLimitBurst=5
 
 
 [Service]
 Restart=always
 RestartSec=60
-ExecStart=%h/go/bin/goimapnotify -debug -wait 0 -conf %h/.config/goimapnotify/%i.conf
+ExecStart=goimapnotify -debug -wait 0 -conf %h/.config/goimapnotify/%i.yaml
 KeyringMode=shared
 
 [Install]

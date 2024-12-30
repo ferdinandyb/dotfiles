@@ -84,10 +84,10 @@ Enable services:
 
 ```
 scu enable --now throttle.service
-scu enable --now goimapnotify@pharmahungary_imapnotify.service
-scu enable --now goimapnotify@elte_imapnotify.service
-scu enable --now goimapnotify@bence_imapnotify.service
-scu enable --now goimapnotify@priestoferis_imapnotify.service
+scu enable --now goimapnotify@pharmahungary.service
+scu enable --now goimapnotify@elte_.service
+scu enable --now goimapnotify@bence.service
+scu enable --now goimapnotify@priestoferis.service
 scu enable --now mailsync-low.timer
 scu enable --now mailsync-medium.timer
 ```

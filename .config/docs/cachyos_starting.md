@@ -35,6 +35,7 @@ paru -S \
     gnome-keyring \
     gvim \
     libsixel \
+    libreoffice-fresh \
     i3-back \
     ipython \
     isync \

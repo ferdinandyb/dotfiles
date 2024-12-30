@@ -18,6 +18,7 @@ paru -S \
     bat \
     blueman \
     brightnessctl \
+    catdoc \
     contour-git \
     ctags \
     cyrus-sasl \
@@ -29,6 +30,7 @@ paru -S \
     fzf \
     htop \
     git-delta \
+    glow \
     go \
     gopls \
     goimapnotify \
@@ -76,7 +78,8 @@ paru -S \
     zip
 
 pipx \
-    mail-deduplicate
+    mail-deduplicate \
+    xlsx2csv
 
 ```
 

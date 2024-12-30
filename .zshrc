@@ -169,8 +169,8 @@ elif [ $(hostname) = mashenka ]; then
   gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
 
-if [ -d $HOME/.local/softwarefromsource/contour/src/contour/shell-integration ]; then
-source $HOME/.local/softwarefromsource/contour/src/contour/shell-integration/shell-integration.zsh
+if [ -d /usr/share/contour/shell-integration ]; then
+  source /usr/share/contour/shell-integration/shell-integration.zsh
 fi
 
 if [ -d $HOME/.local/share/zsh/site-functions/_hut ]; then

@@ -13,6 +13,7 @@ Things that need installing:
 pacman -S paru
 paru -S \
     arandr \
+    asciidoc \
     bashmount \
     bat \
     blueman \
@@ -49,6 +50,7 @@ paru -S \
     pandoc \
     pass \
     pavucontrol \
+    pod2man \
     python-dateutil \
     python-i3ipc \
     python-pipx \
@@ -65,6 +67,7 @@ paru -S \
     ugrep \
     xcape \
     xclip \
+    xmlto \
     xss-lock \
     yadm \
     zoxide \

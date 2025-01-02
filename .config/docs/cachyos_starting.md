@@ -62,6 +62,7 @@ paru -S \
     rsync \
     sasl-xoauth-git \
     sasl-xoauth2-git \
+    speedtest-cli \
     spotify-launcher \
     scdoc \
     tmux \

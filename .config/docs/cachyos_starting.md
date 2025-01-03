@@ -53,6 +53,9 @@ paru -S \
     pandoc \
     pass \
     pavucontrol \
+    perl-authen-sasl \
+    perl-net-smtp-ssl \
+    perl-mime-tools \
     pod2man \
     python-dateutil \
     python-i3ipc \

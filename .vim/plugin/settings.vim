@@ -147,7 +147,7 @@ if &term =~? 'contour' || &term =~? 'tmux-256color' || &term =~? 'xterm-256color
     " 'Usual' cursor
     let &t_VS .= "\<Esc>[2 q"
 
-    au VimEnter * silent !echo -ne "\<Esc>[2 q"
+    " au VimEnter * silent !echo -ne "\<Esc>[2 q"
 endif
 
 " this is pretty irritating really :)

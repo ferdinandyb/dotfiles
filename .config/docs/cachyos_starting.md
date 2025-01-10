@@ -36,6 +36,7 @@ paru -S \
     goimapnotify \
     gnome-keyring \
     gvim \
+    lazygit \
     libsixel \
     libreoffice-fresh \
     i3-back \
@@ -68,6 +69,7 @@ paru -S \
     speedtest-cli \
     spotify-launcher \
     scdoc \
+    tig \
     tmux \
     tlp \
     unclutter \

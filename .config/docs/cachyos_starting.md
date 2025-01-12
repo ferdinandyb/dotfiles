@@ -83,7 +83,8 @@ paru -S \
     zoxide \
     watchexec \
     w3m \
-    zip
+    zip \
+    zotero-bin
 
 pipx \
     mail-deduplicate \

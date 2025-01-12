@@ -32,6 +32,7 @@ paru -S \
     git-delta \
     glow \
     go \
+    gofumpt \
     gopls \
     goimapnotify \
     gnome-keyring \
@@ -80,6 +81,7 @@ paru -S \
     xss-lock \
     yadm \
     zoxide \
+    watchexec \
     w3m \
     zip
 

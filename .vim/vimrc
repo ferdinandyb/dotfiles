@@ -24,6 +24,11 @@ let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
 let g:polyglot_disabled = ['markdown.plugin']
+
+let g:java_ignore_javadoc = 1
+let g:java_ignore_html = 1
+let g:java_ignore_markdown = 1
+
 call plug#begin()
 runtime! vim-plug-configs/*.vim
 if has('nvim')

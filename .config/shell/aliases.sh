@@ -12,6 +12,7 @@ alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias t="task"
 alias ta="task add"
 alias tt="taskwarrior-tui"
+alias tmux-new-attach="tmux new-session -t"
 
 alias r='. ranger'
 alias r.="kitty ranger"

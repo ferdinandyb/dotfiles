@@ -23,6 +23,7 @@ endif
 let mapleader="\<Space>"
 let maplocalleader="\<Space>"
 
+let g:polyglot_disabled = ['markdown.plugin']
 call plug#begin()
 runtime! vim-plug-configs/*.vim
 if has('nvim')

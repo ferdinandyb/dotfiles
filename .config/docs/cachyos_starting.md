@@ -24,6 +24,7 @@ paru -S \
     cyrus-sasl \
     cyrus-sasl-xoauth2-git \
     dante \
+    deluge-gtk \
     dust \
     element-desktop \
     fd \

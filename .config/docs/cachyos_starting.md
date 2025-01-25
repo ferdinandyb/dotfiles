@@ -78,6 +78,7 @@ paru -S \
     xcape \
     xclip \
     xmlto \
+    xournalpp \
     xss-lock \
     yadm \
     zoxide \

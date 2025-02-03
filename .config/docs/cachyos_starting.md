@@ -85,6 +85,7 @@ paru -S \
     zoxide \
     watchexec \
     w3m \
+    whois \
     zip \
     zotero-bin
 

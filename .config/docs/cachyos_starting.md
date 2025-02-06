@@ -71,6 +71,7 @@ paru -S \
     speedtest-cli \
     spotify-launcher \
     scdoc \
+    task \
     tig \
     tmux \
     tlp \
@@ -83,6 +84,7 @@ paru -S \
     xss-lock \
     yadm \
     zoxide \
+    vit \
     watchexec \
     w3m \
     whois \

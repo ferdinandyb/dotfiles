@@ -87,19 +87,18 @@ nmap <leader>y :FYadm!<CR>
 
 ## Desktop
 
-Regolith 3. Most notable customizations from base Regolith:
+I currently run [CachyOS](https://cachyos.org/) with i3, which is mostly a port
+of my old [Regolith 3](https://regolith-desktop.com/) config (a complete port
+of Regolith 3 to CachyOS later down the line is not out of question).
 
-- switched back to `rofi` from `ilia` as it is more generic, with more community support;
-- `flameshot` instead of `gnome-screenshot` with more useful bindings than Ubuntu/Regolith defaults
-- `ranger` set up as default filebrowser: makes more sense for me to use the same as I would in the terminal
 
 ## Terminal stuff
 
-- `kitty` although now looking at `contour` and `wezterm`
+- [contour](https://contour-terminal.org/) (but mostly `wezterm` on WSL)
 - `zsh`: took a long time to switch from bash, but the fast `powerlevel10k` prompt (vs `starship.rs` which lagged) was the final nail in the coffin, although I still have bash set up with `ble.sh`, which is pretty great (probably a bit better than what zsh provides through the vim-mode and syntax highlight plugins)
 - `tmux`
 - `fzf`, `fd-find`, `ripgrep`, and [ugrep](https://github.com/Genivia/ugrep) wherever they make sense
-- `zoxide` for navigation: also integrates with `ranger`
+- `zoxide` for navigation or sometimes `yazi`
 
 
 ### airline themes for tmux

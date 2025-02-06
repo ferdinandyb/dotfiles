@@ -14,6 +14,7 @@ pacman -S paru
 paru -S \
     arandr \
     asciidoc \
+    ansible \
     bashmount \
     bat \
     blueman \
@@ -53,6 +54,7 @@ paru -S \
     npm \
     notmuch \
     oama \
+    oci-cli \
     pandoc \
     pass \
     pavucontrol \
@@ -72,6 +74,7 @@ paru -S \
     spotify-launcher \
     scdoc \
     task \
+    terraform \
     tig \
     tmux \
     tlp \

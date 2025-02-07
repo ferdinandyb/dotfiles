@@ -36,8 +36,9 @@ data.location=$HOME/.task
 #include dark-yellow-green.theme
 #include dark-gray-256.theme
 #include dark-gray-blue-256.theme
-include /usr/share/taskwarrior/solarized-dark-256.theme
-# include solarized-light-256.theme
+#include /usr/share/taskwarrior/solarized-dark-256.theme
+include bubblegum-256.theme
+#include solarized-dark-256.theme
 #include no-color.theme
 
 # report.next.filter = status:pending -WAITING limit:20
@@ -48,8 +49,8 @@ urgency.user.tag.trello.coefficient=-2
 urgency.user.tag.github.coefficient=-2
 reserved.lines=2
 
-news.version=2.6.0
+news.version=3.3.0
 include ~/.config/task/bugwarrioruda
 include ~/.config/task/adhoc-configs
-include ~/.config/task/taskserver
-include ~/.config/task/taskwarrior-tui
+#include ~/.config/task/taskserver
+#include ~/.config/task/taskwarrior-tui

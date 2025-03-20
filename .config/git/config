@@ -1,14 +1,8 @@
 [user]
 	email = bence@ferdinandy.com
 	name = Bence Ferdinandy
-[credential "smtp://bence%40ferdinandy.com@mail.ferdinandy.com%3a465"]
-	helper = "!f() { test \"$1\" = get && echo \"password=$(pass show aerc/bence | head -n1)\"; }; f"
 [sendemail]
-	smtpserver = mail.ferdinandy.com
-	smtpuser = bence@ferdinandy.com
-	smtpencryption = ssl
-	smtpserverport = 465
-	smtpDomain = ferdinandy.com
+	sendmailcmd = msmtpq -a bence
 	chainreplyto = false
 	confirm = always
 	assume8bitEncoding = UTF-8

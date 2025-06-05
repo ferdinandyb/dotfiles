@@ -174,7 +174,7 @@ if [[ $(grep -i Microsoft /proc/version) ]]; then
     # to use gpg on wsl simply symlink the windows executable
     export VAXIS_FORCE_LEGACY_SGR=1
     export VAXIS_FORCE_UNICODE=1
-elif [ $(hostname) = mashenka ]; then
+elif [ $(hostname) = mashenka -o $(hostname) = MBP-Bence-Ferdinandy ]; then
   unset SSH_AGENT_PID
   if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"

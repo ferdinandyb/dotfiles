@@ -1,9 +1,19 @@
 # source ~/.config/environment.d when we're not inheriting from systemd
-
 if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
-  export $(systemctl --user show-environment | xargs)
-fi
+  if ! type "$systemctl" > /dev/null; then
 
+    # this seems like an ugly hack for MacOS
+    for file in $HOME/.config/environment.d/*.conf; do
+      while IFS= read -r line; do
+	  # Skip empty lines or comments if necessary
+	  [[ -z "$line" || "$line" =~ ^# ]] && continue
+	  eval "export $line"
+      done < $file
+    done
+  else
+    export $(systemctl --user show-environment | xargs)
+  fi
+fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]

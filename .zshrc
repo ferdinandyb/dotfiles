@@ -164,7 +164,7 @@ if [ -d $HOME/.cargo/env ]; then
 fi
 
 
-if [[ $(grep -i Microsoft /proc/version) ]]; then
+if [[ -f /proc/version && $(grep -i Microsoft /proc/version) ]]; then
     export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
     ss -a | grep -q $SSH_AUTH_SOCK
     if [ $? -ne 0 ]; then

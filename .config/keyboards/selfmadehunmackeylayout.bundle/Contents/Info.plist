@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>org.sil.ukelele.keyboardlayout.selfmadehun</string>
+	<key>CFBundleName</key>
+	<string>selfmadehunmackeylayout</string>
+	<key>CFBundleVersion</key>
+	<string></string>
+	<key>KLInfo_HungarianLinuxMod</key>
+	<dict>
+		<key>TICapsLockLanguageSwitchCapable</key>
+		<false/>
+		<key>TISIconIsTemplate</key>
+		<true/>
+		<key>TISInputSourceID</key>
+		<string>org.sil.ukelele.keyboardlayout.selfmadehun.hungarianlinuxmod</string>
+		<key>TISIntendedLanguage</key>
+		<string>hu</string>
+	</dict>
+	<key>KLInfo_ProgHungarianLinuxMod</key>
+	<dict>
+		<key>TICapsLockLanguageSwitchCapable</key>
+		<false/>
+		<key>TISIconIsTemplate</key>
+		<false/>
+		<key>TISInputSourceID</key>
+		<string>org.sil.ukelele.keyboardlayout.selfmadehun.proghungarianlinuxmod</string>
+		<key>TISIntendedLanguage</key>
+		<string>hu</string>
+	</dict>
+</dict>
+</plist>

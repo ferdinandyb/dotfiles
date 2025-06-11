@@ -87,7 +87,7 @@
 [push]
 	autoSetupRemote = true
 	default = current
-	followtags = true
+	followtags = false
 [rerere]
 	enabled = true
 [help]

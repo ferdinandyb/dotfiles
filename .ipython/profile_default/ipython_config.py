@@ -1,12 +1,21 @@
 import importlib
 
-from pygments.styles import get_all_styles
+from IPython.utils.PyColorize import linux_theme, theme_table
+from copy import deepcopy
+
+if "dracula" in list(get_all_styles()):
+    dracula = deepcopy(linux_theme)
+    dracula.base = "dracula"
+    theme_table["dracula"] = dracula
+
+    c.TerminalInteractiveShell.colors = "dracula"
+else:
+    c.TerminalInteractiveShell.colors = "linux"
 
 c = get_config()  # noqa
 c.TerminalInteractiveShell.confirm_exit = False
 c.TerminalIPythonApp.display_banner = False
-c.InteractiveShell.colors = "linux"
-if "dracula" in list(get_all_styles()):
+c.InteractiveShell.colors = "dracula"
     c.TerminalInteractiveShell.highlighting_style = "dracula"  # "solarized-dark"
 c.TerminalInteractiveShell.autoformatter = "black"
 # c.InteractiveShell.pdb = 1

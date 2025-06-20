@@ -2,7 +2,7 @@
 Plug 'lervag/vimtex'
 " required by vim-markdown but easy-align is probably better
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
+Plug 'preservim/vim-markdown'
 " Plug 'alok/notational-fzf-vim'
 Plug 'vim-scripts/loremipsum'
 " Plug 'vim-pandoc/vim-pandoc'

@@ -13,7 +13,8 @@ alias tt="taskwarrior-tui"
 alias tmux-new-attach="tmux new-session -t"
 
 alias bm="bashmount"
-alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
+alias cl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
+alias cr='cd $(git rev-parse --show-toplevel)'
 alias xo="xargs -i xdg-open {}"
 alias scu="systemctl --user"
 alias jcu="journalctl --user"

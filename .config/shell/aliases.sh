@@ -7,24 +7,17 @@ alias diary="vim +VimwikiMakeDiaryNote"
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 
-alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
-alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias t="task"
 alias ta="task add"
 alias tt="taskwarrior-tui"
 alias tmux-new-attach="tmux new-session -t"
 
-alias r='. ranger'
-alias r.="kitty ranger"
 alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias xo="xargs -i xdg-open {}"
 alias scu="systemctl --user"
 alias jcu="journalctl --user"
 
-alias jn="jupyter notebook"
-
-alias g="git"
 alias lazyadm="lazygit -w ~ -g ~/.local/share/yadm/repo.git"
 alias yadiff="diff <(ls) <(yadm list)"
 

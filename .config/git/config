@@ -101,10 +101,10 @@
 	syntax-theme = Dracula
 [advice]
 	detachedHead = false
-[remote "origin"]
-	fetch = +refs/notes/*:refs/notes/*
-	push = +HEAD
-	push = +refs/notes/*
+; [remote "origin"]
+; 	fetch = +refs/notes/*:refs/notes/*
+; 	; push = +HEAD
+; 	push = +refs/notes/*
 [transfer]
 	fsckobjects = true
 [fetch]

@@ -29,3 +29,20 @@ def dataframe_display(self):
 
 if not hasattr(DataFrame, "display"):
     setattr(DataFrame, "display", dataframe_display)
+
+
+def getSparkSession(appname: str = "bence-test-app"):
+    if importlib.util.find_spec("databricks"):
+        from databricks.connect import DatabricksSession
+
+        return DatabricksSession.builder.getOrCreate()
+
+    from pyspark.sql import SparkSession
+
+    return (
+        SparkSession.builder.appName(appname)
+        .master("local[2]")
+        .config("spark.sql.adaptive.enabled", "false")
+        .config("spark.sql.adaptive.coalescePartitions.enabled", "false")
+        .getOrCreate()
+    )

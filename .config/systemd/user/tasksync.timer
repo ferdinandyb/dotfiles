@@ -2,8 +2,8 @@
 Description=Run task sync every 15 min  and on boot
 
 [Timer]
-OnBootSec=15min
-OnUnitActiveSec=15min
+OnBootSec=2min
+OnUnitActiveSec=5min
 
 [Install]
 WantedBy=timers.target

@@ -2,7 +2,7 @@
 Description=taskwarrior sync
 
 [Service]
-ExecStart=task sync
+ExecStart=%h/.config/systemd/user/tasksync.sh
 Type=oneshot
 
 [Install]

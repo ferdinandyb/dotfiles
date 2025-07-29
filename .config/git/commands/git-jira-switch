@@ -1,0 +1,15 @@
+#!/bin/sh
+
+ticket=$1
+test -z "$ticket" && echo "ERROR: Please provide the jira ticket number" 1>&2 && exit 1
+
+jiraBranchName=$(jira issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
+echo ""
+test -z "$jiraBranchName" && echo "ERROR: Please provide valid jira ticket number" 1>&2 && exit 1
+
+jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 30)
+
+branchName="$ticket-$jirasummary"
+
+# Checkout remote branch from where you want to update.
+git switch -c "$branchName" origin/HEAD --no-track

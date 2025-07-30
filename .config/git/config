@@ -44,6 +44,7 @@
 	ra = rebase --abort
 	rc = rebase --continue
 	rf = rebase --autosquash
+	ro = rebase -i origin/HEAD
 	rp = reset -p HEAD^
 	rh = reset HEAD^
 	ch = !git commit --reuse-message=ORIG_HEAD && git notes copy ORIG_HEAD

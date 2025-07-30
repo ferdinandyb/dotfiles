@@ -1,4 +1,10 @@
 tags
+tags.lock
+tags.temp
 Session.vim
 *.swp
 .ipynb_checkpoints
+.vimrc
+.gcli
+.python-version
+*.log

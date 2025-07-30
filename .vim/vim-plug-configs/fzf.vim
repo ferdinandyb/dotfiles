@@ -37,3 +37,5 @@ command! -bang -nargs=? -complete=dir FYadm
             \ 'source': 'yadm list -a' }), <bang>0))
 
 nmap <leader>y :FYadm!<CR>
+
+nnoremap <leader>* :execute 'FRg ' . expand('<cword>')<CR>

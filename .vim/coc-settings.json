@@ -1,5 +1,5 @@
 {
-    "diagnostic.displayByAle": true,
+    "diagnostic.displayByAle": false,
     "suggest.noselect": false,
     "inlayHint.display": false
 }

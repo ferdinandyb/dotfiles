@@ -1,0 +1,54 @@
+[general]
+status_path = "~/.local/state/vdirsyncer"
+
+[storage nccaldav]
+type = "caldav"
+url = "https://nc.vpn.ferdinandy.com/remote.php/dav"
+username = "bence"
+password.fetch = ["command", "pass", "nextcloud/bence"]
+
+[storage nccalendar_local]
+type = "filesystem"
+path = "~/.calendars/nc"
+fileext = ".ics"
+
+[pair nccalendars]
+a = "nccalendar_local"
+b = "nccaldav"
+collections = ["from a", "from b"]
+metadata = ["color", "displayname", "description", "order"]
+
+[storage googlecaldav]
+type = "google_calendar"
+client_id = "406964657835-aq8lmia8j95dhl1a2bvharmfk3t1hgqj.apps.googleusercontent.com"
+token_file = "~/.local/state/vdirsyncer/tokenfile"
+client_secret = "kSmqreRr0qwBWJgbf5Y-PjSU"
+
+[storage googlecalendar_local]
+type = "filesystem"
+path = "~/.calendars/google"
+fileext = ".ics"
+
+[pair googlecalendars]
+a = "googlecalendar_local"
+b = "googlecaldav"
+collections = ["family08293460438548096658@group.calendar.google.com"]
+metadata = ["color", "displayname", "description", "order"]
+
+[storage nccarddav]
+type = "carddav"
+url = "https://nc.vpn.ferdinandy.com/remote.php/dav"
+username = "bence"
+password.fetch = ["command", "pass", "nextcloud/bence"]
+
+[storage contacts_local]
+type = "filesystem"
+path = "~/.contacts"
+fileext = ".vcf"
+
+
+[pair contacts]
+a = "contacts_local"
+b = "nccarddav"
+collections = ["contacts"]
+metadata = ["color", "displayname", "description", "order"]

@@ -1,0 +1,38 @@
+[calendars]
+
+  [[Bence1: ott lenni]]
+    path = ~/.calendars/nc/bence1-ott-lenni/
+    priority = 20
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[Bence2: cselekedni]]
+    path = ~/.calendars/nc/bence2-cselekedni/
+    priority = 30
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[Bence3: információ]]
+    path = ~/.calendars/nc/bence3-informci
+    priority = 40
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[Bence4: emlékeztető]]
+    path = ~/.calendars/nc/bence3-informci
+    priority = 50
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[taskwarrior]]
+    path = ~/.calendars/nc/bence3-informci
+    priority = 5
+    readonly = True
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[google]]
+    type=discover
+    path = ~/.calendars/google/*
+    priority = 10
+    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
+
+  [[birthdays]]
+    type=birthdays
+    path=~/.contacts/contacts
+    color=light green

@@ -49,7 +49,7 @@ urgency.user.tag.trello.coefficient=-2
 urgency.user.tag.github.coefficient=-2
 reserved.lines=2
 
-news.version=3.3.0
+news.version=3.4.1
 include ~/.config/task/bugwarrioruda
 include ~/.config/task/adhoc-configs
 #include ~/.config/task/taskserver

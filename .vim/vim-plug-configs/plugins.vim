@@ -100,3 +100,5 @@ Plug 'vim-scripts/LargeFile'
 " let g:startify_custom_header = ''
 "
 Plug 'Fymyte/mbsync.vim'
+
+Plug 'Konfekt/filepicker.vim'

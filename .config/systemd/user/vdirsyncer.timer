@@ -1,5 +1,5 @@
 [Unit]
-Description=Run task sync every 15 min  and on boot
+Description=Run vdirsyncersync every 15 min  and on boot
 
 [Timer]
 OnBootSec=2min

@@ -1,8 +1,8 @@
 [Unit]
-Description=taskwarrior sync
+Description=vdirsyncer sync
 
 [Service]
-ExecStart=%h/.config/systemd/user/tasksync.sh
+ExecStart=vdirsyncer sync
 Type=oneshot
 
 [Install]

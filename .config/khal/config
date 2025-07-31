@@ -16,15 +16,14 @@
     addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
 
   [[Bence4: emlékeztető]]
-    path = ~/.calendars/nc/bence3-informci
+    path = ~/.calendars/nc/bence4-emlkeztet
     priority = 50
     addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
 
   [[taskwarrior]]
-    path = ~/.calendars/nc/bence3-informci
+    path = ~/.calendars/nc/0e46d1e1-6a69-11f0-972a-001fc69bac97
     priority = 5
     readonly = True
-    addresses=bence@ferdinandy.com,ferdinandy.bence@ttk.elte.hu,priestoferis@gmail.com
 
   [[google]]
     type=discover

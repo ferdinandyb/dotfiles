@@ -1,3 +1,16 @@
+[view]
+
+agenda_event_format= {calendar-color}{cancelled}{start-end-time-style} {title} ({calendar}) {repeat-symbol}{alarm-symbol}{description-separator}{description}{reset}
+
+[locale]
+local_timezone= Europe/Budapest
+default_timezone= Europe/Budapest
+timeformat= %H:%M
+dateformat= %m.%d.
+longdateformat= %Y.%m.%d
+datetimeformat= %m.%d. %H:%M
+longdatetimeformat= %Y.%m.%d %H:%M
+
 [calendars]
 
   [[Bence1: ott lenni]]

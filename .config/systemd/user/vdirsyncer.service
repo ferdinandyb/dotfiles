@@ -1,0 +1,9 @@
+[Unit]
+Description=taskwarrior sync
+
+[Service]
+ExecStart=%h/.config/systemd/user/tasksync.sh
+Type=oneshot
+
+[Install]
+WantedBy=default.target

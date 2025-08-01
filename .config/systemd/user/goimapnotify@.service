@@ -10,7 +10,7 @@ StartLimitBurst=5
 [Service]
 Restart=always
 RestartSec=60
-ExecStart=goimapnotify -debug -wait 0 -conf %h/.config/goimapnotify/%i.yaml
+ExecStart=goimapnotify -wait 0 -conf %h/.config/goimapnotify/%i.yaml
 KeyringMode=shared
 
 [Install]

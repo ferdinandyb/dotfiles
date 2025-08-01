@@ -103,9 +103,9 @@ if [ -d $HOME/.pyenv ]; then
 fi
 
 
-if [ -d /home/linuxbrew/.linuxbrew/bin/brew ]; then
+if [ -d /home/linuxbrew/.linuxbrew/bin ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-elif [ -d /opt/homebrew/bin/brew ]; then
+elif [ -d /opt/homebrew/bin ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 

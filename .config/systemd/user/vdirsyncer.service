@@ -2,7 +2,7 @@
 Description=vdirsyncer sync
 
 [Service]
-ExecStart=vdirsyncer sync
+ExecStart=sh -c "vdirsyncer sync"
 Type=oneshot
 
 [Install]

@@ -3,7 +3,9 @@
 ticket=$1
 test -z "$ticket" && echo "ERROR: Please provide the jira ticket number" 1>&2 && exit 1
 
-jiraBranchName=$(jira issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
+project=$(echo "$ticket" | cut -d'-' -f1)
+
+jiraBranchName=$(jira -p $project issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
 echo ""
 test -z "$jiraBranchName" && echo "ERROR: Please provide valid jira ticket number" 1>&2 && exit 1
 

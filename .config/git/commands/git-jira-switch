@@ -176,7 +176,7 @@ create_branch() {
         exit 1
     fi
 
-    jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 30)
+    jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 45)
     branchName="$ticket-$jirasummary"
 
     # Set base branch - use provided base_branch if given, otherwise origin/HEAD

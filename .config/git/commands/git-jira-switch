@@ -2,11 +2,37 @@
 
 WORKTREE_MODE=0
 
+show_help() {
+    cat << EOF
+Usage: git jira-switch [OPTIONS] <ticket-number>
+
+Create a branch from JIRA ticket information and switch to it.
+
+Requirements:
+  - jira CLI tool (https://github.com/ankitpokhrel/jira-cli)
+
+Options:
+  -w, --worktree    Create a worktree instead of switching branches locally
+  -h, --help        Show this help message
+
+Arguments:
+  ticket-number     JIRA ticket number (e.g., PROJ-123)
+
+Examples:
+  git jira-switch PROJ-123
+  git jira-switch --worktree PROJ-123
+EOF
+}
+
 while [ $# -gt 0 ]; do
     case $1 in
         -w|--worktree)
             WORKTREE_MODE=1
             shift
+            ;;
+        -h|--help)
+            show_help
+            exit 0
             ;;
         -*)
             echo "ERROR: Unknown option $1" 1>&2
@@ -19,13 +45,23 @@ while [ $# -gt 0 ]; do
 done
 
 ticket=$1
-test -z "$ticket" && echo "ERROR: Please provide the jira ticket number" 1>&2 && exit 1
+if [ -z "$ticket" ]; then
+    echo "ERROR: Please provide the jira ticket number" 1>&2
+    echo ""
+    show_help
+    exit 1
+fi
 
 project=$(echo "$ticket" | cut -d'-' -f1)
 
 jiraBranchName=$(jira -p $project issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
 echo ""
-test -z "$jiraBranchName" && echo "ERROR: Please provide valid jira ticket number" 1>&2 && exit 1
+if [ -z "$jiraBranchName" ]; then
+    echo "ERROR: Please provide valid jira ticket number" 1>&2
+    echo ""
+    show_help
+    exit 1
+fi
 
 jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 30)
 

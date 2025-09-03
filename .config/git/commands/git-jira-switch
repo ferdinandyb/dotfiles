@@ -214,10 +214,17 @@ if [ "$WORKTREE_MODE" -eq 1 ]; then
         exit 1
     fi
 
-    git worktree add -b "$branchName" "$WORKTREE_DIR" "$base_ref" $track_flag
-    echo "Worktree created successfully. To switch:" 
-    echo "cd $WORKTREE_DIR"
+    if git worktree add -b "$branchName" "$WORKTREE_DIR" "$base_ref" $track_flag; then
+        echo "Worktree created successfully. To switch:" 
+        echo "cd $WORKTREE_DIR"
+    else
+        echo "ERROR: Failed to create worktree" 1>&2
+        exit 1
+    fi
 else
     # Checkout remote branch from where you want to update.
-    git switch -c "$branchName" "$base_ref" $track_flag
+    if ! git switch -c "$branchName" "$base_ref" $track_flag; then
+        echo "ERROR: Failed to create and switch to branch" 1>&2
+        exit 1
+    fi
 fi

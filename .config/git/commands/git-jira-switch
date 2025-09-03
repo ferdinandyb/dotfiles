@@ -133,7 +133,7 @@ pick_ticket() {
     # Get all non-done tickets assigned to current user
     echo "Fetching tickets, please wait."
     jql_query="project IS NOT EMPTY AND assignee = currentUser() AND status NOT IN (Done, Closed, Resolved)"
-    tickets=$(jira issue list -q"$jql_query" --plain --no-headers --columns key,summary 2>/dev/null)
+    tickets=$(jira issue list -q"$jql_query" --plain --no-headers --columns key,summary,status 2>/dev/null)
 
     if [ -z "$tickets" ]; then
         echo "ERROR: No assigned non-done tickets found" 1>&2

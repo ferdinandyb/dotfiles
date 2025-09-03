@@ -1,5 +1,23 @@
 #!/bin/sh
 
+WORKTREE_MODE=0
+
+while [ $# -gt 0 ]; do
+    case $1 in
+        -w|--worktree)
+            WORKTREE_MODE=1
+            shift
+            ;;
+        -*)
+            echo "ERROR: Unknown option $1" 1>&2
+            exit 1
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
 ticket=$1
 test -z "$ticket" && echo "ERROR: Please provide the jira ticket number" 1>&2 && exit 1
 
@@ -13,5 +31,23 @@ jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:
 
 branchName="$ticket-$jirasummary"
 
-# Checkout remote branch from where you want to update.
-git switch -c "$branchName" origin/HEAD --no-track
+if [ "$WORKTREE_MODE" -eq 1 ]; then
+    # Get repository name and parent directory for worktree
+    # Use the main worktree path to ensure consistent naming
+    MAIN_WORKTREE=$(git worktree list --porcelain | head -n 1 | cut -d' ' -f2)
+    REPO_NAME=$(basename "$MAIN_WORKTREE")
+    PARENT_DIR=$(dirname "$MAIN_WORKTREE")
+    WORKTREE_DIR="${PARENT_DIR}/${REPO_NAME}-${branchName}"
+
+    if [ -d "$WORKTREE_DIR" ]; then
+        echo "ERROR: Directory $WORKTREE_DIR already exists" 1>&2
+        exit 1
+    fi
+
+    git worktree add -b "$branchName" "$WORKTREE_DIR" origin/HEAD --no-track
+    echo "Worktree created successfully. To switch:" 
+    echo "cd $WORKTREE_DIR"
+else
+    # Checkout remote branch from where you want to update.
+    git switch -c "$branchName" origin/HEAD --no-track
+fi

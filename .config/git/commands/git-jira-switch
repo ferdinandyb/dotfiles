@@ -2,6 +2,7 @@
 
 WORKTREE_MODE=0
 PICK_MODE=0
+CLEAN_MODE=0
 
 show_help() {
     cat << EOF
@@ -14,9 +15,10 @@ Requirements:
   - fzf (optional, for --pick mode)
 
 Options:
-  -w, --worktree    Create a worktree instead of switching branches locally
-  -p, --pick        Pick from assigned non-done tickets using fzf
-  -h, --help        Show this help message
+  -w, --worktree        Create a worktree instead of switching branches locally
+  -p, --pick            Pick from assigned non-done tickets using fzf
+  -c, --clean-worktrees Clean up worktrees for closed/done tickets
+  -h, --help            Show this help message
 
 Arguments:
   ticket-number     JIRA ticket number (e.g., PROJ-123)
@@ -30,6 +32,7 @@ Examples:
   git jira-switch --pick
   git jira-switch --pick develop
   git jira-switch --worktree --pick feature/main
+  git jira-switch --clean-worktrees
 EOF
 }
 
@@ -41,6 +44,10 @@ while [ $# -gt 0 ]; do
             ;;
         -p|--pick)
             PICK_MODE=1
+            shift
+            ;;
+        -c|--clean-worktrees)
+            CLEAN_MODE=1
             shift
             ;;
         -h|--help)
@@ -57,7 +64,76 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-if [ "$PICK_MODE" -eq 1 ]; then
+# Validate flag combinations
+if [ "$CLEAN_MODE" -eq 1 ]; then
+    if [ "$WORKTREE_MODE" -eq 1 ] || [ "$PICK_MODE" -eq 1 ] || [ $# -gt 0 ]; then
+        echo "ERROR: --clean-worktrees cannot be combined with other options or arguments" 1>&2
+        exit 1
+    fi
+fi
+
+if [ "$CLEAN_MODE" -eq 1 ]; then
+    # Clean mode - find and delete worktrees for closed tickets
+    echo "Scanning worktrees for closed tickets..."
+
+    # Get all worktrees except the main one
+    worktrees=$(git worktree list --porcelain | grep -E "^worktree " | tail -n +2 | cut -d' ' -f2)
+
+    if [ -z "$worktrees" ]; then
+        echo "No worktrees found to clean"
+        exit 0
+    fi
+
+    # Get main repo name for pattern matching
+    MAIN_WORKTREE=$(git worktree list --porcelain | head -n 1 | cut -d' ' -f2)
+    REPO_NAME=$(basename "$MAIN_WORKTREE")
+
+    worktrees_to_delete=""
+
+    for worktree in $worktrees; do
+        worktree_name=$(basename "$worktree")
+
+        # Extract ticket from worktree name pattern: repo-TICKET-123-summary
+        pattern="^${REPO_NAME}-[A-Z]\+-[0-9]\+-"
+
+        if echo "$worktree_name" | grep -q "$pattern"; then
+            ticket=$(echo "$worktree_name" | grep -o "[A-Z]\+-[0-9]\+" | head -n 1)
+
+            # Check ticket status in JIRA
+            project=$(echo "$ticket" | cut -d'-' -f1)
+            status=$(jira -p "$project" issue list -q "key = $ticket" --plain --no-headers --columns status 2>/dev/null | awk '{print $2}')
+
+            if [ -n "$status" ] && (echo "$status" | grep -iq "done\|closed\|resolved"); then
+                worktrees_to_delete="${worktrees_to_delete}${worktree}\n"
+            fi
+        fi
+    done
+
+    if [ -z "$worktrees_to_delete" ]; then
+        echo "No worktrees found with closed tickets"
+        exit 0
+    fi
+
+    echo "The following worktrees will be deleted:"
+    echo ""
+    printf "%b" "$worktrees_to_delete"
+    echo ""
+    printf "Delete these worktrees? (y/N): "
+    read -r confirmation
+
+    if [ "$confirmation" = "y" ] || [ "$confirmation" = "Y" ]; then
+        printf "%b" "$worktrees_to_delete" | while read -r worktree_path; do
+            if [ -n "$worktree_path" ]; then
+                echo "Removing worktree: $worktree_path"
+                git worktree remove "$worktree_path" --force
+            fi
+        done
+        echo "Cleanup completed"
+    else
+        echo "Cleanup cancelled"
+    fi
+    exit 0
+elif [ "$PICK_MODE" -eq 1 ]; then
     # In pick mode, first argument is base branch (optional)
     base_branch=$1
 

@@ -14,7 +14,6 @@ Options:
   -w, --worktree        Create a worktree instead of switching branches locally
   -p, --pick            Pick from assigned non-done tickets using fzf
   -c, --clean-worktrees Clean up worktrees for closed/done tickets
-  -h, --help            Show this help message
 
 Arguments:
   ticket-number         JIRA ticket number (e.g., PROJ-123)

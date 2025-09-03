@@ -25,7 +25,7 @@ delete_local_branches() {
 	echo
 
 	MERGED=$(git branch --merged origin/HEAD --format="%(refname:lstrip=2)" |
-		grep --color=never -Pv "("${DEFAULT_LOCAL}"|HEAD)")
+		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)")
 	for branch in $MERGED; do
 		git branch -D $branch && echo "Deleted ${branch}"
 	done
@@ -39,7 +39,7 @@ delete_remote_branches() {
 	echo
 
 	MERGED=$(git branch -r --merged origin/HEAD --format="%(refname:lstrip=3)" |
-		grep --color=never -Pv "("${DEFAULT_LOCAL}"|HEAD)")
+		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)")
 	for branch in $MERGED; do
 		git push origin -d $branch && echo "Deleted ${branch}"
 	done
@@ -69,7 +69,7 @@ echo ""
 if [ "$REMOTE" -eq 1 ]; then
 	echo "Remote branches that have been merged:"
 	git -c color.ui=always branch -r --merged origin/HEAD |
-		grep --color=never -Pv "("${DEFAULT_LOCAL}"|HEAD)"
+		grep --color=never -Ev "(origin/${DEFAULT_LOCAL}|origin/HEAD)"
 	echo ""
 fi
 

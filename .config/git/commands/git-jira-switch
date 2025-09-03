@@ -1,9 +1,5 @@
 #!/bin/sh
 
-WORKTREE_MODE=0
-PICK_MODE=0
-CLEAN_MODE=0
-
 show_help() {
     cat << EOF
 Usage: git jira-switch [OPTIONS] <ticket-number> [base-branch]
@@ -21,9 +17,9 @@ Options:
   -h, --help            Show this help message
 
 Arguments:
-  ticket-number     JIRA ticket number (e.g., PROJ-123)
-  base-branch       Optional base branch to branch from (if omitted, 
-                    defaults to origin/HEAD with --no-track)
+  ticket-number         JIRA ticket number (e.g., PROJ-123)
+  base-branch           Optional base branch to branch from (if omitted, 
+                        defaults to origin/HEAD with --no-track)
 
 Examples:
   git jira-switch -w -p
@@ -35,6 +31,10 @@ Examples:
   git jira-switch --clean-worktrees
 EOF
 }
+
+WORKTREE_MODE=0
+PICK_MODE=0
+CLEAN_MODE=0
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -64,18 +64,9 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-# Validate flag combinations
-if [ "$CLEAN_MODE" -eq 1 ]; then
-    if [ "$WORKTREE_MODE" -eq 1 ] || [ "$PICK_MODE" -eq 1 ] || [ $# -gt 0 ]; then
-        echo "ERROR: --clean-worktrees cannot be combined with other options or arguments" 1>&2
-        exit 1
-    fi
-fi
-
-if [ "$CLEAN_MODE" -eq 1 ]; then
-    # Clean mode - find and delete worktrees for closed tickets
+clean_worktrees() {
     echo "Scanning worktrees for closed tickets..."
-
+    
     # Get all worktrees except the main one
     worktrees=$(git worktree list --porcelain | grep -E "^worktree " | tail -n +2 | cut -d' ' -f2)
 
@@ -92,10 +83,10 @@ if [ "$CLEAN_MODE" -eq 1 ]; then
 
     for worktree in $worktrees; do
         worktree_name=$(basename "$worktree")
-
+        
         # Extract ticket from worktree name pattern: repo-TICKET-123-summary
         pattern="^${REPO_NAME}-[A-Z]\+-[0-9]\+-"
-
+        
         if echo "$worktree_name" | grep -q "$pattern"; then
             ticket=$(echo "$worktree_name" | grep -o "[A-Z]\+-[0-9]\+" | head -n 1)
 
@@ -133,7 +124,9 @@ if [ "$CLEAN_MODE" -eq 1 ]; then
         echo "Cleanup cancelled"
     fi
     exit 0
-elif [ "$PICK_MODE" -eq 1 ]; then
+}
+
+pick_ticket() {
     # In pick mode, first argument is base branch (optional)
     base_branch=$1
 
@@ -164,67 +157,90 @@ elif [ "$PICK_MODE" -eq 1 ]; then
         echo "  git jira-switch <ticket-number>"
         exit 1
     fi
-else
-    # Normal mode
+
+    create_branch "$ticket" "$base_branch"
+}
+
+create_branch() {
     ticket=$1
     base_branch=$2
-    
+
+    project=$(echo "$ticket" | cut -d'-' -f1)
+
+    jiraBranchName=$(jira -p $project issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
+    echo ""
+    if [ -z "$jiraBranchName" ]; then
+        echo "ERROR: Please provide valid jira ticket number" 1>&2
+        echo ""
+        show_help
+        exit 1
+    fi
+
+    jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 30)
+    branchName="$ticket-$jirasummary"
+
+    # Set base branch - use provided base_branch if given, otherwise origin/HEAD
+    if [ -n "$base_branch" ]; then
+        base_ref="$base_branch"
+        track_flag=""  # Track the specified base branch
+    else
+        base_ref="origin/HEAD"
+        track_flag="--no-track"  # Don't track origin/HEAD
+    fi
+
+    if [ "$WORKTREE_MODE" -eq 1 ]; then
+        # Get repository name and parent directory for worktree
+        # Use the main worktree path to ensure consistent naming
+        MAIN_WORKTREE=$(git worktree list --porcelain | head -n 1 | cut -d' ' -f2)
+        REPO_NAME=$(basename "$MAIN_WORKTREE")
+        PARENT_DIR=$(dirname "$MAIN_WORKTREE")
+        WORKTREE_DIR="${PARENT_DIR}/${REPO_NAME}-${branchName}"
+
+        if [ -d "$WORKTREE_DIR" ]; then
+            echo "ERROR: Directory $WORKTREE_DIR already exists" 1>&2
+            exit 1
+        fi
+
+        if git worktree add -b "$branchName" "$WORKTREE_DIR" "$base_ref" $track_flag; then
+            echo "Worktree created successfully. To switch:" 
+            echo "cd $WORKTREE_DIR"
+        else
+            echo "ERROR: Failed to create worktree" 1>&2
+            exit 1
+        fi
+    else
+        # Checkout remote branch from where you want to update.
+        if ! git switch -c "$branchName" "$base_ref" $track_flag; then
+            echo "ERROR: Failed to create and switch to branch" 1>&2
+            exit 1
+        fi
+    fi
+}
+
+
+if [ "$CLEAN_MODE" -eq 1 ]; then
+    # Clean worktrees mode - validate no other options and execute (exits on completion)
+    if [ "$WORKTREE_MODE" -eq 1 ] || [ "$PICK_MODE" -eq 1 ] || [ $# -gt 0 ]; then
+        echo "ERROR: --clean-worktrees cannot be combined with other options or arguments" 1>&2
+        exit 1
+    fi
+    clean_worktrees  # This function exits on completion
+fi
+
+if [ "$PICK_MODE" -eq 1 ]; then
+    # Pick mode - interactive ticket selection
+    pick_ticket "$1"  # Pass first argument as base branch
+else
+    # Normal mode - validate ticket argument and create branch
+    ticket=$1
+    base_branch=$2
+
     if [ -z "$ticket" ]; then
         echo "ERROR: Please provide the jira ticket number" 1>&2
         echo ""
         show_help
         exit 1
     fi
-fi
 
-project=$(echo "$ticket" | cut -d'-' -f1)
-
-jiraBranchName=$(jira -p $project issue list -q "key = $ticket" --plain | awk 'NR==2' | awk -F '\t' '{ print $3 }')
-echo ""
-if [ -z "$jiraBranchName" ]; then
-    echo "ERROR: Please provide valid jira ticket number" 1>&2
-    echo ""
-    show_help
-    exit 1
-fi
-
-jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 30)
-
-branchName="$ticket-$jirasummary"
-
-# Set base branch - use provided base_branch if given, otherwise origin/HEAD
-if [ -n "$base_branch" ]; then
-    base_ref="$base_branch"
-    track_flag=""  # Track the specified base branch
-else
-    base_ref="origin/HEAD"
-    track_flag="--no-track"  # Don't track origin/HEAD
-fi
-
-if [ "$WORKTREE_MODE" -eq 1 ]; then
-    # Get repository name and parent directory for worktree
-    # Use the main worktree path to ensure consistent naming
-    MAIN_WORKTREE=$(git worktree list --porcelain | head -n 1 | cut -d' ' -f2)
-    REPO_NAME=$(basename "$MAIN_WORKTREE")
-    PARENT_DIR=$(dirname "$MAIN_WORKTREE")
-    WORKTREE_DIR="${PARENT_DIR}/${REPO_NAME}-${branchName}"
-
-    if [ -d "$WORKTREE_DIR" ]; then
-        echo "ERROR: Directory $WORKTREE_DIR already exists" 1>&2
-        exit 1
-    fi
-
-    if git worktree add -b "$branchName" "$WORKTREE_DIR" "$base_ref" $track_flag; then
-        echo "Worktree created successfully. To switch:" 
-        echo "cd $WORKTREE_DIR"
-    else
-        echo "ERROR: Failed to create worktree" 1>&2
-        exit 1
-    fi
-else
-    # Checkout remote branch from where you want to update.
-    if ! git switch -c "$branchName" "$base_ref" $track_flag; then
-        echo "ERROR: Failed to create and switch to branch" 1>&2
-        exit 1
-    fi
+    create_branch "$ticket" "$base_branch"
 fi

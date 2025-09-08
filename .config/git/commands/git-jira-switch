@@ -14,6 +14,7 @@ Options:
   -w, --worktree        Create a worktree instead of switching branches locally
   -p, --pick            Pick from assigned non-done tickets using fzf
   -c, --clean-worktrees Clean up worktrees for closed/done tickets
+  -n, --name PREFIX     Prefix for worktree name (default: repo name)
 
 Arguments:
   ticket-number         JIRA ticket number (e.g., PROJ-123)
@@ -28,12 +29,14 @@ Examples:
   git jira-switch --pick develop
   git jira-switch --worktree --pick feature/main
   git jira-switch --clean-worktrees
+  git jira-switch -w -n myproject PROJ-123
 EOF
 }
 
 WORKTREE_MODE=0
 PICK_MODE=0
 CLEAN_MODE=0
+WORKTREE_PREFIX=""
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -48,6 +51,14 @@ while [ $# -gt 0 ]; do
         -c|--clean-worktrees)
             CLEAN_MODE=1
             shift
+            ;;
+        -n|--name)
+            if [ -z "$2" ]; then
+                echo "ERROR: --name requires a prefix argument" 1>&2
+                exit 1
+            fi
+            WORKTREE_PREFIX="$2"
+            shift 2
             ;;
         -h|--help)
             show_help
@@ -65,7 +76,7 @@ done
 
 clean_worktrees() {
     echo "Scanning worktrees for closed tickets..."
-    
+
     # Get all worktrees except the main one
     worktrees=$(git worktree list --porcelain | grep -E "^worktree " | tail -n +2 | cut -d' ' -f2)
 
@@ -82,10 +93,11 @@ clean_worktrees() {
 
     for worktree in $worktrees; do
         worktree_name=$(basename "$worktree")
-        
-        # Extract ticket from worktree name pattern: repo-TICKET-123-summary
-        pattern="^${REPO_NAME}-[A-Z]\+-[0-9]\+-"
-        
+
+        # Extract ticket from worktree name pattern: prefix-TICKET-123-summary
+        # This will match any prefix followed by a ticket pattern
+        pattern="^[^-]\+-[A-Z]\+-[0-9]\+-"
+
         if echo "$worktree_name" | grep -q "$pattern"; then
             ticket=$(echo "$worktree_name" | grep -o "[A-Z]\+-[0-9]\+" | head -n 1)
 
@@ -191,9 +203,16 @@ create_branch() {
         # Get repository name and parent directory for worktree
         # Use the main worktree path to ensure consistent naming
         MAIN_WORKTREE=$(git worktree list --porcelain | head -n 1 | cut -d' ' -f2)
-        REPO_NAME=$(basename "$MAIN_WORKTREE")
         PARENT_DIR=$(dirname "$MAIN_WORKTREE")
-        WORKTREE_DIR="${PARENT_DIR}/${REPO_NAME}-${branchName}"
+
+        # Use custom prefix if provided, otherwise use repo name
+        if [ -n "$WORKTREE_PREFIX" ]; then
+            WORKTREE_NAME_PREFIX="$WORKTREE_PREFIX"
+        else
+            WORKTREE_NAME_PREFIX=$(basename "$MAIN_WORKTREE")
+        fi
+
+        WORKTREE_DIR="${PARENT_DIR}/${WORKTREE_NAME_PREFIX}-${branchName}"
 
         if [ -d "$WORKTREE_DIR" ]; then
             echo "ERROR: Directory $WORKTREE_DIR already exists" 1>&2

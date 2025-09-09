@@ -15,6 +15,7 @@ Options:
   -p, --pick            Pick from assigned non-done tickets using fzf
   -c, --clean-worktrees Clean up worktrees for closed/done tickets
   -n, --name PREFIX     Prefix for worktree name (default: repo name)
+  -l, --length LENGTH   Maximum length for summary (default: 40)
 
 Arguments:
   ticket-number         JIRA ticket number (e.g., PROJ-123)
@@ -30,6 +31,7 @@ Examples:
   git jira-switch --worktree --pick feature/main
   git jira-switch --clean-worktrees
   git jira-switch -w -n myproject PROJ-123
+  git jira-switch -l 30 PROJ-123
 EOF
 }
 
@@ -37,6 +39,7 @@ WORKTREE_MODE=0
 PICK_MODE=0
 CLEAN_MODE=0
 WORKTREE_PREFIX=""
+SUMMARY_LENGTH=40
 
 while [ $# -gt 0 ]; do
     case $1 in
@@ -58,6 +61,18 @@ while [ $# -gt 0 ]; do
                 exit 1
             fi
             WORKTREE_PREFIX="$2"
+            shift 2
+            ;;
+        -l|--length)
+            if [ -z "$2" ]; then
+                echo "ERROR: --length requires a number argument" 1>&2
+                exit 1
+            fi
+            if ! echo "$2" | grep -q '^[0-9]\+$'; then
+                echo "ERROR: --length must be a positive number" 1>&2
+                exit 1
+            fi
+            SUMMARY_LENGTH="$2"
             shift 2
             ;;
         -h|--help)
@@ -187,7 +202,7 @@ create_branch() {
         exit 1
     fi
 
-    jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c 45)
+    jirasummary=$(echo "$jiraBranchName" | sed "s/[^[:alpha:].-]/-/g" | tr '[:upper:]' '[:lower:]' | head -c $SUMMARY_LENGTH)
     branchName="$ticket-$jirasummary"
 
     # Set base branch - use provided base_branch if given, otherwise origin/HEAD

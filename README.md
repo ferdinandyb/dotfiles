@@ -94,11 +94,12 @@ of Regolith 3 to CachyOS later down the line is not out of question).
 
 ## Terminal stuff
 
-- [contour](https://contour-terminal.org/) (but mostly `wezterm` on WSL)
+- [contour](https://contour-terminal.org/) and ghostty
 - `zsh`: took a long time to switch from bash, but the fast `powerlevel10k` prompt (vs `starship.rs` which lagged) was the final nail in the coffin, although I still have bash set up with `ble.sh`, which is pretty great (probably a bit better than what zsh provides through the vim-mode and syntax highlight plugins)
-- `tmux`
+- tmux: [setup description](./.tmux/README.md)
 - `fzf`, `fd-find`, `ripgrep`, and [ugrep](https://github.com/Genivia/ugrep) wherever they make sense
 - `zoxide` for navigation or sometimes `yazi`
+
 
 
 ### airline themes for tmux

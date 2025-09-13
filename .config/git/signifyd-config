@@ -1,0 +1,9 @@
+[user]
+    email = bence.ferdinandy@signifyd.com
+[core]
+    sshCommand = ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

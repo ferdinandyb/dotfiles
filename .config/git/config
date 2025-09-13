@@ -123,3 +123,6 @@
 
 [submodule]
 	recurse = true
+
+[includeIf "gitdir:~/signifyd_github/"]
+	path = ~/.config/git/signifyd-config

@@ -3,10 +3,13 @@ font-family = "CaskaydiaCove Nerd Font Mono"
 font-size = 14
 mouse-hide-while-typing = true
 fullscreen = false
-window-decoration = false
+maximize=true
+window-decoration = auto
 confirm-close-surface = false
 # copy-on-select = true
 copy-on-select = clipboard
+cursor-click-to-move = true
+macos-option-as-alt = left
 
 # keybind:
 keybind = ctrl+shift+one=goto_tab:1
@@ -36,7 +39,6 @@ keybind = ctrl+shift+ü=new_split:right
 keybind = ctrl+shift+h=new_split:down
 keybind = ctrl+shift+enter=toggle_split_zoom
 
-keybind = ctrl+comma=open_config
 keybind = ctrl+shift+comma=reload_config
 
 keybind = ctrl+enter=toggle_fullscreen
@@ -55,6 +57,8 @@ keybind = ctrl+shift+left=previous_tab
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+shift+page_down=jump_to_prompt:1
 keybind = ctrl+shift+page_up=jump_to_prompt:-1
+keybind = ctrl+shift+ú=jump_to_prompt:1
+keybind = ctrl+shift+ő=jump_to_prompt:-1
 keybind = ctrl+shift+q=quit
 keybind = ctrl+shift+right=next_tab
 keybind = ctrl+shift+t=new_tab
@@ -73,7 +77,14 @@ keybind = super+ctrl+shift+left=resize_split:left,10
 keybind = super+ctrl+shift+right=resize_split:right,10
 keybind = super+ctrl+shift+up=resize_split:up,10
 
+keybind = super+shift+j=write_screen_file:paste
+keybind = global:alt+shift+t=toggle_quick_terminal
+keybind = super+comma=unbind
+
 
 # make stuff work:
 keybind = ctrl+ő=text:\x1b
 keybind = ctrl+ú=text:\x1d
+
+# claude code
+keybind = shift+enter=text:\x1b\r

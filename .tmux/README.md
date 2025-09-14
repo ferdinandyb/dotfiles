@@ -39,9 +39,7 @@
  | Open Selection    | `o` (in copy mode)                | Plugin (tmux-open)          |
  | Edit Selection    | `Ctrl-o` (in copy mode)           | Plugin (tmux-open)          |
  | Search Selection  | `Shift-s` (in copy mode)          | Plugin (tmux-open)          |
- | Butler Word Mode  | `Alt-i`                           | Plugin (tmux-butler)        |
- | Butler Path Mode  | `Alt-p`                           | Plugin (tmux-butler)        |
- | Butler Snippets   | `Alt-s`                           | Plugin (tmux-butler)        |
+ | FZF URLs          | `Prefix + Ctrl-h`                 | Plugin (tmux-fzf-links)     |
 
 ## Plugins
 
@@ -53,8 +51,9 @@
   | tmux-yank      | System clipboard integration       |
   | tmux-copycat   | Enhanced search in copy mode       |
   | tmux-open      | Open highlighted text/URLs         |
-  | tmux-butler    | Copy lines from visible panes      |
   | tmux-fzf       | FZF integration for sessions/panes |
+  | tmux-fzf-links | FZF interface for opening URLs     |
+  | tmux-window-name | Automatic window naming          |
 
 ## Scripts
 

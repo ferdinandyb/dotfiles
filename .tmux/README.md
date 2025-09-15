@@ -19,7 +19,7 @@
  | Fuzzy Pane Picker | `Prefix + Ctrl-p`                 | Script (fzf-panes.tmux)     |
  | Session Switcher  | `Prefix + Ctrl-s`                 | Plugin (tmux-fzf)           |
  | Pane Switcher     | `Prefix + Ctrl-w`                 | Plugin (tmux-fzf)           |
- | Last Pane Toggle  | `Prefix + ,`                      | Script (fzf-panes.tmux)     |
+ | Last Pane Toggle  | `Prefix + ,`                      | Config                      |
  | Install Plugins   | `Prefix + I`                      | Plugin (TPM)                |
  | Update Plugins    | `Prefix + U`                      | Plugin (TPM)                |
  | Remove Plugins    | `Prefix + Alt + U`                | Plugin (TPM)                |

@@ -206,6 +206,10 @@ if [ -d $HOME/.config/glab-cli/completion.zsh ]; then
   source $HOME/.config/glab-cli/completion.zsh
 fi
 
+if type khal > /dev/null; then
+  eval "$(_KHAL_COMPLETE=zsh_source khal)"
+fi
+
 autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select

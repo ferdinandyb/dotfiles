@@ -4,7 +4,7 @@ font pango:Hack 9
 floating_modifier $mod
 
 # start a terminal
-set $term contour
+set $term ghostty
 bindsym $mod+Return exec $term
 
 # kill focused window
@@ -65,7 +65,7 @@ client.background       #ffffff
 ########################################################################
 ########################################################################
 
-exec --no-startup-id "i3-msg 'workspace 0; exec contour'"
+exec --no-startup-id "i3-msg 'workspace 0; exec $term'"
 
 ########################################################################
 ########################################################################
@@ -110,7 +110,7 @@ bindsym $mod+Shift+p exec gnome-calculator
 
 ## This keybind will lock the screen. The lockscreen.
 bindsym $mod+Escape exec "sleep 0.1 && i3lock --blur 5"
-exec --no-startup-id "xss-lock -- i3lock --blur 5"
+# exec --no-startup-id "xss-lock -- i3lock --blur 5"
 ########################################################################
 ########################################################################
 ####

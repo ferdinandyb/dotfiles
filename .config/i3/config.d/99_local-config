@@ -82,7 +82,7 @@ assign [instance="twitter.com__home"] workspace $ws8
 for_window [instance="twitter.com__home"] floating disable
 # workspace "$ws8" output $secondary_group
 # for_window [title="^aerc$"] move to workspace $ws7
-bindsym $mod+Ctrl+Return exec --no-startup-id contour execute aerc
+# bindsym $mod+Ctrl+Return exec --no-startup-id $term aerc
 assign [instance="mail.google.com__mail_u_0"] workspace $ws7
 for_window [instance="mail.google.com__mail_u_0"] floating disable
 assign [instance="mail.google.com__mail_u_1"] workspace $ws7

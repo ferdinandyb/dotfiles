@@ -3,15 +3,35 @@ font-family = "CaskaydiaCove Nerd Font Mono"
 font-size = 14
 mouse-hide-while-typing = true
 fullscreen = false
-maximize=true
+maximize = true
 window-decoration = auto
 confirm-close-surface = false
 # copy-on-select = true
 copy-on-select = clipboard
 cursor-click-to-move = true
 macos-option-as-alt = left
+macos-titlebar-style = tabs
+macos-window-buttons = hidden
+macos-auto-secure-input = true
+macos-secure-input-indication = true
+unfocused-split-opacity = 0.95
+link-previews = true
+focus-follows-mouse = true
+shell-integration-features = true
 
-# keybind:
+# keybinds
+keybind = ctrl+shift+r=reload_config
+keybind = ctrl+shift+i=inspector:toggle
+keybind = super+comma=unbind
+keybind = global:alt+shift+t=toggle_quick_terminal
+keybind = ctrl+shift+p=toggle_command_palette
+
+## window handling
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+x=close_window
+keybind = ctrl+shift+q=close_surface
+
+## tab handling
 keybind = ctrl+shift+one=goto_tab:1
 keybind = ctrl+shift+two=goto_tab:2
 keybind = ctrl+shift+three=goto_tab:3
@@ -22,8 +42,13 @@ keybind = ctrl+shift+seven=goto_tab:7
 keybind = ctrl+shift+eight=goto_tab:8
 keybind = ctrl+shift+nine=goto_tab:9
 
-keybind = ctrl+shift+x=close_window
+keybind = ctrl+page_up=previous_tab
+keybind = ctrl+page_down=next_tab
+keybind = ctrl+shift+left=previous_tab
+keybind = ctrl+shift+right=next_tab
+keybind = ctrl+shift+t=new_tab
 
+## split handling
 keybind = ctrl+shift+down=goto_split:bottom
 keybind = ctrl+shift+left=goto_split:left
 keybind = ctrl+shift+right=goto_split:right
@@ -36,55 +61,44 @@ keybind = ctrl+shift+k=goto_split:top
 
 keybind = ctrl+shift+ö=new_split:down
 keybind = ctrl+shift+ü=new_split:right
-keybind = ctrl+shift+h=new_split:down
-keybind = ctrl+shift+enter=toggle_split_zoom
+keybind = ctrl+shift+equal=equalize_splits
+keybind = ctrl+shift+z=toggle_split_zoom
 
-keybind = ctrl+shift+comma=reload_config
+## font size manipulation
+keybind = ctrl+shift+Digit3=increase_font_size:1
+keybind = ctrl+shift+Slash=decrease_font_size:1
+keybind = ctrl+shift+Backquote=reset_font_size
 
-keybind = ctrl+enter=toggle_fullscreen
-
-keybind = ctrl+shift+plus=increase_font_size:1
-keybind = ctrl+minus=decrease_font_size:1
-keybind = ctrl+zero=reset_font_size
-
-keybind = ctrl+page_down=next_tab
-keybind = ctrl+page_up=previous_tab
+## copy/paste
 keybind = ctrl+shift+a=select_all
 keybind = ctrl+shift+c=copy_to_clipboard
-keybind = ctrl+shift+i=inspector:toggle
 keybind = ctrl+shift+j=write_scrollback_file:paste
-keybind = ctrl+shift+left=previous_tab
-keybind = ctrl+shift+n=new_window
-keybind = ctrl+shift+page_down=jump_to_prompt:1
-keybind = ctrl+shift+page_up=jump_to_prompt:-1
-keybind = ctrl+shift+ú=jump_to_prompt:1
-keybind = ctrl+shift+ő=jump_to_prompt:-1
-keybind = ctrl+shift+q=quit
-keybind = ctrl+shift+right=next_tab
-keybind = ctrl+shift+t=new_tab
-keybind = ctrl+shift+v=paste_from_clipboard
-keybind = ctrl+shift+w=close_surface
-keybind = shift+end=scroll_to_bottom
-keybind = shift+home=scroll_to_top
+keybind = super+shift+j=write_screen_file:paste
 keybind = shift+insert=paste_from_selection
-keybind = shift+page_down=scroll_page_down
-keybind = shift+page_up=scroll_page_up
-keybind = super+ctrl+left_bracket=goto_split:previous
-keybind = super+ctrl+right_bracket=goto_split:next
+keybind = ctrl+shift+v=paste_from_clipboard
+
+## jumping around in the scrollback
+keybind = ctrl+shift+bracket_right=jump_to_prompt:1
+keybind = ctrl+shift+bracket_left=jump_to_prompt:-1
+keybind = ctrl+shift+end=scroll_to_bottom
+keybind = ctrl+shift+home=scroll_to_top
+keybind = ctrl+shift+page_down=scroll_page_down
+keybind = ctrl+shift+page_up=scroll_page_up
+
+## resizing
 keybind = super+ctrl+shift+down=resize_split:down,10
-keybind = super+ctrl+shift+equal=equalize_splits
 keybind = super+ctrl+shift+left=resize_split:left,10
 keybind = super+ctrl+shift+right=resize_split:right,10
 keybind = super+ctrl+shift+up=resize_split:up,10
 
-keybind = super+shift+j=write_screen_file:paste
-keybind = global:alt+shift+t=toggle_quick_terminal
-keybind = super+comma=unbind
 
-
-# make stuff work:
+# make stuff work
 keybind = ctrl+ő=text:\x1b
 keybind = ctrl+ú=text:\x1d
 
-# claude code
+## claude code workaround
 keybind = shift+enter=text:\x1b\r
+
+## these should be handled by the OS
+# keybind = ctrl+shift+q=quit
+# keybind = ctrl+enter=toggle_fullscreen

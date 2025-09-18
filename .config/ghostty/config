@@ -18,6 +18,7 @@ unfocused-split-opacity = 0.95
 link-previews = true
 focus-follows-mouse = true
 shell-integration-features = true
+app-notifications = no-clipboard-copy
 
 # keybinds
 keybind = ctrl+shift+r=reload_config

@@ -27,6 +27,10 @@ for file in $HOME/.config/shell/zsh/*.zsh; do
   source $file
 done
 
+if [ -f $HOME/.config/shell/aliases.sh ]; then
+  source $HOME/.config/shell/aliases.sh
+fi
+
 # Plugins
 antigen bundle Aloxaf/fzf-tab
 antigen bundle zsh-users/zsh-autosuggestions
@@ -80,9 +84,6 @@ setopt interactivecomments
 
 export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 
-if [ -f $HOME/.config/shell/aliases.sh ]; then
-  source $HOME/.config/shell/aliases.sh
-fi
 
 # fnm
 
@@ -102,34 +103,17 @@ if [ -d $HOME/.pyenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi
 
-
-if [ -d /home/linuxbrew/.linuxbrew/bin/brew ]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-elif [ -d /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+if [ -d /opt/homebrew/bin ]; then
+  export PATH="/opt/homebrew/bin:$PATH"
 fi
+
+
 
 if ! type "$zoxide" > /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 
 
-function confed(){
-  env GIT_DIR=$HOME/.local/share/yadm/repo.git GIT_WORK_TREE=$HOME \
-  vim -c "cd ~" \
-      -c "let g:rooter_change_directory_for_non_project_files = 'home'" \
-      -c "silent AutoSaveToggle" \
-      -S ~/.local/share/yadm/Session.vim
-}
-
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
 
 
 
@@ -216,3 +200,33 @@ zstyle ':completion:*' menu select
 fpath+=~/.zfunc
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
+# BEGIN ANSIBLE MANAGED BLOCK - PROFILE.D
+# Source files from profile.d directory
+if [ -d "$HOME/.profile.d" ]; then
+  # Handle empty glob patterns in both bash and zsh
+  if [ -n "$ZSH_VERSION" ]; then
+    setopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -s nullglob
+  fi
+  # Ensure files are loaded in alphabetical order
+  for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
+    if [ -r "$file" ]; then
+      . "$file"
+    fi
+  done
+  unset file
+  # Reset glob behavior
+  if [ -n "$ZSH_VERSION" ]; then
+    unsetopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -u nullglob
+  fi
+fi
+# END ANSIBLE MANAGED BLOCK - PROFILE.D
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi

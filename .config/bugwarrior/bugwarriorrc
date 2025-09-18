@@ -7,6 +7,14 @@ annotation_comments = False
 static_fields = priority
 # replace_tags = True
 
+[signifydjira]
+service = jira
+jira.base_uri = "https://signifyd.atlassian.net"
+jira.username = "bence.ferdinandy@signfiyd.com"
+jira.password = @oracle:eval:pass show jira
+jira.query = assignee = bence.ferdinandy@signifyd.com and status != closed and status != resolved
+
+
 [elteeto]
 service = bitbucket
 bitbucket.default_priority =

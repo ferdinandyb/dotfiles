@@ -1,0 +1,55 @@
+[general]
+targets = ["signifydjira"]
+taskrc = "~/.config/task/taskrc"
+# log.level = DEBUG
+merge_annotations = "False"
+annotation_comments = false
+static_fields = ["priority"]
+# replace_tags = True
+
+[signifydjira]
+service = "jira"
+base_uri = "https://signifyd.atlassian.net"
+username = "bence.ferdinandy@signifyd.com"
+password = "@oracle:eval:pass show jira"
+query = "assignee = currentUser() AND status NOT IN ('Done', 'Closed', 'Resolved', 'Won\\'t Do')"
+
+[elteeto]
+service = "bitbucket"
+default_priority = ""
+add_tags = ["bb-eto"]
+only_if_assigned = "ferdinandyb"
+include_merge_requests = true
+username = "ferdinandyb"
+key = "@oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/key"
+secret = "@oracle:eval:pass show bugwarrior/bitbucket/elteethologydepartment/secret"
+login = "ferdinandyb"
+# bitbucket.password = @oracle:eval:pass show bugwarrior/bitbucket/pass
+
+[github]
+service = "github"
+login = "ferdinandyb"
+token = "@oracle:eval:pass show bugwarrior/github"
+username = "ferdinandyb"
+default_priority = ""
+add_tags = ["github"]
+# bitbucket.only_if_assigned = ferdinandyb
+include_merge_requests = "True"
+query = "assignee:ferdinandyb is:open"
+project_template = 'github.{{project | replace(".","")}}'
+annotation_comments = "False"
+import_labels_as_tags = true
+label_template = 'gh_{{label | replace(" ","")}}'
+
+[trello]
+service = "trello"
+api_key = "d9b874cb64f9a3d38c5f8c2f8d818548"
+token = "@oracle:eval:pass show bugwarrior/trello/token"
+annotation_comments = "False"
+default_priority = ""
+only_if_assigned = "benceferdinandy"
+add_tags = ["trello"]
+import_labels_as_tags = true
+label_template = 'tr_{{label | replace(" ","") }}'
+project_template = 'trello.{{project | replace(" ","") | replace(".","") | replace("-","") }}'
+exclude_lists = ["Done"]

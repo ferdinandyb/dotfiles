@@ -12,7 +12,10 @@ service = "jira"
 base_uri = "https://signifyd.atlassian.net"
 username = "bence.ferdinandy@signifyd.com"
 password = "@oracle:eval:pass show jira"
-query = "assignee = currentUser() AND status NOT IN ('Done', 'Closed', 'Resolved', 'Won\\'t Do')"
+description_template = "{{jiraid}} ({{jirastatus}}) - {{jirasummary}} - {{jiraurl}}"
+label_template = "jira_{{label}}"
+import_sprints_as_tags = true
+
 
 [elteeto]
 service = "bitbucket"
@@ -53,3 +56,8 @@ import_labels_as_tags = true
 label_template = 'tr_{{label | replace(" ","") }}'
 project_template = 'trello.{{project | replace(" ","") | replace(".","") | replace("-","") }}'
 exclude_lists = ["Done"]
+
+[notifications]
+notifications = true
+backend = "applescript"
+only_on_new_tasks = false

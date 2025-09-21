@@ -97,7 +97,7 @@
 	diffFilter = delta --color-only --features=interactive
 [delta]
 	navigate = true
-	side-by-side = true
+	side-by-side = false
 	hyperlinks = true
 	syntax-theme = Dracula
 [advice]

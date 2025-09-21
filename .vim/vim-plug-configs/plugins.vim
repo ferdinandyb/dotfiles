@@ -60,7 +60,9 @@ Plug 'honza/vim-snippets'
 " clears searches smarter
 Plug 'junegunn/vim-slash'
 " visualize undo trees
-Plug 'mbbill/undotree'
+Plug 'simnalamburt/vim-mundo'
+let g:mundo_help = 1
+let g:mundo_close_on_revert = 1
 
 
 " doesn't open misspelled files

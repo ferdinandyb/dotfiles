@@ -54,8 +54,6 @@ set scrolloff=5
 " Fixes common backspace problems
 set backspace=indent,eol,start
 
-" Speed up scrolling in Vim
-set ttyfast
 
 " show command you are typing
 set showcmd
@@ -119,8 +117,8 @@ set backupskip+=/dev/shm/*
 " make splits open on the right side
 set splitright
 
+" select with mouse in vim
 set mouse=a
-" drag and drop in vim
 if !has("nvim")
     if has("mouse_sgr")
         set ttymouse=sgr

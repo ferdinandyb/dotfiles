@@ -101,8 +101,7 @@ nnoremap <F2> :CocToggle<CR>
 nnoremap <F3> :ALEToggle<CR>
 nnoremap <F4> :AutoSaveToggle<CR>
 nnoremap <F5> :setlocal spell! spelllang=en_gb,hu<CR>
-nnoremap <F6> :GundoToggle<CR>
-nnoremap <F7> :NERDTreeToggle<CR>
+nnoremap <F6> :UndotreeToggle<CR>
 nnoremap <F8> :TagbarToggle<CR>
 
 " spelling

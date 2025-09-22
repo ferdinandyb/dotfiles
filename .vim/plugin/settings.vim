@@ -3,6 +3,10 @@ set hidden
 
 set updatetime=750
 
+" Automatically save and load folds: this is probably irritating
+" autocmd BufWinLeave *.* mkview
+" autocmd BufWinEnter *.* silent loadview
+
 " autoread to read stuff change outside of vim and the au to trigger it when
 " moving around
 set autoread

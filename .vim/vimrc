@@ -37,21 +37,5 @@ call plug#end()
 doautocmd User PlugLoaded
 
 
-" better escape and exiting when using arrows
 
 
-" Automatically save and load folds: this is probably irritating
-" autocmd BufWinLeave *.* mkview
-" autocmd BufWinEnter *.* silent loadview
-
-" ros setup
-autocmd BufRead,BufNewFile *.launch setfiletype roslaunch
-
-" Rmarkdown
-autocmd BufRead,BufNewFile *.Rmd setfiletype markdown
-autocmd BufRead,BufNewFile *.Rmd nnoremap <Leader>r :Dispatch R -e "rmarkdown::render('%',output_file='%.html')" <CR>
-
-
-
-" this disable the jupyter-vim bindings
-let g:jupyter_mapkeys = 0

@@ -55,6 +55,3 @@ autocmd BufRead,BufNewFile *.Rmd nnoremap <Leader>r :Dispatch R -e "rmarkdown::r
 
 " this disable the jupyter-vim bindings
 let g:jupyter_mapkeys = 0
-
-
-let g:gundo_prefer_python3 = 1

@@ -52,12 +52,11 @@ alias t1="tree -L 1"
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-
 # Shortcuts for switching Databricks workspaces
 alias dbx_aws_sdp='export DATABRICKS_CONFIG_PROFILE=aws-sdp; databricks auth login --profile aws-sdp'
 alias dbx_gcp_prod='export DATABRICKS_CONFIG_PROFILE=gcp-prod; databricks auth login --profile gcp-prod'
 alias dbx_gcp_prod_dev='export DATABRICKS_CONFIG_PROFILE=gcp-prod-dev; databricks auth login --profile gcp-prod-dev'
 
-
 # Use AWS by default
 export DATABRICKS_CONFIG_PROFILE=aws-sdp
+alias pns="pants --no-sandboxer"

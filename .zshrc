@@ -1,34 +1,33 @@
 # source ~/.config/environment.d when we're not inheriting from systemd
 if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
-  if ! type "$systemctl" > /dev/null; then
+	if ! type "$systemctl" >/dev/null; then
 
-    # this seems like an ugly hack for MacOS
-    for file in $HOME/.config/environment.d/*.conf; do
-      while IFS= read -r line; do
-	  # Skip empty lines or comments if necessary
-	  [[ -z "$line" || "$line" =~ ^# ]] && continue
-	  eval "export $line"
-      done < $file
-    done
-  else
-    export $(systemctl --user show-environment | xargs)
-  fi
+		# this seems like an ugly hack for MacOS
+		for file in $HOME/.config/environment.d/*.conf; do
+			while IFS= read -r line; do
+				# Skip empty lines or comments if necessary
+				[[ -z "$line" || "$line" =~ ^# ]] && continue
+				eval "export $line"
+			done <$file
+		done
+	else
+		export $(systemctl --user show-environment | xargs)
+	fi
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 for file in $HOME/.config/shell/zsh/*.zsh; do
-  source $file
+	source $file
 done
 
 if [ -f $HOME/.config/shell/aliases.sh ]; then
-  source $HOME/.config/shell/aliases.sh
+	source $HOME/.config/shell/aliases.sh
 fi
 
 # Plugins
@@ -44,7 +43,6 @@ antigen bundle taskwarrior
 antigen theme romkatv/powerlevel10k
 
 antigen apply
-
 
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
@@ -81,117 +79,104 @@ setopt interactivecomments
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+if [ -d /opt/homebrew/bin ]; then
+	export PATH="/opt/homebrew/bin:$PATH"
+fi
 
 export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
-
 
 # fnm
 
 if [ -d $HOME/.fnm ]; then
-    export PATH=$HOME/.fnm:$PATH
-    eval "`fnm env`"
+	export PATH=$HOME/.fnm:$PATH
+	eval "$(fnm env)"
 
 elif [ -d $HOME/.local/share/fnm ]; then
-  export PATH=$HOME/.local/share/fnm:$PATH
-  eval "`fnm env`"
+	export PATH=$HOME/.local/share/fnm:$PATH
+	eval "$(fnm env)"
 fi
-
 
 if [ -d $HOME/.pyenv ]; then
-  export PATH="$HOME/.pyenv/bin:$PATH"
-  eval "$(pyenv init --path)"
-    eval "$(pyenv virtualenv-init -)"
+	export PATH="$HOME/.pyenv/bin:$PATH"
+	eval "$(pyenv init --path)"
+	eval "$(pyenv virtualenv-init -)"
 fi
 
-if [ -d /opt/homebrew/bin ]; then
-  export PATH="/opt/homebrew/bin:$PATH"
+if ! type "$zoxide" >/dev/null; then
+	eval "$(zoxide init zsh)"
 fi
-
-
-
-if ! type "$zoxide" > /dev/null; then
-  eval "$(zoxide init zsh)"
-fi
-
-
-
-
 
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
 zvm_after_init() {
-  # Auto-completion
-  # ---------------
-  [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
-  if [ -f  '/usr/local/bin/aws_completer' ]; then
-    complete -C '/usr/local/bin/aws_completer' aws
-  fi
+	# Auto-completion
+	# ---------------
+	[[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2>/dev/null
+	if [ -f '/usr/local/bin/aws_completer' ]; then
+		complete -C '/usr/local/bin/aws_completer' aws
+	fi
 
-  # Key bindings
-  # ------------
-  source <(fzf --zsh)
-  bindkey "\C-z" vi-forward-word
-  bindkey "\C-]" autosuggest-accept
-  bindkey "\C-ú" autosuggest-accept
-  # bindkey "^M" autosuggest-accept
+	# Key bindings
+	# ------------
+	source <(fzf --zsh)
+	bindkey "\C-z" vi-forward-word
+	bindkey "\C-]" autosuggest-accept
+	bindkey "\C-ú" autosuggest-accept
+	# bindkey "^M" autosuggest-accept
 }
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == *$HOME/.fzf/bin* ]]; then
-  export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
+	export PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-
-
 _fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
+	fd --hidden --follow --exclude ".git" . "$1"
 }
 
 # Use fd to generate the list for directory completion
 _fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
+	fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
 if [ -d $HOME/.cargo/env ]; then
-  . "$HOME/.cargo/env"
+	. "$HOME/.cargo/env"
 fi
 
-
 if [[ -f /proc/version && $(grep -i Microsoft /proc/version) ]]; then
-    export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
-    ss -a | grep -q $SSH_AUTH_SOCK
-    if [ $? -ne 0 ]; then
-    rm -f $SSH_AUTH_SOCK
-    setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe &>/dev/null &
-    fi
-    # to use gpg on wsl simply symlink the windows executable
-    export VAXIS_FORCE_LEGACY_SGR=1
-    export VAXIS_FORCE_UNICODE=1
+	export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
+	ss -a | grep -q $SSH_AUTH_SOCK
+	if [ $? -ne 0 ]; then
+		rm -f $SSH_AUTH_SOCK
+		setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:/mnt/c/bferdinandy/bin/wsl2-ssh-pageant.exe &>/dev/null &
+	fi
+	# to use gpg on wsl simply symlink the windows executable
+	export VAXIS_FORCE_LEGACY_SGR=1
+	export VAXIS_FORCE_UNICODE=1
 elif [ $(hostname) = mashenka -o $(hostname) = MBP-Bence-Ferdinandy ]; then
-  unset SSH_AGENT_PID
-  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-  fi
-  export GPG_TTY=$(tty)
-  gpg-connect-agent updatestartuptty /bye >/dev/null
+	unset SSH_AGENT_PID
+	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+		export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+	fi
+	export GPG_TTY=$(tty)
+	gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
 
 if [ -d /usr/share/contour/shell-integration ]; then
-  source /usr/share/contour/shell-integration/shell-integration.zsh
+	source /usr/share/contour/shell-integration/shell-integration.zsh
 fi
 
 if [ -d $HOME/.local/share/zsh/site-functions/_hut ]; then
-source  /home/fbence/.local/share/zsh/site-functions/_hut
+	source /home/fbence/.local/share/zsh/site-functions/_hut
 fi
 
 if [ -d $HOME/.config/glab-cli/completion.zsh ]; then
-  source $HOME/.config/glab-cli/completion.zsh
+	source $HOME/.config/glab-cli/completion.zsh
 fi
 
-if type khal > /dev/null; then
-  eval "$(_KHAL_COMPLETE=zsh_source khal)"
+if type khal >/dev/null; then
+	eval "$(_KHAL_COMPLETE=zsh_source khal)"
 fi
 
 autoload bashcompinit && bashcompinit
@@ -203,25 +188,25 @@ fpath+=~/.zfunc
 # BEGIN ANSIBLE MANAGED BLOCK - PROFILE.D
 # Source files from profile.d directory
 if [ -d "$HOME/.profile.d" ]; then
-  # Handle empty glob patterns in both bash and zsh
-  if [ -n "$ZSH_VERSION" ]; then
-    setopt nullglob
-  elif [ -n "$BASH_VERSION" ]; then
-    shopt -s nullglob
-  fi
-  # Ensure files are loaded in alphabetical order
-  for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
-    if [ -r "$file" ]; then
-      . "$file"
-    fi
-  done
-  unset file
-  # Reset glob behavior
-  if [ -n "$ZSH_VERSION" ]; then
-    unsetopt nullglob
-  elif [ -n "$BASH_VERSION" ]; then
-    shopt -u nullglob
-  fi
+	# Handle empty glob patterns in both bash and zsh
+	if [ -n "$ZSH_VERSION" ]; then
+		setopt nullglob
+	elif [ -n "$BASH_VERSION" ]; then
+		shopt -s nullglob
+	fi
+	# Ensure files are loaded in alphabetical order
+	for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
+		if [ -r "$file" ]; then
+			. "$file"
+		fi
+	done
+	unset file
+	# Reset glob behavior
+	if [ -n "$ZSH_VERSION" ]; then
+		unsetopt nullglob
+	elif [ -n "$BASH_VERSION" ]; then
+		shopt -u nullglob
+	fi
 fi
 # END ANSIBLE MANAGED BLOCK - PROFILE.D
 

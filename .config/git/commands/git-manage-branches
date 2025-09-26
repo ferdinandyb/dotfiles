@@ -41,6 +41,13 @@ delete_local_branches() {
 	for branch in $(list_merged_local_branches); do
 		git branch -D $branch && echo "Deleted ${branch}"
 	done
+
+	echo "Removing squash-merged branches"
+	echo
+
+	for branch in $(list_squash_merged_branches | sed 's/^  //'); do
+		git branch -D $branch && echo "Deleted ${branch} (squash-merged)"
+	done
 }
 
 list_squash_merged_branches() {
@@ -64,6 +71,21 @@ list_merged_remote_branches() {
 		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"
 }
 
+list_squash_merged_remote_branches() {
+	# Squash-merge detection for remote branches using technique from https://github.com/not-an-aardvark/git-delete-squashed
+	for branch in $(git branch -r --format="%(refname:lstrip=3)" | grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"); do
+		# Check if remote branch was squash-merged by creating synthetic squash commit
+		MERGE_BASE=$(git merge-base origin/HEAD "origin/$branch" 2>/dev/null)
+		if [ -n "$MERGE_BASE" ]; then
+			# Create temporary commit representing squash merge, then use git cherry to check if changes exist
+			CHERRY_RESULT=$(git cherry origin/HEAD $(git commit-tree $(git rev-parse "origin/$branch^{tree}") -p "$MERGE_BASE" -m "_") 2>/dev/null)
+			if [[ "$CHERRY_RESULT" == "-"* ]]; then
+				echo "  $branch"
+			fi
+		fi
+	done
+}
+
 delete_remote_branches() {
 	echo "Deleting remote branches"
 	echo ""
@@ -73,6 +95,13 @@ delete_remote_branches() {
 
 	for branch in $(list_merged_remote_branches); do
 		git push origin -d $branch && echo "Deleted ${branch}"
+	done
+
+	echo "Removing squash-merged branches"
+	echo
+
+	for branch in $(list_squash_merged_remote_branches | sed 's/^  //'); do
+		git push origin -d $branch && echo "Deleted ${branch} (squash-merged)"
 	done
 
 }
@@ -116,6 +145,10 @@ if [ "$REMOTE" -eq 1 ]; then
 	for branch in $(list_merged_remote_branches); do
 		echo "  $branch"
 	done
+	echo ""
+
+	echo "Remote branches that have been squash-merged:"
+	list_squash_merged_remote_branches
 	echo ""
 fi
 

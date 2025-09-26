@@ -86,6 +86,28 @@ list_squash_merged_remote_branches() {
 	done
 }
 
+show_branch_details() {
+	local branch_list="$1"
+	local branch_type="$2"  # "local" or "remote"
+
+	for branch in $branch_list; do
+		if [ "$branch_type" = "remote" ]; then
+			local ref="origin/$branch"
+		else
+			local ref="$branch"
+		fi
+
+		local days_ago=$(git log -1 --format="%cr" "$ref" 2>/dev/null)
+		local last_author=$(git log -1 --format="%an" "$ref" 2>/dev/null)
+
+		if [ -n "$days_ago" ] && [ -n "$last_author" ]; then
+			echo "  $branch - $days_ago by $last_author"
+		else
+			echo "  $branch"
+		fi
+	done
+}
+
 delete_remote_branches() {
 	echo "Deleting remote branches"
 	echo ""
@@ -124,32 +146,41 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-echo "Branches with deleted remotes:"
-for branch in $(list_stale_local_branches); do
-	echo "  $branch"
-done
-echo ""
+STALE_BRANCHES=$(list_stale_local_branches)
+if [ -n "$STALE_BRANCHES" ]; then
+	echo "Branches with deleted remotes:"
+	show_branch_details "$STALE_BRANCHES" "local"
+	echo ""
+fi
 
-echo "Local branches that have been merged:"
-for branch in $(list_merged_local_branches); do
-	echo "  $branch"
-done
-echo ""
+MERGED_LOCAL=$(list_merged_local_branches)
+if [ -n "$MERGED_LOCAL" ]; then
+	echo "Local branches that have been merged:"
+	show_branch_details "$MERGED_LOCAL" "local"
+	echo ""
+fi
 
-echo "Local branches that have been squash-merged:"
-list_squash_merged_branches
-echo ""
+SQUASH_MERGED_LOCAL=$(list_squash_merged_branches)
+if [ -n "$SQUASH_MERGED_LOCAL" ]; then
+	echo "Local branches that have been squash-merged:"
+	show_branch_details "$SQUASH_MERGED_LOCAL" "local"
+	echo ""
+fi
 
 if [ "$REMOTE" -eq 1 ]; then
-	echo "Remote branches that have been merged:"
-	for branch in $(list_merged_remote_branches); do
-		echo "  $branch"
-	done
-	echo ""
+	MERGED_REMOTE=$(list_merged_remote_branches)
+	if [ -n "$MERGED_REMOTE" ]; then
+		echo "Remote branches that have been merged:"
+		show_branch_details "$MERGED_REMOTE" "remote"
+		echo ""
+	fi
 
-	echo "Remote branches that have been squash-merged:"
-	list_squash_merged_remote_branches
-	echo ""
+	SQUASH_MERGED_REMOTE=$(list_squash_merged_remote_branches)
+	if [ -n "$SQUASH_MERGED_REMOTE" ]; then
+		echo "Remote branches that have been squash-merged:"
+		show_branch_details "$SQUASH_MERGED_REMOTE" "remote"
+		echo ""
+	fi
 fi
 
 if [ "$DELETE" -eq 1 ]; then

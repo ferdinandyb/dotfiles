@@ -16,23 +16,29 @@ DEFAULT_LOCAL=$(echo "$DEFAULT_REMOTE" | sed 's|^origin/||')
 DELETE=0
 REMOTE=0
 
+list_stale_local_branches() {
+	git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'
+}
+
+list_merged_local_branches() {
+	git branch --merged origin/HEAD --format="%(refname:lstrip=2)" |
+		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"
+}
+
 delete_local_branches() {
 	echo "Deleting local branches"
 	echo ""
 	echo "Removing branches with deleted remotes"
 	echo
 
-	STALE_BRANCHES=$(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}')
-	for branch in $STALE_BRANCHES; do
+	for branch in $(list_stale_local_branches); do
 		git branch -D $branch && echo "Deleted ${branch}"
 	done
 
 	echo "Removing merged branches"
 	echo
 
-	MERGED=$(git branch --merged origin/HEAD --format="%(refname:lstrip=2)" |
-		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)")
-	for branch in $MERGED; do
+	for branch in $(list_merged_local_branches); do
 		git branch -D $branch && echo "Deleted ${branch}"
 	done
 }
@@ -53,6 +59,11 @@ list_squash_merged_branches() {
 	done
 }
 
+list_merged_remote_branches() {
+	git branch -r --merged origin/HEAD --format="%(refname:lstrip=3)" |
+		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"
+}
+
 delete_remote_branches() {
 	echo "Deleting remote branches"
 	echo ""
@@ -60,9 +71,7 @@ delete_remote_branches() {
 	echo "Removing merged branches"
 	echo
 
-	MERGED=$(git branch -r --merged origin/HEAD --format="%(refname:lstrip=3)" |
-		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)")
-	for branch in $MERGED; do
+	for branch in $(list_merged_remote_branches); do
 		git push origin -d $branch && echo "Deleted ${branch}"
 	done
 
@@ -87,12 +96,15 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo "Branches with deleted remotes:"
-git -c color.ui=always branch -vv | grep --color=never gone
+for branch in $(list_stale_local_branches); do
+	echo "  $branch"
+done
 echo ""
 
 echo "Local branches that have been merged:"
-git -c color.ui=always branch --merged origin/HEAD |
-	grep --color=never -v $DEFAULT_LOCAL
+for branch in $(list_merged_local_branches); do
+	echo "  $branch"
+done
 echo ""
 
 echo "Local branches that have been squash-merged:"
@@ -101,8 +113,9 @@ echo ""
 
 if [ "$REMOTE" -eq 1 ]; then
 	echo "Remote branches that have been merged:"
-	git -c color.ui=always branch -r --merged origin/HEAD |
-		grep --color=never -Ev "(origin/${DEFAULT_LOCAL}|origin/HEAD)"
+	for branch in $(list_merged_remote_branches); do
+		echo "  $branch"
+	done
 	echo ""
 fi
 

@@ -13,7 +13,7 @@ echo
 DEFAULT_REMOTE=$(git rev-parse --abbrev-ref origin/HEAD)
 DEFAULT_LOCAL=$(echo "$DEFAULT_REMOTE" | sed 's|^origin/||')
 
-FORCE=0
+DELETE=0
 REMOTE=0
 
 delete_local_branches() {
@@ -52,13 +52,20 @@ delete_remote_branches() {
 
 }
 
-while getopts ":fr" option; do
-	case $option in
-	f) # delete branches
-		FORCE=1
+while [[ $# -gt 0 ]]; do
+	case $1 in
+	-d | --delete)
+		DELETE=1
+		shift
 		;;
-	r)
+	-r | --include-remote)
 		REMOTE=1
+		shift
+		;;
+	*)
+		echo "Unknown option: $1"
+		echo "Usage: $0 [-d|--delete] [-r|--include-remote]"
+		exit 1
 		;;
 	esac
 done
@@ -79,7 +86,7 @@ if [ "$REMOTE" -eq 1 ]; then
 	echo ""
 fi
 
-if [ "$FORCE" -eq 1 ]; then
+if [ "$DELETE" -eq 1 ]; then
 	delete_local_branches
 	if [ "$REMOTE" -eq 1 ]; then
 		delete_remote_branches

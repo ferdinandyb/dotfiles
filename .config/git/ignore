@@ -8,3 +8,5 @@ Session.vim
 .gcli
 .python-version
 *.log
+
+# **/.claude/settings.local.json

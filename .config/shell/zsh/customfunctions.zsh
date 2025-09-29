@@ -1,5 +1,5 @@
 function myissues(){
-  jira issue list -q "assignee = currentUser() AND status NOT IN ('Done', 'Closed', 'Resolved', 'Won\'t Do')"
+  jira issue list -q "assignee = currentUser() AND resolution is NULL"
 }
 
 # function confed(){

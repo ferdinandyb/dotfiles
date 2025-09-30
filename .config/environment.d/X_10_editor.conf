@@ -1,1 +1,1 @@
-EDITOR=vim
+EDITOR=nvim

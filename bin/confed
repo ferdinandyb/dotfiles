@@ -2,7 +2,23 @@
 
 export GIT_DIR=$HOME/.local/share/yadm/repo.git
 export GIT_WORK_TREE=$HOME
-vim -c "cd ~" \
+
+# Determine which editor to use
+extra_args=""
+if [ "$1" = "--vim" ]; then
+	vimvariant=vim
+	shift
+else
+	if command -v nvim >/dev/null 2>&1; then
+		vimvariant=nvim
+		extra_args="--listen $HOME/.nvim.sock"
+	else
+		vimvariant=vim
+	fi
+fi
+
+$vimvariant $extra_args \
+	-c "cd ~" \
 	-c "let g:rooter_change_directory_for_non_project_files = 'home'" \
 	-c "silent AutoSaveToggle" \
 	-S ~/.local/share/yadm/Session.vim

@@ -1,4 +1,5 @@
 alias vims="/usr/bin/vim --servername VIMSERVER"
+alias nvs="nvim --listen ./.nvim.sock"
 alias v="vim"
 alias vl="vim --cmd 'let g:lightweight=1'"
 

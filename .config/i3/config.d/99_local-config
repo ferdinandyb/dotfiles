@@ -105,10 +105,8 @@ workspace "$ws0" output primary
 
 exec --no-startup-id /usr/bin/element-desktop
 exec --no-startup-id greenclip daemon
-exec --no-startup-id xmodmap ~/.Xmodmap
 bindsym $mod+n exec --no-startup-id rofication-gui
-# the below could probably be moved to Xmodmap
-exec --no-startup-id  xcape -e 'Caps_Lock=Escape;Control_L=Escape;Control_R=Escape' -t 200
+
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://calendar.google.com/calendar/r
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://mail.google.com/mail/u/0/#inbox
 # exec --no-startup-id /opt/google/chrome/chrome --app=https://outlook.office.com

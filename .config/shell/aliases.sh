@@ -7,8 +7,6 @@ alias diary="vim +VimwikiMakeDiaryNote"
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 
-alias ts="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_change_session"
-alias tn="$HOME/.tmux/scripts/fzf-change-session.tmux tmux_fzf_new_session"
 alias t="task"
 alias ta="task add"
 alias tt="taskwarrior-tui"
@@ -58,4 +56,3 @@ alias dbx_gcp_prod_dev='export DATABRICKS_CONFIG_PROFILE=gcp-prod-dev; databrick
 
 # Use AWS by default
 export DATABRICKS_CONFIG_PROFILE=aws-sdp
-alias pns="pants --no-sandboxer"

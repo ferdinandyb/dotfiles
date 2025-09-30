@@ -14,6 +14,23 @@ c.TerminalInteractiveShell.autoformatter = "black"
 if importlib.util.find_spec("pyflyby") is not None:
     c.InteractiveShellApp.extensions.append("pyflyby")
 
+if importlib.util.find_spec("ipython_ctrlr_fzf") is None:
+    try:
+        import subprocess
+
+        subprocess.run(
+            ["pip", "install", "ipython-ctrlr-fzf"],
+            capture_output=True,
+            check=False,
+            timeout=30,
+        )
+        importlib.invalidate_caches()
+    except Exception:
+        pass
+
+if importlib.util.find_spec("ipython_ctrlr_fzf") is not None:
+    c.InteractiveShellApp.extensions.append("ipython_ctrlr_fzf")
+
 
 c.TerminalInteractiveShell.shortcuts = [
     {

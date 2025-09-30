@@ -34,6 +34,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gz <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gR <Plug>(coc-plug-references-used)
 " maybe instead of coc-rename refactor?
 nmap <leader>dn <Plug>(coc-rename)
 nmap <leader>dr <Plug>(coc-refactor)

@@ -36,7 +36,12 @@ c.TerminalInteractiveShell.shortcuts = [
     {
         "command": "IPython:auto_suggest.accept",
         "match_keys": ["c-z"],
-    }
+    },
+    {
+        "command": "IPython:shortcuts.open_input_in_editor",
+        "match_keys": ["v", "v"],
+        "match_filter": "vi_mode & ~vi_insert_mode",
+    },
 ]
 
 from IPython.terminal.prompts import Prompts

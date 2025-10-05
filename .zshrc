@@ -83,6 +83,10 @@ if [ -d /opt/homebrew/bin ]; then
 	export PATH="/opt/homebrew/bin:$PATH"
 fi
 
+if [ -d /home/linuxbrew/.linuxbrew ]; then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 
 # fnm

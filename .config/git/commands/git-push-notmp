@@ -2,6 +2,7 @@
 
 # This script is just a toy which I don't actually use.
 # Expect bugs.
+# Drops commits that are marked tmp
 
 push() {
 	export GIT_SEQUENCE_EDITOR=git-push-notmp

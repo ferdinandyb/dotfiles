@@ -1,0 +1,134 @@
+#!/bin/bash
+
+# Get the merge base
+MERGE_BASE=$(git merge-base HEAD origin/HEAD)
+if [ -z "$MERGE_BASE" ]; then
+	echo "Error: Could not find merge base with origin/HEAD"
+	exit 1
+fi
+
+# Check if there are any commits to rebase
+if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/HEAD)" ]; then
+	echo "Already up to date with origin/HEAD"
+	exit 0
+fi
+
+# Get all commits in our branch
+echo "Analyzing commits..."
+COMMITS_TO_CHECK=$(git rev-list --reverse "$MERGE_BASE..HEAD")
+
+# Find the last squash-merged commit by checking from newest to oldest
+LAST_SQUASHED=""
+for commit in $(git rev-list "$MERGE_BASE..HEAD"); do
+	# Check if everything up to this commit is squash-merged
+	tree=$(git rev-parse "$commit^{tree}")
+	synthetic=$(git commit-tree "$tree" -p "$MERGE_BASE" -m "_" 2>/dev/null)
+
+	if [ -n "$synthetic" ]; then
+		cherry_result=$(git cherry origin/HEAD "$synthetic" 2>/dev/null | head -1)
+
+		if [[ "$cherry_result" == "-"* ]]; then
+			LAST_SQUASHED=$commit
+			break
+		fi
+	fi
+done
+
+# Build lists of commits to keep and drop
+COMMITS_TO_KEEP=""
+COMMITS_TO_DROP=""
+
+if [ -n "$LAST_SQUASHED" ]; then
+	# Everything up to and including LAST_SQUASHED is already in origin/HEAD
+	FOUND_CUTOFF=false
+	for commit in $COMMITS_TO_CHECK; do
+		commit_msg=$(git log -1 --pretty=format:"%h %s" "$commit")
+
+		if [ "$FOUND_CUTOFF" = true ]; then
+			# After the cutoff, keep all commits
+			echo "  ✓ $commit_msg"
+			COMMITS_TO_KEEP="$COMMITS_TO_KEEP $commit"
+		else
+			# Before and at the cutoff, drop all commits
+			echo "  ✗ $commit_msg (already in origin/HEAD)"
+			COMMITS_TO_DROP="$COMMITS_TO_DROP $commit"
+
+			if [ "$commit" = "$LAST_SQUASHED" ]; then
+				FOUND_CUTOFF=true
+			fi
+		fi
+	done
+else
+	# No squash-merge detected, keep all commits
+	for commit in $COMMITS_TO_CHECK; do
+		commit_msg=$(git log -1 --pretty=format:"%h %s" "$commit")
+		echo "  ✓ $commit_msg"
+		COMMITS_TO_KEEP="$COMMITS_TO_KEEP $commit"
+	done
+fi
+
+# Count commits
+num_keep=$(echo "$COMMITS_TO_KEEP" | wc -w | tr -d ' ')
+num_drop=$(echo "$COMMITS_TO_DROP" | wc -w | tr -d ' ')
+
+echo ""
+echo "Summary:"
+echo "  Commits to keep: $num_keep"
+echo "  Commits to drop: $num_drop (already in origin/HEAD)"
+echo ""
+
+# Ask for confirmation
+read -p "Proceed with rebase? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+	echo "Rebase cancelled"
+	exit 0
+fi
+
+# Create a custom rebase sequence
+# We'll use git rebase -i with a custom sequence editor
+REBASE_SCRIPT=$(mktemp)
+trap "rm -f $REBASE_SCRIPT" EXIT
+
+# Build the rebase todo list
+cat >"$REBASE_SCRIPT" <<'EOF'
+#!/bin/bash
+# This script will mark squash-merged commits for dropping
+TODO_FILE="$1"
+TEMP_FILE=$(mktemp)
+EOF
+
+# Add the logic to check each commit
+cat >>"$REBASE_SCRIPT" <<EOF
+while IFS= read -r line; do
+	if [[ "\$line" =~ ^pick[[:space:]]+([a-f0-9]+) ]]; then
+		commit_hash=\${BASH_REMATCH[1]}
+		full_hash=\$(git rev-parse \$commit_hash)
+
+		# Check if this commit should be dropped
+		should_drop=false
+		for drop_commit in $COMMITS_TO_DROP; do
+			if [[ "\$full_hash" == "\$drop_commit"* ]]; then
+				should_drop=true
+				break
+			fi
+		done
+
+		if [ "\$should_drop" = true ]; then
+			echo "drop \${line#pick}" >> "\$TEMP_FILE"
+		else
+			echo "\$line" >> "\$TEMP_FILE"
+		fi
+	else
+		echo "\$line" >> "\$TEMP_FILE"
+	fi
+done < "\$TODO_FILE"
+mv "\$TEMP_FILE" "\$TODO_FILE"
+EOF
+
+chmod +x "$REBASE_SCRIPT"
+
+# Perform the rebase with our custom editor
+echo ""
+echo "Starting rebase..."
+GIT_SEQUENCE_EDITOR="$REBASE_SCRIPT" git rebase -i origin/HEAD

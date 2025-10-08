@@ -1,0 +1,3 @@
+#!/bin/sh
+
+git diff --name-only $(git merge-base --fork-point $1)

@@ -111,10 +111,10 @@ clean_worktrees() {
 
 		# Extract ticket from worktree name pattern: prefix-TICKET-123-summary
 		# This will match any prefix followed by a ticket pattern
-		pattern="^[^-]\+-[A-Z]\+-[0-9]\+-"
+		pattern="[A-Z]+-[0-9]+"
 
-		if echo "$worktree_name" | grep -q "$pattern"; then
-			ticket=$(echo "$worktree_name" | grep -o "[A-Z]\+-[0-9]\+" | head -n 1)
+		if echo "$worktree_name" | grep -qE "$pattern"; then
+			ticket=$(echo "$worktree_name" | grep -oE "[A-Z]+-[0-9]+" | head -n 1)
 
 			# Check ticket resolution in JIRA
 			project=$(echo "$ticket" | cut -d'-' -f1)

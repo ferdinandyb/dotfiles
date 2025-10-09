@@ -1,191 +1,852 @@
-#!/bin/bash
+#!/usr/bin/env python3
+"""
+Git branch management tool that identifies and optionally deletes:
+- Branches with deleted remotes (stale)
+- Merged branches
+- Squashed branches
 
-# Check if we're in a git repository
-if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo "Error: Not in a git repository"
-	exit 1
-fi
+Handles worktrees automatically when deleting branches.
+"""
 
-echo "Running fetch --prune --all"
-git fetch --prune --all
-echo
+import argparse
+import os
+import shutil
+import subprocess
+import sys
+from dataclasses import dataclass
+from typing import Optional, Literal, Dict, List, Tuple, Set
 
-DEFAULT_REMOTE=$(git rev-parse --abbrev-ref origin/HEAD)
-DEFAULT_LOCAL=$(echo "$DEFAULT_REMOTE" | sed 's|^origin/||')
 
-DELETE=0
-REMOTE=0
+@dataclass
+class Branch:
+    """Represents a git branch with its metadata."""
 
-list_stale_local_branches() {
-	git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == "[gone]" {sub("refs/heads/", "", $1); print $1}'
-}
+    name: str
+    merge_state: Literal["unmerged", "merged", "squashed"]
+    is_stale: bool
+    last_commit_date: Optional[str] = None
+    last_author: Optional[str] = None
+    worktree_path: Optional[str] = None
+    is_remote: bool = False
 
-list_merged_local_branches() {
-	git branch --merged origin/HEAD --format="%(refname:lstrip=2)" |
-		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"
-}
+    @property
+    def is_deletable(self) -> bool:
+        """A branch is deletable if it's stale or merged."""
+        return self.is_stale or self.merge_state != "unmerged"
 
-delete_local_branches() {
-	echo "Deleting local branches"
-	echo ""
-	echo "Removing branches with deleted remotes"
-	echo
+    def get_deletion_reasons(self) -> List[str]:
+        """Get list of reasons why this branch is deletable."""
+        reasons = []
+        if self.is_stale:
+            reasons.append("stale")
+        if self.merge_state == "merged":
+            reasons.append("merged")
+        elif self.merge_state == "squashed":
+            reasons.append("squashed")
+        return reasons
 
-	for branch in $(list_stale_local_branches); do
-		git branch -D $branch && echo "Deleted ${branch}"
-	done
+    def format_info(self, show_reasons: bool = False) -> str:
+        """Format branch information for display."""
+        branch_display = f"origin/{self.name}" if self.is_remote else self.name
+        info = f"  {branch_display}"
+        if self.last_commit_date and self.last_author:
+            info += f" - {self.last_commit_date} by {self.last_author}"
+        if self.worktree_path:
+            info += f" [worktree: {self.worktree_path}]"
+        if show_reasons and self.is_deletable:
+            reasons = self.get_deletion_reasons()
+            if reasons:
+                info += f" [{', '.join(reasons)}]"
+        return info
 
-	echo "Removing merged branches"
-	echo
 
-	for branch in $(list_merged_local_branches); do
-		git branch -D $branch && echo "Deleted ${branch}"
-	done
+class TableFormatter:
+    """Formats branches in a table view with adaptive column widths."""
 
-	echo "Removing squash-merged branches"
-	echo
+    # ANSI color codes
+    RED = "\033[31m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    RESET = "\033[0m"
 
-	for branch in $(list_squash_merged_branches | sed 's/^  //'); do
-		git branch -D $branch && echo "Deleted ${branch} (squash-merged)"
-	done
-}
+    def __init__(self):
+        """Initialize formatter with terminal size detection."""
+        try:
+            self.term_width = shutil.get_terminal_size().columns
+        except:
+            self.term_width = 80  # Fallback width
+        self.current_dir = os.getcwd()
 
-list_squash_merged_branches() {
-	# Squash-merge detection using technique from https://github.com/not-an-aardvark/git-delete-squashed
-	#
-	for branch in $(git branch --format="%(refname:lstrip=2)" | grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"); do
-		# Check if branch was squash-merged by creating synthetic squash commit
-		MERGE_BASE=$(git merge-base origin/HEAD "$branch" 2>/dev/null)
-		if [ -n "$MERGE_BASE" ]; then
-			# Create temporary commit representing squash merge, then use git cherry to check if changes exist
-			CHERRY_RESULT=$(git cherry origin/HEAD $(git commit-tree $(git rev-parse "$branch^{tree}") -p "$MERGE_BASE" -m "_") 2>/dev/null)
-			if [[ "$CHERRY_RESULT" == "-"* ]]; then
-				echo "  $branch"
-			fi
-		fi
-	done
-}
+    def get_relative_path(self, abs_path: Optional[str]) -> str:
+        """Convert absolute path to relative from current repo."""
+        if not abs_path:
+            return "-"
+        try:
+            rel_path = os.path.relpath(abs_path, self.current_dir)
+            # Simplify if it's just one level up
+            if rel_path.startswith("../") and rel_path.count("/") == 1:
+                return rel_path
+            return rel_path
+        except:
+            return abs_path
 
-list_merged_remote_branches() {
-	git branch -r --merged origin/HEAD --format="%(refname:lstrip=3)" |
-		grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"
-}
+    def get_color(self, branch: "Branch") -> str:
+        """Determine color based on branch status."""
+        if branch.is_stale:
+            return self.RED
+        elif branch.merge_state in ["merged", "squashed"]:
+            return self.GREEN
+        elif not branch.is_deletable:
+            return self.YELLOW
+        else:
+            return ""  # No color for combinations
 
-list_squash_merged_remote_branches() {
-	# Squash-merge detection for remote branches using technique from https://github.com/not-an-aardvark/git-delete-squashed
-	for branch in $(git branch -r --format="%(refname:lstrip=3)" | grep --color=never -Ev "(${DEFAULT_LOCAL}|HEAD)"); do
-		# Check if remote branch was squash-merged by creating synthetic squash commit
-		MERGE_BASE=$(git merge-base origin/HEAD "origin/$branch" 2>/dev/null)
-		if [ -n "$MERGE_BASE" ]; then
-			# Create temporary commit representing squash merge, then use git cherry to check if changes exist
-			CHERRY_RESULT=$(git cherry origin/HEAD $(git commit-tree $(git rev-parse "origin/$branch^{tree}") -p "$MERGE_BASE" -m "_") 2>/dev/null)
-			if [[ "$CHERRY_RESULT" == "-"* ]]; then
-				echo "  $branch"
-			fi
-		fi
-	done
-}
+    def truncate_text(
+        self, text: str, max_width: int, with_ellipsis: bool = True
+    ) -> str:
+        """Truncate text to fit width, optionally with ellipsis."""
+        if not text or len(text) <= max_width:
+            return text
+        if with_ellipsis and max_width > 3:
+            return text[: max_width - 3] + "..."
+        return text[:max_width]
 
-show_branch_details() {
-	local branch_list="$1"
-	local branch_type="$2"  # "local" or "remote"
+    def format_status(self, reasons: List[str], max_width: int) -> str:
+        """Format status text, truncating only if multiple and needed."""
+        if not reasons:
+            return "-"
 
-	for branch in $branch_list; do
-		if [ "$branch_type" = "remote" ]; then
-			local ref="origin/$branch"
-		else
-			local ref="$branch"
-		fi
+        # Single status - never truncate below full word
+        if len(reasons) == 1:
+            return reasons[0]
 
-		local days_ago=$(git log -1 --format="%cr" "$ref" 2>/dev/null)
-		local last_author=$(git log -1 --format="%an" "$ref" 2>/dev/null)
+        # Multiple statuses
+        full = ", ".join(reasons)
+        if len(full) <= max_width:
+            return full
 
-		if [ -n "$days_ago" ] && [ -n "$last_author" ]; then
-			echo "  $branch - $days_ago by $last_author"
-		else
-			echo "  $branch"
-		fi
-	done
-}
+        # Progressive truncation for multiple statuses
+        avail = max_width - (len(reasons) - 1) * 2  # Account for ", "
+        chars_per = max(2, avail // len(reasons))  # Min 2 chars
 
-delete_remote_branches() {
-	echo "Deleting remote branches"
-	echo ""
+        truncated = []
+        for reason in reasons:
+            if chars_per >= len(reason):
+                truncated.append(reason)
+            else:
+                # Special case for "squashed" -> "sq" at 2 chars
+                if reason == "squashed" and chars_per == 2:
+                    truncated.append("sq")
+                else:
+                    truncated.append(reason[:chars_per])
 
-	echo "Removing merged branches"
-	echo
+        return ", ".join(truncated)
 
-	for branch in $(list_merged_remote_branches); do
-		git push origin -d $branch && echo "Deleted ${branch}"
-	done
+    def calculate_column_widths(self, branches: List["Branch"]) -> Dict[str, int]:
+        """Dynamically allocate column widths based on terminal size and content."""
+        # Check if we have multiple statuses
+        max_status_count = max(
+            (len(b.get_deletion_reasons()) for b in branches if b.is_deletable),
+            default=1,
+        )
 
-	echo "Removing squash-merged branches"
-	echo
+        # Minimum widths
+        min_widths = {
+            "branch": 15,
+            "age": 8,
+            "author": 10,
+            "status": 8 if max_status_count <= 1 else 12,
+            "worktree": 8,
+        }
 
-	for branch in $(list_squash_merged_remote_branches | sed 's/^  //'); do
-		git push origin -d $branch && echo "Deleted ${branch} (squash-merged)"
-	done
+        # Calculate space for separators (3 spaces between each column)
+        separator_space = 12  # 4 separators * 3 spaces
 
-}
+        # Start with minimums
+        widths = min_widths.copy()
 
-while [[ $# -gt 0 ]]; do
-	case $1 in
-	-d | --delete)
-		DELETE=1
-		shift
-		;;
-	-r | --include-remote)
-		REMOTE=1
-		shift
-		;;
-	*)
-		echo "Unknown option: $1"
-		echo "Usage: $0 [-d|--delete] [-r|--include-remote]"
-		exit 1
-		;;
-	esac
-done
+        # Calculate remaining space
+        used = sum(widths.values()) + separator_space
+        remaining = self.term_width - used
 
-STALE_BRANCHES=$(list_stale_local_branches)
-if [ -n "$STALE_BRANCHES" ]; then
-	echo "Branches with deleted remotes:"
-	show_branch_details "$STALE_BRANCHES" "local"
-	echo ""
-fi
+        if remaining > 0:
+            # Distribute extra space: 40% branch, 30% author, 20% worktree, 10% status
+            widths["branch"] = min(50, widths["branch"] + int(remaining * 0.4))
+            widths["author"] = min(30, widths["author"] + int(remaining * 0.3))
+            widths["worktree"] = min(30, widths["worktree"] + int(remaining * 0.2))
+            widths["status"] = min(20, widths["status"] + int(remaining * 0.1))
+        elif remaining < 0 and self.term_width < 60:
+            # Very narrow terminal - use compact format
+            return {"compact": True}
 
-MERGED_LOCAL=$(list_merged_local_branches)
-if [ -n "$MERGED_LOCAL" ]; then
-	echo "Local branches that have been merged:"
-	show_branch_details "$MERGED_LOCAL" "local"
-	echo ""
-fi
+        return widths
 
-SQUASH_MERGED_LOCAL=$(list_squash_merged_branches)
-if [ -n "$SQUASH_MERGED_LOCAL" ]; then
-	echo "Local branches that have been squash-merged:"
-	show_branch_details "$SQUASH_MERGED_LOCAL" "local"
-	echo ""
-fi
+    def format_header(self, widths: Dict[str, int]) -> str:
+        """Format the table header."""
+        if widths.get("compact"):
+            return "Branch              Status"
 
-if [ "$REMOTE" -eq 1 ]; then
-	MERGED_REMOTE=$(list_merged_remote_branches)
-	if [ -n "$MERGED_REMOTE" ]; then
-		echo "Remote branches that have been merged:"
-		show_branch_details "$MERGED_REMOTE" "remote"
-		echo ""
-	fi
+        header = (
+            f"{'Branch Name':<{widths['branch']}}   "
+            f"{'Age':<{widths['age']}}   "
+            f"{'Author':<{widths['author']}}   "
+            f"{'Status':<{widths['status']}}   "
+            f"{'Worktree':<{widths['worktree']}}"
+        )
+        separator = "─" * min(self.term_width, len(header))
+        return f"{header}\n{separator}"
 
-	SQUASH_MERGED_REMOTE=$(list_squash_merged_remote_branches)
-	if [ -n "$SQUASH_MERGED_REMOTE" ]; then
-		echo "Remote branches that have been squash-merged:"
-		show_branch_details "$SQUASH_MERGED_REMOTE" "remote"
-		echo ""
-	fi
-fi
+    def format_row(
+        self, branch: "Branch", widths: Dict[str, int], show_reasons: bool = False
+    ) -> str:
+        """Format a single branch as a table row."""
+        if widths.get("compact"):
+            # Compact format for very narrow terminals
+            branch_display = (
+                f"origin/{branch.name}" if branch.is_remote else branch.name
+            )
+            name = self.truncate_text(branch_display, 18)
+            status = ", ".join(branch.get_deletion_reasons()) if show_reasons else ""
+            return f"{name:<20}{status}"
 
-if [ "$DELETE" -eq 1 ]; then
-	delete_local_branches
-	if [ "$REMOTE" -eq 1 ]; then
-		delete_remote_branches
-	fi
-fi
+        # Get values
+        branch_display = f"origin/{branch.name}" if branch.is_remote else branch.name
+        name = self.truncate_text(branch_display, widths["branch"])
+        age = self.truncate_text(branch.last_commit_date or "-", widths["age"], False)
+        author = self.truncate_text(branch.last_author or "-", widths["author"])
+        worktree = self.truncate_text(
+            self.get_relative_path(branch.worktree_path), widths["worktree"]
+        )
+
+        # Format status
+        if show_reasons and branch.is_deletable:
+            reasons = branch.get_deletion_reasons()
+            status = self.format_status(reasons, widths["status"])
+        else:
+            status = "-"
+
+        # Build row
+        row = (
+            f"{name:<{widths['branch']}}   "
+            f"{age:<{widths['age']}}   "
+            f"{author:<{widths['author']}}   "
+            f"{status:<{widths['status']}}   "
+            f"{worktree:<{widths['worktree']}}"
+        )
+
+        # Apply color
+        color = self.get_color(branch)
+        if color:
+            return f"{color}{row}{self.RESET}"
+        return row
+
+    def display_table(
+        self, branches: List["Branch"], title: str, show_reasons: bool = False
+    ):
+        """Display branches in table format."""
+        if not branches:
+            return
+
+        # Sort branches alphabetically by name
+        sorted_branches = sorted(branches, key=lambda b: b.name.lower())
+
+        # Calculate column widths
+        widths = self.calculate_column_widths(sorted_branches)
+
+        # Print title and header
+        print(title)
+        print(self.format_header(widths))
+
+        # Print rows
+        for branch in sorted_branches:
+            print(self.format_row(branch, widths, show_reasons))
+        print()
+
+
+def print_progress(message: str, clear_line: bool = True):
+    """Print progress message that can be overwritten."""
+    if message:
+        if clear_line:
+            # Clear the line and return to beginning
+            print(f"\r\033[K{message}", end="", flush=True)
+        else:
+            # Final message with newline
+            print(f"\r\033[K{message}")
+    else:
+        # Just clear the line without adding anything
+        print("\r\033[K", end="", flush=True)
+
+
+def run_git(
+    *args: str, check: bool = True, capture_output: bool = True, text: bool = True
+) -> Optional[str]:
+    """Execute a git command and return the result."""
+    cmd = ["git"] + list(args)
+    try:
+        result = subprocess.run(
+            cmd, check=check, capture_output=capture_output, text=text
+        )
+        return result.stdout.strip() if capture_output else None
+    except subprocess.CalledProcessError as e:
+        if check:
+            print(f"Error running git command: {' '.join(cmd)}", file=sys.stderr)
+            print(f"Error: {e.stderr}", file=sys.stderr)
+            raise
+        return None
+
+
+def check_git_repo() -> bool:
+    """Check if we're in a git repository."""
+    try:
+        run_git("rev-parse", "--is-inside-work-tree")
+        return True
+    except subprocess.CalledProcessError:
+        print("Error: Not in a git repository", file=sys.stderr)
+        return False
+
+
+def fetch_and_prune() -> None:
+    """Fetch from all remotes and prune deleted branches."""
+    print_progress("Running fetch --prune --all")
+    run_git("fetch", "--prune", "--all")
+    print_progress("", clear_line=False)  # Clear the line
+
+
+def get_default_branch() -> str:
+    """Get the default branch name (e.g., main or master)."""
+    try:
+        # Try to get the default branch from origin/HEAD
+        remote_head = run_git("rev-parse", "--abbrev-ref", "origin/HEAD")
+        if remote_head:
+            return remote_head.replace("origin/", "")
+    except subprocess.CalledProcessError:
+        print(
+            "Warning: Could not determine default branch from origin/HEAD",
+            file=sys.stderr,
+        )
+        print(
+            "Tip: Set up origin/HEAD with: git remote set-head origin -a",
+            file=sys.stderr,
+        )
+
+    # Fallback to common default branch names
+    branches = run_git("branch", "--format=%(refname:short)").splitlines()
+    for default in ["main", "master", "trunk"]:
+        if default in branches:
+            return default
+
+    print("Warning: Could not determine default branch", file=sys.stderr)
+    return "main"
+
+
+def build_worktree_map() -> Dict[str, str]:
+    """Build a map of branch names to worktree paths."""
+    worktree_map: Dict[str, str] = {}
+    output = run_git("worktree", "list", "--porcelain")
+
+    if not output:
+        return worktree_map
+
+    lines = output.splitlines()
+    current_path = None
+    main_worktree = run_git("rev-parse", "--show-toplevel")
+
+    for line in lines:
+        if line.startswith("worktree "):
+            current_path = line[9:]  # Remove 'worktree ' prefix
+        elif line.startswith("branch refs/heads/"):
+            branch_name = line[18:]  # Remove 'branch refs/heads/' prefix
+            # Don't include the main worktree
+            if current_path and current_path != main_worktree:
+                worktree_map[branch_name] = current_path
+
+    return worktree_map
+
+
+def get_branch_details(
+    branch_name: str, is_remote: bool = False
+) -> Tuple[Optional[str], Optional[str]]:
+    """Get last commit date and author for a branch."""
+    ref = f"origin/{branch_name}" if is_remote else branch_name
+
+    try:
+        commit_date = run_git("log", "-1", "--format=%cr", ref, check=False)
+        last_author = run_git("log", "-1", "--format=%an", ref, check=False)
+        return commit_date, last_author
+    except subprocess.CalledProcessError:
+        return None, None
+
+
+def find_stale_branches() -> List[str]:
+    """Find local branches whose remote tracking branch is gone."""
+    branches: List[str] = []
+    output = run_git(
+        "for-each-ref", "--format=%(refname) %(upstream:track)", "refs/heads"
+    )
+
+    for line in output.splitlines():
+        if "[gone]" in line:
+            # Extract branch name from refs/heads/branch-name
+            parts = line.split()
+            if parts:
+                branch_name = parts[0].replace("refs/heads/", "")
+                branches.append(branch_name)
+
+    return branches
+
+
+def find_merged_branches(default_branch: str) -> List[str]:
+    """Find branches that have been merged into the default branch."""
+    branches: List[str] = []
+    output = run_git("branch", "--merged", "origin/HEAD", "--format=%(refname:short)")
+
+    for branch in output.splitlines():
+        # Skip the default branch and HEAD
+        if branch and branch != default_branch and branch != "HEAD":
+            branches.append(branch)
+
+    return branches
+
+
+def is_branch_squash_merged(branch_ref: str, base_ref: str = "origin/HEAD") -> bool:
+    """Check if a branch has been squash-merged into the base."""
+    try:
+        # Get merge base with the base branch
+        merge_base = run_git("merge-base", base_ref, branch_ref, check=False)
+        if not merge_base:
+            return False
+
+        # Get the tree of the branch
+        tree = run_git("rev-parse", f"{branch_ref}^{{tree}}", check=False)
+        if not tree:
+            return False
+
+        # Create a temporary commit representing squash merge
+        temp_commit = run_git(
+            "commit-tree", tree, "-p", merge_base, "-m", "_", check=False
+        )
+        if not temp_commit:
+            return False
+
+        # Check if changes exist using git cherry
+        cherry_result = run_git("cherry", base_ref, temp_commit, check=False)
+
+        # If the result starts with '-', the branch was squash-merged
+        return cherry_result and cherry_result.startswith("-")
+
+    except subprocess.CalledProcessError:
+        return False
+
+
+def find_squash_merged_branches(default_branch: str, remote: bool = False) -> List[str]:
+    """Detect branches that have been squash-merged."""
+    branches: List[str] = []
+
+    if remote:
+        # Get all remote branches
+        all_branches = run_git(
+            "branch", "-r", "--format=%(refname:lstrip=3)"
+        ).splitlines()
+    else:
+        # Get all local branches except default and HEAD
+        all_branches = run_git("branch", "--format=%(refname:short)").splitlines()
+
+    # Filter out default and HEAD
+    filtered_branches = [
+        b for b in all_branches if b and b != default_branch and b != "HEAD"
+    ]
+    total = len(filtered_branches)
+
+    for idx, branch in enumerate(filtered_branches, 1):
+        # Update parent progress message with current branch
+        branch_type = "remote" if remote else "local"
+        parent_msg = f"Analyzing {total} {branch_type} branches - checking for squash-merged branches"
+        print_progress(f"{parent_msg} ({idx}/{total})")
+
+        if remote:
+            if is_branch_squash_merged(f"origin/{branch}"):
+                branches.append(branch)
+        else:
+            if is_branch_squash_merged(branch):
+                branches.append(branch)
+
+    return branches
+
+
+def categorize_branches(default_branch: str) -> List[Branch]:
+    """Categorize all local branches by their status."""
+    branches: List[Branch] = []
+
+    # Build worktree map once for all branches
+    worktree_map = build_worktree_map()
+
+    # Get all local branches (excluding default and HEAD)
+    all_branches: Set[str] = set(
+        run_git("branch", "--format=%(refname:short)").splitlines()
+    ) - {default_branch, "HEAD"}
+
+    total_branches = len(all_branches)
+    if total_branches > 0:
+        print_progress(f"Analyzing {total_branches} local branches")
+
+    # Get sets of branches by their properties
+    print_progress(
+        f"Analyzing {total_branches} local branches - checking for stale branches"
+    )
+    stale_branches: Set[str] = set(find_stale_branches())
+
+    print_progress(
+        f"Analyzing {total_branches} local branches - checking for merged branches"
+    )
+    merged_branches: Set[str] = set(find_merged_branches(default_branch))
+
+    print_progress(
+        f"Analyzing {total_branches} local branches - checking for squash-merged branches"
+    )
+    squashed_branches: Set[str] = set(find_squash_merged_branches(default_branch))
+
+    print_progress(f"Analyzing {total_branches} local branches - gathering details")
+
+    # Create Branch objects with correct properties
+    for branch_name in all_branches:
+        date, author = get_branch_details(branch_name)
+
+        # Determine merge state
+        if branch_name in squashed_branches:
+            merge_state = "squashed"
+        elif branch_name in merged_branches:
+            merge_state = "merged"
+        else:
+            merge_state = "unmerged"
+
+        # Determine if stale
+        is_stale = branch_name in stale_branches
+
+        branch = Branch(
+            name=branch_name,
+            merge_state=merge_state,
+            is_stale=is_stale,
+            last_commit_date=date,
+            last_author=author,
+            worktree_path=worktree_map.get(branch_name),
+        )
+        branches.append(branch)
+
+    # Clear progress line when done
+    if total_branches > 0:
+        print_progress("", clear_line=False)
+
+    return branches
+
+
+def categorize_remote_branches(default_branch: str) -> List[Branch]:
+    """Categorize all remote branches by their status."""
+    branches: List[Branch] = []
+
+    # Get all remote branches
+    remote_output = run_git("branch", "-r", "--format=%(refname:lstrip=3)")
+    all_remote_branches: Set[str] = set()
+
+    for branch in remote_output.splitlines():
+        # Skip HEAD and default branch
+        if branch and branch != "HEAD" and branch != default_branch:
+            all_remote_branches.add(branch)
+
+    total_branches = len(all_remote_branches)
+    if total_branches > 0:
+        print_progress(f"Analyzing {total_branches} remote branches")
+
+    # Get sets of branches by their properties
+    # For merged branches, we need to check against origin/HEAD
+    print_progress(
+        f"Analyzing {total_branches} remote branches - checking for merged branches"
+    )
+    merged_output = run_git(
+        "branch", "-r", "--merged", "origin/HEAD", "--format=%(refname:lstrip=3)"
+    )
+    merged_branches: Set[str] = set()
+    for branch in merged_output.splitlines():
+        if branch and branch != default_branch and branch != "HEAD":
+            merged_branches.add(branch)
+
+    # Find squash-merged remote branches
+    print_progress(
+        f"Analyzing {total_branches} remote branches - checking for squash-merged branches"
+    )
+    squashed_branches: Set[str] = set(
+        find_squash_merged_branches(default_branch, remote=True)
+    )
+
+    print_progress(f"Analyzing {total_branches} remote branches - gathering details")
+
+    # Create Branch objects for remote branches
+    for branch_name in all_remote_branches:
+        # Get branch details (pass is_remote=True to use origin/ prefix)
+        date, author = get_branch_details(branch_name, is_remote=True)
+
+        # Determine merge state
+        if branch_name in squashed_branches:
+            merge_state = "squashed"
+        elif branch_name in merged_branches:
+            merge_state = "merged"
+        else:
+            merge_state = "unmerged"
+
+        # Remote branches can't be stale (that's a local-only concept)
+        branch = Branch(
+            name=branch_name,
+            merge_state=merge_state,
+            is_stale=False,  # Remote branches aren't "stale" in the same way
+            last_commit_date=date,
+            last_author=author,
+            worktree_path=None,  # Remote branches don't have worktrees
+            is_remote=True,
+        )
+        branches.append(branch)
+
+    # Clear progress line when done
+    if total_branches > 0:
+        print_progress("", clear_line=False)
+
+    return branches
+
+
+def display_branches(branches: List[Branch], show_active: bool = False) -> None:
+    """Display branches with their deletion reasons in table format."""
+    # Separate local and remote branches
+    local_branches = [b for b in branches if not b.is_remote]
+    remote_branches = [b for b in branches if b.is_remote]
+
+    # Create table formatter
+    formatter = TableFormatter()
+
+    # Process local branches
+    if local_branches:
+        local_deletable = [b for b in local_branches if b.is_deletable]
+        local_non_deletable = [b for b in local_branches if not b.is_deletable]
+
+        # Display deletable local branches
+        if local_deletable:
+            formatter.display_table(
+                local_deletable, "Local branches to be deleted:", show_reasons=True
+            )
+
+        # Display non-deletable local branches if requested
+        if show_active and local_non_deletable:
+            formatter.display_table(
+                local_non_deletable,
+                "Active local branches (will not be deleted):",
+                show_reasons=False,
+            )
+
+    # Process remote branches
+    if remote_branches:
+        remote_deletable = [b for b in remote_branches if b.is_deletable]
+        remote_non_deletable = [b for b in remote_branches if not b.is_deletable]
+
+        # Display deletable remote branches
+        if remote_deletable:
+            formatter.display_table(
+                remote_deletable, "Remote branches to be deleted:", show_reasons=True
+            )
+
+        # Display non-deletable remote branches if requested
+        if show_active and remote_non_deletable:
+            formatter.display_table(
+                remote_non_deletable,
+                "Active remote branches (will not be deleted):",
+                show_reasons=False,
+            )
+
+    # Show message if nothing to display
+    all_deletable = [b for b in branches if b.is_deletable]
+    all_non_deletable = [b for b in branches if not b.is_deletable]
+    if not all_deletable and not (show_active and all_non_deletable):
+        print("No branches to display")
+
+
+def prompt_for_deletion() -> str:
+    """Prompt user for deletion choice."""
+    print("\nOptions:")
+    print("  A/a - Delete all branches")
+    print("  R/r - Review and confirm each branch")
+    print("  N/n - Don't delete anything")
+
+    while True:
+        response = input("\nYour choice [A/R/N]: ").strip().upper()
+        if response in ["A", "R", "N"]:
+            return response
+        print("Invalid choice. Please enter A, R, or N.")
+
+
+def prompt_for_branch(branch: Branch, remaining: int) -> str:
+    """Prompt for individual branch deletion."""
+    display_name = f"origin/{branch.name}" if branch.is_remote else branch.name
+    reasons = branch.get_deletion_reasons()
+    reason_str = f" ({', '.join(reasons)})" if reasons else ""
+
+    print(f"\nDelete {display_name}{reason_str}?")
+    if remaining > 1:
+        print("  Y/y - Yes, delete this branch")
+        print("  N/n - No, keep this branch")
+        print(f"  A/a - Yes, and delete all remaining {remaining-1} branches")
+        print("  C/c - Cancel, don't delete this or any remaining branches")
+        valid_responses = ["Y", "N", "A", "C"]
+    else:
+        print("  Y/y - Yes, delete this branch")
+        print("  N/n - No, keep this branch")
+        valid_responses = ["Y", "N"]
+
+    while True:
+        response = input("Your choice: ").strip().upper()
+        if response in valid_responses:
+            return response
+        print(f"Invalid choice. Please enter {'/'.join(valid_responses)}.")
+
+
+def delete_branch(branch: Branch) -> bool:
+    """Delete a branch (local or remote), removing its worktree first if it exists."""
+    # Remove worktree if it exists (only for local branches)
+    if not branch.is_remote and branch.worktree_path:
+        try:
+            run_git("worktree", "remove", branch.worktree_path)
+            print(f"Removed worktree at {branch.worktree_path}")
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to remove worktree: {e.stderr}", file=sys.stderr)
+            return False
+
+    # Delete the branch
+    try:
+        if branch.is_remote:
+            # Delete remote branch
+            run_git("push", "origin", "-d", branch.name)
+        else:
+            # Delete local branch
+            run_git("branch", "-D", branch.name)
+
+        # Build descriptive suffix based on deletion reasons
+        reasons = branch.get_deletion_reasons()
+        suffix = f" ({', '.join(reasons)})" if reasons else ""
+        display_name = f"origin/{branch.name}" if branch.is_remote else branch.name
+        print(f"Deleted {display_name}{suffix}")
+        return True
+    except subprocess.CalledProcessError as e:
+        display_name = f"origin/{branch.name}" if branch.is_remote else branch.name
+        print(f"Failed to delete branch {display_name}: {e.stderr}", file=sys.stderr)
+        return False
+
+
+def delete_branches(
+    branches: List[Branch], include_remote: bool = False, interactive: bool = True
+) -> None:
+    """Delete all deletable branches."""
+    # Filter deletable branches
+    deletable = []
+    for branch in branches:
+        if not branch.is_deletable:
+            continue
+        if branch.is_remote and not include_remote:
+            continue
+        deletable.append(branch)
+
+    if not deletable:
+        print("No branches to delete")
+        return
+
+    # Determine initial delete mode
+    delete_all_remaining = False
+
+    if interactive:
+        choice = prompt_for_deletion()
+
+        if choice == "N":
+            print("No branches deleted.")
+            return
+        elif choice == "A":
+            delete_all_remaining = True
+        # else: choice == "R", we'll review each branch
+
+        if choice == "R":
+            print("\nReviewing branches for deletion...")
+    else:
+        # Non-interactive mode - delete all without prompting
+        delete_all_remaining = True
+
+    # Track headers for better output formatting
+
+    # Process all deletable branches with unified logic
+    for i, branch in enumerate(deletable):
+        remaining = len(deletable) - i
+
+        # Print appropriate header once when deleting all
+        if delete_all_remaining:
+            delete_branch(branch)
+        else:
+            # Interactive review mode (only when choice == "R")
+            branch_choice = prompt_for_branch(branch, remaining)
+
+            if branch_choice == "Y":
+                delete_branch(branch)
+            elif branch_choice == "A":
+                delete_branch(branch)
+                delete_all_remaining = True
+            elif branch_choice == "C":
+                print("\nCancelled. No more branches will be deleted.")
+                return
+            # "N" - just skip this branch
+
+    print()
+
+
+def main() -> None:
+    """Main entry point."""
+    parser = argparse.ArgumentParser(
+        description="Manage git branches - find and optionally delete merged/stale branches"
+    )
+    parser.add_argument(
+        "-d",
+        "--delete",
+        action="store_true",
+        help="Automatically delete without prompting (non-interactive mode)",
+    )
+    parser.add_argument(
+        "-r",
+        "--include-remote",
+        action="store_true",
+        help="Include remote branches in operations",
+    )
+    parser.add_argument(
+        "-a",
+        "--show-active",
+        action="store_true",
+        help="Also show active branches that will not be deleted",
+    )
+
+    args = parser.parse_args()
+
+    if not check_git_repo():
+        sys.exit(1)
+
+    fetch_and_prune()
+
+    default_branch = get_default_branch()
+
+    branches = categorize_branches(default_branch)
+
+    if args.include_remote:
+        remote_branches = categorize_remote_branches(default_branch)
+        branches.extend(remote_branches)
+
+    display_branches(branches, show_active=args.show_active)
+
+    # Check if there are any deletable branches
+    deletable = [b for b in branches if b.is_deletable]
+    if deletable:
+        # Pass interactive=False when -d flag is used, otherwise default to True
+        delete_branches(
+            branches, include_remote=args.include_remote, interactive=not args.delete
+        )
+
+
+if __name__ == "__main__":
+    main()

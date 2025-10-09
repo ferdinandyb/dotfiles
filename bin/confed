@@ -11,7 +11,9 @@ if [ "$1" = "--vim" ]; then
 else
 	if command -v nvim >/dev/null 2>&1; then
 		vimvariant=nvim
-		extra_args="--listen $HOME/.nvim.sock"
+		if [ ! -S "$HOME/.nvim.sock" ]; then
+			extra_args="--listen $HOME/.nvim.sock"
+		fi
 	else
 		vimvariant=vim
 	fi

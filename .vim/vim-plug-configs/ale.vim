@@ -19,7 +19,8 @@ let g:ale_python_ruff_change_directory = 0
 " check the defaults before chaning this! TODO move to filetype?
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['ruff','mypy']
+\   'python': ['ruff','mypy'],
+\   'tex': ['proselint', 'lacheck', 'chktex']
 \}
 
 let g:ale_fixers = {
@@ -28,7 +29,8 @@ let g:ale_fixers = {
 \   'go': ['gofumpt'],
 \   'vue': ['prettier','eslint'],
 \   'javascript': ['prettier','eslint'],
-\   'sh': ['shfmt']
+\   'sh': ['shfmt'],
+\   'tex': ['latexindent']
 \}
 
 let g:ale_fix_on_save = 1

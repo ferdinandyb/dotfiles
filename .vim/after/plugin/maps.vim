@@ -113,7 +113,7 @@ nnoremap z> 1z=
 vmap <C-C> "+y
 nnoremap Y yg_
 vnoremap Y <esc>:'<,'>:w !haste<CR>
-nnoremap yp :let @+ = expand('%:p')<CR>
+nnoremap <silent> yp :let @+ = expand('%:p')<CR>
 " nnoremap F gqap
 " vnoremap F gq
 

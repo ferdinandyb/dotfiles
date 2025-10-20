@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "snapshot": false,
+  // Theme configuration
+  "theme": "dracula",
+  // "model": "anthropic/claude-sonnet-4-20250514",
+  "autoupdate": false,
+  "share": "disabled",
+  "keybinds": {
+    "leader": "ctrl+x",
+    "input_newline": "ctrl+enter",
+    "editor_open": "<leader>v",
+
+  },
+  "formatter": {
+    "black": {
+      "command": ["uv", "run", "black", "$FILE"],
+      "extensions": [".py"]
+    },
+    "isort": {
+      "command": ["uv", "run", "isort", "$FILE"],
+      "extensions": [".py"]
+    },
+    "flake8": {
+      "command": ["uv", "run", "flake8", "$FILE"],
+      "extensions": [".py"]
+    },
+    "ruff": {
+      "disabled": true
+    }
+  },
+  "mcp": {
+    "tmux-mcp": {
+      "type": "local",
+      "command": ["tmux-mcp"],
+    },
+    "mcp-neovim-server": {
+      "type": "local",
+      "command": ["mcp-neovim-server"],
+      "environment": {"ALLOW_SHELL_COMMANDS": "false", "NVIM_SOCKET_PATH": "./.nvim.sock"}
+    }
+  }
+}

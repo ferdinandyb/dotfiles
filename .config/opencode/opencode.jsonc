@@ -1,14 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "snapshot": false,
+  "snapshot": true,
   // Theme configuration
   "theme": "dracula",
-  // "model": "anthropic/claude-sonnet-4-20250514",
   "autoupdate": false,
   "share": "disabled",
   "keybinds": {
     "leader": "ctrl+x",
-    "input_newline": "ctrl+enter",
+    "input_newline": "shift+enter",
     "editor_open": "<leader>v",
 
   },

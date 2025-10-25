@@ -131,6 +131,7 @@ exec xrandr --output HDMI-1 --mode 1920x1080 --rate 60 --scale 1x1
 # exec_always --no-startup-id setxkbmap -option caps:ctrl_modifier
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps
 exec --no-startup-id  xcape -e 'Caps_Lock=Escape;Control_L=Escape;Control_R=Escape' -t 200
+bindsym XF86PowerOff exec systemctl suspend
 
 exec feh --bg-fill ~/.config/i3/wallpaper.png
 

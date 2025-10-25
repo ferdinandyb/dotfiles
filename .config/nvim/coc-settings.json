@@ -1,1 +1,5 @@
-/Users/bence.ferdinandy/.vim/coc-settings.json
+{
+    "diagnostic.displayByAle": false,
+    "suggest.noselect": false,
+    "inlayHint.display": false
+}

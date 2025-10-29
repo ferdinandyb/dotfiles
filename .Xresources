@@ -4,19 +4,19 @@ gtk.monospace_font_name: Cascadia Code
 
 wm.bar.trayoutput: primary
 wm.bar.status_command: i3status-rs ~/.config/regolith3/i3status-rs.toml
-wm.bar.status_command: i3xrocks   -d /usr/share/i3xrocks/conf.d
+/* wm.bar.status_command: i3xrocks   -d /usr/share/i3xrocks/conf.d */
 /* wm.bar.status_command: i3xrocks -u ~/.config/regolith3/i3xrocks/conf.d -d /usr/share/i3xrocks/conf.d */
 
-# workspaces
-## fancy names
-wm.workspace.00.name: 0: <span>0  </span>
+! workspaces
+!! fancy names
+wm.workspace.00.name: 0: <span>0  </span>
 wm.workspace.01.name: 1: <span>1  </span>
 wm.workspace.06.name: 6: <span>6  </span>
 wm.workspace.07.name: 7: <span>7  </span>
 wm.workspace.08.name: 8: <span>8  </span>
 /* wm.workspace.09.name: 9: <span>9  </span> */
 wm.workspace.09.name: 9: <span>9 </span>
-## not fancy names
+!! not fancy names
 wm.workspace.02.name: 2: <span>2 </span>
 wm.workspace.03.name: 3: <span>3 </span>
 wm.workspace.04.name: 4: <span>4 </span>

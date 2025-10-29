@@ -1,0 +1,33 @@
+[theme]
+theme = "plain"
+[theme.overrides]
+idle_bg = "#002B36"
+idle_fg = "#BCC3C3"
+info_bg = "#002B36"
+info_fg = "#BCC3C3"
+good_bg = "#BCC3C3"
+good_fg = "#002B36"
+warning_bg = "#ffb52a"
+warning_fg = "#002B36"
+critical_bg = "#FF0000"
+critical_fg = "#BCC3C3"
+separator = "│"
+
+[icons]
+icons = "none"
+
+[[block]]
+block = "custom"
+command = "~/.config/i3status-rust/scripts/focused-window-name -s 50"
+interval = 1
+
+[[block]]
+block = "battery"
+device = "BAT0"
+format = " $percentage "
+full_format = " $percentage "
+
+[[block]]
+block = "time"
+interval = 1
+format = " $timestamp.datetime(f:'%a %d %H:%M:%S') "

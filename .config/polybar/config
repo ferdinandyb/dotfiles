@@ -140,26 +140,26 @@ label-separator =
 label-separator-padding = 0
 label-separator-foreground = #fff
 
-[module/info-hackspeed]
-type = custom/script
-exec = ~/.config/polybar/scripts/info-hackspeed.sh
-tail = true
+# [module/info-hackspeed]
+# type = custom/script
+# exec = ~/.config/polybar/scripts/info-hackspeed.sh
+# tail = true
 
-[module/weather]
-type = custom/script
-exec = ~/.config/polybar/scripts/weather-openmap.sh
-interval = 600
+# [module/weather]
+# type = custom/script
+# exec = ~/.config/polybar/scripts/weather-openmap.sh
+# interval = 600
 
 [module/linux-ver]
 type = custom/script
 exec = uname -r
 interval = 600
 
-[module/updates]
-type = custom/script
-exec = ~/.config/polybar/scripts/arch_updates.sh
-interval = 60
-label = %output%
+# [module/updates]
+# type = custom/script
+# exec = ~/.config/polybar/scripts/arch_updates.sh
+# interval = 60
+# label = %output%
 
 [module/date]
 type = internal/date

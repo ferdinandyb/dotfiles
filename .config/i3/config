@@ -1,6 +1,6 @@
 set $mod Mod4
 set $alt Mod1
-font pango:Hack 9
+font pango:CaskaydiaCove Nerd Font 9
 floating_modifier $mod
 
 # start a terminal
@@ -47,7 +47,7 @@ bindsym $mod+r mode "resize"
 #
 # Status Bar:
 #
-exec_always --no-startup-id ~/.config/polybar/launch.sh
+# exec_always --no-startup-id ~/.config/polybar/launch.sh
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #000000 #000000 #ffffff #000000   #000000
@@ -136,7 +136,7 @@ bindsym XF86PowerOff exec systemctl suspend
 exec feh --bg-fill ~/.config/i3/wallpaper.png
 
 exec --no-startup-id dunst
-exec --no-startup-id picom
+# exec --no-startup-id picom
 exec --no-startup-id redshift
 exec --no-startup-id dex -a -s /etc/xdg/autostart/:~/.config/autostart/
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -144,4 +144,5 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec_always mkfifo /tmp/xobpipe && tail -f /tmp/xobpipe | xob -t 2170 & disown
 #exec ~/.i3/launch.sh
 
+include $HOME/.config/i3/bar.conf
 include $HOME/.config/i3/config.d/*

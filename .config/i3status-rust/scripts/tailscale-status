@@ -1,0 +1,31 @@
+#!/bin/bash
+
+STATUS=$(tailscale status --json 2>/dev/null)
+
+if [ $? -ne 0 ] || [ -z "$STATUS" ]; then
+    echo '{"text":" ✗", "state":"Critical"}'
+    exit 0
+fi
+
+STATE=$(echo "$STATUS" | jq -r '.BackendState')
+DNS_DOMAIN=$(echo "$STATUS" | jq -r '.Self.DNSName')
+
+if echo "$DNS_DOMAIN" | grep -q "pharmahungary"; then
+    NETWORK="PH"
+elif echo "$DNS_DOMAIN" | grep -q "ferdinandy"; then
+    NETWORK="FY"
+else
+    NETWORK="?"
+fi
+
+case "$STATE" in
+    "Running")
+        echo "{\"text\":\"⇄ $NETWORK\", \"state\":\"Good\"}"
+        ;;
+    "Starting")
+        echo "{\"text\":\"⇄ ~\", \"state\":\"Warning\"}"
+        ;;
+    *)
+        echo "{\"text\":\"⇄ ✗\", \"state\":\"Critical\"}"
+        ;;
+esac

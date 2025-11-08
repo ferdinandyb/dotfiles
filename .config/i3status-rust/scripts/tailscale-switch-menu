@@ -1,0 +1,15 @@
+#!/bin/bash
+
+CHOICE=$(echo -e "PharmaHungary\nFerdinandy\nDisconnect" | rofi -dmenu -p "Tailscale Network")
+
+case "$CHOICE" in
+    "PharmaHungary")
+        sudo tailscale switch 0263
+        ;;
+    "Ferdinandy")
+        sudo tailscale switch 5120
+        ;;
+    "Disconnect")
+        sudo tailscale down
+        ;;
+esac

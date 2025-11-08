@@ -5,8 +5,8 @@ idle_bg = "#002B36"
 idle_fg = "#BCC3C3"
 info_bg = "#002B36"
 info_fg = "#BCC3C3"
-good_bg = "#BCC3C3"
-good_fg = "#002B36"
+good_bg = "#002B36"
+good_fg = "#BCC3C3"
 warning_bg = "#ffb52a"
 warning_fg = "#002B36"
 critical_bg = "#FF0000"
@@ -14,7 +14,7 @@ critical_fg = "#BCC3C3"
 separator = "│"
 
 [icons]
-icons = "none"
+icons = "material-nf"
 
 [[block]]
 block = "custom"
@@ -22,10 +22,26 @@ command = "~/.config/i3status-rust/scripts/focused-window-name -s 50"
 interval = 1
 
 [[block]]
+block = "custom"
+command = "~/.config/i3status-rust/scripts/tailscale-status"
+interval = 5
+json = true
+
+[[block.click]]
+button = "left"
+cmd = "~/.config/i3status-rust/scripts/tailscale-switch-menu"
+update = true
+
+[[block.click]]
+button = "right"
+cmd = "tailscale down || tailscale up"
+update = true
+
+[[block]]
 block = "battery"
 device = "BAT0"
-format = " $percentage "
-full_format = " $percentage "
+format = " $icon $percentage "
+full_format = " $icon $percentage "
 
 [[block]]
 block = "time"

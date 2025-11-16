@@ -148,7 +148,24 @@ if [ -d $HOME/.cargo/env ]; then
 	. "$HOME/.cargo/env"
 fi
 
-if [[ -f /proc/version && $(grep -i Microsoft /proc/version) ]]; then
+
+setup_ssh_agent() {
+	unset SSH_AGENT_PID
+	export GPG_TTY=$(tty)
+	gpg-connect-agent updatestartuptty /bye >/dev/null
+}
+
+if [ $(hostname) = mashenka ]; then
+	setup_ssh_agent
+	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+		export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+	fi
+elif [ $(hostname) = MBP-Bence-Ferdinandy ]; then
+	setup_ssh_agent
+	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+		export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+	fi
+elif [[ -f /proc/version && $(grep -i Microsoft /proc/version) ]]; then
 	export SSH_AUTH_SOCK=$HOME/.ssh/agent.sock
 	ss -a | grep -q $SSH_AUTH_SOCK
 	if [ $? -ne 0 ]; then
@@ -158,13 +175,6 @@ if [[ -f /proc/version && $(grep -i Microsoft /proc/version) ]]; then
 	# to use gpg on wsl simply symlink the windows executable
 	export VAXIS_FORCE_LEGACY_SGR=1
 	export VAXIS_FORCE_UNICODE=1
-elif [ $(hostname) = mashenka -o $(hostname) = MBP-Bence-Ferdinandy ]; then
-	unset SSH_AGENT_PID
-	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-		export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-	fi
-	export GPG_TTY=$(tty)
-	gpg-connect-agent updatestartuptty /bye >/dev/null
 fi
 
 if [ -d /usr/share/contour/shell-integration ]; then

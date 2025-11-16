@@ -6,6 +6,11 @@ alias vl="vim --cmd 'let g:lightweight=1'"
 alias week="date +%V"
 alias diary="vim +VimwikiMakeDiaryNote"
 
+alias bw-ssh='SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock ssh'
+alias alias-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" ssh'
+alias set-bw-ssh='export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock'
+alias set-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"'
+
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 
 alias t="task"

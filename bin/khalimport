@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Default calendar
+CALENDAR="Bence1: ott lenni"
+
+# Parse flags
+while getopts "cp" opt; do
+    case $opt in
+        c)
+            CALENDAR="Családi Naptár"
+            ;;
+        p)
+            CALENDAR=$(khal printcalendars | fzf)
+            if [ -z "$CALENDAR" ]; then
+                echo "No calendar selected" >&2
+                exit 1
+            fi
+            ;;
+        *)
+            echo "Usage: khalimport [-c] [-p]" >&2
+            echo "  -c: Import to 'Családi Naptár'" >&2
+            echo "  -p: Pick calendar interactively" >&2
+            echo "  Default: Import to 'Bence1: ott lenni'" >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Import from stdin
+khal import --batch -a "$CALENDAR"

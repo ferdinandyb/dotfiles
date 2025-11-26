@@ -1,0 +1,2 @@
+#!/bin/sh
+exec task rc:~/.config/task/taskagentrc "$@"

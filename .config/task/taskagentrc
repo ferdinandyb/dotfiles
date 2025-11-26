@@ -1,0 +1,24 @@
+data.location=$HOME/.local/state/taskagent
+
+include ~/.config/task/bubblegum-256.theme
+#include solarized-dark-256.theme
+#include no-color.theme
+
+# report.next.filter = status:pending -WAITING limit:20
+
+search.case.sensitive=no
+
+# UDAs for agent workflow
+uda.details.type=string
+uda.details.label=Details
+
+uda.discovered_from.type=string
+uda.discovered_from.label=Discovered From
+
+# Urgency tweaks for agent workflow
+urgency.user.tag.side_quest.coefficient=-3.0
+
+# Minimal info report for agents (use 'agentinfo' instead of 'information')
+report.agentinfo.description=Essential task info for agents
+report.agentinfo.columns=uuid.short,status,project,priority,description.combined,details,depends.list,discovered_from
+report.agentinfo.labels=UUID,Status,Project,Pri,Description+Annotations,Details,Depends,Discovered

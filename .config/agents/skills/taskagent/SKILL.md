@@ -62,6 +62,34 @@ BLOCKERS: What's preventing progress
 KEY DECISIONS: Important context or user guidance
 ```
 
+## Recording Learnings and Misalignments
+
+**During the session**, annotate tasks with learnings and misalignments as they occur. These are critical for future sessions and handoff.
+
+**LEARNING** = New information acquired (user preference, codebase pattern, correct approach discovered)
+```bash
+taskagent <id> annotate "LEARNING: User prefers fd over find for file searches."
+taskagent <id> annotate "LEARNING: Deploy pipeline is in .github/workflows/deploy.yml, not CircleCI."
+```
+
+**MISALIGNMENT** = Agent went wrong direction, was corrected (implies wasted effort or wrong output)
+```bash
+taskagent <id> annotate "MISALIGNMENT: Assumed React class components, codebase uses functional only."
+taskagent <id> annotate "MISALIGNMENT: Put config in src/, should have been lib/ per project convention."
+```
+
+**When to record:**
+- **LEARNING**: When you discover something useful about the codebase, user preferences, or correct approach
+- **MISALIGNMENT**: When the user corrects you or you realize you went the wrong direction
+
+A misalignment often produces a learning - record both:
+```bash
+taskagent <id> annotate "MISALIGNMENT: Used grep, user corrected to use ugrep."
+taskagent <id> annotate "LEARNING: User prefers ugrep (ug) over grep."
+```
+
+These annotations are retrieved during `/handoff` and written to the plan file's `## Learnings` section for future sessions.
+
 ## Session Start Protocol
 
 **At session start, always:**

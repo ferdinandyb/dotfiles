@@ -8,6 +8,8 @@ The system consists of:
 - **taskagent** - A taskwarrior instance dedicated to agent work tracking
 - **taskagent skill** - Instructions for agents on how to use taskagent
 - **task-reviewer subagent** - A grumpy reviewer that checks work before completion
+- **taskagent-reader subagent** - Read-only analyst for querying taskagent database
+- **`/handoff` command** - Structured session handoff with learnings capture
 - **org/projects files** - Human-maintained project context (vimwiki)
 - **PLAN.md** - Per-project plan file for human-agent collaboration
 
@@ -96,9 +98,23 @@ IN PROGRESS: Current state
 BLOCKERS: What's stuck
 KEY DECISIONS: Important choices made
 NEXT: Immediate next step
+LEARNING: New information acquired (user preference, codebase pattern)
+MISALIGNMENT: Agent went wrong direction, was corrected
 ```
 
 These survive context compaction, so you can understand what happened even if the conversation is lost.
+
+### Learnings vs Misalignments
+
+- **LEARNING** = New information acquired (could be proactive discovery)
+  - "User prefers fd over find"
+  - "Deploy pipeline is in .github/workflows/"
+  
+- **MISALIGNMENT** = Agent made wrong assumption, was corrected (implies wasted effort)
+  - "Assumed React class components, codebase uses functional only"
+  - "Put config in src/, should have been lib/"
+
+A misalignment often produces a learning - both should be recorded.
 
 ## Task Lifecycle
 
@@ -141,6 +157,52 @@ The reviewer:
 - Reports only criticism (no praise)
 - Helps catch "I think I'm done but forgot something"
 
+## The Taskagent Reader
+
+A read-only subagent for querying the taskagent database. Use for:
+- Retrieving learnings/misalignments from recent tasks
+- Summarizing project status across multiple tasks
+- Querying task state without risk of modification
+
+```
+@taskagent-reader What's the status of project myproject?
+@taskagent-reader Retrieve learnings and misalignments from tasks modified today
+```
+
+The reader is automatically invoked during `/handoff` to extract session data from taskagent.
+
+## Session Handoff
+
+Use `/handoff` to perform a structured session handoff. This:
+
+1. **Summarizes learnings and misalignments** from the conversation
+2. **If taskagent was used**: Invokes `@taskagent-reader` to retrieve task state and recorded annotations
+3. **Checkpoints active tasks** in taskagent (next steps stay there)
+4. **Writes to plan file**:
+   - `## Learnings` section (new learnings/misalignments with dates)
+   - `## Notes` section (high-level direction/goal alignment)
+
+The plan file contains strategic information (where are we going, what did we learn). Taskagent contains tactical information (next concrete steps).
+
+### Plan File Structure After Handoff
+
+```markdown
+# Project Plan
+
+## Current Focus
+What the agent should prioritize right now.
+
+## Context
+Background information, architecture decisions, constraints.
+
+## Learnings
+- 2025-11-27: LEARNING: User prefers fd over find
+- 2025-11-27: MISALIGNMENT: Assumed REST, project uses GraphQL
+
+## Notes
+Session summaries, progress updates, decisions made.
+```
+
 ## Taskagent vs Regular task
 
 You have two separate taskwarrior instances:
@@ -157,6 +219,8 @@ They use different configs and data directories, so they don't interfere.
 | `~/.local/state/taskagent/` | Taskagent data |
 | `~/.config/agents/skills/taskagent/SKILL.md` | Agent instructions |
 | `~/.config/opencode/agent/task-reviewer.md` | Reviewer subagent |
+| `~/.config/opencode/agent/taskagent-reader.md` | Read-only taskagent analyst |
+| `~/.config/opencode/command/handoff.md` | Session handoff command |
 | `~/org/projects/<project>.md` | Project context (vimwiki) |
 | `<repo>/PLAN.md` | Per-project agent plan |
 

@@ -38,7 +38,9 @@
       "sudo *": "deny",
       "jira issue list *": "allow",
       "jira epic list *": "allow",
-      "jira issue view *": "allow"
+      "jira issue view *": "allow",
+      "jq *": "allow",
+      "jaq *": "allow"
     }
   },
   "keybinds": {

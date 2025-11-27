@@ -7,6 +7,7 @@
   "share": "disabled",
   "permission": {
     "bash": {
+      "taskagent *": "allow",
       "ssh *": "ask",
       "scp *": "ask",
       "git commit *": "ask",

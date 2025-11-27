@@ -1,9 +1,23 @@
 ---
 name: taskagent
-description: Track complex, multi-session agent work using taskwarrior via taskagent. Use when work spans multiple sessions, has dependencies, or requires persistent context across compaction cycles. For simple single-session linear tasks, TodoWrite remains appropriate.
+description: >-
+  Track complex, multi-session agent work via taskagent (NOT task).
+  Load this skill when: (1) work spans multiple sessions,
+  (2) you see a PLAN.md or org/projects file referencing taskagent,
+  (3) user mentions agent tasks.
+  For simple single-session tasks, use TodoWrite instead.
 ---
 
 # Taskagent - Agent Work Tracking
+
+## CRITICAL: Command Name
+
+**Always use `taskagent`, NEVER use `task` directly.**
+
+`taskagent` is a wrapper that uses a separate taskwarrior configuration for agent work.
+Using `task` directly will access the human's personal task list, not the agent task tracking system.
+
+**`taskagent` is globally available** - no need to `cd` to any directory. It works from anywhere.
 
 ## Overview
 
@@ -96,6 +110,8 @@ taskagent <id> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
 
 ## Core Operations
 
+> **Note**: All commands below use `taskagent`, not `task`. The `taskagent` command is specifically configured for agent work tracking and is separate from the human's personal taskwarrior.
+
 ### Check ready work (built-in report)
 ```bash
 taskagent ready                    # built-in taskwarrior report, shows unblocked tasks
@@ -122,8 +138,10 @@ taskagent add "Found issue" project:<name> discovered_from:<parent_uuid>
 ```bash
 taskagent <id> start        # marks in progress
 taskagent <id> stop         # pauses work
-taskagent <id> done         # completes task
+taskagent <id> done         # REQUIRES @task-reviewer first! See "Task Completion Review"
 ```
+
+⚠️ **NEVER mark a task done without invoking @task-reviewer first.**
 
 ### Add session notes (annotations)
 ```bash
@@ -182,20 +200,40 @@ The agent should:
 
 ## Task Completion Review
 
-Before marking a task done, invoke @task-reviewer with context you have available:
+**MANDATORY**: Before marking ANY task done, you MUST invoke @task-reviewer. There are NO exceptions.
+
+This applies to ALL task types:
+- Code tasks
+- Verification tasks (reviewer confirms the verification was actually performed)
+- Research tasks (reviewer confirms findings were documented)
+- Documentation tasks
+- ANY task type
+
+**Get the UUID first**, then invoke @task-reviewer:
+
+```bash
+taskagent <id> _uuid   # get the stable UUID
+```
+
+Then invoke the reviewer with the UUID:
 
 ```
-@task-reviewer Review task <id>
+@task-reviewer Review task <uuid>
 - Project: <project-name>
 - PLAN.md: <path or "none">
 - org/projects file: <path or "none">
 - Summary: <what you did in 1-2 sentences>
-- Key files changed: <list main files touched>
+- Key files changed: <list main files touched, or "none" for non-code tasks>
 ```
 
-Include whichever fields you have - the reviewer can work with partial context.
+**Always pass the UUID**, not the short ID or description. The reviewer needs the UUID to look up the task.
 
-Only mark done after addressing feedback or consciously deciding to defer items.
+Include whichever other fields you have - the reviewer can work with partial context.
+
+**After receiving the review verdict:**
+- **PASS**: You may mark the task done with `taskagent <id> done`
+- **PASS WITH RESERVATIONS**: Do NOT mark done automatically. Ask the human to review and decide.
+- **NEEDS WORK**: Address the feedback, then request another review before closing.
 
 ## Integration with TodoWrite
 

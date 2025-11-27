@@ -35,31 +35,17 @@
       "docker *": "ask",
       "rsync *": "ask",
       "terraform apply *": "deny",
-      "sudo *": "deny"
+      "sudo *": "deny",
+      "jira issue list *": "allow",
+      "jira epic list *": "allow",
+      "jira issue view *": "allow"
     }
   },
   "keybinds": {
     "leader": "ctrl+x",
-    "input_newline": "shift+enter",
+    "input_newline": "ctrl+enter",
     "editor_open": "<leader>v",
 
-  },
-  "formatter": {
-    "black": {
-      "command": ["uv", "run", "black", "$FILE"],
-      "extensions": [".py"]
-    },
-    "isort": {
-      "command": ["uv", "run", "isort", "$FILE"],
-      "extensions": [".py"]
-    },
-    "flake8": {
-      "command": ["uv", "run", "flake8", "$FILE"],
-      "extensions": [".py"]
-    },
-    "ruff": {
-      "disabled": true
-    }
   },
   "mcp": {
     "tmux-mcp": {

@@ -19,6 +19,28 @@ Using `task` directly will access the human's personal task list, not the agent 
 
 **`taskagent` is globally available** - no need to `cd` to any directory. It works from anywhere.
 
+## CRITICAL: Use Partial UUIDs, Not Short IDs
+
+**Always use partial UUIDs (first 8 characters) instead of short numeric IDs.**
+
+Short IDs (1, 2, 3...) renumber whenever tasks are completed, deleted, or modified. This makes them unreliable for persistent references. UUIDs are permanent.
+
+```bash
+# BAD - short ID may change
+taskagent 3 info
+
+# GOOD - partial UUID is stable
+taskagent abc1234d info
+```
+
+All reports (`list`, `ready`, `next`) now display `uuid.short` instead of numeric IDs. Use these partial UUIDs in all commands.
+
+When creating tasks or linking dependencies, always capture and use UUIDs:
+```bash
+taskagent add "New task" project:foo
+# Note the UUID from output, use it for future references
+```
+
 ## Overview
 
 taskagent is a taskwarrior-based tracker for persistent agent memory across sessions. Use for multi-session work with complex context; use TodoWrite for simple single-session tasks.
@@ -68,14 +90,14 @@ KEY DECISIONS: Important context or user guidance
 
 **LEARNING** = New information acquired (user preference, codebase pattern, correct approach discovered)
 ```bash
-taskagent <id> annotate "LEARNING: User prefers fd over find for file searches."
-taskagent <id> annotate "LEARNING: Deploy pipeline is in .github/workflows/deploy.yml, not CircleCI."
+taskagent <uuid> annotate "LEARNING: User prefers fd over find for file searches."
+taskagent <uuid> annotate "LEARNING: Deploy pipeline is in .github/workflows/deploy.yml, not CircleCI."
 ```
 
 **MISALIGNMENT** = Agent went wrong direction, was corrected (implies wasted effort or wrong output)
 ```bash
-taskagent <id> annotate "MISALIGNMENT: Assumed React class components, codebase uses functional only."
-taskagent <id> annotate "MISALIGNMENT: Put config in src/, should have been lib/ per project convention."
+taskagent <uuid> annotate "MISALIGNMENT: Assumed React class components, codebase uses functional only."
+taskagent <uuid> annotate "MISALIGNMENT: Put config in src/, should have been lib/ per project convention."
 ```
 
 **When to record:**
@@ -84,8 +106,8 @@ taskagent <id> annotate "MISALIGNMENT: Put config in src/, should have been lib/
 
 A misalignment often produces a learning - record both:
 ```bash
-taskagent <id> annotate "MISALIGNMENT: Used grep, user corrected to use ugrep."
-taskagent <id> annotate "LEARNING: User prefers ugrep (ug) over grep."
+taskagent <uuid> annotate "MISALIGNMENT: Used grep, user corrected to use ugrep."
+taskagent <uuid> annotate "LEARNING: User prefers ugrep (ug) over grep."
 ```
 
 These annotations are retrieved during `/handoff` and written to the plan file's `## Learnings` section for future sessions.
@@ -106,8 +128,8 @@ These annotations are retrieved during `/handoff` and written to the plan file's
 
 3. If active work exists, read the task details and annotations:
    ```bash
-   taskagent <id> agentinfo    # minimal info for agents (preferred)
-   taskagent <id> info         # full details (shorthand for 'information')
+   taskagent <uuid> agentinfo    # minimal info for agents (preferred)
+   taskagent <uuid> info         # full details (shorthand for 'information')
    ```
 
 4. Ask user which project/context if unclear, then check for org/projects file:
@@ -133,7 +155,7 @@ Update taskagent annotations at these checkpoints:
 
 **Checkpoint command:**
 ```bash
-taskagent <id> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
+taskagent <uuid> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
 ```
 
 ## Core Operations
@@ -157,35 +179,34 @@ taskagent add "Task title" project:<name> +side_quest
 
 ### Link discovered work
 ```bash
-# Use UUID (not short ID) for discovered_from - short IDs can change
-taskagent <parent_id> _uuid   # get parent's UUID first
+# Use the parent's UUID for discovered_from
 taskagent add "Found issue" project:<name> discovered_from:<parent_uuid>
 ```
 
 ### Update task status
 ```bash
-taskagent <id> start        # marks in progress
-taskagent <id> stop         # pauses work
-taskagent <id> done         # REQUIRES @task-reviewer first! See "Task Completion Review"
+taskagent <uuid> start        # marks in progress
+taskagent <uuid> stop         # pauses work
+taskagent <uuid> done         # REQUIRES @task-reviewer first! See "Task Completion Review"
 ```
 
 ⚠️ **NEVER mark a task done without invoking @task-reviewer first.**
 
 ### Add session notes (annotations)
 ```bash
-taskagent <id> annotate "COMPLETED: auth endpoint. IN PROGRESS: tests. NEXT: integration."
+taskagent <uuid> annotate "COMPLETED: auth endpoint. IN PROGRESS: tests. NEXT: integration."
 ```
 
 ### View task details
 ```bash
-taskagent <id> agentinfo    # minimal info for agents (preferred)
-taskagent <id> info         # full details (shorthand for 'information')
+taskagent <uuid> agentinfo    # minimal info for agents (preferred)
+taskagent <uuid> info         # full details (shorthand for 'information')
 taskagent project:<name> list
 ```
 
 ### Dependencies
 ```bash
-taskagent <id> modify depends:<other_id>
+taskagent <uuid> modify depends:<other_uuid>
 ```
 
 ## Task Fields Reference
@@ -237,13 +258,7 @@ This applies to ALL task types:
 - Documentation tasks
 - ANY task type
 
-**Get the UUID first**, then invoke @task-reviewer:
-
-```bash
-taskagent <id> _uuid   # get the stable UUID
-```
-
-Then invoke the reviewer with the UUID:
+Then invoke the reviewer with the UUID (from the report output):
 
 ```
 @task-reviewer Review task <uuid>
@@ -259,7 +274,7 @@ Then invoke the reviewer with the UUID:
 Include whichever other fields you have - the reviewer can work with partial context.
 
 **After receiving the review verdict:**
-- **PASS**: You may mark the task done with `taskagent <id> done`
+- **PASS**: You may mark the task done with `taskagent <uuid> done`
 - **PASS WITH RESERVATIONS**: Do NOT mark done automatically. Ask the human to review and decide.
 - **NEEDS WORK**: Address the feedback, then request another review before closing.
 

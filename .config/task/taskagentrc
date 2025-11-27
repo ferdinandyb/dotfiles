@@ -25,3 +25,13 @@ verbose=affected,blank,context,edit,header,footnote,label,new-id,special,sync,re
 report.agentinfo.description=Essential task info for agents
 report.agentinfo.columns=uuid.short,status,project,priority,description.combined,details,depends.list,discovered_from
 report.agentinfo.labels=UUID,Status,Project,Pri,Description+Annotations,Details,Depends,Discovered
+
+# Override default reports to show UUID instead of short ID (short IDs renumber frequently)
+report.list.columns=uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description.count,urgency
+report.list.labels=UUID,Active,Age,D,P,Project,Tags,Description,Urg
+
+report.ready.columns=uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description,urgency
+report.ready.labels=UUID,Active,Age,D,P,Project,Tags,Description,Urg
+
+report.next.columns=uuid.short,start.age,entry.age,depends,priority,project,tags,description,urgency
+report.next.labels=UUID,Active,Age,Deps,P,Project,Tags,Description,Urg

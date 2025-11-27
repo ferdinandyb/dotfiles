@@ -89,8 +89,8 @@ taskagent project:<name> ready
 
 ### Get task details
 ```bash
-taskagent <id> info                # full details with annotations
-taskagent <id> agentinfo           # minimal agent-focused info
+taskagent <uuid> info                # full details with annotations
+taskagent <uuid> agentinfo           # minimal agent-focused info
 ```
 
 ### Search tasks
@@ -118,7 +118,7 @@ When asked to retrieve learnings/misalignments for handoff:
 
 2. Get full info for each relevant task (annotations contain LEARNING/MISALIGNMENT):
    ```bash
-   taskagent <id> info
+   taskagent <uuid> info
    ```
 
 3. Extract and summarize:

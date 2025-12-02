@@ -19,7 +19,8 @@ emojis in a commit message.
 
 **Commit Principles:**
 - Each commit should be self-contained and change one specific part
-- Every commit must produce working code
+- Every commit must produce working code (thus every commit must pass tests and
+  linters)
 - Use commit trailers when relevant
 - Avoid merge commits, prefer rebasing
 

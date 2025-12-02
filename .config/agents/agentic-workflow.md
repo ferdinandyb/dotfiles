@@ -171,6 +171,39 @@ A read-only subagent for querying the taskagent database. Use for:
 
 The reader is automatically invoked during `/handoff` to extract session data from taskagent.
 
+## The Code Reviewer
+
+A pre-submission reviewer for PRs/branches against external tickets (Jira, GitHub Issues). Unlike task-reviewer (which verifies taskagent task completion), code-reviewer checks:
+- Jira ticket alignment - does the code satisfy ticket requirements?
+- Security vulnerabilities, error handling gaps
+- Test coverage, maintainability concerns
+
+Invoke before creating PRs or finishing Jira tickets:
+
+```
+@code-reviewer Review for PROJ-123
+@code-reviewer Review PR #42
+```
+
+The code-reviewer automatically:
+- Extracts ticket ID from branch name if not provided
+- Invokes @taskagent-reader for related task context
+- Diffs against origin/HEAD
+
+## Code Reviewer vs Task Reviewer
+
+| Aspect | code-reviewer | task-reviewer |
+|--------|---------------|---------------|
+| **Trigger** | Before PR/merge | Before `taskagent done` |
+| **Scope** | Jira ticket + git changes | Taskagent task completion |
+| **Focus** | "Does code meet ticket requirements?" | "Was the work actually done?" |
+| **Use** | Pre-submission (external tickets) | Pre-completion (internal tasks) |
+
+**When to use which:**
+- Jira ticket work → code-reviewer then task-reviewer
+- Internal taskagent-only work → task-reviewer only
+- Quick PR review request → code-reviewer
+
 ## Session Handoff
 
 Use `/handoff` to perform a structured session handoff. This:
@@ -220,6 +253,7 @@ They use different configs and data directories, so they don't interfere.
 | `~/.config/agents/skills/taskagent/SKILL.md` | Agent instructions |
 | `~/.config/opencode/agent/task-reviewer.md` | Reviewer subagent |
 | `~/.config/opencode/agent/taskagent-reader.md` | Read-only taskagent analyst |
+| `~/.config/opencode/agent/code-reviewer.md` | Pre-submission PR/branch reviewer |
 | `~/.config/opencode/command/handoff.md` | Session handoff command |
 | `~/org/projects/<project>.md` | Project context (vimwiki) |
 | `<repo>/PLAN.md` | Per-project agent plan |

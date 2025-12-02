@@ -162,6 +162,8 @@ taskagent <uuid> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
 
 > **Note**: All commands below use `taskagent`, not `task`. The `taskagent` command is specifically configured for agent work tracking and is separate from the human's personal taskwarrior.
 
+> **Direct execution**: Basic taskagent operations (add, annotate, modify, start, stop, list, info) should be run directly - no subagent needed. Only invoke subagents for reviews (@task-reviewer, @code-reviewer) and complex queries (@taskagent-reader).
+
 ### Check ready work (built-in report)
 ```bash
 taskagent ready                    # built-in taskwarrior report, shows unblocked tasks
@@ -257,6 +259,15 @@ This applies to ALL task types:
 - Research tasks (reviewer confirms findings were documented)
 - Documentation tasks
 - ANY task type
+
+### External Ticket Integration
+
+For tasks linked to external tickets (Jira, GitHub Issues):
+
+1. **Before PR/merge**: Invoke `@code-reviewer` with the ticket ID
+2. **Before `taskagent done`**: Invoke `@task-reviewer` as usual
+
+Code-reviewer checks ticket alignment; task-reviewer checks task completion. Both are required for externally-tracked work.
 
 Then invoke the reviewer with the UUID (from the report output):
 

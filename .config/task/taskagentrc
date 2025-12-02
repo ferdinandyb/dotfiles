@@ -35,3 +35,10 @@ report.ready.labels=UUID,Active,Age,D,P,Project,Tags,Description,Urg
 
 report.next.columns=uuid.short,start.age,entry.age,depends,priority,project,tags,description,urgency
 report.next.labels=UUID,Active,Age,Deps,P,Project,Tags,Description,Urg
+
+# Human-friendly report: clean descriptions, no annotations, with both ID and UUID
+report.human.description=Clean task list for humans (no annotations)
+report.human.columns=id,uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description.desc,urgency
+report.human.labels=ID,UUID,Active,Age,D,P,Project,Tags,Description,Urg
+report.human.filter=status:pending
+report.human.sort=urgency-

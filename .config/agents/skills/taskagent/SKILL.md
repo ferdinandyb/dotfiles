@@ -1,11 +1,10 @@
 ---
 name: taskagent
 description: >-
-  Track complex, multi-session agent work via taskagent (NOT task).
-  Load this skill when: (1) work spans multiple sessions,
-  (2) you see a PLAN.md or org/projects file referencing taskagent,
-  (3) user mentions agent tasks.
-  For simple single-session tasks, use TodoWrite instead.
+  IMMEDIATELY load this skill if you read ANY file containing "taskagent"
+  (PLAN.md, org/projects, docs, etc). Also load for multi-session work
+  or when user mentions agent tasks. For simple single-session tasks
+  without taskagent references, use TodoWrite instead.
 ---
 
 # Taskagent - Agent Work Tracking

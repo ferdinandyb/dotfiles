@@ -3,6 +3,20 @@
 @~/.config/agents/directives.md
 
 
+# CRITICAL: Python Edits
+
+Formatters (ruff) run after EVERY edit. They WILL delete unused imports.
+
+**RULE**: When adding an import, you MUST include it in the SAME edit as the code that uses it. Never add an import in a separate edit.
+
+WRONG (import gets deleted):
+- Edit 1: add `import pandas as pd`
+- Edit 2: add `df = pd.DataFrame()`
+
+CORRECT (single edit):
+- Edit 1: add both `import pandas as pd` AND `df = pd.DataFrame()`
+
+
 # shell tools
 
 I prefer ugrep (ug) over grep, and fd-find (fd) over find.
@@ -16,17 +30,9 @@ I use `yadm` for my dotfiles. There is a README for it at ~/README.md
 
 Check the cursor position and visual select in nvim for possibly important context.
 
-# opencode
-
-If you are running in opencode, remember that after every edit formatters are invoked. For example, when editing python files you need to add import and usage together, otherwise the unused import rule will be triggered and the imports removed.
-
 # data
 
 Avoid reading large data files directly, to preserve context. Delegate it to a subagent or use tools like ugrep, ripgrep or jq.
-
-# python
-
-Always add imports together with usage to prevent ruff striping unused imports on edit.
 
 # bash tool
 

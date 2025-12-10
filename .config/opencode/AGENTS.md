@@ -1,7 +1,5 @@
-@~/.config/agents/git.md
 @~/.config/agents/tmux.md
 @~/.config/agents/directives.md
-
 
 # CRITICAL: Python Edits
 
@@ -10,12 +8,13 @@ Formatters (ruff) run after EVERY edit. They WILL delete unused imports.
 **RULE**: When adding an import, you MUST include it in the SAME edit as the code that uses it. Never add an import in a separate edit.
 
 WRONG (import gets deleted):
+
 - Edit 1: add `import pandas as pd`
 - Edit 2: add `df = pd.DataFrame()`
 
 CORRECT (single edit):
-- Edit 1: add both `import pandas as pd` AND `df = pd.DataFrame()`
 
+- Edit 1: add both `import pandas as pd` AND `df = pd.DataFrame()`
 
 # shell tools
 

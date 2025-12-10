@@ -20,6 +20,10 @@
       "git checkout *": "ask",
       "git switch *": "ask",
       "git stash *": "ask",
+      "git add *": "ask",
+      "git add -A*": "deny",
+      "git add --all*": "deny",
+      "git add . *": "deny",
       "git push *": "deny",
       "yadm commit *": "ask",
       "yadm merge *": "ask",
@@ -31,6 +35,10 @@
       "yadm checkout *": "ask",
       "yadm switch *": "ask",
       "yadm stash *": "ask",
+      "yadm add *": "ask",
+      "yadm add -A*": "deny",
+      "yadm add --all*": "deny",
+      "yadm add . *": "deny",
       "yadm push *": "deny",
       "docker *": "ask",
       "rsync *": "ask",
@@ -40,14 +48,13 @@
       "jira epic list *": "allow",
       "jira issue view *": "allow",
       "jq *": "allow",
-      "jaq *": "allow"
-    }
+      "jaq *": "allow",
+    },
   },
   "keybinds": {
     "leader": "ctrl+x",
     "input_newline": "ctrl+enter",
     "editor_open": "<leader>v",
-
   },
   "mcp": {
     "tmux-mcp": {
@@ -57,12 +64,20 @@
     "mcp-neovim-server": {
       "type": "local",
       "command": ["mcp-neovim-server"],
-      "environment": {"ALLOW_SHELL_COMMANDS": "false", "NVIM_SOCKET_PATH": "./.nvim.sock"}
+      "environment": {
+        "ALLOW_SHELL_COMMANDS": "false",
+        "NVIM_SOCKET_PATH": "./.nvim.sock",
+      },
     },
-    "universal-skills" : {
+    "universal-skills": {
       "type": "local",
-      "command": ["universal-skills", "mcp", "--skill-dir", "~/.config/agents/skills"],
-      "enabled": true
-    }
-  }
+      "command": [
+        "universal-skills",
+        "mcp",
+        "--skill-dir",
+        "~/.config/agents/skills",
+      ],
+      "enabled": true,
+    },
+  },
 }

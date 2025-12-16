@@ -1,15 +1,18 @@
 #!/bin/bash
 
+# Target branch to rebase onto (default: origin/HEAD)
+TARGET_BRANCH="${1:-origin/HEAD}"
+
 # Get the merge base
-MERGE_BASE=$(git merge-base HEAD origin/HEAD)
+MERGE_BASE=$(git merge-base HEAD "$TARGET_BRANCH")
 if [ -z "$MERGE_BASE" ]; then
-	echo "Error: Could not find merge base with origin/HEAD"
+	echo "Error: Could not find merge base with $TARGET_BRANCH"
 	exit 1
 fi
 
 # Check if there are any commits to rebase
-if [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/HEAD)" ]; then
-	echo "Already up to date with origin/HEAD"
+if [ "$(git rev-parse HEAD)" = "$(git rev-parse "$TARGET_BRANCH")" ]; then
+	echo "Already up to date with $TARGET_BRANCH"
 	exit 0
 fi
 
@@ -25,7 +28,7 @@ for commit in $(git rev-list "$MERGE_BASE..HEAD"); do
 	synthetic=$(git commit-tree "$tree" -p "$MERGE_BASE" -m "_" 2>/dev/null)
 
 	if [ -n "$synthetic" ]; then
-		cherry_result=$(git cherry origin/HEAD "$synthetic" 2>/dev/null | head -1)
+		cherry_result=$(git cherry "$TARGET_BRANCH" "$synthetic" 2>/dev/null | head -1)
 
 		if [[ "$cherry_result" == "-"* ]]; then
 			LAST_SQUASHED=$commit
@@ -74,7 +77,7 @@ num_drop=$(echo "$COMMITS_TO_DROP" | wc -w | tr -d ' ')
 echo ""
 echo "Summary:"
 echo "  Commits to keep: $num_keep"
-echo "  Commits to drop: $num_drop (already in origin/HEAD)"
+echo "  Commits to drop: $num_drop (already in $TARGET_BRANCH)"
 echo ""
 
 # Ask for confirmation
@@ -131,4 +134,4 @@ chmod +x "$REBASE_SCRIPT"
 # Perform the rebase with our custom editor
 echo ""
 echo "Starting rebase..."
-GIT_SEQUENCE_EDITOR="$REBASE_SCRIPT" git rebase -i origin/HEAD
+GIT_SEQUENCE_EDITOR="$REBASE_SCRIPT" git rebase -i "$TARGET_BRANCH"

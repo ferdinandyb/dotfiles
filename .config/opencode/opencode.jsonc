@@ -49,6 +49,9 @@
       "jira issue view *": "allow",
       "jq *": "allow",
       "jaq *": "allow",
+      "fd *": "allow",
+      "ug *": "allow",
+      "TMPFILE=$(mktemp)": "allow"
     },
   },
   "keybinds": {
@@ -80,4 +83,5 @@
       "enabled": true,
     },
   },
+  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"]
 }

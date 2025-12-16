@@ -111,6 +111,22 @@ Actions: `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
 4. **Amend/fixup** as you iterate
 5. **Rebase and clean up** before pushing to shared branches
 
+## Commands That Open $EDITOR
+
+Some git commands open `$EDITOR` for interactive input. **Agents CANNOT run these commands directly** because they require interactive text editor input.
+
+Examples:
+- `git commit` (without `-m` or `--message`)
+- `git rebase --continue` (when fixing conflicts and editor opens for commit message)
+- `git rebase -i` (interactive rebase)
+- `git merge` (when it opens editor for merge commit message)
+- `git tag -a` (annotated tags without `-m`)
+
+**Workarounds:**
+- Use `git commit -m "message"` instead of `git commit`
+- Use `GIT_EDITOR=true git rebase --continue` to accept the default message
+- For interactive rebases, manually specify the rebase plan or ask the user to handle it
+
 ## General Rules
 
 - Disable pager for reading output: `GIT_PAGER= git <command>`

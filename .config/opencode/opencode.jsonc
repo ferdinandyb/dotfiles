@@ -72,16 +72,6 @@
         "NVIM_SOCKET_PATH": "./.nvim.sock",
       },
     },
-    "universal-skills": {
-      "type": "local",
-      "command": [
-        "universal-skills",
-        "mcp",
-        "--skill-dir",
-        "~/.config/agents/skills",
-      ],
-      "enabled": true,
-    },
   },
   "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"]
 }

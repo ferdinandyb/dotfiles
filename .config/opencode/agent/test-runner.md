@@ -56,6 +56,12 @@ permission:
     grep *: allow
     rg *: allow
     ug *: allow
+    find *: allow
+    fd *: allow
+    # Temp file pattern for capturing output
+    TMPFILE=$(mktemp)*: allow
+    tee *: allow
+    echo *: allow
 ---
 
 You are a test execution agent. Your job is to run tests and return **minimal,

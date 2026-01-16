@@ -42,6 +42,10 @@
       "uniq*": "allow",
       "awk*": "allow",
       "TMPFILE=$(mktemp)": "allow",
+      "pants lint *": "allow",
+      "pants fmt *": "allow",
+      "pants test *": "allow",
+
     },
   },
   "keybinds": {

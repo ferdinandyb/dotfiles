@@ -166,4 +166,15 @@
     },
   },
   "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
+  "agent": {
+    "explore": {
+      "model": "anthropic/claude-sonnet-4-5",
+    },
+    "test-runner": {
+      "model": "anthropic/claude-sonnet-4-5",
+    },
+    "taskagent-reader": {
+      "model": "anthropic/claude-sonnet-4-5",
+    },
+  },
 }

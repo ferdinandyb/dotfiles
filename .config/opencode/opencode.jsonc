@@ -41,13 +41,16 @@
       "sort*": "allow",
       "uniq*": "allow",
       "awk*": "allow",
-      "TMPFILE=$(mktemp)": "allow"
+      "TMPFILE=$(mktemp)": "allow",
     },
   },
   "keybinds": {
     "leader": "ctrl+x",
     "input_newline": "ctrl+enter",
     "editor_open": "<leader>v",
+    "model_favorite_toggle": "<leader>f",
+    "model_cycle_favorite": "ctrl+f",
+    "model_cycle_favorite_reverse": "ctrl+shift+f",
   },
   "mcp": {
     "tmux-mcp": {
@@ -63,5 +66,5 @@
       },
     },
   },
-  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"]
+  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
 }

@@ -9,48 +9,48 @@ tools:
 permission:
   edit: deny
   bash:
-    # taskagent READ-ONLY commands
-    "taskagent list": allow
-    "taskagent list *": allow
-    "taskagent * list": allow
-    "taskagent ready": allow
-    "taskagent ready *": allow
-    "taskagent * ready": allow
-    "taskagent blocked": allow
-    "taskagent blocked *": allow
-    "taskagent blocking": allow
-    "taskagent blocking *": allow
-    "taskagent * info": allow
-    "taskagent * information": allow
-    "taskagent * agentinfo": allow
-    "taskagent * _uuid": allow
-    "taskagent +* list": allow
-    "taskagent +* info": allow
-    "taskagent project:* list": allow
-    "taskagent project:* ready": allow
-    "taskagent project:* info": allow
-    "taskagent /* list": allow
-    "taskagent /* info": allow
-    "taskagent completed": allow
-    "taskagent completed *": allow
-    "taskagent all": allow
-    "taskagent all *": allow
-    # standard read-only tools
-    "cat *": allow
-    "head *": allow
-    "tail *": allow
-    "ls *": allow
-    "ls": allow
-    # DENY all write operations
-    "taskagent add *": deny
-    "taskagent * annotate *": deny
-    "taskagent * modify *": deny
-    "taskagent * done": deny
-    "taskagent * delete": deny
-    "taskagent * start": deny
-    "taskagent * stop": deny
-    # everything else
+    # Default - must be first so specific rules override it
     "*": deny
+    # taskagent READ-ONLY commands
+    taskagent list: allow
+    taskagent list *: allow
+    taskagent * list: allow
+    taskagent ready: allow
+    taskagent ready *: allow
+    taskagent * ready: allow
+    taskagent blocked: allow
+    taskagent blocked *: allow
+    taskagent blocking: allow
+    taskagent blocking *: allow
+    taskagent * info: allow
+    taskagent * information: allow
+    taskagent * agentinfo: allow
+    taskagent * _uuid: allow
+    taskagent +* list: allow
+    taskagent +* info: allow
+    taskagent "project:* list": allow
+    taskagent "project:* ready": allow
+    taskagent "project:* info": allow
+    taskagent /* list: allow
+    taskagent /* info: allow
+    taskagent completed: allow
+    taskagent completed *: allow
+    taskagent all: allow
+    taskagent all *: allow
+    # standard read-only tools
+    cat *: allow
+    head *: allow
+    tail *: allow
+    ls *: allow
+    ls: allow
+    # DENY all write operations (explicit, after default deny)
+    taskagent add *: deny
+    taskagent * annotate *: deny
+    taskagent * modify *: deny
+    taskagent * done: deny
+    taskagent * delete: deny
+    taskagent * start: deny
+    taskagent * stop: deny
 ---
 
 You are a read-only analyst for the taskagent database. Your job is to query, analyze, and summarize information from taskagent. You cannot modify any data.
@@ -64,6 +64,7 @@ You are a read-only analyst for the taskagent database. Your job is to query, an
 ## Capabilities
 
 You can answer questions like:
+
 - What's the current status of project X?
 - What tasks are in progress / blocked / ready?
 - Retrieve all LEARNING and MISALIGNMENT annotations from recent tasks
@@ -74,6 +75,7 @@ You can answer questions like:
 ## Common Queries
 
 ### List tasks by status
+
 ```bash
 taskagent ready                    # unblocked, ready to work
 taskagent +ACTIVE list             # currently in progress
@@ -82,24 +84,28 @@ taskagent completed                # finished tasks
 ```
 
 ### List tasks by project
+
 ```bash
 taskagent project:<name> list
 taskagent project:<name> ready
 ```
 
 ### Get task details
+
 ```bash
 taskagent <uuid> info                # full details with annotations
 taskagent <uuid> agentinfo           # minimal agent-focused info
 ```
 
 ### Search tasks
+
 ```bash
 taskagent /<search-term> list      # search by description
 taskagent +<tag> list              # filter by tag
 ```
 
 ### Filter by time (taskwarrior syntax)
+
 ```bash
 taskagent modified:today list
 taskagent modified.after:2025-11-27 list
@@ -111,12 +117,14 @@ taskagent end.after:today-1wk completed
 When asked to retrieve learnings/misalignments for handoff:
 
 1. Find tasks modified in the relevant timeframe:
+
    ```bash
    taskagent modified:today list
    taskagent +ACTIVE list
    ```
 
 2. Get full info for each relevant task (annotations contain LEARNING/MISALIGNMENT):
+
    ```bash
    taskagent <uuid> info
    ```

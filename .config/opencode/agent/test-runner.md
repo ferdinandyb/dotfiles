@@ -10,52 +10,52 @@ tools:
 permission:
   edit: deny
   bash:
-    # Pants build system
-    "pants test *": allow
-    "pants test": allow
-    "pants lint *": allow
-    "pants lint": allow
-    "pants check *": allow
-    "pants typecheck *": allow
-    # Test runners
-    "pytest *": allow
-    "pytest": allow
-    "npm test *": allow
-    "npm test": allow
-    "npm run test *": allow
-    "yarn test *": allow
-    "cargo test *": allow
-    "cargo test": allow
-    "go test *": allow
-    "make test *": allow
-    "make test": allow
-    "make check *": allow
-    "mvn test *": allow
-    "gradle test *": allow
-    "bundle exec rspec *": allow
-    "rspec *": allow
-    "jest *": allow
-    "vitest *": allow
-    "zig test *": allow
-    "zig build test *": allow
-    # Build commands (often needed before tests)
-    "make *": allow
-    "npm run build *": allow
-    "cargo build *": allow
-    "go build *": allow
-    "pants package *": allow
-    # Read-only tools for diagnostics
-    "cat *": allow
-    "head *": allow
-    "tail *": allow
-    "ls *": allow
-    "ls": allow
-    "pwd": allow
-    "grep *": allow
-    "rg *": allow
-    "ug *": allow
-    # everything else
+    # Default - must be first so specific rules override it
     "*": ask
+    # Pants build system
+    pants test *: allow
+    pants test: allow
+    pants lint *: allow
+    pants lint: allow
+    pants check *: allow
+    pants typecheck *: allow
+    # Test runners
+    pytest *: allow
+    pytest: allow
+    npm test *: allow
+    npm test: allow
+    npm run test *: allow
+    yarn test *: allow
+    cargo test *: allow
+    cargo test: allow
+    go test *: allow
+    make test *: allow
+    make test: allow
+    make check *: allow
+    mvn test *: allow
+    gradle test *: allow
+    bundle exec rspec *: allow
+    rspec *: allow
+    jest *: allow
+    vitest *: allow
+    zig test *: allow
+    zig build test *: allow
+    # Build commands (often needed before tests)
+    make *: allow
+    npm run build *: allow
+    cargo build *: allow
+    go build *: allow
+    pants package *: allow
+    # Read-only tools for diagnostics
+    cat *: allow
+    head *: allow
+    tail *: allow
+    ls *: allow
+    ls: allow
+    pwd: allow
+    grep *: allow
+    rg *: allow
+    ug *: allow
 ---
 
 You are a test execution agent. Your job is to run tests and return **minimal,
@@ -65,12 +65,14 @@ return diagnostics.
 ## Core Principle
 
 Long-running tests produce massive output. The caller does NOT want:
+
 - Full stack traces (unless specifically relevant)
 - Passing test output
 - Build logs (unless build failed)
 - Verbose framework output
 
 The caller DOES want:
+
 - Pass/fail status
 - For failures: test name, file:line, concise error message
 - Number of tests run, passed, failed
@@ -85,11 +87,13 @@ The caller DOES want:
 ## Output Format
 
 ### On Success
+
 ```
 ✓ PASSED: <X> tests in <time>
 ```
 
 ### On Failure
+
 ```
 ✗ FAILED: <X>/<Y> tests
 
@@ -102,6 +106,7 @@ Failures:
 ```
 
 ### On Lint Failure (pants lint, etc.)
+
 ```
 ✗ LINT FAILED: <X> issues
 
@@ -111,6 +116,7 @@ Issues:
 ```
 
 ### On Build/Setup Failure
+
 ```
 ✗ BUILD FAILED
 

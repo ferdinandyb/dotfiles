@@ -6,6 +6,19 @@
   "autoupdate": false,
   "share": "disabled",
   "permission": {
+    "read": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "*.env.example": "allow",
+    },
+    "external_directory": {
+      "*": "ask",
+      "~/.config/opencode/*": "allow",
+      "~/signifyd_github/*": "allow",
+      "~/softwarefromsource/*": "allow",
+      "~/org/*": "allow",
+    },
     "bash": {
       "*": "ask",
 
@@ -80,6 +93,9 @@
       "jaq *": "allow",
       "fd *": "allow",
       "ug *": "allow",
+      "find *": "allow",
+      "tree *": "allow",
+      "echo *": "allow",
       "TMPFILE=$(mktemp)": "allow",
 
       // --- Jira CLI (read-only) ---
@@ -94,6 +110,10 @@
 
       // --- Taskagent ---
       "taskagent *": "allow",
+
+      // --- Taskwarrior ---
+      "task *": "deny",
+      "task list *": "allow",
 
       // --- gcli (allow by default, ask for destructive actions) ---
       "gcli ci *": "allow",

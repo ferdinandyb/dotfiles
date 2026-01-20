@@ -13,39 +13,34 @@ permission:
     # Default - must be first so specific rules override it
     "*": ask
     # Pants build system
-    pants test *: allow
-    pants test: allow
-    pants lint *: allow
-    pants lint: allow
-    pants check *: allow
-    pants typecheck *: allow
+    pants test*: allow
+    pants lint*: allow
+    pants check*: allow
+    pants typecheck*: allow
     # Test runners
-    pytest *: allow
-    pytest: allow
-    npm test *: allow
-    npm test: allow
-    npm run test *: allow
-    yarn test *: allow
-    cargo test *: allow
-    cargo test: allow
-    go test *: allow
-    make test *: allow
-    make test: allow
-    make check *: allow
-    mvn test *: allow
-    gradle test *: allow
-    bundle exec rspec *: allow
-    rspec *: allow
-    jest *: allow
-    vitest *: allow
-    zig test *: allow
-    zig build test *: allow
+    pytest*: allow
+    npm test*: allow
+    bun test*: allow
+    npm run test*: allow
+    yarn test*: allow
+    cargo test*: allow
+    go test*: allow
+    make test*: allow
+    make check*: allow
+    mvn test*: allow
+    gradle test*: allow
+    bundle exec rspec*: allow
+    rspec*: allow
+    jest*: allow
+    vitest*: allow
+    zig test*: allow
+    zig build test*: allow
     # Build commands (often needed before tests)
     make *: allow
-    npm run build *: allow
-    cargo build *: allow
-    go build *: allow
-    pants package *: allow
+    npm run build*: allow
+    cargo build*: allow
+    go build*: allow
+    pants package*: allow
     # Read-only tools for diagnostics
     cat *: allow
     head *: allow

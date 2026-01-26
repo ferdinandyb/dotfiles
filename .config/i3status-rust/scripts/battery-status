@@ -1,0 +1,32 @@
+#!/bin/bash
+
+BAT_PATH="/sys/class/power_supply/BAT0"
+PERCENTAGE=$(cat "$BAT_PATH/capacity")
+STATUS=$(cat "$BAT_PATH/status")
+
+case "$STATUS" in
+    "Charging")
+        ICON="⚡"
+        STATE="Info"
+        ;;
+    "Discharging")
+        ICON="↓"
+        if [ "$PERCENTAGE" -le 10 ]; then
+            STATE="Critical"
+        elif [ "$PERCENTAGE" -le 20 ]; then
+            STATE="Warning"
+        else
+            STATE="Good"
+        fi
+        ;;
+    "Full"|"Not charging")
+        ICON="✓"
+        STATE="Good"
+        ;;
+    *)
+        ICON="?"
+        STATE="Idle"
+        ;;
+esac
+
+echo "{\"text\":\"$ICON $PERCENTAGE%\", \"state\":\"$STATE\"}"

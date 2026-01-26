@@ -1,0 +1,8 @@
+#!/bin/bash
+# autorandr postswitch script for laptop profile
+# Turn off all external monitors (workspaces migrate automatically)
+
+# Turn off all connected monitors except eDP-1
+xrandr --query | grep " connected" | grep -v "eDP-1" | awk '{print $1}' | while read output; do
+    xrandr --output "$output" --off
+done

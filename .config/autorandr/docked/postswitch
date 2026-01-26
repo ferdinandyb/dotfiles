@@ -1,0 +1,14 @@
+#!/bin/bash
+# autorandr postswitch script for docked profile
+# Moves all workspaces to external monitor (HDMI-1)
+
+# Wait a moment for displays to stabilize
+sleep 0.5
+
+# Move all workspaces (0-19) to external monitor
+for ws in {0..19}; do
+    i3-msg "[workspace=\"$ws\"] move workspace to output HDMI-1" &>/dev/null
+done
+
+# Use i3's back_and_forth to return to previous workspace
+i3-msg "workspace back_and_forth" &>/dev/null

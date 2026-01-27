@@ -25,7 +25,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines','trim_whitespace'],
-\   'python': ['black', 'ruff'],
+\   'python': ['ruff'],
 \   'go': ['gofumpt'],
 \   'vue': ['prettier','eslint'],
 \   'javascript': ['prettier','eslint'],

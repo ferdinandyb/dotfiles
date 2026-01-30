@@ -11,6 +11,8 @@
       "*.env": "deny",
       "*.env.*": "deny",
       "*.env.example": "allow",
+      "secret.auto.tfvars": "deny",
+      "secret.auto.tfvars.example": "allow"
     },
     "external_directory": {
       "*": "ask",

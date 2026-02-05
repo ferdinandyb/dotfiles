@@ -5,16 +5,18 @@
 
 Formatters (ruff) run after EVERY edit. They WILL delete unused imports.
 
-**RULE**: When adding an import, you MUST include it in the SAME edit as the code that uses it. Never add an import in a separate edit.
+**RULE**: When adding an import, you MUST ALWAYS first add the USAGE, and only add the import in a subsequent edit.
 
 WRONG (import gets deleted):
 
 - Edit 1: add `import pandas as pd`
 - Edit 2: add `df = pd.DataFrame()`
 
-CORRECT (single edit):
+CORRECT (usage first):
 
-- Edit 1: add both `import pandas as pd` AND `df = pd.DataFrame()`
+- Edit 1: add `df = pd.DataFrame()`
+- Edit 2: add `import pandas as pd`
+
 
 # shell tools
 

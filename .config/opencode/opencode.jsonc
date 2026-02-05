@@ -195,6 +195,12 @@
   },
   "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
   "agent": {
+    "build": {
+      "color": "secondary",
+    },
+    "plan": {
+      "color": "accent",
+    },
     "explore": {
       "model": "anthropic/claude-sonnet-4-5",
     },

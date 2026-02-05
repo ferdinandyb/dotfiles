@@ -1,5 +1,5 @@
 ---
-description: Runs test suites and returns minimal context about failures or success. Always use this agent for running test suites. If you are running tests for debugging purposes make sure to give the agent detailed context about what you are looking for.
+description: Runs test suites and returns minimal context about failures or success. Always use this agent for running test suites and test-like plans (e.g. terraform/tecton plan). If you are running tests/plans for debugging purposes make sure to give the agent detailed context about what you are looking for.
 mode: subagent
 temperature: 0.0
 tools:
@@ -53,13 +53,15 @@ permission:
     ug *: allow
     find *: allow
     fd *: allow
+    wc *: allow
     # Temp file pattern for capturing output
     TMPFILE=$(mktemp)*: allow
     tee *: allow
     echo *: allow
 ---
 
-You are a test execution agent. Your job is to run tests and return **minimal,
+You are a test execution agent (things like `tecton plan` or `terraform plan`
+may qualify as tests). Your job is to run tests and return **minimal,
 actionable context**. You never try to modify any files, just run tests and
 return diagnostics.
 

@@ -3,6 +3,10 @@
   "snapshot": true,
   // Theme configuration
   "theme": "dracula",
+  "tui": {
+    "diff_style": "stacked",
+  },
+  "default_agent": "plan",
   "autoupdate": false,
   "share": "disabled",
   "permission": {
@@ -12,7 +16,7 @@
       "*.env.*": "deny",
       "*.env.example": "allow",
       "secret.auto.tfvars": "deny",
-      "secret.auto.tfvars.example": "allow"
+      "secret.auto.tfvars.example": "allow",
     },
     "external_directory": {
       "*": "ask",
@@ -98,6 +102,8 @@
       "find *": "allow",
       "tree *": "allow",
       "echo *": "allow",
+      "tee *": "allow",
+      "diff *": "allow",
       "TMPFILE=$(mktemp)": "allow",
 
       // --- Jira CLI (read-only) ---

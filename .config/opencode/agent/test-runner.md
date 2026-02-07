@@ -1,5 +1,5 @@
 ---
-description: Runs test suites and returns minimal context about failures or success. Always use this agent for running test suites and test-like plans (e.g. terraform/tecton plan). If you are running tests/plans for debugging purposes make sure to give the agent detailed context about what you are looking for.
+description: Runs test suites and returns minimal context about failures or success. Always use this agent for running test suites (e.g. pytest, cargo test, make test etc) and test-like plans (e.g. terraform/tecton plan). If you are running tests/plans for debugging purposes make sure to give the agent detailed context about what you are looking for.
 mode: subagent
 temperature: 0.0
 tools:

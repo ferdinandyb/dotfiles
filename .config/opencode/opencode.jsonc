@@ -10,6 +10,7 @@
   "autoupdate": false,
   "share": "disabled",
   "permission": {
+    "tmux-mcp_*": "ask",
     "read": {
       "*": "allow",
       "*.env": "deny",

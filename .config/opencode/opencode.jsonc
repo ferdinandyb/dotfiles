@@ -51,6 +51,7 @@
       "git remote add *": "ask",
       "git remote remove *": "ask",
       "git remote set-url *": "ask",
+      "git worktree list *": "allow",
       "git stash list*": "allow",
       "git rev-parse *": "allow",
       "git ls-files*": "allow",

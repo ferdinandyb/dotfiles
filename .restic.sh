@@ -1,11 +1,12 @@
 #!/bin/bash
 
-HDDPATH=/media/fbence/LaCie
+HDDPATH=/run/media/fbence/LaCie
+RCLONE=rclone:pharmahungarybence:mashenka-restic
 
 echo email
 for backend in \
     local:$HDDPATH/restic/email \
-    rclone:onedrive:mashenka-restic/email
+    $RCLONE/email
 do
     echo backend: $backend
     restic backup -r $backend --password-command "pass show restic" \
@@ -23,7 +24,7 @@ done
 echo documents
 for backend in \
     local:$HDDPATH/restic/documents \
-    rclone:onedrive:mashenka-restic/documents
+    $RCLONE/documents
 do
     echo backend: $backend
     restic backup -r $backend --password-command "pass show restic" \
@@ -40,7 +41,7 @@ done
 echo pictures
 for backend in \
     local:$HDDPATH/restic/pictures \
-    rclone:onedrive:mashenka-restic/pictures
+    $RCLONE/pictures
 do
     echo backend: $backend
     restic backup -r $backend --password-command "pass show restic" \
@@ -60,7 +61,7 @@ done
 echo org
 for backend in \
     local:$HDDPATH/restic/org \
-    rclone:onedrive:mashenka-restic/org
+    $RCLONE/org
 do
     echo backend: $backend
     restic backup -r $backend --password-command "pass show restic" \

@@ -3,6 +3,8 @@ alias nvs="nvim --listen ./.nvim.sock"
 alias v="vim"
 alias vl="vim --cmd 'let g:lightweight=1'"
 
+alias diff="diff -u"
+
 alias week="date +%V"
 alias diary="vim +VimwikiMakeDiaryNote"
 

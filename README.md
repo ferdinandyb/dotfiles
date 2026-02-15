@@ -36,6 +36,8 @@ Or if you have a key on the machine:
 yadm clone git@github.com:ferdinandyb/dotfiles.git
 ```
 
+Run `yadm decrypt` for encrypted files.
+
 ### sparse-checkout and alternates
 
 Way to set the classes (currently all alternates are based on this):

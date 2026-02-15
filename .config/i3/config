@@ -105,6 +105,9 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym $mod+Shift+p exec gnome-calculator
 #bindsym $mod+p exec ~/.scripts/dmshot
 
+# Trigger autorandr to detect and switch monitor profiles
+bindsym $mod+Shift+m exec --no-startup-id autorandr --change
+
 ## This will switch the current layout to the 'us'.
 #bindsym $mod+l exec "setxkbmap -layout us && sleep 0.1 && setxkbmap -option grp:caps_toggle 'us,ru' -option grp_led:caps && sleep 0.1 && i3lock --blur 5"
 
@@ -125,8 +128,8 @@ bindsym $mod+Escape exec "sleep 0.1 && i3lock --blur 5"
 
 #exec_always setxkbmap -option grp:caps_toggle "us,ru" -option "grp:caps_toggle,grp_led:caps"
 
-exec xrandr --output HDMI-1 --mode 1920x1080 --rate 60 --scale 1x1
-#exec xrandr --auto --output HDMI-1 --mode 1920x1080 --above HDMI-2
+# Monitor management handled by autorandr
+exec --no-startup-id autorandr --change
 
 # exec_always --no-startup-id setxkbmap -option caps:ctrl_modifier
 exec_always --no-startup-id setxkbmap -option ctrl:nocaps

@@ -53,3 +53,4 @@ text/calendar=vim.desktop;google-chrome.desktop;
 video/x-matroska=vlc.desktop;
 application/x-cd-image=org.gnome.FileRoller.desktop;
 application/x-raw-disk-image=gnome-disk-image-mounter.desktop;
+application/vnd.ms-publisher=gvim.desktop;

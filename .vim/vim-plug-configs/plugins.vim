@@ -27,7 +27,7 @@ Plug 'farmergreg/vim-lastplace'
 " better surrounds than tpope's
 Plug 'machakann/vim-sandwich'
 " for interactively viewing json with jq
-Plug 'bfrg/vim-jqplay'
+" Plug 'bfrg/vim-jqplay'
 
 
 " register viewing

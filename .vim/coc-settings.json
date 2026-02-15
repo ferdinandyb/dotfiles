@@ -1,5 +1,6 @@
 {
     "diagnostic.displayByAle": false,
     "suggest.noselect": false,
-    "inlayHint.display": false
+    "inlayHint.display": false,
+    "zig.zls.path": "/home/fbence/.config/coc/extensions/coc-zls-data/zls_install/zls"
 }

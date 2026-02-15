@@ -9,7 +9,7 @@ alias week="date +%V"
 alias diary="vim +VimwikiMakeDiaryNote"
 
 alias bw-ssh='SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock ssh'
-alias alias-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" ssh'
+alias gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" ssh'
 alias set-bw-ssh='export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock'
 alias set-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"'
 

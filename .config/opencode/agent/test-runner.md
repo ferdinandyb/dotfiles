@@ -6,7 +6,6 @@ tools:
   write: false
   edit: false
   bash: true
-  universal-skills_skill: true
 permission:
   edit: deny
   bash:

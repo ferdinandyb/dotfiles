@@ -205,6 +205,98 @@
     },
     "explore": {
       "model": "anthropic/claude-sonnet-4-5",
+      "permission": {
+        "bash": {
+          // --- Git (read-only) ---
+          "git log*": "allow",
+          "git status*": "allow",
+          "git show*": "allow",
+          "git blame *": "allow",
+          "git diff*": "allow",
+          "git branch*": "allow",
+          "git tag*": "allow",
+          "git remote*": "allow",
+          "git worktree list *": "allow",
+          "git stash list*": "allow",
+          "git rev-parse *": "allow",
+          "git ls-files*": "allow",
+
+          // --- Yadm (read-only) ---
+          "yadm log*": "allow",
+          "yadm status*": "allow",
+          "yadm show*": "allow",
+          "yadm blame *": "allow",
+          "yadm diff*": "allow",
+          "yadm branch*": "allow",
+          "yadm tag*": "allow",
+          "yadm remote*": "allow",
+          "yadm stash list*": "allow",
+          "yadm rev-parse *": "allow",
+          "yadm ls-files*": "allow",
+
+          // --- Common CLI tools (read-only/safe) ---
+          "ls*": "allow",
+          "wc*": "allow",
+          "head*": "allow",
+          "tail*": "allow",
+          "sort*": "allow",
+          "uniq*": "allow",
+          "awk*": "allow",
+          "which *": "allow",
+          "jq *": "allow",
+          "jaq *": "allow",
+          "fd *": "allow",
+          "ug *": "allow",
+          "find *": "allow",
+          "tree *": "allow",
+          "echo *": "allow",
+          "tee *": "allow",
+          "diff *": "allow",
+          "TMPFILE=$(mktemp)": "allow",
+
+          // --- Jira CLI (read-only) ---
+          "jira issue list *": "allow",
+          "jira epic list *": "allow",
+          "jira issue view *": "allow",
+
+          // --- Pants build system ---
+          "pants lint *": "allow",
+          "pants fmt *": "allow",
+          "pants test *": "allow",
+
+          // --- Taskagent ---
+          "taskagent *": "allow",
+
+          // --- Taskwarrior (read-only) ---
+          "task list *": "allow",
+
+          // --- gcli (read-only) ---
+          "gcli ci *": "allow",
+          "gcli issues *": "allow",
+          "gcli pulls *": "allow",
+
+          // --- gh CLI (read-only) ---
+          "gh status *": "allow",
+          "gh issue list *": "allow",
+          "gh issue status *": "allow",
+          "gh issue view *": "allow",
+          "gh pr list *": "allow",
+          "gh pr status *": "allow",
+          "gh pr view *": "allow",
+          "gh pr checks *": "allow",
+          "gh pr diff *": "allow",
+          "gh repo list *": "allow",
+          "gh repo view *": "allow",
+          "gh repo gitignore list *": "allow",
+          "gh repo gitignore view *": "allow",
+          "gh repo license list *": "allow",
+          "gh repo license view *": "allow",
+          "gh run list *": "allow",
+          "gh run view *": "allow",
+          "gh workflow list *": "allow",
+          "gh workflow view *": "allow",
+        },
+      },
     },
     "test-runner": {
       "model": "anthropic/claude-sonnet-4-5",

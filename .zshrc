@@ -89,6 +89,9 @@ fi
 
 export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 
+# do not tar annoying MacOS stuff
+export COPYFILE_DISABLE=1
+
 # fnm
 
 if [ -d $HOME/.fnm ]; then

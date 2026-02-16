@@ -59,6 +59,12 @@ yadm sparse-checkout reapply
 
 See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template).
 
+### set up decrypt/encrypt
+
+```
+yadm config yadm.gpg-recipient 207C0A2055199A65
+```
+
 ## usage
 
 The below function sets up vim so that fugitive works properly with yadm and my

@@ -199,13 +199,15 @@
   "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
   "agent": {
     "build": {
+      "model": "anthropic/claude-sonnet-4-6",
       "color": "secondary",
     },
     "plan": {
+      "model": "anthropic/claude-sonnet-4-6",
       "color": "accent",
     },
     "explore": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "anthropic/claude-sonnet-4-6",
       "permission": {
         "bash": {
           // --- Git (read-only) ---
@@ -300,10 +302,10 @@
       },
     },
     "test-runner": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "anthropic/claude-sonnet-4-6",
     },
     "taskagent-reader": {
-      "model": "anthropic/claude-sonnet-4-5",
+      "model": "anthropic/claude-sonnet-4-6",
     },
   },
 }

@@ -1,0 +1,336 @@
+# AeroSpace config - translated from i3 config
+# See: https://nikitabobko.github.io/AeroSpace/guide
+
+config-version = 2
+
+start-at-login = true
+
+# Normalizations disabled for i3 parity (allows split command to work as expected)
+enable-normalization-flatten-containers = false
+enable-normalization-opposite-orientation-for-nested-containers = false
+
+# Accordion padding (for tabbed/stacked layouts) in pixels
+accordion-padding = 0
+
+# Default layout: accordion = i3's tabbed (matches workspace_layout tabbed)
+default-root-container-layout = 'accordion'
+
+# auto: wide monitors get horizontal, tall monitors get vertical
+default-root-container-orientation = 'auto'
+
+# Since cmd-h is bound to focus-left, prevent macOS from hiding apps
+automatically-unhide-macos-hidden-apps = true
+
+# Mouse follows focus when switching monitors
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# i3-like phantom workspaces (workspaces disappear when empty and not visible)
+persistent-workspaces = []
+
+[key-mapping]
+    preset = 'qwerty'
+
+# No gaps (matching your i3 config where gaps were commented out)
+# Uncomment and adjust values to enable
+[gaps]
+    inner.horizontal = 0
+    inner.vertical   = 0
+    outer.left       = 0
+    outer.bottom     = 0
+    outer.top        = 0
+    outer.right      = 0
+
+###############################################################################
+# Main binding mode
+###############################################################################
+[mode.main.binding]
+
+    # =========================================================================
+    # Launch / Close
+    # =========================================================================
+
+    # Launch terminal (i3: $mod+Return)
+    cmd-enter = 'exec-and-forget open -a Ghostty'
+
+    # Close focused window (i3: $mod+q)
+    cmd-q = 'close'
+
+    # Reload config (i3: $mod+Shift+c)
+    cmd-shift-c = 'reload-config'
+
+    # Lock screen
+    cmd-esc = """exec-and-forget osascript -e 'tell application "System Events" to keystroke "q" using {command down, control down}'"""
+
+    # Launch calculator (i3: $mod+Ctrl+c)
+    cmd-ctrl-c = 'exec-and-forget open -a Calculator'
+
+    # =========================================================================
+    # Focus navigation (i3: $mod+h/j/k/l and $mod+arrows)
+    # =========================================================================
+
+    # Vim-style focus
+    cmd-h = 'focus left'
+    cmd-j = 'focus down'
+    cmd-k = 'focus up'
+    cmd-l = 'focus right'
+
+    # Arrow-key focus
+    cmd-left  = 'focus left'
+    cmd-down  = 'focus down'
+    cmd-up    = 'focus up'
+    cmd-right = 'focus right'
+
+    # Disable macOS "hide others" since we use cmd-h for focus
+    cmd-alt-h = []
+
+    # =========================================================================
+    # Move windows (i3: $mod+Shift+h/j/k/l and $mod+Shift+arrows)
+    # =========================================================================
+
+    # Vim-style move
+    cmd-shift-h = 'move left'
+    cmd-shift-j = 'move down'
+    cmd-shift-k = 'move up'
+    cmd-shift-l = 'move right'
+
+    # Arrow-key move
+    cmd-shift-left  = 'move left'
+    cmd-shift-down  = 'move down'
+    cmd-shift-up    = 'move up'
+    cmd-shift-right = 'move right'
+
+    # =========================================================================
+    # Layout
+    # =========================================================================
+
+    # Fullscreen toggle (i3: $mod+f)
+    cmd-f = 'fullscreen'
+
+    # Floating toggle (i3: $mod+Shift+f)
+    cmd-shift-f = 'layout floating tiling'
+
+    # Split horizontal (i3: $mod+g)
+    cmd-g = 'split horizontal'
+
+    # Split vertical (i3: $mod+v, remapped to cmd-b to avoid paste conflict)
+    cmd-b = 'split vertical'
+
+    # Toggle split orientation (i3: $mod+BackSpace)
+    cmd-backspace = 'layout tiles horizontal vertical'
+
+    # Cycle layout: accordion <-> tiles (i3: $mod+t layout toggle tabbed splith splitv)
+    cmd-t = 'layout accordion tiles horizontal vertical'
+
+    # Toggle split direction (i3: $mod+z layout toggle splith splitv)
+    cmd-z = 'layout tiles horizontal vertical'
+
+    # =========================================================================
+    # Workspaces 0-9 (i3: $mod+0..9)
+    # Hungarian layout: 0 is leftmost key = US backtick position
+    # 1-9 are same physical position as US layout
+    # =========================================================================
+
+    cmd-sectionSign = 'workspace 0'
+    cmd-1 = 'workspace 1'
+    cmd-2 = 'workspace 2'
+    cmd-3 = 'workspace 3'
+    cmd-4 = 'workspace 4'
+    cmd-5 = 'workspace 5'
+    cmd-6 = 'workspace 6'
+    cmd-7 = 'workspace 7'
+    cmd-8 = 'workspace 8'
+    cmd-9 = 'workspace 9'
+
+    # =========================================================================
+    # Workspaces 10-19 (i3: $mod+Ctrl+0..9)
+    # =========================================================================
+
+    cmd-ctrl-sectionSign = 'workspace 10'
+    cmd-ctrl-1 = 'workspace 11'
+    cmd-ctrl-2 = 'workspace 12'
+    cmd-ctrl-3 = 'workspace 13'
+    cmd-ctrl-4 = 'workspace 14'
+    cmd-ctrl-5 = 'workspace 15'
+    cmd-ctrl-6 = 'workspace 16'
+    cmd-ctrl-7 = 'workspace 17'
+    cmd-ctrl-8 = 'workspace 18'
+    cmd-ctrl-9 = 'workspace 19'
+
+    # =========================================================================
+    # Move window to workspace 0-9 (i3: $mod+Shift+0..9)
+    # =========================================================================
+
+    cmd-shift-sectionSign = 'move-node-to-workspace 0'
+    cmd-shift-1 = 'move-node-to-workspace 1'
+    cmd-shift-2 = 'move-node-to-workspace 2'
+    cmd-shift-3 = 'move-node-to-workspace 3'
+    cmd-shift-4 = 'move-node-to-workspace 4'
+    cmd-shift-5 = 'move-node-to-workspace 5'
+    cmd-shift-6 = 'move-node-to-workspace 6'
+    cmd-shift-7 = 'move-node-to-workspace 7'
+    cmd-shift-8 = 'move-node-to-workspace 8'
+    cmd-shift-9 = 'move-node-to-workspace 9'
+
+    # =========================================================================
+    # Move window to workspace 10-19 (i3: $mod+Shift+Ctrl+0..9)
+    # =========================================================================
+
+    cmd-shift-ctrl-sectionSign = 'move-node-to-workspace 10'
+    cmd-shift-ctrl-1 = 'move-node-to-workspace 11'
+    cmd-shift-ctrl-2 = 'move-node-to-workspace 12'
+    cmd-shift-ctrl-3 = 'move-node-to-workspace 13'
+    cmd-shift-ctrl-4 = 'move-node-to-workspace 14'
+    cmd-shift-ctrl-5 = 'move-node-to-workspace 15'
+    cmd-shift-ctrl-6 = 'move-node-to-workspace 16'
+    cmd-shift-ctrl-7 = 'move-node-to-workspace 17'
+    cmd-shift-ctrl-8 = 'move-node-to-workspace 18'
+    cmd-shift-ctrl-9 = 'move-node-to-workspace 19'
+
+    # =========================================================================
+    # Carry window to workspace (move + follow) 0-9 (i3: $mod+Alt+0..9)
+    # =========================================================================
+
+    cmd-alt-sectionSign = ['move-node-to-workspace 0', 'workspace 0']
+    cmd-alt-1 = ['move-node-to-workspace 1', 'workspace 1']
+    cmd-alt-2 = ['move-node-to-workspace 2', 'workspace 2']
+    cmd-alt-3 = ['move-node-to-workspace 3', 'workspace 3']
+    cmd-alt-4 = ['move-node-to-workspace 4', 'workspace 4']
+    cmd-alt-5 = ['move-node-to-workspace 5', 'workspace 5']
+    cmd-alt-6 = ['move-node-to-workspace 6', 'workspace 6']
+    cmd-alt-7 = ['move-node-to-workspace 7', 'workspace 7']
+    cmd-alt-8 = ['move-node-to-workspace 8', 'workspace 8']
+    cmd-alt-9 = ['move-node-to-workspace 9', 'workspace 9']
+
+    # =========================================================================
+    # Carry window to workspace (move + follow) 10-19 (i3: $mod+Alt+Ctrl+0..9)
+    # =========================================================================
+
+    cmd-alt-ctrl-sectionSign = ['move-node-to-workspace 10', 'workspace 10']
+    cmd-alt-ctrl-1 = ['move-node-to-workspace 11', 'workspace 11']
+    cmd-alt-ctrl-2 = ['move-node-to-workspace 12', 'workspace 12']
+    cmd-alt-ctrl-3 = ['move-node-to-workspace 13', 'workspace 13']
+    cmd-alt-ctrl-4 = ['move-node-to-workspace 14', 'workspace 14']
+    cmd-alt-ctrl-5 = ['move-node-to-workspace 15', 'workspace 15']
+    cmd-alt-ctrl-6 = ['move-node-to-workspace 16', 'workspace 16']
+    cmd-alt-ctrl-7 = ['move-node-to-workspace 17', 'workspace 17']
+    cmd-alt-ctrl-8 = ['move-node-to-workspace 18', 'workspace 18']
+    cmd-alt-ctrl-9 = ['move-node-to-workspace 19', 'workspace 19']
+
+    # =========================================================================
+    # Workspace navigation
+    # =========================================================================
+
+    # Next/prev workspace (i3: $mod+Tab / $mod+Shift+Tab)
+    cmd-tab       = 'workspace --wrap-around next'
+    cmd-shift-tab = 'workspace --wrap-around prev'
+
+    # Workspace back-and-forth (i3: $mod+Ctrl+comma)
+    cmd-comma = 'workspace-back-and-forth'
+
+    # Carry window to back-and-forth workspace (i3: $mod+Alt+comma)
+    # Note: moves window then switches workspace
+    cmd-alt-comma = ['move-node-to-workspace --focus-follows-window prev', 'workspace-back-and-forth']
+
+    # Focus last focused window/workspace (i3: Alt+Tab / $mod+comma [con_mark=_back])
+    # Falls back to workspace-back-and-forth if the previous window was closed
+    alt-tab = 'exec-and-forget aerospace focus-back-and-forth || aerospace workspace-back-and-forth'
+
+    # =========================================================================
+    # Next empty workspace (i3: $mod+u scripts)
+    # =========================================================================
+
+    # Switch to next empty workspace
+    cmd-u = 'exec-and-forget aerospace list-workspaces --monitor focused --empty | head -1 | xargs aerospace workspace'
+
+    # Move window to next empty workspace
+    cmd-shift-u = 'exec-and-forget WS=$(aerospace list-workspaces --monitor focused --empty | head -1) && aerospace move-node-to-workspace "$WS"'
+
+    # Move window to next empty workspace and follow
+    cmd-alt-u = 'exec-and-forget WS=$(aerospace list-workspaces --monitor focused --empty | head -1) && aerospace move-node-to-workspace "$WS" && aerospace workspace "$WS"'
+
+    # =========================================================================
+    # Multi-monitor (i3: $mod+minus, $mod+Ctrl+minus, $mod+Ctrl+Shift+h/j/k/l)
+    # =========================================================================
+
+    # Move workspace to next/prev monitor (i3: $mod+minus / $mod+Ctrl+minus)
+    # cmd-minus conflicts with zoom-out in most apps, using cmd-] (ú on Hungarian kb)
+    cmd-rightSquareBracket = 'move-workspace-to-monitor --wrap-around next'
+    cmd-leftSquareBracket = 'move-workspace-to-monitor --wrap-around prev'
+
+    # Move workspace to specific monitor direction (i3: $mod+Ctrl+Shift+h/j/k/l)
+    cmd-ctrl-shift-h = 'move-workspace-to-monitor left'
+    cmd-ctrl-shift-j = 'move-workspace-to-monitor down'
+    cmd-ctrl-shift-k = 'move-workspace-to-monitor up'
+    cmd-ctrl-shift-l = 'move-workspace-to-monitor right'
+
+    # Focus monitor (i3: $mod+Ctrl+l / $mod+Ctrl+h for next/prev on output)
+    cmd-ctrl-l = 'focus-monitor right'
+    cmd-ctrl-h = 'focus-monitor left'
+
+    # =========================================================================
+    # Resize mode (i3: $mod+r)
+    # =========================================================================
+
+    cmd-r = 'mode resize'
+
+###############################################################################
+# Resize binding mode (i3: mode "resize")
+###############################################################################
+[mode.resize.binding]
+    left  = 'resize width -50'
+    down  = 'resize height +50'
+    up    = 'resize height -50'
+    right = 'resize width +50'
+    h     = 'resize width -50'
+    j     = 'resize height +50'
+    k     = 'resize height -50'
+    l     = 'resize width +50'
+    enter = 'mode main'
+    esc   = 'mode main'
+    cmd-r = 'mode main'
+
+###############################################################################
+# Window rules (i3: assign / for_window)
+###############################################################################
+
+# Messaging apps -> workspace 8 (i3: assign [class="Slack|Element|..."] workspace $ws8)
+[[on-window-detected]]
+    if.app-id = 'com.tinyspeck.slackmacgap'
+    run = 'move-node-to-workspace 8'
+
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome.app.ejhkdoiecgkmdpomoahkdihbcldkgjci'
+    run = 'move-node-to-workspace 8'
+
+# Mail -> workspace 7 (i3: assign [instance="mail.google.com..."] workspace $ws7)
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome.app.fmgjjmmmlfnkbppncabfkddbjimcfncm'
+    run = 'move-node-to-workspace 7'
+
+# Calendar -> workspace 6 (i3: assign [instance="calendar.google.com..."] workspace $ws6)
+[[on-window-detected]]
+    if.app-id = 'com.google.Chrome.app.kjbdgfilnfhdoflbpgamdcdgpehopbep'
+    run = 'move-node-to-workspace 6'
+
+# Zoom -> workspace 5
+# [[on-window-detected]]
+#     if.app-id = 'us.zoom.xos'
+#     run = 'move-node-to-workspace 5'
+
+# Spotify -> workspace 9 (i3: assign [class="Spotify"] workspace $ws9)
+[[on-window-detected]]
+    if.app-id = 'com.spotify.client'
+    run = 'move-node-to-workspace 9'
+
+# Floating windows (i3: for_window [...] floating enable)
+[[on-window-detected]]
+    if.app-id = 'com.apple.systempreferences'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.SystemPreferences'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.calculator'
+    run = 'layout floating'

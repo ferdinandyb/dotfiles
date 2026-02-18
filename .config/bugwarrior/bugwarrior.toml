@@ -15,6 +15,7 @@ password = "@oracle:eval:pass show jira"
 description_template = "{{jiraid}} ({{jirastatus}}) - {{jirasummary}} - {{jiraurl}}"
 label_template = "jira_{{label}}"
 import_sprints_as_tags = true
+add_tags = "{% if jiraparent == 'RPL-3987' %}accint{% endif %}"
 
 
 [elteeto]

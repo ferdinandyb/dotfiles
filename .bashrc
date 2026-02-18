@@ -219,3 +219,27 @@ fi
 
 complete -C '/usr/local/bin/aws_completer' aws
 source ~/.local/share/blesh/ble.sh
+# BEGIN ANSIBLE MANAGED BLOCK - PROFILE.D
+# Source files from profile.d directory
+if [ -d "$HOME/.profile.d" ]; then
+  # Handle empty glob patterns in both bash and zsh
+  if [ -n "$ZSH_VERSION" ]; then
+    setopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -s nullglob
+  fi
+  # Ensure files are loaded in alphabetical order
+  for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
+    if [ -r "$file" ]; then
+      . "$file"
+    fi
+  done
+  unset file
+  # Reset glob behavior
+  if [ -n "$ZSH_VERSION" ]; then
+    unsetopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -u nullglob
+  fi
+fi
+# END ANSIBLE MANAGED BLOCK - PROFILE.D

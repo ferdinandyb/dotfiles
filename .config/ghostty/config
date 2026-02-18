@@ -96,6 +96,9 @@ keybind = ctrl+ő=text:\x1b
 keybind = ctrl+ú=text:\x1d
 
 
-## these should be handled by the OS
-# keybind = ctrl+shift+q=quit
-# keybind = ctrl+enter=toggle_fullscreen
+## MacOS remaps
+keybind = cmd+r=text:\x12
+keybind = cmd+c=text:\x03
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+j=text:\x0a
+keybind = cmd+p=text:\x10

@@ -1,5 +1,7 @@
 # ZDOTDIR=$HOME/.config/shell/zsh
 # source . $ZDOTDIR/.zshenv
+
+export XDG_CONFIG_HOME="$HOME/.config"
 if [ -f $HOME/.cargo/env ]; then
 . "$HOME/.cargo/env"
 fi

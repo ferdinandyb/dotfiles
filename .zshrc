@@ -205,25 +205,25 @@ fpath+=~/.zfunc
 # BEGIN ANSIBLE MANAGED BLOCK - PROFILE.D
 # Source files from profile.d directory
 if [ -d "$HOME/.profile.d" ]; then
-	# Handle empty glob patterns in both bash and zsh
-	if [ -n "$ZSH_VERSION" ]; then
-		setopt nullglob
-	elif [ -n "$BASH_VERSION" ]; then
-		shopt -s nullglob
-	fi
-	# Ensure files are loaded in alphabetical order
-	for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
-		if [ -r "$file" ]; then
-			. "$file"
-		fi
-	done
-	unset file
-	# Reset glob behavior
-	if [ -n "$ZSH_VERSION" ]; then
-		unsetopt nullglob
-	elif [ -n "$BASH_VERSION" ]; then
-		shopt -u nullglob
-	fi
+  # Handle empty glob patterns in both bash and zsh
+  if [ -n "$ZSH_VERSION" ]; then
+    setopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -s nullglob
+  fi
+  # Ensure files are loaded in alphabetical order
+  for file in $(find "$HOME/.profile.d" -name "*.sh" -type f | sort); do
+    if [ -r "$file" ]; then
+      . "$file"
+    fi
+  done
+  unset file
+  # Reset glob behavior
+  if [ -n "$ZSH_VERSION" ]; then
+    unsetopt nullglob
+  elif [ -n "$BASH_VERSION" ]; then
+    shopt -u nullglob
+  fi
 fi
 # END ANSIBLE MANAGED BLOCK - PROFILE.D
 
@@ -232,3 +232,6 @@ if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc' ]; the
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+export JAVA_HOME=$(/usr/libexec/java_home -v17)
+export PATH=$JAVA_HOME/bin:$PATH

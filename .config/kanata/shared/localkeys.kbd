@@ -1,0 +1,28 @@
+;; deflocalkeys for Hungarian ISO layout
+;; Apple ISO swaps KEY_GRAVE (41) ↔ KEY_102ND (86) relative to Linux.
+
+(deflocalkeys-linux
+  nul 41   ;; 0/§ key (leftmost of number row)
+  ö   11
+  ü   12
+  ó   13
+  ő   26
+  ú   27
+  é   39
+  á   40
+  ű   43
+  í   86   ;; ISO extra key left of Z
+)
+
+(deflocalkeys-macos
+  nul 86   ;; 0/§ key (Apple ISO: KEY_102ND)
+  í   41   ;; í/Í key (Apple ISO: KEY_GRAVE)
+  ö   11
+  ü   12
+  ó   13
+  ő   26
+  ú   27
+  é   39
+  á   40
+  ű   43
+)

@@ -1,0 +1,11 @@
+;; kanata-mac.kbd — macOS entry point
+;; Devices: Apple Internal Keyboard / Trackpad (ISO), Keychron K8 Pro ISO
+;; Prereqs: HU input source; Fn↔Ctrl swapped in System Settings;
+;;          kanata in Input Monitoring; Karabiner VirtualHIDDevice active
+
+(defcfg
+  process-unmapped-keys no
+)
+
+(include shared/localkeys.kbd)
+(include shared/core.kbd)

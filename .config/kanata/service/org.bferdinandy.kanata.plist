@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>org.bferdinandy.kanata</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/kanata</string>
+        <string>-c</string>
+        <string>/Users/bence.ferdinandy/.config/kanata/mac.kbd</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- KeepAlive: launchd auto-restarts kanata after macOS sleep/wake crashes -->
+    <!-- See upstream issue #1357. A brief remapping gap after wake is expected. -->
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>

@@ -1,0 +1,9 @@
+;; kanata-linux-iso.kbd — Linux entry point (ISO keyboard)
+;; Prereqs: HU layout (XKB); kanata at /usr/bin/kanata (systemd service)
+
+(defcfg
+  process-unmapped-keys no
+)
+
+(include shared/localkeys.kbd)
+(include shared/core.kbd)

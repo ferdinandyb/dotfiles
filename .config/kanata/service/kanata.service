@@ -1,0 +1,14 @@
+[Unit]
+Description=Kanata keyboard remapper
+After=local-fs.target
+
+[Service]
+Type=simple
+# TODO: Replace /usr/bin/kanata with the actual binary path on the Linux machine.
+# TODO: Replace /home/<user> with the actual home directory path.
+ExecStart=/usr/bin/kanata -c /home/bence/.config/kanata/linux-iso.kbd
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

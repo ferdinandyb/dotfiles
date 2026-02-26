@@ -128,7 +128,7 @@ persistent-workspaces = []
     # 1-9 are same physical position as US layout
     # =========================================================================
 
-    cmd-alt-0 = 'workspace 0'
+    cmd-alt-sectionSign = 'workspace 0'
     cmd-alt-1 = 'workspace 1'
     cmd-alt-2 = 'workspace 2'
     cmd-alt-3 = 'workspace 3'
@@ -143,7 +143,7 @@ persistent-workspaces = []
     # Workspaces 10-19 (i3: $mod+Ctrl+0..9)
     # =========================================================================
 
-    cmd-alt-ctrl-0 = 'workspace 10'
+    cmd-alt-ctrl-sectionSign = 'workspace 10'
     cmd-alt-ctrl-1 = 'workspace 11'
     cmd-alt-ctrl-2 = 'workspace 12'
     cmd-alt-ctrl-3 = 'workspace 13'
@@ -159,7 +159,7 @@ persistent-workspaces = []
     # Carry window to workspace (move + follow) 0-9 (i3: $mod+Alt+0..9)
     # =========================================================================
 
-    cmd-alt-shift-0 = ['move-node-to-workspace 0', 'workspace 0']
+    cmd-alt-shift-sectionSign = ['move-node-to-workspace 0', 'workspace 0']
     cmd-alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
     cmd-alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
     cmd-alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
@@ -174,7 +174,7 @@ persistent-workspaces = []
     # Carry window to workspace (move + follow) 10-19 (i3: $mod+alt-shift+Ctrl+0..9)
     # =========================================================================
 
-    cmd-alt-shift-ctrl-0 = ['move-node-to-workspace 10', 'workspace 10']
+    cmd-alt-shift-ctrl-sectionSign = ['move-node-to-workspace 10', 'workspace 10']
     cmd-alt-shift-ctrl-1 = ['move-node-to-workspace 11', 'workspace 11']
     cmd-alt-shift-ctrl-2 = ['move-node-to-workspace 12', 'workspace 12']
     cmd-alt-shift-ctrl-3 = ['move-node-to-workspace 13', 'workspace 13']

@@ -95,7 +95,7 @@
 ;; ── SUPER LAYER (normal mode) — plain numbers + switch to hu-prose ─
 
 (deflayer super-layer
-  0    1     2     3     4     5     6     7     8     9     _     _     _     bspc
+  nul    1     2     3     4     5     6     7     8     9     _     _     _     bspc
   _    _     _     _     _     _     _     _     _     _     _     _       _     @to-hu
   _    _     _     _     _     _     _     _     _     _     _     _       _
   _    _     _     _     _     _     _     _     _     _     _     _       _
@@ -118,7 +118,7 @@
 ;; Accents output HU characters directly; number row outputs plain digits.
 
 (deflayer hu-prose-base
-  0    1     2     3     4     5     6     7     8     9     ö     ü     ó     bspc
+  nul    1     2     3     4     5     6     7     8     9     ö     ü     ó     bspc
   tab  q     w     e     r     t     y     u     i     o     p     ő     ú     ű
   @cap a     s     d     f     g     h     j     k     l     é     á     ret
   lsft í     z     x     c     v     b     n     m     ,     .     /     rsft
@@ -128,7 +128,7 @@
 ;; ── SUPER LAYER (hu-prose mode) — plain numbers + switch to normal ─
 
 (deflayer super-layer-hu
-  0    1     2     3     4     5     6     7     8     9     _     _     _     bspc
+  nul    1     2     3     4     5     6     7     8     9     _     _     _     bspc
   _    _     _     _     _     _     _     _     _     _     _     _         _     @to-norm
   _    _     _     _     _     _     _     _     _     _     _     _         _
   _    _     _     _     _     _     _     _     _     _     _     _         _

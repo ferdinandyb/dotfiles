@@ -33,25 +33,27 @@
   n8  (fork S-8    (unmod 8)    (lsft rsft))  ;; (  / 8
   n9  (fork S-9    (unmod 9)    (lsft rsft))  ;; )  / 9
 
-  cap   (tap-hold 200 200 esc lctl)                                                      ;; Caps: tap=Esc, hold=Ctrl
-  superk (tap-hold 200 200 f20 (multi @superchord (layer-while-held super-layer)))       ;; super key (normal mode):   tap=F20, hold=chord+layer
-  superh (tap-hold 200 200 f20 (multi @superchord (layer-while-held super-layer-hu)))   ;; super key (hu-prose mode): tap=F20, hold=chord+layer
+  cap   (tap-hold-press 200 200 esc lctl)                                                ;; Caps: tap=Esc, hold=Ctrl
+  superk (tap-hold-press 200 200 f20 (multi @superchord (layer-while-held super-layer)))       ;; super key (normal mode):   tap=F20, hold=chord+layer
+  superh (tap-hold-press 200 200 f20 (multi @superchord (layer-while-held super-layer-hu)))   ;; super key (hu-prose mode): tap=F20, hold=chord+layer
 
   to-hu   (layer-switch hu-prose-base)
   to-norm (layer-switch base)
 
   ;; lalt: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
-  ;; ralt: explicit unicode mappings (Option layer)
-  lal  (tap-hold 200 200 lalt (layer-while-held alt-layer))
-  ral  (tap-hold 200 200 ralt (layer-while-held ralt-layer))
+  ;; ralt: explicit unicode mappings (Option/AltGr layer)
+  ;;   tap-hold-press: layer activates immediately when another key is chorded,
+  ;;   preventing the OS from seeing a bare ralt+key (which produces wrong chars on HU layout).
+  lal  (tap-hold-press 200 200 lalt (layer-while-held alt-layer))
+  ral  (tap-hold-press 200 200 ralt (layer-while-held ralt-layer))
 
-  lalh (tap-hold 200 200 lalt (layer-while-held alt-layer-hu))
-  ralh (tap-hold 200 200 ralt (layer-while-held ralt-layer-hu))
+  lalh (tap-hold-press 200 200 lalt (layer-while-held alt-layer-hu))
+  ralh (tap-hold-press 200 200 ralt (layer-while-held ralt-layer-hu))
 )
 
 ;; ── Bottom-row aliases ────────────────────────────────────────────
-;; macOS (after OS fn↔ctrl swap): fn-pos→Cmd, opt-pos→super-key, cmd-pos→Opt
-;;   right side: ralt→AltGr/ralt-layer, rmet(cmd-pos)→Opt, rctl→Ctrl
+;; macOS (after OS fn↔ctrl swap): fn-pos→Cmd, opt-pos→super-key, cmd-pos→alt-layer
+;;   right side: ralt→AltGr/ralt-layer, rmet(cmd-pos)→rOpt, rctl→Ctrl
 ;; Linux: lctl unchanged, lalt→alt-layer, Super→super-layer
 ;;   right side: ralt→AltGr/ralt-layer, rmet(super-pos)→super-layer, rctl→Ctrl
 
@@ -59,9 +61,9 @@
   (defalias
     bctl   lmet     ;; fn-pos   → Cmd
     balt   @superk  ;; opt-pos  → super-layer       [base]
-    bmet   lalt     ;; cmd-pos  → Opt               [base]
+    bmet   @lal     ;; cmd-pos  → alt-layer         [base]
     bahu   @superh  ;; opt-pos  → super-layer-hu    [hu-prose]
-    bmhu   lalt     ;; cmd-pos  → Opt               [hu-prose]
+    bmhu   @lalh    ;; cmd-pos  → alt-layer-hu      [hu-prose]
     brmet  ralt     ;; r-cmd-pos → rOpt             [base]
     brmhu  ralt     ;; r-cmd-pos → rOpt             [hu-prose]
   )
@@ -101,10 +103,11 @@
 )
 
 ;; ── ALT LAYER (normal mode) — bare HU accents on accent positions ─
+;; Number row matches Windows/Linux HU layout Alt+digit dead-key symbols.
 ;; Unmapped keys (_) pass the modifier through (Alt+key or AltGr+key).
 
 (deflayer alt-layer
-  _    _     _     _     _     _     _     _     _     _     (unmod ö)  (unmod ü)  _     _
+  (unicode ˝)  (unicode ~)  (unicode ˇ)  (unicode ^)  (unicode ˘)  (unicode °)  (unicode ˛)  (unicode `)  (unicode ˙)  (unicode ´)  (unmod ö)  (unmod ü)  (unicode ¸)  _
   _    _     _     _     _     _     _     _     _     _     _     (unmod ő)  (unmod ú)  (unmod ű)
   _    _     _     _     _     _     _     _     _     _     (unmod é)  (unmod á)  _
   _    (unmod í)  _  _   _     _     _     _     _     _     _     _     _
@@ -132,10 +135,10 @@
   _    _     _                 _                 _     _     _
 )
 
-;; ── ALT LAYER (hu-prose mode) — TBD ─────────────────────────────
+;; ── ALT LAYER (hu-prose mode) — number row matches Windows/Linux HU Alt+digit ─
 
 (deflayer alt-layer-hu
-  _    _     _     _     _     _     _     _     _     _     _     _     _     _
+  (unicode ˝)  (unicode ~)  (unicode ˇ)  (unicode ^)  (unicode ˘)  (unicode °)  (unicode ˛)  (unicode `)  (unicode ˙)  (unicode ´)  _     _     (unicode ¸)  _
   _    _     _     _     _     _     _     _     _     _     _     _     _     _
   _    _     _     _     _     _     _     _     _     _     _     _     _
   _    _     _     _     _     _     _     _     _     _     _     _     _

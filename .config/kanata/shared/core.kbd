@@ -1,150 +1,113 @@
 ;; core.kbd — kanata logic (defsrc, defalias, deflayer)
-;; Included by mac.kbd and linux-iso.kbd.
+;; Included by mac.kbd and linux-iso.kbd. No platform conditionals here;
+;; all hardware/OS specifics live in localkeys.kbd.
 ;; OS layout: Hungarian. kanata remaps scancodes; it does not synthesise characters.
 ;; Key name conventions (from localkeys.kbd):
 ;;   nul = 0/§ key (leftmost of number row); í = ISO extra key left of Z
+;;
+;; Two virtual-key flags control mode:
+;;   vk_num: pressed = digits mode (num row unshifted → digits)
+;;           released = symbols mode (num row unshifted → HU symbols)
+;;   vk_hu:  pressed = bare accents (accent keys → ö ü ó etc.)
+;;           released = AltGr accents (accent keys → RA-ö RA-ü RA-ó etc.)
+;;
+;; Toggles: super+ú → tog-num,  super+ű → tog-hu
 
-;; ── defsrc ───────────────────────────────────────────────────────
+;; ── defvirtualkeys ───────────────────────────────────────────────────
+
+(defvirtualkeys
+  vk_num XX   ;; num-row mode flag
+  vk_hu  XX   ;; accent mode flag
+)
+
+;; ── defsrc ───────────────────────────────────────────────────────────
 
 (defsrc
   nul  1    2    3    4    5    6    7    8    9    ö    ü    ó    bspc
   tab  q    w    e    r    t    y    u    i    o    p    ő    ú    ű
   caps a    s    d    f    g    h    j    k    l    é    á    ret
   lsft í    z    x    c    v    b    n    m    ,    .    /    rsft
-  lctl lalt lmet                spc                ralt rmet rctl
+  lctl lmet lalt                spc                ralt rmet rctl
 )
 
-;; ── defalias ─────────────────────────────────────────────────────
-
-(platform (macos) (defalias superchord (multi lmet lalt)))  ;; Cmd+Alt
-(platform (linux) (defalias superchord lmet))               ;; Cmd (Super)
+;; ── defalias ─────────────────────────────────────────────────────────
 
 (defalias
-  ;; Inverted number row: unshifted → symbol (HU shifted char), shifted → digit
-  ;; unmod strips the held shift so OS sees a plain keypress.
-  n0  (fork S-nul  (unmod nul)  (lsft rsft))  ;; §  / 0
-  n1  (fork S-1    (unmod 1)    (lsft rsft))  ;; '  / 1
-  n2  (fork S-2    (unmod 2)    (lsft rsft))  ;; "  / 2
-  n3  (fork S-3    (unmod 3)    (lsft rsft))  ;; +  / 3
-  n4  (fork S-4    (unmod 4)    (lsft rsft))  ;; !  / 4
-  n5  (fork S-5    (unmod 5)    (lsft rsft))  ;; %  / 5
-  n6  (fork S-6    (unmod 6)    (lsft rsft))  ;; /  / 6
-  n7  (fork S-7    (unmod 7)    (lsft rsft))  ;; =  / 7
-  n8  (fork S-8    (unmod 8)    (lsft rsft))  ;; (  / 8
-  n9  (fork S-9    (unmod 9)    (lsft rsft))  ;; )  / 9
+  ;; ── Num row: switch on vk_num ─────────────────────────────────────
+  ;; digits mode  → plain digit (unmod strips any held shift)
+  ;; symbols mode → HU shifted char / digit fork (existing behaviour)
+  n0  (switch ((input virtual vk_num)) (unmod nul) break () (fork S-nul  (unmod nul)  (lsft rsft)) break)
+  n1  (switch ((input virtual vk_num)) (unmod 1)   break () (fork S-1    (unmod 1)    (lsft rsft)) break)
+  n2  (switch ((input virtual vk_num)) (unmod 2)   break () (fork S-2    (unmod 2)    (lsft rsft)) break)
+  n3  (switch ((input virtual vk_num)) (unmod 3)   break () (fork S-3    (unmod 3)    (lsft rsft)) break)
+  n4  (switch ((input virtual vk_num)) (unmod 4)   break () (fork S-4    (unmod 4)    (lsft rsft)) break)
+  n5  (switch ((input virtual vk_num)) (unmod 5)   break () (fork S-5    (unmod 5)    (lsft rsft)) break)
+  n6  (switch ((input virtual vk_num)) (unmod 6)   break () (fork S-6    (unmod 6)    (lsft rsft)) break)
+  n7  (switch ((input virtual vk_num)) (unmod 7)   break () (fork S-7    (unmod 7)    (lsft rsft)) break)
+  n8  (switch ((input virtual vk_num)) (unmod 8)   break () (fork S-8    (unmod 8)    (lsft rsft)) break)
+  n9  (switch ((input virtual vk_num)) (unmod 9)   break () (fork S-9    (unmod 9)    (lsft rsft)) break)
 
-  cap   (tap-hold-press 200 200 esc lctl)                                                ;; Caps: tap=Esc, hold=Ctrl
-  superk (tap-hold-press 200 200 f20 (multi @superchord (layer-while-held super-layer)))       ;; super key (normal mode):   tap=F20, hold=chord+layer
-  superh (tap-hold-press 200 200 f20 (multi @superchord (layer-while-held super-layer-hu)))   ;; super key (hu-prose mode): tap=F20, hold=chord+layer
+  ;; ── Accent keys: switch on vk_hu ──────────────────────────────────
+  ;; hu mode  → bare accent character
+  ;; AltGr mode → RA- (AltGr+key, let OS HU layout produce the character)
+  aö  (switch ((input virtual vk_hu)) ö   break () RA-ö break)
+  aü  (switch ((input virtual vk_hu)) ü   break () RA-ü break)
+  aó  (switch ((input virtual vk_hu)) ó   break () RA-ó break)
+  aő  (switch ((input virtual vk_hu)) ő   break () RA-ő break)
+  aú  (switch ((input virtual vk_hu)) ú   break () RA-ú break)
+  aű  (switch ((input virtual vk_hu)) ű   break () RA-ű break)
+  aé  (switch ((input virtual vk_hu)) é   break () RA-é break)
+  aá  (switch ((input virtual vk_hu)) á   break () RA-á break)
 
-  to-hu   (layer-switch hu-prose-base)
-  to-norm (layer-switch base)
+  ;; ── Mode toggles ──────────────────────────────────────────────────
+  tog-num (on-press toggle-vkey vk_num)
+  tog-hu  (on-press toggle-vkey vk_hu)
 
-  ;; lalt: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
-  ;; ralt: activates layer immediately (no tap action needed); prevents OS from
-  ;;   seeing bare ralt+key which would produce wrong chars on HU layout.
-  lal  (tap-hold-press 200 200 lalt (layer-while-held alt-layer))
-  ral  (layer-while-held ralt-layer)
+  ;; ── Set-both shortcuts ────────────────────────────────────────────
+  to-hu   (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu))
+  to-norm (multi (on-press release-vkey vk_num) (on-press release-vkey vk_hu))
 
-  lalh (tap-hold-press 200 200 lalt (layer-while-held alt-layer-hu))
-  ralh (layer-while-held ralt-layer-hu)
 )
 
-;; ── Bottom-row aliases ────────────────────────────────────────────
-;; macOS (after OS fn↔ctrl swap): fn-pos→Cmd, opt-pos→super-key, cmd-pos→alt-layer
-;;   right side: ralt→AltGr/ralt-layer, rmet(cmd-pos)→rOpt, rctl→Ctrl
-;; Linux: lctl unchanged, lalt→alt-layer, Super→super-layer
-;;   right side: ralt→AltGr/ralt-layer, rmet(super-pos)→super-layer, rctl→Ctrl
 
-(platform (macos)
-  (defalias
-    bctl   lmet     ;; fn-pos   → Cmd
-    balt   @superk  ;; opt-pos  → super-layer       [base]
-    bmet   @lal     ;; cmd-pos  → alt-layer         [base]
-    bahu   @superh  ;; opt-pos  → super-layer-hu    [hu-prose]
-    bmhu   @lalh    ;; cmd-pos  → alt-layer-hu      [hu-prose]
-    brmet  ralt     ;; r-cmd-pos → rOpt             [base]
-    brmhu  ralt     ;; r-cmd-pos → rOpt             [hu-prose]
-  )
-)
-
-(platform (linux)
-  (defalias
-    bctl   lctl     ;; unchanged
-    balt   @lal     ;; lalt + alt-layer
-    bmet   @superk  ;; Super → super-layer
-    bahu   @lalh    ;; lalt + alt-layer-hu           [hu-prose]
-    bmhu   @superh  ;; Super → super-layer-hu        [hu-prose]
-    brmet  @superk  ;; r-Super → super-layer         [base]
-    brmhu  @superh  ;; r-Super → super-layer-hu      [hu-prose]
-  )
-)
-
-;; ── BASE LAYER — normal mode ──────────────────────────────────────
-;; Accent positions output AltGr equivalent (RA- prefix).
+;; ── BASE LAYER ───────────────────────────────────────────────────────
+;; Num row and accent positions driven by vk_num / vk_hu flags.
 
 (deflayer base
-  @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   RA-ö  RA-ü  =     bspc
-  tab  q     w     e     r     t     y     u     i     o     p     RA-ő  RA-ú  RA-ű
-  @cap a     s     d     f     g     h     j     k     l     RA-é  RA-á  ret
+  @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
+  tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú   @aű
+  @cap a     s     d     f     g     h     j     k     l     @aé   @aá   ret
   lsft í     z     x     c     v     b     n     m     ,     .     /     rsft
-  @bctl @balt @bmet              spc                @ral  @brmet  rctl
+  @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
 )
 
-;; ── SUPER LAYER (normal mode) — plain numbers + switch to hu-prose ─
+;; ── SUPER LAYER — plain numbers + mode toggles ───────────────────────
+;; ő (tab-row pos 11) → to-hu    ú (tab-row pos 12) → tog-num
+;; ű (tab-row pos 13) → tog-hu
+;; @to-hu / @to-norm set/clear both flags at once
 
 (deflayer super-layer
-  nul    1     2     3     4     5     6     7     8     9     _     _     _     bspc
-  _    _     _     _     _     _     _     _     _     _     _     _       _     @to-hu
-  _    _     _     _     _     _     _     _     _     _     _     _       _
-  _    _     _     _     _     _     _     _     _     _     _     _       _
+  nul    1     2     3     4     5     6     7     8     9     _     _     _      bspc
+  _    _     _     _     _     _     _     _     _     _     _     @to-hu  @tog-num  @tog-hu
+  _    _     _     _     _     _     _     _     _     _     _     _         _
+  _    _     _     _     _     _     _     _     _     _     _     _         _
   _    _     _                 _                 _     _     _
 )
 
-;; ── ALT LAYER (normal mode) — bare HU accents on accent positions ─
-;; Number row matches Windows/Linux HU layout Alt+digit dead-key symbols.
-;; Unmapped keys (_) pass the modifier through (Alt+key or AltGr+key).
+;; ── ALT LAYER — lalt acts like AltGr; accent positions always strip mod ─
+;; Accent keys: (unmod x) always gives the bare accent regardless of vk_hu.
+;; Num row: passthrough for now (your reshuffle goes here).
+;; Everything else: _ (transparent → base).
 
 (deflayer alt-layer
-  0            1     2     3     4     5     6     7     8     9     (unmod ö)  (unmod ü)  (unicode ¸)  _
+  0            1     2     3     4     5     6     7     8     9     (unmod ö)  (unmod ü)  (unmod ó)  _
   _    _     _     _     _     _     _     _     _     _     _     (unmod ő)  (unmod ú)  (unmod ű)
   _    _     _     _     _     _     _     _     _     _     (unmod é)  (unmod á)  _
   _    (unmod í)  _  _   _     _     _     _     _     _     _     _     _
   _    _     _                 _                 _     _     _
 )
 
-;; ── HU-PROSE BASE LAYER — Hungarian prose mode ───────────────────
-;; Accents output HU characters directly; number row outputs plain digits.
-
-(deflayer hu-prose-base
-  nul    1     2     3     4     5     6     7     8     9     ö     ü     ó     bspc
-  tab  q     w     e     r     t     y     u     i     o     p     ő     ú     ű
-  @cap a     s     d     f     g     h     j     k     l     é     á     ret
-  lsft í     z     x     c     v     b     n     m     ,     .     /     rsft
-  @bctl @bahu @bmhu              spc                @ralh @brmhu  rctl
-)
-
-;; ── SUPER LAYER (hu-prose mode) — plain numbers + switch to normal ─
-
-(deflayer super-layer-hu
-  nul    1     2     3     4     5     6     7     8     9     _     _     _     bspc
-  _    _     _     _     _     _     _     _     _     _     _     _         _     @to-norm
-  _    _     _     _     _     _     _     _     _     _     _     _         _
-  _    _     _     _     _     _     _     _     _     _     _     _         _
-  _    _     _                 _                 _     _     _
-)
-
-;; ── ALT LAYER (hu-prose mode) — digits pass through as plain numbers ─
-
-(deflayer alt-layer-hu
-  0            1     2     3     4     5     6     7     8     9     _     _     (unicode ¸)  _
-  _    _     _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _                 _                 _     _     _
-)
-
-;; ── RALT LAYER (normal mode) — Option/AltGr unicode mappings ─────
+;; ── RALT LAYER — Option/AltGr unicode mappings ───────────────────────
 ;;   nul→‹  1→~   2→™   3→^   4→$   5→‹   6→›   7→`   8→[   9→]   ö→}   ü→\
 ;;   q→\    w→|   e→€   r→¶   t→†   y→>   u→(dead) i→Í  o→Ņ  p→Ļ  ő→¨   ú→~  ű→`
 ;;   a→ą    s→ß   d→∂   f→[   g→]   h→ķ   j→í   k→Ż   l→•   é→$   á→^
@@ -155,15 +118,5 @@
    _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   (unicode ¨)   (unicode ~)   (unicode `)
   _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   (unicode $)   (unicode ^)   _
    _    (unicode |)   (unicode ›)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
-  _    _     _                 _                 _     _     _
-)
-
-;; ── RALT LAYER (hu-prose mode) — TBD ────────────────────────────
-
-(deflayer ralt-layer-hu
-  _    _     _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _
   _    _     _                 _                 _     _     _
 )

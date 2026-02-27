@@ -1,5 +1,7 @@
-;; deflocalkeys for Hungarian ISO layout
+;; localkeys.kbd — hardware/OS layout specifics for Hungarian ISO
 ;; Apple ISO swaps KEY_GRAVE (41) ↔ KEY_102ND (86) relative to Linux.
+;; Also defines platform-specific chord alias (v_chord).
+
 
 (deflocalkeys-linux
   nul 41   ;; 0/§ key (leftmost of number row)
@@ -25,4 +27,49 @@
   é   39
   á   40
   ű   43
+)
+
+;; ── Platform-specific chord alias ───────────────────────────────────
+;; v_chord: modifier combo held alongside the super-layer key.
+;; References no other aliases so it can be defined here before core.kbd.
+
+(platform (macos) (defalias v_chord (multi lmet lalt)))  ;; Cmd+Alt
+(platform (linux) (defalias v_chord lmet))               ;; Cmd (Super)
+
+(defalias
+  ;; ── Virtual action keys ───────────────────────────────────────────
+  cap   (tap-hold-press 200 200 esc lctl)
+  v_sup (tap-hold-press 200 200 f20 (multi @v_chord (layer-while-held super-layer)))
+
+  ;; v_lal: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
+  ;; v_ral: activates ralt-layer immediately (no tap action needed)
+  v_lal (tap-hold-press 200 200 lalt (layer-while-held alt-layer))
+  v_ral (layer-while-held ralt-layer)
+)
+
+;; ── Bottom-row button aliases ─────────────────────────────────────────
+;; made so it doesn't confuse me on Mac
+
+(platform (macos)
+  (defalias
+    b_lctl  lmet
+    b_lalt  @v_sup
+    b_lsup  @v_lal
+
+    b_rsup  @v_ral
+    b_ralt  @v_sup
+    b_rctl rctrl
+  )
+)
+
+(platform (linux)
+  (defalias
+    b_lctl  lctrl
+    b_lsup  @v_sup
+    b_lalt  @v_lal
+
+    b_ralt  @v_ral
+    b_rsup  @v_sup
+    b_rctl rctrl
+  )
 )

@@ -1,6 +1,5 @@
-;; core.kbd — kanata logic (defsrc, defalias, deflayer)
-;; Included by mac.kbd and linux-iso.kbd. No platform conditionals here;
-;; all hardware/OS specifics live in localkeys.kbd.
+;; core.kbd — platform-agnostic kanata logic
+;; Included by mac.kbd and linux-iso.kbd; all platform specifics live in localkeys.kbd.
 ;; OS layout: Hungarian. kanata remaps scancodes; it does not synthesise characters.
 ;; Key name conventions (from localkeys.kbd):
 ;;   nul = 0/§ key (leftmost of number row); í = ISO extra key left of Z
@@ -26,7 +25,7 @@
   nul  1    2    3    4    5    6    7    8    9    ö    ü    ó    bspc
   tab  q    w    e    r    t    y    u    i    o    p    ő    ú    ű
   caps a    s    d    f    g    h    j    k    l    é    á    ret
-  lsft í    z    x    c    v    b    n    m    ,    .    /    rsft
+  lsft í     z    x    c     v     b     n     m     ,     .     /     rsft
   lctl lmet lalt                spc                ralt rmet rctl
 )
 
@@ -75,14 +74,15 @@
 (t! num-row-key n9 9   S-9)
 
 ;; ── accent-key expansions ─────────────────────────────────────────────
-(t! accent-key aö ö (unicode < )  (unicode } ))
-(t! accent-key aü ü (unicode > )  (unicode \ ))
-(t! accent-key aó ó (unicode = )  (unicode # ))
-(t! accent-key aő ő (unicode [ )  (unicode { ))
-(t! accent-key aú ú (unicode ] )  (unicode } ))
-(t! accent-key aű ű (unicode ` )  (unicode ' ))
-(t! accent-key aé é (unicode $ )  (unicode $ ))
-(t! accent-key aá á (unicode ^ )  (unicode ^ ))
+(t! accent-key aí í $SYM_SLASH     $SYM_AT)
+(t! accent-key aö ö $SYM_LESS      $SYM_RBRACE)
+(t! accent-key aü ü $SYM_GREATER   $SYM_BACKSLASH)
+(t! accent-key aó ó $SYM_EQUAL     $SYM_HASH)
+(t! accent-key aő ő $SYM_LBRACKET  $SYM_LBRACE)
+(t! accent-key aú ú $SYM_RBRACKET  $SYM_RBRACE)
+(t! accent-key aű ű $SYM_BACKTICK  $SYM_QUOTE)
+(t! accent-key aé é $SYM_DOLLAR    $SYM_DOLLAR)
+(t! accent-key aá á $SYM_CARET     $SYM_CARET)
 
 ;; ── defalias ─────────────────────────────────────────────────────────
 
@@ -104,48 +104,43 @@
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
   tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú   @aű
   @cap a     s     d     f     g     h     j     k     l     @aé   @aá   ret
-  lsft í     z     x     c     v     b     n     m     ,     .     /     rsft
+  lsft @aí   z     x     c     v     b     n     m     ,     .     /     rsft
   @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
 )
 
 ;; ── SUPER LAYER — plain numbers + mode toggles ───────────────────────
-;; ő (tab-row pos 11) → to-hu    ú (tab-row pos 12) → tog-num
-;; ű (tab-row pos 13) → tog-hu
-;; @to-hu / @to-norm set/clear both flags at once
+;; ő→to-hu  ú→tog-num  ű→tog-hu  c→lrld
 
 (deflayer super-layer
   nul    1     2     3     4     5     6     7     8     9     _     _     _      bspc
   _    _     _     _     _     _     _     _     _     _     _     @to-hu  @tog-num  @tog-hu
   _    _     _     _     _     _     _     _     _     _     _     _         _
-  _    _     _     _     _     _     _     _     _     _     _     _         _
+  _    _     _     _     lrld  _     _     _     _     _     _     _         _
   _    _     _                 _                 _     _     _
 )
 
 ;; ── ALT LAYER — lalt acts like AltGr ────────────────────────────────
-;; Accent positions: _ (transparent → base), so @aX aliases handle them
-;; via layer check, applying the vk_hu inversion logic.
-;; Num row: passthrough for now.
-;; Everything else: _ (transparent → base).
+;; Mostly transparent; @aX aliases detect this layer via switch conditions.
+;; Num row passes digits through directly.
 
 (deflayer alt-layer
-  0    1     2     3     4     5     6     7     8     9     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    (unmod í)  _  _   _     _     _     _     _     _     _     _     _
-  _    _     _                 _                 _     _     _
+  0    1    2    3    4    5    6    7    8    9    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _    _    _
 )
 
-;; ── RALT LAYER — Option/AltGr unicode mappings ───────────────────────
-;;   nul→‹  1→~   2→™   3→^   4→$   5→‹   6→›   7→`   8→[   9→]
-;;   ö ü ó ő ú ű é á: _ (transparent → base @aX aliases handle via layer check)
-;;   q→\    w→|   e→€   r→¶   t→†   y→>   u→(dead) i→Í  o→Ņ  p→Ļ
-;;   a→ą    s→ß   d→∂   f→[   g→]   h→ķ   j→í   k→Ż   l→•
-;;   í→|    z→›   x→#   c→&   v→@   b→{   n→}   m→<   ,→;   .→›   /→*
+;; ── RALT LAYER — Option/AltGr mappings ──────────────────────────────
+;;   2→™       5→°        w→|       e→€
+;;   f→[       g→]        b→{       n→}
+;;   x→#       c→&        v→@
+;;   ,→;       /→*
 
 (deflayer ralt-layer
-  (unicode ‹)  (unicode ~)  (unicode ™)  (unicode ^)  (unicode $)  (unicode ‹)  (unicode ›)  (unicode `)  (unicode [)  (unicode ])  _             _             _     _
-   _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   _             _             _
-  _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   _             _             _
-   _    (unicode < )   (unicode >)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
-  _    _     _                 _                 _     _     _
+  _            _            $SYM_TM      _            _            $SYM_DEGREE  _            _            _            _            _            _            _            _
+  _            _            $SYM_PIPE    $SYM_EURO    _            _            _            _            _            _            _            _            _            _
+  _            _            _            _            $SYM_LBRACKET $SYM_RBRACKET _           _            _            _            _            _            _
+  _            _            _            $SYM_HASH    $SYM_AMPERSAND $SYM_AT     $SYM_LBRACE  $SYM_RBRACE  _            $SYM_SEMICOLON _           $SYM_STAR    _
+  _            _            _                         _                          _            _            _
 )

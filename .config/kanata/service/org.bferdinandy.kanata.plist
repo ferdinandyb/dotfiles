@@ -20,6 +20,9 @@
     <!-- KeepAlive with PathState: launchd starts kanata only once the vhidd
          socket exists, and restarts it if it crashes (e.g. after sleep/wake).
          Also stops kanata if the socket disappears. -->
+    <key>SessionCreate</key>
+    <true/>
+
     <key>KeepAlive</key>
     <dict>
         <key>PathState</key>

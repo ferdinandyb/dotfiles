@@ -5,6 +5,10 @@
 
 (defcfg
   process-unmapped-keys no
+  linux-dev-names-include (
+    "Apple Internal Keyboard / Trackpad"
+    "Keychron K8 Pro"
+  )
 )
 
 (include shared/localkeys.kbd)

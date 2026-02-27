@@ -41,14 +41,13 @@
   to-norm (layer-switch base)
 
   ;; lalt: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
-  ;; ralt: explicit unicode mappings (Option/AltGr layer)
-  ;;   tap-hold-press: layer activates immediately when another key is chorded,
-  ;;   preventing the OS from seeing a bare ralt+key (which produces wrong chars on HU layout).
+  ;; ralt: activates layer immediately (no tap action needed); prevents OS from
+  ;;   seeing bare ralt+key which would produce wrong chars on HU layout.
   lal  (tap-hold-press 200 200 lalt (layer-while-held alt-layer))
-  ral  (tap-hold-press 200 200 ralt (layer-while-held ralt-layer))
+  ral  (layer-while-held ralt-layer)
 
   lalh (tap-hold-press 200 200 lalt (layer-while-held alt-layer-hu))
-  ralh (tap-hold-press 200 200 ralt (layer-while-held ralt-layer-hu))
+  ralh (layer-while-held ralt-layer-hu)
 )
 
 ;; ── Bottom-row aliases ────────────────────────────────────────────
@@ -88,7 +87,7 @@
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   RA-ö  RA-ü  =     bspc
   tab  q     w     e     r     t     y     u     i     o     p     RA-ő  RA-ú  RA-ű
   @cap a     s     d     f     g     h     j     k     l     RA-é  RA-á  ret
-  lsft RA-í  z     x     c     v     b     n     m     ,     .     /     rsft
+  lsft í     z     x     c     v     b     n     m     ,     .     /     rsft
   @bctl @balt @bmet              spc                @ral  @brmet  rctl
 )
 
@@ -107,7 +106,7 @@
 ;; Unmapped keys (_) pass the modifier through (Alt+key or AltGr+key).
 
 (deflayer alt-layer
-  (unicode ˝)  (unicode ~)  (unicode ˇ)  (unicode ^)  (unicode ˘)  (unicode °)  (unicode ˛)  (unicode `)  (unicode ˙)  (unicode ´)  (unmod ö)  (unmod ü)  (unicode ¸)  _
+  0            1     2     3     4     5     6     7     8     9     (unmod ö)  (unmod ü)  (unicode ¸)  _
   _    _     _     _     _     _     _     _     _     _     _     (unmod ő)  (unmod ú)  (unmod ű)
   _    _     _     _     _     _     _     _     _     _     (unmod é)  (unmod á)  _
   _    (unmod í)  _  _   _     _     _     _     _     _     _     _     _
@@ -135,10 +134,10 @@
   _    _     _                 _                 _     _     _
 )
 
-;; ── ALT LAYER (hu-prose mode) — number row matches Windows/Linux HU Alt+digit ─
+;; ── ALT LAYER (hu-prose mode) — digits pass through as plain numbers ─
 
 (deflayer alt-layer-hu
-  (unicode ˝)  (unicode ~)  (unicode ˇ)  (unicode ^)  (unicode ˘)  (unicode °)  (unicode ˛)  (unicode `)  (unicode ˙)  (unicode ´)  _     _     (unicode ¸)  _
+  0            1     2     3     4     5     6     7     8     9     _     _     (unicode ¸)  _
   _    _     _     _     _     _     _     _     _     _     _     _     _     _
   _    _     _     _     _     _     _     _     _     _     _     _     _
   _    _     _     _     _     _     _     _     _     _     _     _     _
@@ -147,15 +146,15 @@
 
 ;; ── RALT LAYER (normal mode) — Option/AltGr unicode mappings ─────
 ;;   nul→‹  1→~   2→™   3→^   4→$   5→‹   6→›   7→`   8→[   9→]   ö→}   ü→\
-;;   q→\    w→|   e→€   r→¶   t→†   y→ź   u→(dead) i→Í  o→Ņ  p→Ļ  ő→¨   ú→~  ű→`
+;;   q→\    w→|   e→€   r→¶   t→†   y→>   u→(dead) i→Í  o→Ņ  p→Ļ  ő→¨   ú→~  ű→`
 ;;   a→ą    s→ß   d→∂   f→[   g→]   h→ķ   j→í   k→Ż   l→•   é→$   á→^
-;;   í→|    z→›   x→#   c→&   v→@   b→{   n→}   m→‹   ,→;   .→›   /→*
+;;   í→|    z→›   x→#   c→&   v→@   b→{   n→}   m→<   ,→;   .→›   /→*
 
 (deflayer ralt-layer
   (unicode ‹)  (unicode ~)  (unicode ™)  (unicode ^)  (unicode $)  (unicode ‹)  (unicode ›)  (unicode `)  (unicode [)  (unicode ])  (unicode })  (unicode \)  _     _
-  _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode ź)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   (unicode ¨)   (unicode ~)   (unicode `)
+   _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   (unicode ¨)   (unicode ~)   (unicode `)
   _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   (unicode $)   (unicode ^)   _
-  _    (unicode |)   (unicode ›)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode ‹)   (unicode ;)   (unicode ›)   (unicode *)   _
+   _    (unicode |)   (unicode ›)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
   _    _     _                 _                 _     _     _
 )
 

@@ -3,6 +3,9 @@
 
 (defcfg
   process-unmapped-keys no
+  linux-dev-names-include (
+    "Keychron K8 Pro"
+  )
 )
 
 (include shared/localkeys.kbd)

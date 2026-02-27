@@ -61,6 +61,9 @@ persistent-workspaces = []
     # Lock screen
     cmd-alt-esc = """exec-and-forget osascript -e 'tell application "System Events" to keystroke "q" using {command down, control down}'"""
 
+    # Launch Sol
+    cmd-alt-space = 'exec-and-forget open -a Sol'
+
     # Launch calculator (i3: $mod+Ctrl+c)
     cmd-alt-ctrl-c = 'exec-and-forget open -a Calculator'
 

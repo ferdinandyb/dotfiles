@@ -8,8 +8,8 @@
 ;; Two virtual-key flags control mode:
 ;;   vk_num: pressed = digits mode  (unshifted → digit,   shifted → HU special)
 ;;           released = symbols mode (unshifted → HU special, shifted → digit)
-;;   vk_hu:  pressed = bare accents (accent keys → ö ü ó etc.)
-;;           released = AltGr accents (accent keys → RA-ö RA-ü RA-ó etc.)
+;;   vk_hu:  pressed = HU mode   (no-alt → accent,   alt → special symbol)
+;;           released = special mode (no-alt → special, alt → accent)
 ;;
 ;; Toggles: super+ú → tog-num,  super+ű → tog-hu
 
@@ -44,6 +44,25 @@
       ()
       (fork $alt (unmod $key) (lsft rsft)) break)))
 
+;; accent-key: defines alias $alias for an accent key $key.
+;;   vk_hu ON:  no-alt → accent ($key, shift passes through for uppercase)
+;;              alt held → special symbol (fork $alt/$alt-shifted on shift)
+;;   vk_hu OFF: no-alt → special symbol (fork $alt/$alt-shifted on shift)
+;;              alt held → accent ($key, shift passes through for uppercase)
+;;   Alt detection uses layer checks (alt-layer / ralt-layer) since the
+;;   alt keys are tap-hold and do not output lalt/ralt to the key state.
+(deftemplate accent-key (alias key alt alt-shifted)
+  (defalias $alias
+    (switch
+      ((and (input virtual vk_hu) (or (layer alt-layer) (layer ralt-layer))))
+      (fork $alt $alt-shifted (lsft rsft)) break
+      ((input virtual vk_hu))
+      $key break
+      ((or (layer alt-layer) (layer ralt-layer)))
+      $key break
+      ()
+      (fork $alt $alt-shifted (lsft rsft)) break)))
+
 (t! num-row-key n0 nul S-nul)
 (t! num-row-key n1 1   S-1)
 (t! num-row-key n2 2   S-2)
@@ -55,22 +74,20 @@
 (t! num-row-key n8 8   S-8)
 (t! num-row-key n9 9   S-9)
 
+;; ── accent-key expansions ─────────────────────────────────────────────
+;; ő → [/{  ú → ]/}  others: ralt-layer unicode as alt, placeholder shifted
+(t! accent-key aö ö (unicode })  (unicode }))
+(t! accent-key aü ü (unicode \)  (unicode \))
+(t! accent-key aó ó RA-ó         S-ó)
+(t! accent-key aő ő (unicode [)  (unicode {))
+(t! accent-key aú ú (unicode ])  (unicode }))
+(t! accent-key aű ű (unicode `)  (unicode `))
+(t! accent-key aé é (unicode $)  (unicode $))
+(t! accent-key aá á (unicode ^)  (unicode ^))
+
 ;; ── defalias ─────────────────────────────────────────────────────────
 
 (defalias
-
-  ;; ── Accent keys: switch on vk_hu ──────────────────────────────────
-  ;; hu mode  → bare accent character
-  ;; AltGr mode → RA- (AltGr+key, let OS HU layout produce the character)
-  aö  (switch ((input virtual vk_hu)) ö   break () RA-ö break)
-  aü  (switch ((input virtual vk_hu)) ü   break () RA-ü break)
-  aó  (switch ((input virtual vk_hu)) ó   break () RA-ó break)
-  aő  (switch ((input virtual vk_hu)) ő   break () RA-ő break)
-  aú  (switch ((input virtual vk_hu)) ú   break () RA-ú break)
-  aű  (switch ((input virtual vk_hu)) ű   break () RA-ű break)
-  aé  (switch ((input virtual vk_hu)) é   break () RA-é break)
-  aá  (switch ((input virtual vk_hu)) á   break () RA-á break)
-
   ;; ── Mode toggles ──────────────────────────────────────────────────
   tog-num (on-press toggle-vkey vk_num)
   tog-hu  (on-press toggle-vkey vk_hu)
@@ -78,7 +95,6 @@
   ;; ── Set-both shortcuts ────────────────────────────────────────────
   to-hu   (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu))
   to-norm (multi (on-press release-vkey vk_num) (on-press release-vkey vk_hu))
-
 )
 
 
@@ -106,29 +122,31 @@
   _    _     _                 _                 _     _     _
 )
 
-;; ── ALT LAYER — lalt acts like AltGr; accent positions always strip mod ─
-;; Accent keys: (unmod x) always gives the bare accent regardless of vk_hu.
-;; Num row: passthrough for now (your reshuffle goes here).
+;; ── ALT LAYER — lalt acts like AltGr ────────────────────────────────
+;; Accent positions: _ (transparent → base), so @aX aliases handle them
+;; via layer check, applying the vk_hu inversion logic.
+;; Num row: passthrough for now.
 ;; Everything else: _ (transparent → base).
 
 (deflayer alt-layer
-  0            1     2     3     4     5     6     7     8     9     (unmod ö)  (unmod ü)  (unmod ó)  _
-  _    _     _     _     _     _     _     _     _     _     _     (unmod ő)  (unmod ú)  (unmod ű)
-  _    _     _     _     _     _     _     _     _     _     (unmod é)  (unmod á)  _
+  0    1     2     3     4     5     6     7     8     9     _     _     _     _
+  _    _     _     _     _     _     _     _     _     _     _     _     _     _
+  _    _     _     _     _     _     _     _     _     _     _     _     _
   _    (unmod í)  _  _   _     _     _     _     _     _     _     _     _
   _    _     _                 _                 _     _     _
 )
 
 ;; ── RALT LAYER — Option/AltGr unicode mappings ───────────────────────
-;;   nul→‹  1→~   2→™   3→^   4→$   5→‹   6→›   7→`   8→[   9→]   ö→}   ü→\
-;;   q→\    w→|   e→€   r→¶   t→†   y→>   u→(dead) i→Í  o→Ņ  p→Ļ  ő→¨   ú→~  ű→`
-;;   a→ą    s→ß   d→∂   f→[   g→]   h→ķ   j→í   k→Ż   l→•   é→$   á→^
+;;   nul→‹  1→~   2→™   3→^   4→$   5→‹   6→›   7→`   8→[   9→]
+;;   ö ü ó ő ú ű é á: _ (transparent → base @aX aliases handle via layer check)
+;;   q→\    w→|   e→€   r→¶   t→†   y→>   u→(dead) i→Í  o→Ņ  p→Ļ
+;;   a→ą    s→ß   d→∂   f→[   g→]   h→ķ   j→í   k→Ż   l→•
 ;;   í→|    z→›   x→#   c→&   v→@   b→{   n→}   m→<   ,→;   .→›   /→*
 
 (deflayer ralt-layer
-  (unicode ‹)  (unicode ~)  (unicode ™)  (unicode ^)  (unicode $)  (unicode ‹)  (unicode ›)  (unicode `)  (unicode [)  (unicode ])  (unicode })  (unicode \)  _     _
-   _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   (unicode ¨)   (unicode ~)   (unicode `)
-  _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   (unicode $)   (unicode ^)   _
+  (unicode ‹)  (unicode ~)  (unicode ™)  (unicode ^)  (unicode $)  (unicode ‹)  (unicode ›)  (unicode `)  (unicode [)  (unicode ])  _             _             _     _
+   _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   _             _             _
+  _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   _             _             _
    _    (unicode |)   (unicode ›)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
   _    _     _                 _                 _     _     _
 )

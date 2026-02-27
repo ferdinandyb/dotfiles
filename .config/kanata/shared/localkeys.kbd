@@ -43,7 +43,7 @@
 
   ;; v_lal: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
   ;; v_ral: activates ralt-layer immediately (no tap action needed)
-  v_lal (tap-hold-press 200 200 lalt (layer-while-held alt-layer))
+  v_lal (tap-hold-press 200 200 lalt (multi lalt (layer-while-held alt-layer)))
   v_ral (layer-while-held ralt-layer)
 )
 

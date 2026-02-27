@@ -75,15 +75,14 @@
 (t! num-row-key n9 9   S-9)
 
 ;; ── accent-key expansions ─────────────────────────────────────────────
-;; ő → [/{  ú → ]/}  others: ralt-layer unicode as alt, placeholder shifted
-(t! accent-key aö ö (unicode })  (unicode }))
-(t! accent-key aü ü (unicode \)  (unicode \))
-(t! accent-key aó ó RA-ó         S-ó)
-(t! accent-key aő ő (unicode [)  (unicode {))
-(t! accent-key aú ú (unicode ])  (unicode }))
-(t! accent-key aű ű (unicode `)  (unicode `))
-(t! accent-key aé é (unicode $)  (unicode $))
-(t! accent-key aá á (unicode ^)  (unicode ^))
+(t! accent-key aö ö (unicode < )  (unicode } ))
+(t! accent-key aü ü (unicode > )  (unicode \ ))
+(t! accent-key aó ó (unicode = )  (unicode # ))
+(t! accent-key aő ő (unicode [ )  (unicode { ))
+(t! accent-key aú ú (unicode ] )  (unicode } ))
+(t! accent-key aű ű (unicode ` )  (unicode ' ))
+(t! accent-key aé é (unicode $ )  (unicode $ ))
+(t! accent-key aá á (unicode ^ )  (unicode ^ ))
 
 ;; ── defalias ─────────────────────────────────────────────────────────
 
@@ -147,6 +146,6 @@
   (unicode ‹)  (unicode ~)  (unicode ™)  (unicode ^)  (unicode $)  (unicode ‹)  (unicode ›)  (unicode `)  (unicode [)  (unicode ])  _             _             _     _
    _    (unicode \)   (unicode |)   (unicode €)   (unicode ¶)   (unicode †)   (unicode >)   _             (unicode Í)   (unicode Ņ)   (unicode Ļ)   _             _             _
   _    (unicode ą)   (unicode ß)   (unicode ∂)   (unicode [)   (unicode ])   (unicode ķ)   (unicode í)   (unicode Ż)   (unicode •)   _             _             _
-   _    (unicode |)   (unicode ›)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
+   _    (unicode < )   (unicode >)   (unicode #)   (unicode &)   (unicode @)   (unicode {)   (unicode })   (unicode <)   (unicode ;)   (unicode ›)   (unicode *)   _
   _    _     _                 _                 _     _     _
 )

@@ -6,8 +6,8 @@
 ;;   nul = 0/§ key (leftmost of number row); í = ISO extra key left of Z
 ;;
 ;; Two virtual-key flags control mode:
-;;   vk_num: pressed = digits mode (num row unshifted → digits)
-;;           released = symbols mode (num row unshifted → HU symbols)
+;;   vk_num: pressed = digits mode  (unshifted → digit,   shifted → HU special)
+;;           released = symbols mode (unshifted → HU special, shifted → digit)
 ;;   vk_hu:  pressed = bare accents (accent keys → ö ü ó etc.)
 ;;           released = AltGr accents (accent keys → RA-ö RA-ü RA-ó etc.)
 ;;
@@ -30,22 +30,34 @@
   lctl lmet lalt                spc                ralt rmet rctl
 )
 
+;; ── deftemplate ──────────────────────────────────────────────────────
+
+;; num-row-key: defines alias $alias for a num-row key $key.
+;;   digits mode  (vk_num on):  no-shift → digit,   shift → HU special
+;;   symbols mode (vk_num off): no-shift → HU special, shift → digit
+;;   Shift inverts the output in both modes rather than being swallowed.
+(deftemplate num-row-key (alias key alt)
+  (defalias $alias
+    (switch
+      ((input virtual vk_num))
+      (fork (unmod $key) $alt (lsft rsft)) break
+      ()
+      (fork $alt (unmod $key) (lsft rsft)) break)))
+
+(t! num-row-key n0 nul S-nul)
+(t! num-row-key n1 1   S-1)
+(t! num-row-key n2 2   S-2)
+(t! num-row-key n3 3   S-3)
+(t! num-row-key n4 4   S-4)
+(t! num-row-key n5 5   S-5)
+(t! num-row-key n6 6   S-6)
+(t! num-row-key n7 7   S-7)
+(t! num-row-key n8 8   S-8)
+(t! num-row-key n9 9   S-9)
+
 ;; ── defalias ─────────────────────────────────────────────────────────
 
 (defalias
-  ;; ── Num row: switch on vk_num ─────────────────────────────────────
-  ;; digits mode  → plain digit (unmod strips any held shift)
-  ;; symbols mode → HU shifted char / digit fork (existing behaviour)
-  n0  (switch ((input virtual vk_num)) (unmod nul) break () (fork S-nul  (unmod nul)  (lsft rsft)) break)
-  n1  (switch ((input virtual vk_num)) (unmod 1)   break () (fork S-1    (unmod 1)    (lsft rsft)) break)
-  n2  (switch ((input virtual vk_num)) (unmod 2)   break () (fork S-2    (unmod 2)    (lsft rsft)) break)
-  n3  (switch ((input virtual vk_num)) (unmod 3)   break () (fork S-3    (unmod 3)    (lsft rsft)) break)
-  n4  (switch ((input virtual vk_num)) (unmod 4)   break () (fork S-4    (unmod 4)    (lsft rsft)) break)
-  n5  (switch ((input virtual vk_num)) (unmod 5)   break () (fork S-5    (unmod 5)    (lsft rsft)) break)
-  n6  (switch ((input virtual vk_num)) (unmod 6)   break () (fork S-6    (unmod 6)    (lsft rsft)) break)
-  n7  (switch ((input virtual vk_num)) (unmod 7)   break () (fork S-7    (unmod 7)    (lsft rsft)) break)
-  n8  (switch ((input virtual vk_num)) (unmod 8)   break () (fork S-8    (unmod 8)    (lsft rsft)) break)
-  n9  (switch ((input virtual vk_num)) (unmod 9)   break () (fork S-9    (unmod 9)    (lsft rsft)) break)
 
   ;; ── Accent keys: switch on vk_hu ──────────────────────────────────
   ;; hu mode  → bare accent character

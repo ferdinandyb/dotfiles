@@ -63,29 +63,29 @@
 
 (platform (linux)
   (defvar
-    SYM_LBRACKET  (unmod ralt f)          ;; AltGr+f       → [
-    SYM_RBRACKET  (unmod ralt g)          ;; AltGr+g       → ]
-    SYM_LBRACE    (unmod ralt b)          ;; AltGr+b       → {
-    SYM_RBRACE    (unmod ralt n)          ;; AltGr+n       → }
-    SYM_LESS      (unmod ralt m)          ;; AltGr+m       → <
-    SYM_GREATER   (unmod ralt .)          ;; AltGr+.       → >
-    SYM_BACKSLASH (unmod ralt q)          ;; AltGr+q       → \
-    SYM_HASH      (unmod ralt x)          ;; AltGr+x       → #
-    SYM_DOLLAR    (unmod ralt é)          ;; AltGr+é       → $
-    SYM_EQUAL     (unmod lsft 7)          ;; Shift+7       → =
-    SYM_BACKTICK  (unmod ralt 7)          ;; AltGr+7       → `
-    SYM_QUOTE     (unmod lsft 1)          ;; Shift+1       → '
-    SYM_CARET     (unmod ralt 3)          ;; AltGr+3       → ^
-    SYM_SLASH     (unmod lsft 6)          ;; Shift+6       → /
-    SYM_AT        (unmod ralt v)          ;; AltGr+v       → @
-    SYM_PIPE      (unmod ralt w)          ;; AltGr+w       → |
-    SYM_TILDE     (unmod ralt 1)          ;; AltGr+1       → ~
-    SYM_AMPERSAND (unmod ralt c)          ;; AltGr+c       → &
-    SYM_SEMICOLON (unmod ralt ,)          ;; AltGr+,       → ;
-    SYM_STAR      (unmod ralt /)          ;; AltGr+/       → *
-    SYM_TM        (unicode U+2122)         ;; Unicode       → ™ (not in HU XKB)
-    SYM_DEGREE    (unmod ralt 5)          ;; AltGr+5       → °
-    SYM_EURO      (unmod ralt u)          ;; AltGr+u       → €
+    SYM_LBRACKET  (unicode U+005B)        ;; [
+    SYM_RBRACKET  (unicode U+005D)        ;; ]
+    SYM_LBRACE    (unicode U+007B)        ;; {
+    SYM_RBRACE    (unicode U+007D)        ;; }
+    SYM_LESS      (unicode U+003C)        ;; <
+    SYM_GREATER   (unicode U+003E)        ;; >
+    SYM_BACKSLASH (unicode U+005C)        ;; \
+    SYM_HASH      (unicode U+0023)        ;; #
+    SYM_DOLLAR    (unicode U+0024)        ;; $
+    SYM_EQUAL     (unicode U+003D)        ;; =
+    SYM_BACKTICK  (unicode U+0060)        ;; `
+    SYM_QUOTE     (unicode U+0027)        ;; '
+    SYM_CARET     (unicode U+005E)        ;; ^
+    SYM_SLASH     (unicode U+002F)        ;; /
+    SYM_AT        (unicode U+0040)        ;; @
+    SYM_PIPE      (unicode U+007C)        ;; |
+    SYM_TILDE     (unicode U+007E)        ;; ~
+    SYM_AMPERSAND (unicode U+0026)        ;; &
+    SYM_SEMICOLON (unicode U+003B)        ;; ;
+    SYM_STAR      (unicode U+002A)        ;; *
+    SYM_TM        (unicode U+2122)        ;; ™
+    SYM_DEGREE    (unicode U+00B0)        ;; °
+    SYM_EURO      (unicode U+20AC)        ;; €
   )
 )
 

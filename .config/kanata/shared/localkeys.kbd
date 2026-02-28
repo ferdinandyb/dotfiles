@@ -60,31 +60,30 @@
   )
 )
 
-;; TODO: verify all HU Linux combos below — copied from macOS as placeholder
 (platform (linux)
   (defvar
-    SYM_LBRACKET  (unmod ralt 8)
-    SYM_RBRACKET  (unmod ralt 9)
-    SYM_LBRACE    (unmod ralt 7)
-    SYM_RBRACE    (unmod ralt ö)
-    SYM_LESS      (unmod ralt lsft z)
-    SYM_GREATER   (unmod ralt lsft x)
-    SYM_BACKSLASH (unmod ralt ü)
-    SYM_HASH      (unmod ralt lsft 3)
-    SYM_DOLLAR    (unmod ralt lsft 4)
-    SYM_EQUAL     (unmod lsft 7)
-    SYM_BACKTICK  (unmod ralt ű)
-    SYM_QUOTE     (unmod lsft 1)
-    SYM_CARET     (unmod ralt á)
-    SYM_SLASH     (unmod í)
-    SYM_AT        (unmod ralt q)
-    SYM_PIPE      (unmod ralt í)
-    SYM_AMPERSAND (unmod ralt 1)
-    SYM_SEMICOLON (unmod ralt .)
-    SYM_STAR      (unmod ralt lsft ,)
-    SYM_TM        (unmod ralt 2)
-    SYM_DEGREE    (unmod ralt lsft ö)
-    SYM_EURO      (unmod ralt e)
+    SYM_LBRACKET  (unmod ralt f)          ;; AltGr+f       → [
+    SYM_RBRACKET  (unmod ralt g)          ;; AltGr+g       → ]
+    SYM_LBRACE    (unmod ralt b)          ;; AltGr+b       → {
+    SYM_RBRACE    (unmod ralt n)          ;; AltGr+n       → }
+    SYM_LESS      (unmod ralt m)          ;; AltGr+m       → <
+    SYM_GREATER   (unmod ralt .)          ;; AltGr+.       → >
+    SYM_BACKSLASH (unmod ralt q)          ;; AltGr+q       → \
+    SYM_HASH      (unmod ralt x)          ;; AltGr+x       → #
+    SYM_DOLLAR    (unmod ralt é)          ;; AltGr+é       → $
+    SYM_EQUAL     (unmod lsft 7)          ;; Shift+7       → =
+    SYM_BACKTICK  (unmod ralt 7)          ;; AltGr+7       → `
+    SYM_QUOTE     (unmod lsft 1)          ;; Shift+1       → '
+    SYM_CARET     (unmod ralt 3)          ;; AltGr+3       → ^
+    SYM_SLASH     (unmod lsft 6)          ;; Shift+6       → /
+    SYM_AT        (unmod ralt v)          ;; AltGr+v       → @
+    SYM_PIPE      (unmod ralt w)          ;; AltGr+w       → |
+    SYM_AMPERSAND (unmod ralt c)          ;; AltGr+c       → &
+    SYM_SEMICOLON (unmod ralt ,)          ;; AltGr+,       → ;
+    SYM_STAR      (unmod ralt /)          ;; AltGr+/       → *
+    SYM_TM        (unicode U+2122)         ;; Unicode       → ™ (not in HU XKB)
+    SYM_DEGREE    (unmod ralt 5)          ;; AltGr+5       → °
+    SYM_EURO      (unmod ralt u)          ;; AltGr+u       → €
   )
 )
 

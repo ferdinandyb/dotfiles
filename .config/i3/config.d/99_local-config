@@ -11,6 +11,7 @@ bindsym $mod+Ctrl+minus move workspace to output left
 bindsym $mod+m exec i3-input -F 'mark %s' -l 1 -P 'Mark: '
 # # read 1 character and go to the window with the character
 bindsym $mod+udoubleacute exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
+bindsym f20 exec i3-input -F '[con_mark="%s"] focus' -l 1 -P 'Goto: '
 
 bindsym $mod+Ctrl+u [urgent="latest"] focus
 bindsym $mod+iacute exec --no-startup-id reformat-selection
@@ -52,9 +53,9 @@ workspace "$ws9" output $secondary_group
 # for special character: xmodmap -pke
 bindsym $mod+odoubleacute exec --no-startup-id dbus-send --session --type=method_call --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2  org.mpris.MediaPlayer2.Player.PlayPause
 bindsym $mod+odiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym $mod+udiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+# bindsym $mod+udiaeresis exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%  # conflicts with kanata super-layer tog-num
 bindsym $mod+oacute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym $mod+uacute exec --no-startup-id amixer set Capture toggle
+# bindsym $mod+uacute exec --no-startup-id amixer set Capture toggle  # conflicts with kanata super-layer tog-hu
 
 # bindsym $mod+Ctrl+p exec  "sleep 0.3 && xdotool key XF86AudioPlay"
 # bindsym $mod+Ctrl+i exec  "sleep 0.3 && xdotool key XF86AudioLowerVolume"

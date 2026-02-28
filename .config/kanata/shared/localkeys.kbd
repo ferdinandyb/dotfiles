@@ -51,6 +51,7 @@
     SYM_SLASH     (unmod í)              ;; í           → /
     SYM_AT        (unmod ralt q)         ;; Alt+q       → @
     SYM_PIPE      (unmod ralt í)         ;; Alt+í       → |
+    SYM_TILDE     (unmod ralt ú)         ;; Alt+ú       → ~
     SYM_AMPERSAND (unmod ralt 1)         ;; Alt+1       → &
     SYM_SEMICOLON (unmod ralt .)         ;; Alt+.       → ;
     SYM_STAR      (unmod ralt lsft ,)    ;; Alt+Shift+, → *
@@ -78,6 +79,7 @@
     SYM_SLASH     (unmod lsft 6)          ;; Shift+6       → /
     SYM_AT        (unmod ralt v)          ;; AltGr+v       → @
     SYM_PIPE      (unmod ralt w)          ;; AltGr+w       → |
+    SYM_TILDE     (unmod ralt 1)          ;; AltGr+1       → ~
     SYM_AMPERSAND (unmod ralt c)          ;; AltGr+c       → &
     SYM_SEMICOLON (unmod ralt ,)          ;; AltGr+,       → ;
     SYM_STAR      (unmod ralt /)          ;; AltGr+/       → *

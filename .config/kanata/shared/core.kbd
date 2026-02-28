@@ -138,7 +138,7 @@
 ;;   ,→;       /→*
 
 (deflayer ralt-layer
-  _            _            $SYM_TM      _            _            $SYM_DEGREE  _            _            _            _            _            _            _            _
+  _            $SYM_TILDE   $SYM_TM      $SYM_CARET   _            $SYM_DEGREE  _            $SYM_BACKTICK _            _            _            _            _            _
   _            _            $SYM_PIPE    $SYM_EURO    _            _            _            _            _            _            _            _            _            _
   _            _            _            _            $SYM_LBRACKET $SYM_RBRACKET _           _            _            _            _            _            _
   _            _            _            $SYM_HASH    $SYM_AMPERSAND $SYM_AT     $SYM_LBRACE  $SYM_RBRACE  _            $SYM_SEMICOLON _           $SYM_STAR    _

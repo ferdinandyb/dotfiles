@@ -74,15 +74,15 @@
 (t! num-row-key n9 9   S-9)
 
 ;; ── accent-key expansions ─────────────────────────────────────────────
-(t! accent-key aí í $SYM_SLASH     $SYM_AT)
-(t! accent-key aö ö $SYM_LESS      $SYM_RBRACE)
-(t! accent-key aü ü $SYM_GREATER   $SYM_BACKSLASH)
-(t! accent-key aó ó $SYM_EQUAL     $SYM_HASH)
-(t! accent-key aő ő $SYM_LBRACKET  $SYM_LBRACE)
-(t! accent-key aú ú $SYM_RBRACKET  $SYM_RBRACE)
-(t! accent-key aű ű $SYM_BACKTICK  $SYM_QUOTE)
-(t! accent-key aé é $SYM_DOLLAR    $SYM_DOLLAR)
-(t! accent-key aá á $SYM_CARET     $SYM_CARET)
+(t! accent-key aí í $SYM_SLASH     $SYM_AT_U)
+(t! accent-key aö ö $SYM_LESS      $SYM_RBRACE_U)
+(t! accent-key aü ü $SYM_GREATER   $SYM_BACKSLASH_U)
+(t! accent-key aó ó $SYM_EQUAL     $SYM_HASH_U)
+(t! accent-key aő ő $SYM_LBRACKET  $SYM_LBRACE_U)
+(t! accent-key aú ú $SYM_RBRACKET  $SYM_RBRACE_U)
+(t! accent-key aű ű $SYM_BACKTICK  $SYM_QUOTE_U)
+(t! accent-key aé é $SYM_DOLLAR    $SYM_DOLLAR_U)
+(t! accent-key aá á $SYM_CARET     $SYM_CARET_U)
 
 ;; ── defalias ─────────────────────────────────────────────────────────
 

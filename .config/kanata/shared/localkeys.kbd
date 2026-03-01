@@ -58,6 +58,16 @@
     SYM_TM        RA-2          ;; Alt+2       → ™
     SYM_DEGREE    RA-S-ö        ;; Alt+Shift+ö → °
     SYM_EURO      RA-e          ;; Alt+e       → €
+
+    ;; Unshift variants: strip shift before sending (used as fork alt-shifted)
+    SYM_AT_U        (unshift ralt q)   ;; → @
+    SYM_RBRACE_U    (unshift ralt ö)   ;; → }
+    SYM_BACKSLASH_U (unshift ralt ü)   ;; → \
+    SYM_HASH_U      (unshift ralt 3)   ;; → #
+    SYM_LBRACE_U    (unshift ralt 7)   ;; → {
+    SYM_DOLLAR_U    (unshift ralt 4)   ;; → $
+    SYM_CARET_U     (unshift ralt á)   ;; → ^
+    SYM_QUOTE_U     S-1           ;; Shift+1     → '
   )
 )
 
@@ -86,6 +96,16 @@
     SYM_TM        (unicode U+2122) ;; Unicode    → ™ (not in HU XKB)
     SYM_DEGREE    AG-5          ;; AltGr+5       → °
     SYM_EURO      AG-u          ;; AltGr+u       → €
+
+    ;; Unshift variants: strip shift before sending (used as fork alt-shifted)
+    SYM_AT_U        (unshift ralt v)   ;; → @
+    SYM_RBRACE_U    (unshift ralt n)   ;; → }
+    SYM_BACKSLASH_U (unshift ralt q)   ;; → \
+    SYM_HASH_U      (unshift ralt x)   ;; → #
+    SYM_LBRACE_U    (unshift ralt b)   ;; → {
+    SYM_DOLLAR_U    (unshift ralt é)   ;; → $
+    SYM_CARET_U     (unshift ralt 3)   ;; → ^
+    SYM_QUOTE_U     S-1           ;; Shift+1       → '
   )
 )
 

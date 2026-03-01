@@ -30,62 +30,62 @@
 )
 
 ;; ── Platform-specific symbol key variables ──────────────────────────
-;; SYM_* vars map symbol characters to the unmod combo that produces them
-;; on the current platform's HU layout, without relying on (unicode X).
+;; SYM_* vars use output chords which auto-release their modifier before
+;; the next keypress, preventing fast-typing bleed.
 
 (platform (macos)
   (defvar
-    SYM_LBRACKET  (unmod ralt 8)         ;; Alt+8       → [
-    SYM_RBRACKET  (unmod ralt 9)         ;; Alt+9       → ]
-    SYM_LBRACE    (unmod ralt 7)         ;; Alt+7       → {
-    SYM_RBRACE    (unmod ralt ö)         ;; Alt+ö       → }
-    SYM_LESS      (unmod ralt lsft z)    ;; Alt+Shift+z → <
-    SYM_GREATER   (unmod ralt lsft x)    ;; Alt+Shift+x → >
-    SYM_BACKSLASH (unmod ralt ü)         ;; Alt+ü       → \
-    SYM_HASH      (unmod ralt lsft 3)    ;; Alt+Shift+3 → #
-    SYM_DOLLAR    (unmod ralt lsft 4)    ;; Alt+Shift+4 → $
-    SYM_EQUAL     (unmod lsft 7)         ;; Shift+7     → =
-    SYM_BACKTICK  (unmod ralt ű)         ;; Alt+ű       → `
-    SYM_QUOTE     (unmod lsft 1)         ;; Shift+1     → '
-    SYM_CARET     (unmod ralt á)         ;; Alt+á       → ^
-    SYM_SLASH     (unmod í)              ;; í           → /
-    SYM_AT        (unmod ralt q)         ;; Alt+q       → @
-    SYM_PIPE      (unmod ralt í)         ;; Alt+í       → |
-    SYM_TILDE     (unmod ralt ú)         ;; Alt+ú       → ~
-    SYM_AMPERSAND (unmod ralt 1)         ;; Alt+1       → &
-    SYM_SEMICOLON (unmod ralt .)         ;; Alt+.       → ;
-    SYM_STAR      (unmod ralt lsft ,)    ;; Alt+Shift+, → *
-    SYM_TM        (unmod ralt 2)         ;; Alt+2       → ™
-    SYM_DEGREE    (unmod ralt lsft ö)    ;; Alt+Shift+ö → °
-    SYM_EURO      (unmod ralt e)         ;; Alt+e       → €
+    SYM_LBRACKET  RA-8          ;; Alt+8       → [
+    SYM_RBRACKET  RA-9          ;; Alt+9       → ]
+    SYM_LBRACE    RA-7          ;; Alt+7       → {
+    SYM_RBRACE    RA-ö          ;; Alt+ö       → }
+    SYM_LESS      RA-S-z        ;; Alt+Shift+z → <
+    SYM_GREATER   RA-S-x        ;; Alt+Shift+x → >
+    SYM_BACKSLASH RA-ü          ;; Alt+ü       → \
+    SYM_HASH      RA-S-3        ;; Alt+Shift+3 → #
+    SYM_DOLLAR    RA-S-4        ;; Alt+Shift+4 → $
+    SYM_EQUAL     S-7           ;; Shift+7     → =
+    SYM_BACKTICK  RA-ű          ;; Alt+ű       → `
+    SYM_QUOTE     S-1           ;; Shift+1     → '
+    SYM_CARET     RA-á          ;; Alt+á       → ^
+    SYM_SLASH     í             ;; í           → /
+    SYM_AT        RA-q          ;; Alt+q       → @
+    SYM_PIPE      RA-í          ;; Alt+í       → |
+    SYM_TILDE     RA-ú          ;; Alt+ú       → ~
+    SYM_AMPERSAND RA-1          ;; Alt+1       → &
+    SYM_SEMICOLON RA-.          ;; Alt+.       → ;
+    SYM_STAR      RA-S-,        ;; Alt+Shift+, → *
+    SYM_TM        RA-2          ;; Alt+2       → ™
+    SYM_DEGREE    RA-S-ö        ;; Alt+Shift+ö → °
+    SYM_EURO      RA-e          ;; Alt+e       → €
   )
 )
 
 (platform (linux)
   (defvar
-    SYM_LBRACKET  (unmod ralt f)          ;; AltGr+f       → [
-    SYM_RBRACKET  (unmod ralt g)          ;; AltGr+g       → ]
-    SYM_LBRACE    (unmod ralt b)          ;; AltGr+b       → {
-    SYM_RBRACE    (unmod ralt n)          ;; AltGr+n       → }
-    SYM_LESS      (unmod ralt m)          ;; AltGr+m       → <
-    SYM_GREATER   (unmod ralt .)          ;; AltGr+.       → >
-    SYM_BACKSLASH (unmod ralt q)          ;; AltGr+q       → \
-    SYM_HASH      (unmod ralt x)          ;; AltGr+x       → #
-    SYM_DOLLAR    (unmod ralt é)          ;; AltGr+é       → $
-    SYM_EQUAL     (unmod lsft 7)          ;; Shift+7       → =
-    SYM_BACKTICK  (unmod ralt 7)          ;; AltGr+7       → `
-    SYM_QUOTE     (unmod lsft 1)          ;; Shift+1       → '
-    SYM_CARET     (unmod ralt 3)          ;; AltGr+3       → ^
-    SYM_SLASH     (unmod lsft 6)          ;; Shift+6       → /
-    SYM_AT        (unmod ralt v)          ;; AltGr+v       → @
-    SYM_PIPE      (unmod ralt w)          ;; AltGr+w       → |
-    SYM_TILDE     (unmod ralt 1)          ;; AltGr+1       → ~
-    SYM_AMPERSAND (unmod ralt c)          ;; AltGr+c       → &
-    SYM_SEMICOLON (unmod ralt ,)          ;; AltGr+,       → ;
-    SYM_STAR      (unmod ralt /)          ;; AltGr+/       → *
-    SYM_TM        (unicode U+2122)         ;; Unicode       → ™ (not in HU XKB)
-    SYM_DEGREE    (unmod ralt 5)          ;; AltGr+5       → °
-    SYM_EURO      (unmod ralt u)          ;; AltGr+u       → €
+    SYM_LBRACKET  AG-f          ;; AltGr+f       → [
+    SYM_RBRACKET  AG-g          ;; AltGr+g       → ]
+    SYM_LBRACE    AG-b          ;; AltGr+b       → {
+    SYM_RBRACE    AG-n          ;; AltGr+n       → }
+    SYM_LESS      AG-m          ;; AltGr+m       → <
+    SYM_GREATER   AG-.          ;; AltGr+.       → >
+    SYM_BACKSLASH AG-q          ;; AltGr+q       → \
+    SYM_HASH      AG-x          ;; AltGr+x       → #
+    SYM_DOLLAR    AG-é          ;; AltGr+é       → $
+    SYM_EQUAL     S-7           ;; Shift+7       → =
+    SYM_BACKTICK  AG-7          ;; AltGr+7       → `
+    SYM_QUOTE     S-1           ;; Shift+1       → '
+    SYM_CARET     AG-3          ;; AltGr+3       → ^
+    SYM_SLASH     S-6           ;; Shift+6       → /
+    SYM_AT        AG-v          ;; AltGr+v       → @
+    SYM_PIPE      AG-w          ;; AltGr+w       → |
+    SYM_TILDE     AG-1          ;; AltGr+1       → ~
+    SYM_AMPERSAND AG-c          ;; AltGr+c       → &
+    SYM_SEMICOLON AG-,          ;; AltGr+,       → ;
+    SYM_STAR      AG-/          ;; AltGr+/       → *
+    SYM_TM        (unicode U+2122) ;; Unicode    → ™ (not in HU XKB)
+    SYM_DEGREE    AG-5          ;; AltGr+5       → °
+    SYM_EURO      AG-u          ;; AltGr+u       → €
   )
 )
 

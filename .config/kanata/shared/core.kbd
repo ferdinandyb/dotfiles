@@ -124,11 +124,11 @@
 ;; Num row passes digits through directly.
 
 (deflayer alt-layer
-  0    1    2    3    4    5    6    7    8    9    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _              _              _    _    _
+  A-0  A-1   A-2   A-3   A-4   A-5   A-6   A-7   A-8   A-9   @aö   @aü   @aó   _
+  _    A-q     A-w     A-e     A-r     A-t     A-y     A-u     A-i     A-o     A-p     @aő   @aú   @aű
+  _    A-a     A-s     A-d     A-f     A-g     A-h     A-j     A-k     A-l     @aé   @aá   ret
+  _    @aí   A-z     A-x     A-c     A-v     A-b     A-n     A-m     _     _     _     _
+  _    _     _                 _                 _     _    _
 )
 
 ;; ── RALT LAYER — Option/AltGr mappings ──────────────────────────────

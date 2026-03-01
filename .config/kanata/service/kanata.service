@@ -4,7 +4,7 @@ After=local-fs.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/kanata -c /home/fbence/.config/kanata/linux-iso.kbd
+ExecStart=/usr/bin/kanata -c /home/fbence/.config/kanata/linux-entry.kbd
 Restart=on-failure
 RestartSec=3
 

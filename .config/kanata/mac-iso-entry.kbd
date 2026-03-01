@@ -1,0 +1,30 @@
+;; kanata-mac.kbd — macOS entry point
+;; Devices: Keychron K8 Pro ISO
+;; Prereqs: HU input source; Fn↔Ctrl swapped in System Settings;
+;;          kanata in Input Monitoring; Karabiner VirtualHIDDevice active
+
+(defcfg
+  process-unmapped-keys no
+  macos-dev-names-include (
+    "Keychron K8 Pro"
+  )
+)
+
+(deflocalkeys-macos
+  nul 41   ;; 0/§ key (leftmost of number row)
+  ö   11
+  ü   12
+  ó   13
+  ő   26
+  ú   27
+  é   39
+  á   40
+  ű   43
+  í   86   ;; ISO extra key left of Z
+)
+
+(include shared/symbols.kbd)
+
+(include shared/bottomrow.kbd)
+
+(include shared/core.kbd)

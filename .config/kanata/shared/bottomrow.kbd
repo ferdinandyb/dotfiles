@@ -1,0 +1,43 @@
+;; ── The global modifier definition ────────────────────────────────────────────
+;; This makes Mac feel like Linux (but alt is sacrificed).
+
+(platform (macos) (defalias v_chord (multi lmet lalt)))  ;; Cmd+Alt
+(platform (linux) (defalias v_chord lmet))               ;; Super
+
+(defalias
+  ;; ── Virtual action keys ───────────────────────────────────────────
+  cap   (tap-hold-press 200 200 esc lctl)
+  v_sup (tap-hold-press 200 200 f20 (multi @v_chord (layer-while-held super-layer)))
+
+  ;; v_lal: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
+  ;; v_ral: activates ralt-layer immediately (no tap action needed)
+  v_lal (layer-while-held alt-layer)
+  v_ral (layer-while-held ralt-layer)
+)
+
+;; ── Bottom-row button aliases ────────────────────────────────────────
+;; Physical key → logical role differs between macOS and Linux.
+
+(platform (macos)
+  (defalias
+    b_lctl  lmet
+    b_lalt  @v_sup
+    b_lsup  @v_lal
+
+    b_rsup  @v_ral
+    b_ralt  @v_sup
+    b_rctl rctrl
+  )
+)
+
+(platform (linux)
+  (defalias
+    b_lctl  lctrl
+    b_lsup  @v_sup
+    b_lalt  @v_lal
+
+    b_ralt  @v_ral
+    b_rsup  @v_sup
+    b_rctl rctrl
+  )
+)

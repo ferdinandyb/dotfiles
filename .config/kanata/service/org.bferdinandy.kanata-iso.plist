@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>org.bferdinandy.kanata</string>
+    <string>org.bferdinandy.kanata-iso</string>
 
     <key>ProgramArguments</key>
     <array>
         <string>/opt/homebrew/bin/kanata</string>
         <string>-c</string>
-        <string>/Users/bence.ferdinandy/.config/kanata/mac-entry.kbd</string>
+        <string>/Users/bence.ferdinandy/.config/kanata/mac-iso-entry.kbd</string>
     </array>
 
     <key>StandardOutPath</key>
-    <string>/var/log/kanata.log</string>
+    <string>/var/log/kanata-iso.log</string>
     <key>StandardErrorPath</key>
-    <string>/var/log/kanata.err</string>
+    <string>/var/log/kanata-iso.err</string>
 
     <!-- KeepAlive with PathState: launchd starts kanata only once the vhidd
          socket exists, and restarts it if it crashes (e.g. after sleep/wake).

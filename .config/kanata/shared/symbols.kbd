@@ -20,7 +20,7 @@
     SYM_CARET     RA-á          ;; Alt+á       → ^
     SYM_SLASH     S-6           ;; Shift-6     → /
     SYM_AT        RA-q          ;; Alt+q       → @
-    SYM_PIPE      RA-í          ;; Alt+í       → |
+    SYM_PIPE      RA-í_out      ;; Alt+í_out   → | (KEY_GRAVE on all macOS keyboards)
     SYM_TILDE     RA-ú          ;; Alt+ú       → ~
     SYM_AMPERSAND RA-1          ;; Alt+1       → &
     SYM_SEMICOLON RA-.          ;; Alt+.       → ;

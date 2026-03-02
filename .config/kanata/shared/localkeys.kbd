@@ -1,6 +1,7 @@
 (deflocalkeys-linux
-  nul 41   ;; 0/§ key (leftmost of number row)
-  í   86   ;; ISO extra key left of Z
+  nul 41   ;; 0/§ key (leftmost of number row, KEY_GRAVE)
+  í   86   ;; ISO extra key left of Z (KEY_102ND)
+  ;; nul_out=nul, í_out=í on Linux (same scancodes — defined via platform block in core.kbd)
   ö   11
   ü   12
   ó   13
@@ -11,10 +12,18 @@
   ű   43
 )
 
+(platform (linux) (defalias v0 nul))
+(platform (macos) (defalias v0 nul_out))
+
+;; Keychron K8 Pro Windows mode:
+;;   input:  KEY_GRAVE(41) → physical left-of-1,  KEY_102ND(86) → physical left-of-Z
+;;   output: KEY_102ND(86) → macOS HU = §/0,      KEY_GRAVE(41) → macOS HU = í/Í
 (environment (KANATA_MAC_ISO 1)
   (deflocalkeys-macos
-    nul 41   ;; 0/§ key (leftmost of number row)
-    í   86   ;; ISO extra key left of Z
+    nul     41   ;; input: left-of-1 sends KEY_GRAVE
+    í       86   ;; input: left-of-Z sends KEY_102ND
+    nul_out 86   ;; output: KEY_102ND → macOS HU = §/0
+    í_out   41   ;; output: KEY_GRAVE → macOS HU = í/Í
     ö   11
     ü   12
     ó   13
@@ -26,10 +35,14 @@
   )
 )
 
+;; Apple internal keyboard (and fallback):
+;;   KEY_GRAVE(41) → macOS HU = í/Í,  KEY_102ND(86) → macOS HU = §/0
 (environment (KANATA_MAC_ISO "")
   (deflocalkeys-macos
-    nul 86   ;; 0/§ key (Apple ISO: KEY_102ND)
-    í   41   ;; í/Í key (Apple ISO: KEY_GRAVE)
+    nul     86   ;; input: left-of-1 sends KEY_102ND (Apple ISO quirk)
+    í       41   ;; input: left-of-Z sends KEY_GRAVE (Apple ISO quirk)
+    nul_out 86   ;; output: KEY_102ND → macOS HU = §/0
+    í_out   41   ;; output: KEY_GRAVE → macOS HU = í/Í
     ö   11
     ü   12
     ó   13

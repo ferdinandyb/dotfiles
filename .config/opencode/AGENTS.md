@@ -38,3 +38,9 @@ Avoid reading large data files directly, to preserve context. Delegate it to a s
 # bash tool
 
 NEVER prepend cd to a command if you are already in the same directory. Resolve shorthands like `~` and `$HOME` when determining this.
+
+# cloned software
+
+For reference many opencode repositories are pulled to `~/softwarefromsource`
+or ~`/.local/softwarefromsource`. When looking for documentation, always look
+here as well.

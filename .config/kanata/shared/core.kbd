@@ -74,7 +74,7 @@
 (t! num-row-key n9 9   S-9)
 
 ;; ── accent-key expansions ─────────────────────────────────────────────
-(t! accent-key aí í $SYM_SLASH     $SYM_AT_U)
+(t! accent-key aí í $SYM_PIPE      $SYM_AT_U)
 (t! accent-key aö ö $SYM_LESS      $SYM_RBRACE_U)
 (t! accent-key aü ü $SYM_GREATER   $SYM_BACKSLASH_U)
 (t! accent-key aó ó $SYM_EQUAL     $SYM_HASH_U)

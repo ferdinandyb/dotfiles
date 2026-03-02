@@ -18,7 +18,7 @@
     SYM_BACKTICK  RA-ű          ;; Alt+ű       → `
     SYM_QUOTE     S-1           ;; Shift+1     → '
     SYM_CARET     RA-á          ;; Alt+á       → ^
-    SYM_SLASH     í             ;; í           → /
+    SYM_SLASH     S-6           ;; Shift-6     → /
     SYM_AT        RA-q          ;; Alt+q       → @
     SYM_PIPE      RA-í          ;; Alt+í       → |
     SYM_TILDE     RA-ú          ;; Alt+ú       → ~

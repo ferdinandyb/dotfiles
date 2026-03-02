@@ -35,7 +35,7 @@
 (platform (macos)
   (environment (KANATA_MAC_ISO 1)
     (defalias
-      b_lctl  lctrl
+      b_lctl  lmet
       b_lsup  @v_sup
       b_lalt  @v_lal
 

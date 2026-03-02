@@ -10,18 +10,7 @@
   )
 )
 
-(deflocalkeys-macos
-  nul 86   ;; 0/§ key (Apple ISO: KEY_102ND)
-  í   41   ;; í/Í key (Apple ISO: KEY_GRAVE)
-  ö   11
-  ü   12
-  ó   13
-  ő   26
-  ú   27
-  é   39
-  á   40
-  ű   43
-)
+(include shared/localkeys.kbd)
 
 (include shared/symbols.kbd)
 

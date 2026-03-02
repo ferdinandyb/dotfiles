@@ -9,18 +9,7 @@
   )
 )
 
-(deflocalkeys-linux
-  nul 41   ;; 0/§ key (leftmost of number row)
-  ö   11
-  ü   12
-  ó   13
-  ő   26
-  ú   27
-  é   39
-  á   40
-  ű   43
-  í   86   ;; ISO extra key left of Z
-)
+(include shared/localkeys.kbd)
 
 (include shared/symbols.kbd)
 

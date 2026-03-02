@@ -19,14 +19,30 @@
 ;; Physical key → logical role differs between macOS and Linux.
 
 (platform (macos)
-  (defalias
-    b_lctl  lmet
-    b_lalt  @v_sup
-    b_lsup  @v_lal
+  (environment (KANATA_MAC_ISO "")
+    (defalias
+      b_lctl  lmet
+      b_lalt  @v_sup
+      b_lsup  @v_lal
 
-    b_rsup  @v_ral
-    b_ralt  @v_sup
-    b_rctl rctrl
+      b_rsup  @v_ral
+      b_ralt  @v_sup
+      b_rctl rctrl
+    )
+  )
+)
+
+(platform (macos)
+  (environment (KANATA_MAC_ISO 1)
+    (defalias
+      b_lctl  lctrl
+      b_lsup  @v_sup
+      b_lalt  @v_lal
+
+      b_ralt  @v_ral
+      b_rsup  @v_sup
+      b_rctl rctrl
+    )
   )
 )
 

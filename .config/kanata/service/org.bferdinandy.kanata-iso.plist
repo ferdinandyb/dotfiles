@@ -12,6 +12,12 @@
         <string>/Users/bence.ferdinandy/.config/kanata/mac-iso-entry.kbd</string>
     </array>
 
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>KANATA_MAC_ISO</key>
+        <string>1</string>
+    </dict>
+
     <key>StandardOutPath</key>
     <string>/var/log/kanata-iso.log</string>
     <key>StandardErrorPath</key>

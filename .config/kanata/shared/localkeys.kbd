@@ -1,24 +1,6 @@
-;; localkeys.kbd — hardware/OS specifics for Hungarian ISO
-;; Defines: scancode mappings, SYM_* symbol vars, key aliases.
-;; Apple ISO swaps KEY_GRAVE (41) ↔ KEY_102ND (86) relative to Linux.
-
-
 (deflocalkeys-linux
   nul 41   ;; 0/§ key (leftmost of number row)
-  ö   11
-  ü   12
-  ó   13
-  ő   26
-  ú   27
-  é   39
-  á   40
-  ű   43
   í   86   ;; ISO extra key left of Z
-)
-
-(deflocalkeys-macos
-  nul 86   ;; 0/§ key (Apple ISO: KEY_102ND)
-  í   41   ;; í/Í key (Apple ISO: KEY_GRAVE)
   ö   11
   ü   12
   ó   13
@@ -29,31 +11,32 @@
   ű   43
 )
 
-
-
-;; ── Bottom-row button aliases ────────────────────────────────────────
-;; Physical key → logical role differs between macOS and Linux.
-
-(platform (macos)
-  (defalias
-    b_lctl  lmet
-    b_lalt  @v_sup
-    b_lsup  @v_lal
-
-    b_rsup  @v_ral
-    b_ralt  @v_sup
-    b_rctl rctrl
+(environment (KANATA_MAC_ISO 1)
+  (deflocalkeys-macos
+    nul 41   ;; 0/§ key (leftmost of number row)
+    í   86   ;; ISO extra key left of Z
+    ö   11
+    ü   12
+    ó   13
+    ő   26
+    ú   27
+    é   39
+    á   40
+    ű   43
   )
 )
 
-(platform (linux)
-  (defalias
-    b_lctl  lctrl
-    b_lsup  @v_sup
-    b_lalt  @v_lal
-
-    b_ralt  @v_ral
-    b_rsup  @v_sup
-    b_rctl rctrl
+(environment (KANATA_MAC_ISO "")
+  (deflocalkeys-macos
+    nul 86   ;; 0/§ key (Apple ISO: KEY_102ND)
+    í   41   ;; í/Í key (Apple ISO: KEY_GRAVE)
+    ö   11
+    ü   12
+    ó   13
+    ő   26
+    ú   27
+    é   39
+    á   40
+    ű   43
   )
 )

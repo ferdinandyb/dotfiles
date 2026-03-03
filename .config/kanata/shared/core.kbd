@@ -23,8 +23,8 @@
 
 (defsrc
   nul  1    2    3    4    5    6    7    8    9    ö    ü    ó    bspc
-  tab  q    w    e    r    t    y    u    i    o    p    ő    ú    ű
-  caps a    s    d    f    g    h    j    k    l    é    á    ret
+  tab  q    w    e    r    t    y    u    i    o    p    ő    ú
+  caps a    s    d    f    g    h    j    k    l    é    á    ű     ret
   lsft í     z    x    c     v     b     n     m     ,     .     /     rsft
   lctl lmet lalt                spc                ralt rmet rctl
 )
@@ -104,19 +104,19 @@
 
 (deflayer base
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
-  tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú   @aű
-  @cap a     s     d     f     g     h     j     k     l     @aé   @aá   ret
+  tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú
+  @cap a     s     d     f     g     h     j     k     l     @aé   @aá   @aű ret
   lsft @aí   z     x     c     v     b     n     m     ,     .     /     rsft
   @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
 )
 
 ;; ── SUPER LAYER — plain numbers + mode toggles ───────────────────────
-;; ő→to-hu  ú→tog-num  ű→tog-hu  c→lrld
+;; é→to-hu  á→tog-num  ű→tog-hu  c→lrld
 
 (deflayer super-layer
-  @v0     1    2     3     4     5     6     7     8     9     _     _     _      bspc
-  _    _     _     _     _     _     _     _     _     _     _     @to-hu  @tog-num  @tog-hu
-  _    _     _     _     _     _     _     _     _     _     _     _         _
+  @v0  1     2     3     4     5     6     7     8     9     _     _     _      bspc
+  _    _     _     _     _     _     _     _     _     _     _     _     _
+  _    _     _     _     _     _     _     _     _     _   @to-hu  @tog-num   @tog-hu  _
   _    _     _     _     lrld  _     _     _     _     _     _     _         _
   _    _     _                 _                 _     _     _
 )
@@ -127,8 +127,8 @@
 
 (deflayer alt-layer
   A-0  A-1   A-2   A-3   A-4   A-5   A-6   A-7   A-8   A-9   @aö   @aü   @aó   _
-  _    A-q     A-w     A-e     A-r     A-t     A-y     A-u     A-i     A-o     A-p     @aő   @aú   @aű
-  _    A-a     A-s     A-d     A-f     A-g     A-h     A-j     A-k     A-l     @aé   @aá   ret
+  _    A-q     A-w     A-e     A-r     A-t     A-y     A-u     A-i     A-o     A-p     @aő   @aú
+  _    A-a     A-s     A-d     A-f     A-g     A-h     A-j     A-k     A-l     @aé   @aá  @aű ret
   _    @aí   A-z     A-x     A-c     A-v     A-b     A-n     A-m     _     _     _     _
   _    _     _                 _                 _     _    _
 )
@@ -141,8 +141,8 @@
 
 (deflayer ralt-layer
   _            $SYM_TILDE   $SYM_TM      $SYM_CARET   _            $SYM_DEGREE  _            $SYM_BACKTICK _            _            _            _            _            _
-  _            _            $SYM_PIPE    $SYM_EURO    _            _            _            _            _            _            _            _            _            _
-  _            _            _            _            $SYM_LBRACKET $SYM_RBRACKET _           _            _            _            _            _            _
+  _            _            $SYM_PIPE    $SYM_EURO    _            _            _            _            _            _            _            _            _
+  _            _            _            _            $SYM_LBRACKET $SYM_RBRACKET _           _            _            _            _            _            _            _
   _            _            _            $SYM_HASH    $SYM_AMPERSAND $SYM_AT     $SYM_LBRACE  $SYM_RBRACE  _            $SYM_SEMICOLON _           $SYM_STAR    _
   _            _            _                         _                          _            _            _
 )

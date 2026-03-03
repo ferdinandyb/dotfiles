@@ -94,7 +94,17 @@
   tog-hu  (on-press toggle-vkey vk_hu)
 
   ;; ── Set-both shortcuts ────────────────────────────────────────────
-  to-hu   (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu))
+  ;; tog-hu-smart: both in sync → toggle both; out of sync → set both ON (HU mode)
+  tog-hu-smart
+    (switch
+      ((and (input virtual vk_num) (input virtual vk_hu)))
+      (multi (on-press release-vkey vk_num) (on-press release-vkey vk_hu)) break
+      ((input virtual vk_num))
+      (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu)) break
+      ((input virtual vk_hu))
+      (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu)) break
+      ()
+      (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu)) break)
   to-norm (multi (on-press release-vkey vk_num) (on-press release-vkey vk_hu))
 )
 
@@ -111,12 +121,12 @@
 )
 
 ;; ── SUPER LAYER — plain numbers + mode toggles ───────────────────────
-;; é→to-hu  á→tog-num  ű→tog-hu  c→lrld
+;; é→tog-hu-smart  á→tog-num  ű→tog-hu  c→lrld
 
 (deflayer super-layer
   @v0  1     2     3     4     5     6     7     8     9     _     _     _      bspc
   _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _   @to-hu  @tog-num   @tog-hu  _
+  _    _     _     _     _     _     _     _     _     _   @tog-hu-smart  @tog-num   @tog-hu  _
   _    _     _     _     lrld  _     _     _     _     _     _     _         _
   _    _     _                 _                 _     _     _
 )

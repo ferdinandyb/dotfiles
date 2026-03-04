@@ -10,7 +10,8 @@
 ;;   vk_hu:  pressed = HU mode   (no-alt → accent,   alt → special symbol)
 ;;           released = special mode (no-alt → special, alt → accent)
 ;;
-;; Toggles: super+ú → tog-num,  super+ű → tog-hu
+;; Toggles: double-tap lsft/rsft → tog-num,  double-tap lalt/ralt → tog-hu
+;;           super+é → tog-hu-smart,  super+á → tog-num,  super+ű → tog-hu (backup)
 
 ;; ── defvirtualkeys ───────────────────────────────────────────────────
 
@@ -93,6 +94,10 @@
   tog-num (on-press toggle-vkey vk_num)
   tog-hu  (on-press toggle-vkey vk_hu)
 
+  ;; ── Shift double-tap → tog-num ────────────────────────────────────
+  b_lsft (tap-dance 200 (lsft @tog-num))
+  b_rsft (tap-dance 200 (rsft @tog-num))
+
   ;; ── Set-both shortcuts ────────────────────────────────────────────
   ;; tog-hu-smart: both in sync → toggle both; out of sync → set both ON (HU mode)
   tog-hu-smart
@@ -116,7 +121,7 @@
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
   tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú
   @cap a     s     d     f     g     h     j     k     l     @aé   @aá   @aű ret
-  lsft @aí   z     x     c     v     b     n     m     ,     .     /     rsft
+  @b_lsft @aí  z     x     c     v     b     n     m     ,     .     /     @b_rsft
   @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
 )
 

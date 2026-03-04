@@ -6,13 +6,13 @@
 
 (defalias
   ;; ── Virtual action keys ───────────────────────────────────────────
-  cap   (tap-hold-press 200 200 esc lctl)
+  cap   (tap-dance 200 ((tap-hold-press 200 200 esc lctl) caps))
   v_sup (tap-hold-press 200 200 f20 (multi @v_chord (layer-while-held super-layer)))
 
-  ;; v_lal: passthrough keeps Alt held → OS sees Alt+key (app shortcuts)
-  ;; v_ral: activates ralt-layer immediately (no tap action needed)
-  v_lal (layer-while-held alt-layer)
-  v_ral (layer-while-held ralt-layer)
+  ;; v_lal: double-tap → tog-hu; hold → alt-layer (OS sees Alt+key)
+  ;; v_ral: double-tap → tog-hu; hold → ralt-layer
+  v_lal (tap-dance 200 ((layer-while-held alt-layer) (on-press toggle-vkey vk_hu)))
+  v_ral (tap-dance 200 ((layer-while-held ralt-layer) (on-press toggle-vkey vk_hu)))
 )
 
 ;; ── Bottom-row button aliases ────────────────────────────────────────

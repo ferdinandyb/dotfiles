@@ -3,6 +3,7 @@
 
 (defcfg
   process-unmapped-keys no
+  concurrent-tap-hold yes
   linux-dev-names-include (
     "AT Translated Set 2 keyboard"
     "Keychron K8 Pro"

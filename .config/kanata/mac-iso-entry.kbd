@@ -5,6 +5,7 @@
 
 (defcfg
   process-unmapped-keys no
+  concurrent-tap-hold yes
   macos-dev-names-include (
     "Keychron K8 Pro"
   )

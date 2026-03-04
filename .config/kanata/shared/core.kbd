@@ -98,6 +98,9 @@
   b_lsft (tap-dance $timeout-double (lsft @tog-num))
   b_rsft (tap-dance $timeout-double (rsft @tog-num))
 
+  ;; ── Tab: tap → tab, hold → nav-layer ─────────────────────────────
+  b_tab (tap-hold-release $timeout $timeout tab (layer-while-held nav-layer))
+
   ;; ── Set-both shortcuts ────────────────────────────────────────────
   ;; tog-hu-smart: both in sync → toggle both; out of sync → set both ON (HU mode)
   tog-hu-smart
@@ -119,7 +122,7 @@
 
 (deflayer base
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
-  tab  q     w     e     r     t     y     u     i     o     p     @aő   @aú
+  @b_tab q   w     e     r     t     y     u     i     o     p     @aő   @aú
   @cap a     s     d     f     g     h     j     k     l     @aé   @aá   @aű ret
   @b_lsft @aí  z     x     c     v     b     n     m     ,     .     /     @b_rsft
   @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
@@ -160,4 +163,31 @@
   _            _            _            _            $SYM_LBRACKET $SYM_RBRACKET _           _            _            _            _            _            _            _
   _            _            _            $SYM_HASH    $SYM_AMPERSAND $SYM_AT     $SYM_LBRACE  $SYM_RBRACE  _            $SYM_SEMICOLON _           $SYM_STAR    _
   _            _            _                         _                          _            _            _
+)
+
+;; ── CHORDS ───────────────────────────────────────────────────────────
+;; tab+spc → toggle sticky nav (enter from base, exit from nav)
+
+(defalias
+  chord-tab-spc (switch
+    ((layer nav-layer)) (layer-switch base)      break
+    ()                  (layer-switch nav-layer) break)
+)
+
+(defchordsv2
+  (tab spc) @chord-tab-spc $timeout-double first-release (super-layer alt-layer ralt-layer)
+)
+
+;; ── NAV LAYER ────────────────────────────────────────────────────────
+;; Hold tab/spc → temporary; tab+spc → sticky; esc → exit to base.
+;;   h/j/k/l → left/down/up/right
+;;   u/d     → pgup/pgdn
+;;   esc     → exit sticky nav (layer-switch base)
+
+(deflayer nav-layer
+  XX      XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    bspc
+  XX      XX    XX    XX    XX    XX    XX    pgup  XX    XX    XX    XX    XX
+  (layer-switch base) XX XX pgdn XX XX lft  down  up    rght  XX    XX    XX    XX
+  lsft    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    rsft
+  lctl    XX    lalt              XX                ralt  XX    rctl
 )

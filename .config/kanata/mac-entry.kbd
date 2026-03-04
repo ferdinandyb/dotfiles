@@ -14,6 +14,8 @@
 
 (include shared/symbols.kbd)
 
+(include shared/timeouts.kbd)
+
 (include shared/bottomrow.kbd)
 
 (include shared/core.kbd)

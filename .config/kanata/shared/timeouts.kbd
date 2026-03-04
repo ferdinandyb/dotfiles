@@ -1,0 +1,7 @@
+;; timeouts.kbd — shared timeout constants
+;; Include this before any file that uses $timeout or $timeout-double.
+
+(defvar
+  timeout        150  ;; tap-hold and single tap-dance resolution
+  timeout-double 250  ;; double-tap window (shift, alt, caps, space)
+)

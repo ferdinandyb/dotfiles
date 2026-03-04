@@ -6,13 +6,13 @@
 
 (defalias
   ;; ── Virtual action keys ───────────────────────────────────────────
-  cap   (tap-dance 200 ((tap-hold-press 200 200 esc lctl) caps))
-  v_sup (tap-hold-press 200 200 f20 (multi @v_chord (layer-while-held super-layer)))
+  cap   (tap-dance $timeout-double ((tap-hold-press $timeout $timeout esc lctl) caps))
+  v_sup (tap-hold-press $timeout $timeout f20 (multi @v_chord (layer-while-held super-layer)))
 
   ;; v_lal: double-tap → tog-hu; hold → alt-layer (OS sees Alt+key)
   ;; v_ral: double-tap → tog-hu; hold → ralt-layer
-  v_lal (tap-dance 200 ((layer-while-held alt-layer) (on-press toggle-vkey vk_hu)))
-  v_ral (tap-dance 200 ((layer-while-held ralt-layer) (on-press toggle-vkey vk_hu)))
+  v_lal (tap-dance $timeout-double ((layer-while-held alt-layer) (on-press toggle-vkey vk_hu)))
+  v_ral (tap-dance $timeout-double ((layer-while-held ralt-layer) (on-press toggle-vkey vk_hu)))
 )
 
 ;; ── Bottom-row button aliases ────────────────────────────────────────

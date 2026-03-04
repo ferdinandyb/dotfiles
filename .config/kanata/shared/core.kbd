@@ -95,8 +95,8 @@
   tog-hu  (on-press toggle-vkey vk_hu)
 
   ;; ── Shift double-tap → tog-num ────────────────────────────────────
-  b_lsft (tap-dance 200 (lsft @tog-num))
-  b_rsft (tap-dance 200 (rsft @tog-num))
+  b_lsft (tap-dance $timeout-double (lsft @tog-num))
+  b_rsft (tap-dance $timeout-double (rsft @tog-num))
 
   ;; ── Set-both shortcuts ────────────────────────────────────────────
   ;; tog-hu-smart: both in sync → toggle both; out of sync → set both ON (HU mode)

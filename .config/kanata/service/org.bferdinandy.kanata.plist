@@ -10,6 +10,8 @@
         <string>/opt/homebrew/bin/kanata</string>
         <string>-c</string>
         <string>/Users/bence.ferdinandy/.config/kanata/mac-entry.kbd</string>
+        <string>-p</string>
+        <string>7071</string>
     </array>
 
     <key>StandardOutPath</key>

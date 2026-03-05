@@ -10,6 +10,8 @@
         <string>/opt/homebrew/bin/kanata</string>
         <string>-c</string>
         <string>/Users/bence.ferdinandy/.config/kanata/mac-iso-entry.kbd</string>
+        <string>-p</string>
+        <string>7070</string>
     </array>
 
     <key>EnvironmentVariables</key>

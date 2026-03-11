@@ -1,6 +1,8 @@
 @~/.config/agents/tmux.md
 @~/.config/agents/directives.md
 
+Current user is Bence Ferdinandy.
+
 # CRITICAL: Python Edits
 
 Formatters (ruff) run after EVERY edit. They WILL delete unused imports.

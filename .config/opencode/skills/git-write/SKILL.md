@@ -12,24 +12,24 @@ description: >-
 
 ### Atomic Commits
 
-- Each commit must be **self-contained** and change **one well-scoped part** of the code
+- Each commit must be **self-contained** and change **one well-scoped part** of
+  the code
 - Each commit must produce **working code** (passes tests and linters)
-- A commit can be a single-character change if that change is logically separate
-- Multiple commits may touch the same file or even the same line — that's fine if they're logically distinct changes
+- New definitions should be introduced in the same commits that use them.
+- Tests for new functionality should be added in the same commit.
+- A commit can be a single-character change if that change is logically
+  separate
+- Multiple commits may touch the same file or even the same line — that's fine
+  if they're logically distinct changes
 
-### Why This Matters
-
-- Makes `git blame` useful for understanding _why_ code exists
-- Enables `git bisect` for debugging (only works if every commit is working code)
-- Makes `git revert` and `git cherry-pick` practical
-- Simplifies code review
 
 ## Commit Message Format
 
 ### Title
 
 - **50 characters ideal**, max 72
-- Use scope prefix: `ci:`, `ui:`, `train:`, `doc:`, `fix:`, `feat:`, etc.
+- Use scope prefix: `ci:`, `doc:`, `accounts:`, `server:`. Do not use
+  conventional commit prefixes.
 - **Imperative mood**: "Fix bug" not "Fixed bug"
 - No emojis
 
@@ -71,7 +71,7 @@ git commit --amend --no-edit # keep message
 git add <files>
 git commit --fixup=<commit-hash>
 
-# Later, autosquash during rebase
+# Later, autosquash during rebase, does not use $EDITOR
 git rebase --autosquash origin/main
 ```
 
@@ -87,14 +87,44 @@ git reset --soft HEAD^
 # Then re-stage selectively with git add -p
 ```
 
-### Interactive Rebase
+### Programmatic Rebase (No Editor)
+
+Agents cannot use `git rebase -i` because it opens an interactive editor.
+Instead, use `GIT_SEQUENCE_EDITOR` to manipulate the rebase plan
+programmatically:
 
 ```bash
-git rebase -i HEAD~4           # manipulate last 4 commits
-git rebase -i origin/HEAD      # manipulate all commits since main
+# Squash the last 2 commits into one
+GIT_SEQUENCE_EDITOR="sed -i '2s/^pick/squash/'" git rebase -i HEAD~2
+
+# Drop the 3rd-to-last commit
+GIT_SEQUENCE_EDITOR="sed -i '3s/^pick/drop/'" git rebase -i HEAD~3
+
+# Reword a commit (then follow up with git commit --amend -m "new message")
+GIT_SEQUENCE_EDITOR="sed -i '1s/^pick/reword/'" git rebase -i HEAD~1
+
+# Fixup all commits except the first (squash without keeping messages)
+GIT_SEQUENCE_EDITOR="sed -i '2,\$s/^pick/fixup/'" git rebase -i HEAD~4
+
+# Apply --autosquash (processes fixup!/squash! commits automatically)
+git rebase --autosquash origin/main
 ```
 
-Actions: `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
+Available actions: `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
+
+The `GIT_SEQUENCE_EDITOR` command receives the todo file path as its argument.
+
+The `GIT_SEQUENCE_EDITOR` command receives the todo file path as its argument. Use `sed -i` with one or more `-e` expressions (macOS requires `sed -i ''`, Linux uses `sed -i`):
+
+```bash
+# Single change (macOS)
+GIT_SEQUENCE_EDITOR="sed -i '' '2s/^pick/squash/'" git rebase -i HEAD~3
+
+# Multiple changes — chain with -e
+GIT_SEQUENCE_EDITOR="sed -i '' -e '2s/^pick/squash/' -e '3s/^pick/squash/' -e '4s/^pick/drop/'" git rebase -i HEAD~5
+```
+
+Line numbers are 1-indexed; line 1 = oldest commit in the range.
 
 ### Recovering After Rebase
 
@@ -118,7 +148,6 @@ Examples:
 
 - `git commit` (without `-m` or `--message`)
 - `git rebase --continue` (when fixing conflicts and editor opens for commit message)
-- `git rebase -i` (interactive rebase)
 - `git merge` (when it opens editor for merge commit message)
 - `git tag -a` (annotated tags without `-m`)
 
@@ -126,7 +155,7 @@ Examples:
 
 - Use `git commit -m "message"` instead of `git commit`
 - Use `GIT_EDITOR=true git rebase --continue` to accept the default message
-- For interactive rebases, manually specify the rebase plan or ask the user to handle it
+- For interactive rebases, use `GIT_SEQUENCE_EDITOR` to programmatically edit the rebase plan (see "Programmatic Rebase" section above)
 
 ## General Rules
 

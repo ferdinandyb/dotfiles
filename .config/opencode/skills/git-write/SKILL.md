@@ -1,13 +1,12 @@
 ---
-name: git
+name: git-write
 description: >-
-  Load this skill when performing git operations that modify repository state
-  (add, commit, amend, rebase, merge, stash, worktree, reset, checkout, switch,
-  branch create/delete). Not needed for read-only operations like status, log,
-  diff, show, or blame.
+  Load this skill when performing git operations that modify repository state:
+  add, commit, amend, rebase, merge, stash, worktree, reset, checkout, switch,
+  branch create/delete.
 ---
 
-# Git Best Practices for Agents
+# Git Write Operations Best Practices
 
 ## Core Principles
 
@@ -16,7 +15,7 @@ description: >-
 - Each commit must be **self-contained** and change **one well-scoped part** of the code
 - Each commit must produce **working code** (passes tests and linters)
 - A commit can be a single-character change if that change is logically separate
-- Multiple commits may touch the same file or even the same line - that's fine if they're logically distinct changes
+- Multiple commits may touch the same file or even the same line — that's fine if they're logically distinct changes
 
 ### Why This Matters
 
@@ -92,7 +91,7 @@ git reset --soft HEAD^
 
 ```bash
 git rebase -i HEAD~4           # manipulate last 4 commits
-git rebase -i origin/main      # manipulate all commits since main
+git rebase -i origin/HEAD      # manipulate all commits since main
 ```
 
 Actions: `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
@@ -116,6 +115,7 @@ Actions: `pick`, `reword`, `edit`, `squash`, `fixup`, `drop`
 Some git commands open `$EDITOR` for interactive input. **Agents CANNOT run these commands directly** because they require interactive text editor input.
 
 Examples:
+
 - `git commit` (without `-m` or `--message`)
 - `git rebase --continue` (when fixing conflicts and editor opens for commit message)
 - `git rebase -i` (interactive rebase)
@@ -123,13 +123,13 @@ Examples:
 - `git tag -a` (annotated tags without `-m`)
 
 **Workarounds:**
+
 - Use `git commit -m "message"` instead of `git commit`
 - Use `GIT_EDITOR=true git rebase --continue` to accept the default message
 - For interactive rebases, manually specify the rebase plan or ask the user to handle it
 
 ## General Rules
 
-- Disable pager for reading output: `GIT_PAGER= git <command>`
 - Never edit git config
 - Never push (permission denied)
 - Prefer rebasing over merge commits

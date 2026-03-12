@@ -22,6 +22,9 @@ description: >-
 - Multiple commits may touch the same file or even the same line — that's fine
   if they're logically distinct changes
 
+In other words: a commit must be able to become a fully functional pull/merge
+request on it's own if needed.
+
 
 ## Commit Message Format
 

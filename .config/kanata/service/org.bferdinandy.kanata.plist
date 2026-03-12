@@ -25,6 +25,9 @@
     <key>SessionCreate</key>
     <true/>
 
+    <key>Nice</key>
+    <integer>-10</integer>
+
     <key>KeepAlive</key>
     <dict>
         <key>PathState</key>

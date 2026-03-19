@@ -37,13 +37,12 @@ services:
     # client_secret: 'TxRBilcHdC6WGBee]fs?QR:SJ8nI[g82'
     tenant: common
 
-  ## User configured providers
-  ## Required fields: client_id, client_secret, auth_endpoint, auth_scope, token_endpoint
-  ##
-  ## For example:
-  # yahoo:
-  #   client_id: application-CLIENT-ID
-  #   client_secret: application-CLIENT_SECRET
-  #   auth_endpoint: EDIT-ME!
-  #   auth_scope: EDIT-ME!
-  #   token_endpoint: EDIT-ME!
+
+  slack-mcp:
+    client_id: "1601185624273.8899143856786"
+    client_secret: ""
+    auth_endpoint: https://slack.com/oauth/v2_user/authorize
+    token_endpoint: https://slack.com/api/oauth.v2.user.access
+    auth_scope: "channels:history,groups:history,im:history,mpim:history,canvases:read,users:read,users:read.email,chat:write,canvases:write,search:read.public,search:read.private,search:read.mpim,search:read.im,search:read.files,search:read.users"
+    redirect_uri: "http://localhost:3118/callback"
+    token_params_mode: RequestBodyForm

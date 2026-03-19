@@ -183,6 +183,13 @@
     "model_cycle_favorite_reverse": "ctrl+shift+f",
   },
   "mcp": {
+    "slack": {
+      "type": "remote",
+      "url": "https://mcp.slack.com/mcp",
+      "oauth": {
+        "clientId": "1601185624273.8899143856786",
+      },
+    },
     "tmux-mcp": {
       "type": "local",
       "command": ["tmux-mcp"],

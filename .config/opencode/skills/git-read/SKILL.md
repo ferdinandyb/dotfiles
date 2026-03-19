@@ -1,7 +1,9 @@
 ---
 name: git-read
 description: >-
-  Always load this skill before using any git command.
+  MUST load before ANY git or yadm operation — reading, writing, branching,
+  committing, diffing, logging, rebasing, or anything else git-related. No
+  exceptions.
 ---
 
 # Git Exploration Best Practices

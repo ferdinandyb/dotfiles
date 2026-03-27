@@ -1,11 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "snapshot": true,
-  // Theme configuration
-  "theme": "dracula",
-  "tui": {
-    "diff_style": "stacked",
-  },
   "default_agent": "plan",
   "autoupdate": false,
   "share": "disabled",
@@ -177,14 +172,6 @@
       "gh workflow view *": "allow",
     },
   },
-  "keybinds": {
-    "leader": "ctrl+x",
-    "input_newline": "ctrl+enter",
-    "editor_open": "<leader>v",
-    "model_favorite_toggle": "<leader>f",
-    "model_cycle_favorite": "ctrl+f",
-    "model_cycle_favorite_reverse": "ctrl+shift+f",
-  },
   "mcp": {
     "slack": {
       "type": "remote",
@@ -192,10 +179,12 @@
       "oauth": {
         "clientId": "1601185624273.8899143856786",
       },
+      "enabled": false,
     },
     "tmux-mcp": {
       "type": "local",
       "command": ["tmux-mcp"],
+      "enabled": false,
     },
     "mcp-neovim-server": {
       "type": "local",

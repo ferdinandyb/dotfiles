@@ -19,6 +19,17 @@ CORRECT (usage first):
 - Edit 1: add `df = pd.DataFrame()`
 - Edit 2: add `import pandas as pd`
 
+**NEVER** work around ruff stripping imports by assigning them to a dummy
+variable or tuple, e.g.:
+
+```python
+# UNACCEPTABLE workaround — do not do this
+_KEEP = (SomeImport, AnotherImport)
+```
+
+This is dead code and will be treated as a bug. The correct fix is always to
+ensure the import has a real usage before adding it (see rule above).
+
 
 # shell tools
 

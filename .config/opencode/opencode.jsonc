@@ -20,6 +20,9 @@
       "secret.auto.tfvars.example": "allow",
       "secrets.py": "deny",
     },
+    "edit": {
+      "~/.config/opencode/*": "ask",
+    },
     "external_directory": {
       "*": "ask",
       "~/.config/opencode/*": "allow",

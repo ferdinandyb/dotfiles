@@ -2,5 +2,8 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "slack@claude-plugins-official": true
   }
 }

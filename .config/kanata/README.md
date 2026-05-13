@@ -145,23 +145,30 @@ Two kanata services exist — load only the one matching the active keyboard:
 | `org.bferdinandy.kanata` | `mac-entry.kbd` | Apple Internal Keyboard / Trackpad |
 | `org.bferdinandy.kanata-iso` | `mac-iso-entry.kbd` | Keychron K8 Pro |
 
+Kanata depends on Karabiner's VirtualHIDDevice-Daemon for its virtual keyboard
+driver. Karabiner Elements must be installed; kanata reuses its stock vhidd daemon.
+Only `karabiner_grabber` must be disabled — it conflicts with kanata.
+
 ```sh
-# 1. Activate the Karabiner DriverKit extension (one-time; skip if already active)
-sudo /Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager activate
+# 1. Install Karabiner-Elements (provides the DriverKit virtual HID driver)
+#    https://karabiner-elements.pqrs.org — open the app once to activate the driver
 
-# 2. Karabiner VirtualHIDDevice daemon (kanata depends on its socket via KeepAlive/PathState)
-sudo cp ~/.config/kanata/service/org.bferdinandy.karabiner-vhiddaemon.plist /Library/LaunchDaemons/
-sudo chown root:wheel /Library/LaunchDaemons/org.bferdinandy.karabiner-vhiddaemon.plist
-sudo chmod 644 /Library/LaunchDaemons/org.bferdinandy.karabiner-vhiddaemon.plist
-sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.karabiner-vhiddaemon.plist
+# 2. Disable karabiner_grabber (conflicts with kanata; kanata takes its place)
+sudo launchctl bootout system/org.pqrs.service.daemon.karabiner_grabber 2>/dev/null || true
+sudo launchctl disable system/org.pqrs.service.daemon.karabiner_grabber
 
-# 3a. Kanata — Apple internal keyboard
+# 3. Install the login-wait wrapper script (root-owned, see kanata-start.sh section below)
+sudo cp ~/.config/kanata/service/kanata-start.sh /usr/local/bin/kanata-start.sh
+sudo chown root:wheel /usr/local/bin/kanata-start.sh
+sudo chmod 755 /usr/local/bin/kanata-start.sh
+
+# 4a. Kanata — Apple internal keyboard
 sudo cp ~/.config/kanata/service/org.bferdinandy.kanata.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 sudo chmod 644 /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 
-# 3b. Kanata — Keychron K8 Pro (ISO extra key)
+# 4b. Kanata — Keychron K8 Pro (ISO extra key)
 sudo cp ~/.config/kanata/service/org.bferdinandy.kanata-iso.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/org.bferdinandy.kanata-iso.plist
 sudo chmod 644 /Library/LaunchDaemons/org.bferdinandy.kanata-iso.plist
@@ -171,23 +178,67 @@ sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.kanata-is
 ### Re-install (if already registered)
 
 ```sh
-sudo launchctl bootout system/org.bferdinandy.karabiner-vhiddaemon
-sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.karabiner-vhiddaemon.plist
+# Wrapper script
+sudo cp ~/.config/kanata/service/kanata-start.sh /usr/local/bin/kanata-start.sh
+sudo chown root:wheel /usr/local/bin/kanata-start.sh
+sudo chmod 755 /usr/local/bin/kanata-start.sh
 
 # Internal keyboard
 sudo launchctl bootout system/org.bferdinandy.kanata
+sudo cp ~/.config/kanata/service/org.bferdinandy.kanata.plist /Library/LaunchDaemons/
 sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 
 # ISO (Keychron)
 sudo launchctl bootout system/org.bferdinandy.kanata-iso
+sudo cp ~/.config/kanata/service/org.bferdinandy.kanata-iso.plist /Library/LaunchDaemons/
 sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.kanata-iso.plist
 ```
+
+### Why karabiner_grabber must be disabled
+
+`karabiner_grabber` is Karabiner's own key remapping engine. It grabs HID devices
+exclusively at boot before kanata can. Symptoms when it is running: bottom-row keys
+pass through as physical (Option is Option, Cmd is Cmd, í/grave not swapped), and
+the ISO extra keys (left-of-1, left-of-Z) are reassigned to wrong scancodes.
+
+Side effect of disabling: Karabiner-Menu tray icon no longer shows the current
+device (cosmetic only).
+
+`karabiner_grabber` is re-enabled by Karabiner's `SMAppService` mechanism on Karabiner
+updates. Re-run the `launchctl bootout/disable` pair from step 2 if it comes back.
+
+### `kanata-start.sh` — login-wait wrapper
+
+The kanata LaunchDaemons start at boot (system domain, root), before any user logs
+in. `karabiner_grabber` also starts at boot and grabs HID devices first. Even with
+the grabber disabled, starting kanata immediately at boot can cause a race.
+
+The wrapper script `/usr/local/bin/kanata-start.sh` polls `/dev/console` ownership:
+- Before login it is owned by `loginwindow`
+- After login it is owned by the logged-in user
+
+Kanata only starts once a user is logged in, by which point the Bluetooth keyboard
+should also be connected (connect it before logging in). The script must live in a
+root-owned path (`/usr/local/bin/`) — not in `~/.config/` — to prevent privilege
+escalation via a user-writable script running as root.
+
+### Do NOT create LaunchAgents for kanata
+
+The kanata plists must live in `/Library/LaunchDaemons/` (system domain, runs as
+root). If copies also exist in `~/Library/LaunchAgents/` (user domain), launchd
+will try to start duplicate instances that race for exclusive HID device access,
+causing intermittent input freezes. The LaunchAgent copies serve no purpose; do not
+create them.
 
 ### Debug
 
 ```sh
-# Check status
-sudo launchctl list | grep bferdinandy
+# Check status — karabiner_grabber must NOT be running; vhidd daemon should be
+sudo launchctl print system | grep -iE "karabiner|pqrs|kanata"
+launchctl list | grep kanata   # should return nothing (no user-domain agents)
+
+# Check vhidd socket exists (created by Karabiner's stock vhidd daemon)
+sudo ls -la "/Library/Application Support/org.pqrs/tmp/rootonly/"
 
 # Restart kanata (pick the active one)
 sudo launchctl kickstart -k system/org.bferdinandy.kanata
@@ -200,4 +251,10 @@ KANATA_MAC_ISO=1 kanata --cfg ~/.config/kanata/mac-iso-entry.kbd --check
 # Debug key events (note: sudo resets env, pass var explicitly)
 sudo kanata --debug -c ~/.config/kanata/mac-entry.kbd 2>&1 | grep "KeyEvent"
 sudo KANATA_MAC_ISO=1 kanata --debug -c ~/.config/kanata/mac-iso-entry.kbd 2>&1 | grep "KeyEvent"
+
+# Check kanata logs
+tail -f /var/log/kanata.log
+tail -f /var/log/kanata-iso.log
+tail -f /var/log/kanata.err
+tail -f /var/log/kanata-iso.err
 ```

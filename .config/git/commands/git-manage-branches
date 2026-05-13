@@ -330,7 +330,7 @@ def get_default_branch() -> str:
         )
 
     # Fallback to common default branch names
-    branches = run_git("branch", "--format=%(refname:short)").splitlines()
+    branches = run_git("branch", "--format=%(refname:lstrip=2)").splitlines()
     for default in ["main", "master", "trunk"]:
         if default in branches:
             return default
@@ -398,7 +398,7 @@ def find_stale_branches() -> List[str]:
 def find_merged_branches(default_branch: str) -> List[str]:
     """Find branches that have been merged into the default branch."""
     branches: List[str] = []
-    output = run_git("branch", "--merged", "origin/HEAD", "--format=%(refname:short)")
+    output = run_git("branch", "--merged", "origin/HEAD", "--format=%(refname:lstrip=2)")
 
     for branch in output.splitlines():
         # Skip the default branch and HEAD
@@ -449,7 +449,7 @@ def find_squash_merged_branches(default_branch: str, remote: bool = False) -> Li
         ).splitlines()
     else:
         # Get all local branches except default and HEAD
-        all_branches = run_git("branch", "--format=%(refname:short)").splitlines()
+        all_branches = run_git("branch", "--format=%(refname:lstrip=2)").splitlines()
 
     # Filter out default and HEAD
     filtered_branches = [
@@ -482,7 +482,7 @@ def categorize_branches(default_branch: str) -> List[Branch]:
 
     # Get all local branches (excluding default and HEAD)
     all_branches: Set[str] = set(
-        run_git("branch", "--format=%(refname:short)").splitlines()
+        run_git("branch", "--format=%(refname:lstrip=2)").splitlines()
     ) - {default_branch, "HEAD"}
 
     total_branches = len(all_branches)

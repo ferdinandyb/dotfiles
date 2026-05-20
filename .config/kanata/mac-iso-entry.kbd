@@ -9,6 +9,7 @@
   macos-dev-names-include (
     "Keychron K8 Pro"
   )
+  macos-continue-if-no-devs-found yes
 )
 
 

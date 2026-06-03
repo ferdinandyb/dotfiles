@@ -1,0 +1,12 @@
+#!/usr/bin/env python3
+# on-add hook: auto-inject +agent tag on every task the agent creates.
+# Contract: read one JSON line (new task) from stdin, print modified JSON, exit 0.
+import sys
+import json
+
+task = json.loads(sys.stdin.readline())
+tags = task.get("tags", [])
+if "agent" not in tags:
+    tags.append("agent")
+    task["tags"] = tags
+print(json.dumps(task))

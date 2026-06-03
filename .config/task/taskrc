@@ -50,6 +50,7 @@ urgency.user.tag.github.coefficient=-2
 reserved.lines=2
 
 news.version=3.4.1
+include ~/.config/task/agent-uda.rc
 include ~/.config/task/bugwarrioruda
 include ~/.config/task/adhoc-configs
 #include ~/.config/task/taskserver

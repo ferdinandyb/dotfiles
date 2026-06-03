@@ -1,19 +1,14 @@
-data.location=$HOME/.local/state/taskagent
+data.location=$HOME/.task
+hooks.location=$HOME/.config/task/agent-hooks
 
 include ~/.config/task/bubblegum-256.theme
 #include solarized-dark-256.theme
 #include no-color.theme
 
-# report.next.filter = status:pending -WAITING limit:20
+# Shared UDA definitions (details, discovered_from)
+include ~/.config/task/agent-uda.rc
 
 search.case.sensitive=no
-
-# UDAs for agent workflow
-uda.details.type=string
-uda.details.label=Details
-
-uda.discovered_from.type=string
-uda.discovered_from.label=Discovered From
 
 # Urgency tweaks for agent workflow
 urgency.user.tag.side_quest.coefficient=-3.0
@@ -22,23 +17,29 @@ urgency.user.tag.side_quest.coefficient=-3.0
 verbose=affected,blank,context,edit,header,footnote,label,new-id,special,sync,recur
 
 # Minimal info report for agents (use 'agentinfo' instead of 'information')
+# Unfiltered — lets the agent read individual human tasks by UUID
 report.agentinfo.description=Essential task info for agents
 report.agentinfo.columns=uuid.short,status,project,priority,description.combined,details,depends.list,discovered_from
 report.agentinfo.labels=UUID,Status,Project,Pri,Description+Annotations,Details,Depends,Discovered
 
 # Override default reports to show UUID instead of short ID (short IDs renumber frequently)
+# All agent working views are filtered to +agent so the agent sees only its own tasks by default.
+# Use explicit filters (e.g. taskagent -TAGGED list) to read human tasks.
 report.list.columns=uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description.count,urgency
 report.list.labels=UUID,Active,Age,D,P,Project,Tags,Description,Urg
+report.list.filter=+agent status:pending
 
 report.ready.columns=uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description,urgency
 report.ready.labels=UUID,Active,Age,D,P,Project,Tags,Description,Urg
+report.ready.filter=+agent
 
 report.next.columns=uuid.short,start.age,entry.age,depends,priority,project,tags,description,urgency
 report.next.labels=UUID,Active,Age,Deps,P,Project,Tags,Description,Urg
+report.next.filter=+agent
 
 # Human-friendly report: clean descriptions, no annotations, with both ID and UUID
 report.human.description=Clean task list for humans (no annotations)
 report.human.columns=id,uuid.short,start.age,entry.age,depends.indicator,priority,project,tags,description.desc,urgency
 report.human.labels=ID,UUID,Active,Age,D,P,Project,Tags,Description,Urg
-report.human.filter=status:pending
+report.human.filter=status:pending +agent
 report.human.sort=urgency-

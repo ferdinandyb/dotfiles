@@ -1,2 +1,66 @@
 #!/bin/sh
-exec task rc:~/.config/task/taskagentrc "$@"
+# taskagent — hardened wrapper for agent task management.
+#
+# Enforcement layers this wrapper provides:
+#   1. Blocks rc:/rc.* overrides that would redirect data or disable hooks.
+#   2. Blocks hook-bypassing subcommands: undo, config, execute (and any
+#      unambiguous abbreviation thereof, since taskwarrior accepts >=3-char prefixes).
+#   3. Forces rc:~/.config/task/taskagentrc so on-add/on-modify hooks always fire.
+#
+# The agent may only MODIFY tasks tagged +agent (enforced by the hooks).
+# Reads of any task are unrestricted.
+
+# Helper: return 0 if $1 is an unambiguous prefix match of $2 (min 3 chars).
+is_abbrev() {
+  word="$1"
+  full="$2"
+  len=${#word}
+  [ "$len" -ge 3 ] && [ "${full#"$word"}" != "$full" ] || [ "$word" = "$full" ]
+}
+
+# Pass 1: scan every argument for rc overrides (no safe position for these).
+for arg in "$@"; do
+  case "$arg" in
+    rc:*|rc.*)
+      echo "taskagent: rc:/rc.* overrides are not permitted" >&2
+      exit 2
+      ;;
+  esac
+done
+
+# Pass 2: find the subcommand and check it.
+# Taskwarrior syntax: task [filter] command [modifications]
+# Filter tokens appear before the command; modifications/descriptions after.
+# We skip known filter-shaped tokens and treat the first non-filter word as
+# the subcommand. We stop checking after that point to avoid false-positives
+# on description words (e.g. "taskagent add 'execute the plan'").
+found_command=0
+for arg in "$@"; do
+  # Skip filter-shaped tokens: +tag, -tag, attribute:value, numbers, partial UUIDs.
+  # Partial UUIDs are 8 hex chars (the taskagent convention); we match >=8-char
+  # all-hex strings so they don't consume the subcommand slot.
+  case "$arg" in
+    +*|-*|*:*|[0-9]*)
+      continue
+      ;;
+  esac
+  # Skip hex-only strings of 8+ chars (partial UUIDs)
+  if printf '%s' "$arg" | grep -qE '^[0-9a-f]{8,}$'; then
+    continue
+  fi
+
+  # This is the first candidate for the subcommand position.
+  if is_abbrev "$arg" "undo" || \
+     is_abbrev "$arg" "config" || \
+     is_abbrev "$arg" "execute"; then
+    echo "taskagent: '$arg' is not permitted for the agent" >&2
+    exit 2
+  fi
+
+  # First non-filter token that isn't forbidden is the subcommand; stop here.
+  # Everything after this point is modifications/description, not a command.
+  found_command=1
+  break
+done
+
+exec task rc:"$HOME/.config/task/taskagentrc" "$@"

@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# on-modify hook: enforce that the agent may only modify tasks tagged +agent.
+# Also keeps +agent sticky so the agent can't accidentally lock itself out.
+#
+# Contract: read two JSON lines from stdin:
+#   line 1: before (original task)
+#   line 2: after  (proposed modification)
+# On success: print the (possibly adjusted) after JSON and exit 0.
+# On rejection: print a plain-text error message and exit non-zero.
+import sys
+import json
+
+before = json.loads(sys.stdin.readline())
+after  = json.loads(sys.stdin.readline())
+
+if "agent" not in before.get("tags", []):
+    # Taskwarrior reads feedback from stdout (non-JSON lines), not stderr.
+    # See Hooks.cpp::assertFeedback / separateOutput.
+    print(
+        "taskagent: refused — agent may only modify tasks tagged +agent. "
+        "This task is not tagged +agent."
+    )
+    sys.exit(1)
+
+# Keep +agent sticky: if the modification tried to drop it, re-add it.
+# Only a human using their own task client can permanently remove the tag.
+tags = after.get("tags", [])
+if "agent" not in tags:
+    tags.append("agent")
+    after["tags"] = tags
+
+print(json.dumps(after))

@@ -123,6 +123,17 @@
 
       // --- Taskagent ---
       "taskagent *": "allow",
+      // Defense-in-depth: block hook-bypassing subcommands when they appear as the
+      // FIRST argument (covers "taskagent undo" and abbreviations like "taskagent und").
+      // Filter-before-subcommand ("taskagent +agent undo") is caught by the wrapper,
+      // which scans ALL args. The multi-token "taskagent * undo*" form was removed
+      // because it false-positives on task descriptions (e.g. "taskagent add undo this").
+      "taskagent undo*": "deny",
+      "taskagent config*": "deny",
+      "taskagent execute*": "deny",
+      // Block rc overrides (rc: or rc. as a standalone first arg or anywhere literal)
+      "taskagent rc:*": "deny",
+      "taskagent rc.*": "deny",
 
       // --- Taskwarrior ---
       "task *": "deny",

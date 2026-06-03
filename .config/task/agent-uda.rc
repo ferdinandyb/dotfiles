@@ -1,0 +1,9 @@
+# Shared UDA definitions for agent tasks.
+# Included by both taskrc and taskagentrc so both clients understand
+# agent-created tasks (no "unknown attribute" warnings).
+
+uda.details.type=string
+uda.details.label=Details
+
+uda.discovered_from.type=string
+uda.discovered_from.label=Discovered From

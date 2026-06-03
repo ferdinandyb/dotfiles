@@ -13,10 +13,30 @@ description: >-
 
 **Always use `taskagent`, NEVER use `task` directly.**
 
-`taskagent` is a wrapper that uses a separate taskwarrior configuration for agent work.
-Using `task` directly will access the human's personal task list, not the agent task tracking system.
+`taskagent` is a hardened wrapper that shares the human's taskwarrior database (`~/.task`) but
+enforces that the agent may only **modify** tasks tagged `+agent`. Reads of any task are allowed.
+Using `task` directly is denied by opencode permissions.
 
 **`taskagent` is globally available** - no need to `cd` to any directory. It works from anywhere.
+
+## CRITICAL: +agent tag and write access
+
+Every task the agent creates is **automatically tagged `+agent`** by a taskwarrior on-add hook.
+The agent may only modify/done/delete/annotate tasks that have the `+agent` tag.
+Attempting to modify a human task (without `+agent`) will be **rejected** at the taskwarrior layer.
+
+The `+agent` tag is **sticky**: even if a modify command tries to remove it, the hook re-adds it.
+Only the human (via their own `task` client) can permanently remove `+agent` from a task.
+
+**Default views (`list`, `ready`, `next`) are filtered to `+agent`** — the agent sees only its own
+tasks by default. To read a specific human task, use its UUID directly:
+```bash
+taskagent <uuid> info          # reads any task, including human tasks
+taskagent <uuid> agentinfo     # same, minimal format
+```
+
+**Forbidden commands** (blocked by the wrapper): `undo`, `config`, `execute`, and any `rc:` or
+`rc.*` overrides. These bypass the enforcement hooks and are always rejected.
 
 ## CRITICAL: Use Partial UUIDs, Not Short IDs
 
@@ -159,7 +179,8 @@ taskagent <uuid> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
 
 ## Core Operations
 
-> **Note**: All commands below use `taskagent`, not `task`. The `taskagent` command is specifically configured for agent work tracking and is separate from the human's personal taskwarrior.
+> **Note**: All commands below use `taskagent`, not `task`. `taskagent` shares the human's task
+> database but restricts the agent to modifying only `+agent`-tagged tasks. Reads are unrestricted.
 
 > **Direct execution**: Basic taskagent operations (add, annotate, modify, start, stop, list, info) should be run directly - no subagent needed. Only invoke subagents for reviews (@task-reviewer, @code-reviewer) and complex queries (@taskagent-reader).
 

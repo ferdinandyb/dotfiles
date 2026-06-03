@@ -215,6 +215,7 @@
   "plugin": [
     "@franlol/opencode-md-table-formatter@0.0.3",
     "./plugins/agentmemory-capture.ts",
+    "./plugins/taskagent-plan-allow.ts",
   ],
   "agent": {
     "build": {

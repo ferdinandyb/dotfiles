@@ -199,8 +199,23 @@
         "NVIM_SOCKET_PATH": "./.nvim.sock",
       },
     },
+    "agentmemory": {
+      "type": "local",
+      "command": [
+        "podman", "exec", "-i",
+        "-e", "AGENTMEMORY_URL=http://127.0.0.1:3111",
+        "-e", "AGENTMEMORY_FORCE_PROXY=1",
+        "-e", "AGENTMEMORY_SECRET",
+        "agentmemory",
+        "agentmemory", "mcp",
+      ],
+      "enabled": true,
+    },
   },
-  "plugin": ["@franlol/opencode-md-table-formatter@0.0.3"],
+  "plugin": [
+    "@franlol/opencode-md-table-formatter@0.0.3",
+    "./plugins/agentmemory-capture.ts",
+  ],
   "agent": {
     "build": {
       "model": "anthropic/claude-sonnet-4-6",

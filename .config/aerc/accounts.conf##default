@@ -55,10 +55,9 @@ carddav-source-cred-cmd = pass show gmail
 # copy-to=Sent
 
 [notmuch]
-source=notmuch://~/.mail/
+source=notmuch://
 # check-mail=30s
 # check-mail-cmd=notmuch new
-maildir-store=~/.mail/
 # maildir-account-path=pharmahungary
 outgoing=msmtpq -a bence
 from=Bence Ferdinandy <bence@ferdinandy.com>

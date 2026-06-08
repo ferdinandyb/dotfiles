@@ -161,7 +161,7 @@ setup_ssh_agent() {
 if [ $(hostname) = mashenka ]; then
 	setup_ssh_agent
 	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-		export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
+		export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket"
 	fi
 elif [ $(hostname) = MBP-Bence-Ferdinandy ]; then
 	setup_ssh_agent

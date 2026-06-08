@@ -12,6 +12,8 @@ alias bw-ssh='SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock ssh'
 alias gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)" ssh'
 alias set-bw-ssh='export SSH_AUTH_SOCK=$HOME/.bitwarden-ssh-agent.sock'
 alias set-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"'
+alias rbw-ssh='SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket" ssh'
+alias set-rbw-ssh='export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket"'
 
 alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
 

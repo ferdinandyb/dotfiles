@@ -67,9 +67,9 @@ bindsym $mod+oacute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ togg
 
 
 
-assign [class="Viber"] workspace $ws8
-assign [class="Slack"] workspace $ws8
-assign [class="Telegram"] workspace $ws8
+assign [class="Viber"] workspace $ws9
+assign [class="Slack"] workspace $ws9
+assign [class="Telegram"] workspace $ws9
 assign [class="Element"] workspace $ws8
 # for_window [class="Telegram"] layout tabbed
 for_window [class="Telegram"] mark t

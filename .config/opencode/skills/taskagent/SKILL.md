@@ -182,7 +182,7 @@ taskagent <uuid> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
 > **Note**: All commands below use `taskagent`, not `task`. `taskagent` shares the human's task
 > database but restricts the agent to modifying only `+agent`-tagged tasks. Reads are unrestricted.
 
-> **Direct execution**: Basic taskagent operations (add, annotate, modify, start, stop, list, info) should be run directly - no subagent needed. Only invoke subagents for reviews (@task-reviewer, @code-reviewer) and complex queries (@taskagent-reader).
+> **Direct execution**: Basic taskagent operations (add, annotate, modify, start, stop, list, info) should be run directly - no subagent needed. Only invoke subagents for task completion review (@task-reviewer) and complex queries (@taskagent-reader). For code review, ask the user to run `/peerreview`.
 
 ### Check ready work (built-in report)
 ```bash
@@ -284,10 +284,10 @@ This applies to ALL task types:
 
 For tasks linked to external tickets (Jira, GitHub Issues):
 
-1. **Before PR/merge**: Invoke `@code-reviewer` with the ticket ID
+1. **Before PR/merge**: Ask the user to run `/peerreview <ticket-ID>` (or `/peerreview <PR-number>`). This launches `code-reviewer-opus` and `code-reviewer-gemini` in parallel as direct children of the root session — do NOT spawn `@code-reviewer` yourself, it no longer exists.
 2. **Before `taskagent done`**: Invoke `@task-reviewer` as usual
 
-Code-reviewer checks ticket alignment; task-reviewer checks task completion. Both are required for externally-tracked work.
+Code review checks ticket alignment; task-reviewer checks task completion. Both are required for externally-tracked work.
 
 Then invoke the reviewer with the UUID (from the report output):
 

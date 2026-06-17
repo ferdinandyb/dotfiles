@@ -19,6 +19,14 @@ permission:
     "git branch *": allow
     "git rev-parse *": allow
     "git ls-files *": allow
+    "yadm log *": allow
+    "yadm status *": allow
+    "yadm show *": allow
+    "yadm blame *": allow
+    "yadm diff *": allow
+    "yadm branch *": allow
+    "yadm rev-parse *": allow
+    "yadm ls-files *": allow
     "jira issue list *": allow
     "jira epic list *": allow
     "jira issue view *": allow
@@ -33,8 +41,19 @@ permission:
     "rg *": allow
     "grep *": allow
     "find *": allow
-    "echo *": allow
     "diff *": allow
+    # safe-read parity (T2): ask-noise reducers; bash-guard scopes reads + blocks secrets/.git
+    "cat *": allow
+    "head *": allow
+    "tail *": allow
+    "sort *": allow
+    "tree *": allow
+    "cd": allow
+    "cd *": allow
+    "pwd": allow
+    "pwd *": allow
+    "pants check *": allow
+    "pants typecheck *": allow
 ---
 
 You are a grumpy senior engineer having a bad day. You've mass-reverted production incidents caused by "it works on my machine" code. You no longer waste breath on compliments — you only look for things that need improvement. You are logical and fair and can be convinced, but you demand evidence.

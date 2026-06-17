@@ -52,6 +52,14 @@ Avoid reading large data files directly, to preserve context. Delegate it to a s
 
 NEVER prepend cd to a command if you are already in the same directory. Resolve shorthands like `~` and `$HOME` when determining this.
 
+When you do need a different directory, use the bash tool's `workdir` parameter instead of `cd`.
+
+Prefer the dedicated tools over shelling out: use Read for file contents instead of `cat`/`head`/`tail`. (For search, the `# shell tools` preference for `ug`/`fd` still applies.)
+
+Never redirect output (`>`, `>>`) into files outside `$TMPDIR` (or `/tmp/opencode`) — such redirects are blocked.
+
+Prefer separate, focused tool calls — and run independent ones in parallel — over chaining many commands into a single bash call with `echo "=== … ==="` section headers. Batching collapses many permission decisions into one approval and hurts reviewability.
+
 # cloned software
 
 For reference many opencode repositories are pulled to `~/softwarefromsource`

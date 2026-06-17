@@ -14,6 +14,15 @@
       "secret.auto.tfvars": "deny",
       "secret.auto.tfvars.example": "allow",
       "secrets.py": "deny",
+      // .git is internal plumbing, not source. bash-guard handles .git for bash; these
+      // cover the Read tool. The Read tool evaluates a WORKTREE-RELATIVE path (read.ts:257),
+      // so the current repo's own .git is matched WITHOUT a leading "/": the "**/.git[/**]"
+      // forms need a "/" before ".git" and only catch NESTED repos, so the bare ".git"/
+      // ".git/**" forms are required for the worktree-root .git. All four are needed.
+      ".git": "deny",
+      ".git/**": "deny",
+      "**/.git": "deny",
+      "**/.git/**": "deny",
     },
     "edit": {
       "~/.config/opencode/*": "ask",
@@ -96,7 +105,7 @@
       "tail *": "allow",
       "sort *": "allow",
       "uniq *": "allow",
-      "awk *": "allow",
+      "awk *": "allow", // backstopped by bash-guard (system()/getline/print>/-i inplace)
       "which *": "allow",
       "jq *": "allow",
       "jaq *": "allow",
@@ -104,11 +113,18 @@
       "ug *": "allow",
       "rg *": "allow",
       "grep *": "allow",
-      "find *": "allow",
+      "find *": "allow", // backstopped by bash-guard (-exec/-delete/-fls/-ok + path scoping)
       "tree *": "allow",
-      "echo *": "allow",
-      "tee *": "allow",
+      "echo *": "allow", // safe; only writes via redirect, which bash-guard blocks
+      "tee *": "allow", // backstopped by bash-guard (tee targets must be tmp)
       "diff *": "allow",
+      // cd/cat are in opencode's FILES set → external_directory still asks for paths
+      // outside the allow-list; bash-guard scopes reads + blocks secrets/.git.
+      "cd": "allow",
+      "cd *": "allow",
+      "cat *": "allow",
+      "pwd": "allow",
+      "pwd *": "allow",
       "TMPFILE=$(mktemp)": "allow",
 
       // --- Jira CLI (read-only) ---
@@ -120,6 +136,8 @@
       "pants lint *": "allow",
       "pants fmt *": "allow",
       "pants test *": "allow",
+      "pants check *": "allow",
+      "pants typecheck *": "allow",
 
       // --- Taskagent ---
       "taskagent *": "allow",
@@ -223,6 +241,7 @@
     "@franlol/opencode-md-table-formatter@0.0.3",
     "./plugins/agentmemory-capture.ts",
     "./plugins/taskagent-plan-allow.ts",
+    "./plugins/bash-guard.ts",
   ],
   "agent": {
     "build": {

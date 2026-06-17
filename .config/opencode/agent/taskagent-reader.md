@@ -43,6 +43,11 @@ permission:
     tail *: allow
     ls *: allow
     ls: allow
+    # navigation parity (T2): cd is path-checked by opencode external_directory + bash-guard
+    cd: allow
+    cd *: allow
+    pwd: allow
+    pwd *: allow
     # DENY all write operations (explicit, after default deny)
     taskagent add *: deny
     taskagent * annotate *: deny

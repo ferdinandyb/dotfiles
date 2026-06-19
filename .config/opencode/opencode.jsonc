@@ -151,6 +151,7 @@
       "sort *": "allow",
       "uniq *": "allow",
       "awk *": "allow", // backstopped by bash-guard (system()/getline/print>/-i inplace)
+      "sed *": "allow", // backstopped by bash-guard (-i / w,W,r,R / s///w blocked)
       "which *": "allow",
       "jq *": "allow",
       "jaq *": "allow",
@@ -191,6 +192,8 @@
       "pants test *": "allow",
       "pants check *": "allow",
       "pants typecheck *": "allow",
+      "PANTS_CONCURRENT=True pants tecton-plan *": "allow", // read-only plan; apply stays gated
+      "PANTS_CONCURRENT=True pants test *": "allow",
 
       // --- Taskagent ---
       "taskagent *": "allow",

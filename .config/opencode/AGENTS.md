@@ -3,6 +3,15 @@
 
 Current user is Bence Ferdinandy.
 
+# SKILLS
+
+Many specific tools or situations have an associated skill, always consider
+loading relevant skills, e.g. always load the git-read skill before using git.
+
+At session start, if the cwd or branch name contains a ticket ID (e.g. `FEL-123`),
+a plan file is present, or the work will span sessions, load the taskagent skill
+before proceeding.
+
 # CRITICAL: Python Edits
 
 Formatters (ruff) run after EVERY edit. They WILL delete unused imports.

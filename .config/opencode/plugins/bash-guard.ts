@@ -83,6 +83,15 @@ const ENV_HIJACK = new Set([
   "GIT_CONFIG_GLOBAL", "GIT_CONFIG_SYSTEM", "GIT_CONFIG_COUNT",
 ])
 
+// Editor env vars whose value git/$cmd would EXEC. They live in ENV_HIJACK, but a no-op value is the
+// documented non-interactive workaround (git-write skill: `GIT_EDITOR=true git rebase --continue`).
+// Allow ONLY these exact no-op values; any other value stays blocked.
+// NOTE: GIT_SEQUENCE_EDITOR is deliberately NOT in ENV_HIJACK — `git rebase` is never allow-listed
+// (always `ask`, human-gated) and the git-write skill relies on `GIT_SEQUENCE_EDITOR="sed -i …"` to
+// edit the rebase plan. Accepted as ask-gated-only.
+const EDITOR_VARS = new Set(["EDITOR", "VISUAL", "GIT_EDITOR"])
+const NOOP_EDITORS = new Set(["true", ":", "/bin/true", "/usr/bin/true"])
+
 const WRITE_REDIRECT_OPS = new Set([">", ">>", "&>", "&>>", ">|"])
 
 // Directory names that mean "credentials live here" → block reads inside them.
@@ -413,8 +422,13 @@ function inspect(parser: ParserType, command: string, ctx: Ctx): Verdict {
     //    config: harmful only if cmd reads $FOO and writes somewhere — but real redirect targets
     //    are caught by Job 1b and real path args by Job 2.
     for (const e of cmd.env) {
-      if (ENV_HIJACK.has(e.name.toUpperCase()))
-        return no(`inline environment override ${e.name}=... can hijack an external program or inject code`)
+      const envName = e.name.toUpperCase()
+      if (ENV_HIJACK.has(envName)) {
+        // A no-op editor (true/:) is the documented non-interactive git workaround; allow ONLY the
+        // exact no-op value (after unquote+trim) and block every other value, which the var would exec.
+        if (!(EDITOR_VARS.has(envName) && NOOP_EDITORS.has(unquote(e.value).trim())))
+          return no(`inline environment override ${e.name}=... can hijack an external program or inject code`)
+      }
       const val = unquote(e.value)
       if (val.includes("$(") || val.includes("`"))
         return no(`inline environment override ${e.name}=${e.value} embeds a command substitution`)
@@ -660,6 +674,19 @@ function checkFlags(base: string, args: string[], consumed: Set<number>, sw: Sco
     }
     case "git":
     case "yadm": {
+      // Effective subcommand = first token that isn't a global option (or an option's value token).
+      const GIT_GLOBAL_VAL = new Set(["-C", "--git-dir", "--work-tree", "--namespace", "-c", "--super-prefix", "--exec-path"])
+      let sub = ""
+      let subIdx = -1
+      for (let i = 0; i < args.length; i++) {
+        const a = args[i]
+        if (!a.startsWith("-")) {
+          sub = a
+          subIdx = i
+          break
+        }
+        if (GIT_GLOBAL_VAL.has(a)) i++ // option takes a separate value token → skip it
+      }
       for (let i = 0; i < args.length; i++) {
         const a = args[i]
         if (a === "--output") {
@@ -677,7 +704,23 @@ function checkFlags(base: string, args: string[], consumed: Set<number>, sw: Sco
             /^(core\.(pager|sshcommand|editor|fsmonitor|hookspath|askpass)|sequence\.editor|diff\.external|.*\.(pager|cmd|driver|process|helper))/i.test(cfg) ||
             cfg.includes("=!")
           )
-            return no("`git -c` overrides a pager/exec/hook config (exec side-channel)")
+            return no("`git -c` overrides a pager/exec/hook config (exec side-channel) — see the git-read/git-write skill for the supported approach")
+        } else if (sub === "config" && i > subIdx) {
+          // `git config -f/--file <path>` reads an arbitrary file as INI; git is exempt from path
+          // scoping elsewhere, and the `--file=`/`-f<path>` attached forms start with "-" so the
+          // positional read-scan skips them — secret-scope them here (else `git config --list
+          // --file=~/.aws/credentials` silently exfiltrates). ONLY for `config`: other subcommands'
+          // `-f` means --force (branch/tag/checkout), not a file.
+          if ((a === "-f" || a === "--file") && i + 1 < args.length) {
+            const v = sr(args[i + 1], false)
+            if (v.block) return v
+          } else if (a.startsWith("--file=")) {
+            const v = sr(a.slice("--file=".length), false)
+            if (v.block) return v
+          } else if (a.startsWith("-f") && a.length > 2 && !a.startsWith("--")) {
+            const v = sr(a.slice(2), false)
+            if (v.block) return v
+          }
         }
       }
       return ok

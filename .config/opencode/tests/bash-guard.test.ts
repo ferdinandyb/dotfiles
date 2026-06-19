@@ -105,6 +105,51 @@ describe("inline env hijacks", () => {
   ])("allows non-hijack var with plain path value: %s", (cmd) => expectAllow(cmd))
 })
 
+describe("editor env no-op exception (GIT_EDITOR=true et al.)", () => {
+  // The documented non-interactive git workaround — allowed for EXACT no-op values only.
+  it.each([
+    "GIT_EDITOR=true git rebase --continue",
+    "EDITOR=true git rebase --continue",
+    "EDITOR=: git commit",
+    "VISUAL=/bin/true git commit --amend",
+    "GIT_EDITOR=/usr/bin/true git rebase --skip",
+  ])("allows no-op editor: %s", (cmd) => expectAllow(cmd))
+
+  // Any non-no-op value (incl. trailing args / injection / substring) stays blocked.
+  it.each([
+    "EDITOR=vim git rebase --continue",
+    "GIT_EDITOR='/bin/true x' git rebase --continue",
+    "EDITOR='true;id' git commit",
+    "GIT_EDITOR='sh -c id' git rebase -i HEAD~1",
+    "EDITOR=truelike git commit",
+  ])("blocks non-no-op editor: %s", (cmd) => expectBlock(cmd, /environment override/))
+})
+
+describe("git config --file is secret-scoped", () => {
+  it.each([
+    "git config --list --file=~/.aws/credentials",
+    "git config --file=~/.ssh/id_rsa --get core.x",
+    "git config -f ~/.netrc --get x",
+    "git config --file ~/.aws/credentials --list",
+    "yadm config --list --file=~/.aws/credentials",
+  ])("blocks reading a secret via git config --file: %s", (cmd) => expectBlock(cmd, /credential\/secret/))
+
+  it.each([
+    "git config --get core.editor",
+    "git config --list",
+    "git config --show-origin --get core.hooksPath",
+    "git config --list --file=" + TMP_OUT, // non-secret tmp config
+    "git config -f ./.gitmodules --get-regexp path", // non-secret repo file
+  ])("allows non-secret git config reads: %s", (cmd) => expectAllow(cmd))
+
+  // Regression: -f on OTHER git subcommands is --force, not a file → must NOT be secret-scoped.
+  it.each([
+    "git branch -f main origin/main",
+    "git tag -f v1",
+    "git checkout -f main",
+  ])("does not mis-scope --force -f: %s", (cmd) => expectAllow(cmd))
+})
+
 describe("wrappers — effective command resolution", () => {
   it.each([
     "env sed -i s/a/b/ f",

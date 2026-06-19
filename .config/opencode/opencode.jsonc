@@ -285,7 +285,7 @@
       "type": "local",
       "command": [
         "sh", "-c",
-        "AGENTMEMORY_SECRET=$(podman exec agentmemory cat /data/.hmac) podman exec -i -e AGENTMEMORY_URL=http://127.0.0.1:3111 -e AGENTMEMORY_FORCE_PROXY=1 -e AGENTMEMORY_SECRET agentmemory agentmemory mcp",
+        "AGENTMEMORY_SECRET=$(pass show agentmemorysecret) podman exec -i -e AGENTMEMORY_URL=http://127.0.0.1:3111 -e AGENTMEMORY_FORCE_PROXY=1 -e AGENTMEMORY_SECRET agentmemory agentmemory mcp",
       ],
       "enabled": true,
     },

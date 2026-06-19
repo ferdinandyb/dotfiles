@@ -6,11 +6,28 @@ const FILE_KEYS = ["filePath", "file_path", "path", "file", "pattern"];
 const MAX_STASHED_FILES = 20;
 
 const DEBUG = process.env.OPENCODE_AGENTMEMORY_DEBUG === "1";
-const SECRET = process.env.AGENTMEMORY_SECRET || "";
+
+let _secret: string | null = null;
+function getSecret(): string {
+  if (_secret !== null) return _secret;
+  try {
+    const { execSync } = require("child_process");
+    const val = execSync("pass show agentmemorysecret", { timeout: 5000 }).toString().trim();
+    if (val) { _secret = val; return _secret; }
+    throw new Error("empty");
+  } catch (e) {
+    const fallback = process.env.AGENTMEMORY_SECRET || "";
+    if (!fallback) console.error("[agentmemory] WARNING: could not read secret from pass and AGENTMEMORY_SECRET is unset — all API calls will 401 and capture will be silently lost. Run: pass show agentmemorysecret");
+    else console.error("[agentmemory] WARNING: could not read secret from pass, falling back to AGENTMEMORY_SECRET env var:", (e as Error).message);
+    _secret = fallback;
+    return _secret;
+  }
+}
 
 function authHeaders(): Record<string, string> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (SECRET) headers["Authorization"] = `Bearer ${SECRET}`;
+  const secret = getSecret();
+  if (secret) headers["Authorization"] = `Bearer ${secret}`;
   return headers;
 }
 
@@ -64,6 +81,12 @@ const stashedFiles = new Map<string, Set<string>>();
 const seenSubtaskIds = new Map<string, Set<string>>();
 const seenToolCallIds = new Map<string, Set<string>>();
 const contextInjectedSessions = new Set<string>();
+// cache the context returned by POST /session/start so the chat
+// system-transform hook can inject it without a second /context fetch.
+// Auto-injection now happens at session.created (immediately) AND at
+// the first prompt_submit (fallback for older OpenCode builds that
+// don't implement experimental.chat.system.transform).
+const startContextCache = new Map<string, string>();
 
 function stashFor(sid: string): Set<string> {
   let s = stashedFiles.get(sid);
@@ -178,16 +201,26 @@ export const AgentmemoryCapturePlugin: Plugin = async (ctx) => {
         seenSubtaskIds.delete(activeSessionId);
         seenToolCallIds.delete(activeSessionId);
         contextInjectedSessions.delete(activeSessionId);
-        await post("/session/start", {
-          sessionId: activeSessionId,
+        // Snapshot the session id locally — `activeSessionId` is mutable
+        // and another `session.created` event during the await could
+        // rebind it, causing context to be cached against the wrong key.
+        const sessionId = activeSessionId;
+        const startResult = await postJson("/session/start", {
+          sessionId,
           title: info?.title ?? null,
           parentID: info?.parentID ?? null,
           version: info?.version ?? null,
           project: projectPath,
           cwd: projectPath,
         });
-        if (pendingConfig && activeSessionId) {
-          await observe(activeSessionId, "config_loaded", pendingConfig);
+        // cache the context returned at session/start so the
+        // chat.system.transform hook injects it without a second fetch.
+        const startCtx = (startResult as any)?.context;
+        if (typeof startCtx === "string" && startCtx.length > 0) {
+          startContextCache.set(sessionId, startCtx);
+        }
+        if (pendingConfig) {
+          await observe(sessionId, "config_loaded", pendingConfig);
           pendingConfig = null;
         }
       }
@@ -257,6 +290,7 @@ export const AgentmemoryCapturePlugin: Plugin = async (ctx) => {
         post("/consolidate-pipeline", { tier: "all", force: true }, 30000);
         if (sid === activeSessionId) activeSessionId = null;
         stashedFiles.delete(sid);
+        startContextCache.delete(sid);
         seenSubtaskIds.delete(sid);
         seenToolCallIds.delete(sid);
         contextInjectedSessions.delete(sid);
@@ -588,11 +622,19 @@ export const AgentmemoryCapturePlugin: Plugin = async (ctx) => {
       if (!contextInjectedSessions.has(sid)) {
         if (!Array.isArray(output.system)) return;
         output.system.push(AGENTMEMORY_INSTRUCTIONS);
-        const result = await postJson("/context", {
-          sessionId: sid,
-          project: projectPath,
-        });
-        const ctx = (result as any)?.context;
+        // prefer the context already fetched at session.created;
+        // fall back to a fresh /context call if the cache missed (e.g.
+        // session resumed across plugin reloads).
+        let ctx = startContextCache.get(sid);
+        if (typeof ctx !== "string" || ctx.length === 0) {
+          const result = await postJson("/context", {
+            sessionId: sid,
+            project: projectPath,
+          });
+          ctx = (result as any)?.context;
+        } else {
+          startContextCache.delete(sid);
+        }
         if (typeof ctx === "string" && ctx.length > 0) {
           output.system.push(ctx);
         }

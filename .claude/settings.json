@@ -5,5 +5,7 @@
   },
   "enabledPlugins": {
     "slack@claude-plugins-official": true
-  }
+  },
+  "editorMode": "vim",
+  "verbose": true
 }

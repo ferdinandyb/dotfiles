@@ -52,7 +52,7 @@ Avoid reading large data files directly, to preserve context. Delegate it to a s
 
 NEVER prepend cd to a command if you are already in the same directory. Resolve shorthands like `~` and `$HOME` when determining this.
 
-When you do need a different directory, use the bash tool's `workdir` parameter instead of `cd`.
+When you do need a different directory, use the bash tool's `workdir` parameter instead of `cd` or `git -C <dir>`. Don't pass `git --no-pager` either — bash is non-interactive, so git never paginates.
 
 Prefer the dedicated tools over shelling out: use Read for file contents instead of `cat`/`head`/`tail`. (For search, the `# shell tools` preference for `ug`/`fd` still applies.)
 

@@ -26,6 +26,10 @@
     },
     "edit": {
       "~/.config/opencode/*": "ask",
+      // scratch dirs (AGENTS.md-designated). The edit/write tool matches a WORKTREE-RELATIVE
+      // path (write.ts:56), so these are the relative `../…/T/opencode/…` forms.
+      "**/T/opencode/**": "allow",
+      "**/tmp/opencode/**": "allow",
     },
     "external_directory": {
       "*": "ask",
@@ -33,6 +37,10 @@
       "~/signifyd_github/*": "allow",
       "~/softwarefromsource/*": "allow",
       "~/org/*": "allow",
+      // AGENTS.md-designated scratch dirs (bash-guard already write-allowlists these). The `*`
+      // glob is dotall, so one rule per root covers all nested depths.
+      "/tmp/opencode/*": "allow",
+      "/var/folders/*/T/opencode/*": "allow", // macOS $TMPDIR/opencode
     },
     "bash": {
       "*": "ask",
@@ -64,6 +72,26 @@
       "git stash list *": "allow",
       "git rev-parse *": "allow",
       "git ls-files *": "allow",
+      // More read-only git verbs (no standalone write/exec side-channel; bash-guard backstops;
+      // chained clauses still re-checked per-command). `git grep` is intentionally NOT here
+      // (-O/--open-files-in-pager is a CLI exec the guard can't see).
+      "git rev-list *": "allow",
+      "git merge-base *": "allow",
+      "git check-ignore *": "allow",
+      "git cherry *": "allow",
+      "git for-each-ref *": "allow",
+      "git describe *": "allow",
+      "git ls-tree *": "allow",
+      "git range-diff *": "allow",
+      "git shortlog *": "allow",
+      "git --version": "allow",
+      // git config READS only (writes stay ask); `git config -f/--file <path>` is secret-scoped by bash-guard.
+      "git config --get*": "allow",
+      "git config --list*": "allow",
+      "git config -l*": "allow",
+      "git config --show-origin *": "allow",
+      "git config --local --list*": "allow",
+      "git config --global --list*": "allow",
       "git add -A *": "deny",
       "git add --all *": "deny",
       "git add . *": "deny",
@@ -92,6 +120,23 @@
       "yadm stash list *": "allow",
       "yadm rev-parse *": "allow",
       "yadm ls-files *": "allow",
+      // yadm mirror of the read-only git verbs (see git block above).
+      "yadm rev-list *": "allow",
+      "yadm merge-base *": "allow",
+      "yadm check-ignore *": "allow",
+      "yadm cherry *": "allow",
+      "yadm for-each-ref *": "allow",
+      "yadm describe *": "allow",
+      "yadm ls-tree *": "allow",
+      "yadm range-diff *": "allow",
+      "yadm shortlog *": "allow",
+      "yadm --version": "allow",
+      "yadm config --get*": "allow",
+      "yadm config --list*": "allow",
+      "yadm config -l*": "allow",
+      "yadm config --show-origin *": "allow",
+      "yadm config --local --list*": "allow",
+      "yadm config --global --list*": "allow",
       "yadm add -A *": "deny",
       "yadm add --all *": "deny",
       "yadm add . *": "deny",
@@ -125,6 +170,14 @@
       "cat *": "allow",
       "pwd": "allow",
       "pwd *": "allow",
+      // Inert/read-only tools (guard backstops redirects/exec).
+      "cut *": "allow",
+      "printf *": "allow",
+      "whoami": "allow",
+      "id": "allow",
+      "id *": "allow",
+      "test *": "allow", // POSIX condition check ([ -f x ], string/number compare); no side effects
+      "command -v *": "allow", // resolves a command's path (like `which`); NOT bare `command *` (runs a program)
       "TMPFILE=$(mktemp)": "allow",
 
       // --- Jira CLI (read-only) ---

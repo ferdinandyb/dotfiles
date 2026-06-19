@@ -19,6 +19,16 @@ permission:
     "git branch *": allow
     "git rev-parse *": allow
     "git ls-files *": allow
+    # more read-only git verbs — keep in sync with opencode.jsonc
+    "git rev-list *": allow
+    "git merge-base *": allow
+    "git check-ignore *": allow
+    "git for-each-ref *": allow
+    "git describe *": allow
+    "git ls-tree *": allow
+    "git shortlog *": allow
+    "git cherry *": allow
+    "git range-diff *": allow
     "yadm log *": allow
     "yadm status *": allow
     "yadm show *": allow
@@ -27,6 +37,16 @@ permission:
     "yadm branch *": allow
     "yadm rev-parse *": allow
     "yadm ls-files *": allow
+    # more read-only yadm verbs — keep in sync with opencode.jsonc
+    "yadm rev-list *": allow
+    "yadm merge-base *": allow
+    "yadm check-ignore *": allow
+    "yadm for-each-ref *": allow
+    "yadm describe *": allow
+    "yadm ls-tree *": allow
+    "yadm shortlog *": allow
+    "yadm cherry *": allow
+    "yadm range-diff *": allow
     "jira issue list *": allow
     "jira epic list *": allow
     "jira issue view *": allow

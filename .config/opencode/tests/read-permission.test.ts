@@ -82,6 +82,17 @@ const readRules = Object.entries(config.permission.read as Record<string, string
 const evaluateRead = (p: string): string =>
   readRules.findLast((r) => wildcardMatch(p, r.pattern))?.action ?? "ask"
 
+const ruleset = (ns: string) =>
+  Object.entries((config.permission[ns] ?? {}) as Record<string, string>).map(([pattern, action]) => ({
+    pattern,
+    action,
+  }))
+const editRules = ruleset("edit")
+const extRules = ruleset("external_directory")
+const evaluateEdit = (p: string): string => editRules.findLast((r) => wildcardMatch(p, r.pattern))?.action ?? "ask"
+const evaluateExternalDir = (p: string): string =>
+  extRules.findLast((r) => wildcardMatch(p, r.pattern))?.action ?? "ask"
+
 // ── the config actually denies .git (incl. worktree-relative root) ───────────
 
 describe("read permission: .git denied via the live opencode.jsonc ruleset", () => {
@@ -140,4 +151,36 @@ describe("wildcard semantics: trailing ' *' also matches the bare command", () =
     ["pants check", "pants check ::"],
     ["cd", "cd /etc"],
   ])("'%s *' matches '%s'", (cmd, full) => expect(wildcardMatch(full, cmd + " *")).toBe(true))
+})
+
+// ── scratch dirs ($TMPDIR/opencode, /tmp/opencode) must not prompt ───────────
+// The file tools route out-of-worktree access through external_directory (an
+// absolute `<dir>/*` glob, external-directory.ts:30-37); the edit/write tool ALSO
+// asks `edit` with the WORKTREE-RELATIVE path (write.ts:56). AGENTS.md designates
+// these as pre-approved scratch, so both gates must allow them.
+
+describe("external_directory allows the scratch dirs, still asks elsewhere", () => {
+  it.each([
+    "/tmp/opencode/*",
+    "/var/folders/n0/f7xs46gn6j55vqyj_vx94dgh0000gp/T/opencode/*",
+    "/var/folders/n0/f7xs46gn6j55vqyj_vx94dgh0000gp/T/opencode/sc/C/*", // nested depth
+  ])("allows %s", (p) => expect(evaluateExternalDir(p)).toBe("allow"))
+
+  it.each([
+    "/tmp/*", // /tmp itself is shared → not blanket-allowed
+    "/tmp/reinc_cfg/*",
+    "/var/folders/n0/f7xs46gn6j55vqyj_vx94dgh0000gp/T/notopencode/*",
+    "/Users/bence.ferdinandy/elsewhere/*",
+  ])("still asks %s", (p) => expect(evaluateExternalDir(p)).toBe("ask"))
+})
+
+describe("edit allows scratch via the worktree-relative path", () => {
+  it.each([
+    "../../../../../var/folders/n0/f7xs46gn6j55vqyj_vx94dgh0000gp/T/opencode/fel380_pr_body.md",
+    "../../../tmp/opencode/test_git_config.sh",
+    "../../var/folders/n0/xxx/T/opencode/sc/D/cfg",
+  ])("allows %s", (p) => expect(evaluateEdit(p)).toBe("allow"))
+
+  it("does not blanket-allow an unrelated out-of-worktree path", () =>
+    expect(evaluateEdit("../../some/other/place/file.txt")).not.toBe("allow"))
 })

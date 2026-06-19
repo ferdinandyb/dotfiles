@@ -1,347 +1,236 @@
 ---
 name: taskagent
 description: >-
-  IMMEDIATELY load this skill if you read ANY file containing "taskagent"
-  (PLAN.md, org/projects, docs, etc). Also load for multi-session work
-  or when user mentions agent tasks. For simple single-session tasks
-  without taskagent references, use TodoWrite instead.
+  Load before ANY taskagent operation, or when you read a file referencing
+  taskagent (org/projects, plan files, docs). taskagent is the human-facing
+  backlog and durable cross-session memory — not in-session working memory.
+  For steps you'll finish this session, use TodoWrite + the plan file.
 ---
 
-# Taskagent - Agent Work Tracking
+# Taskagent - Shared Work Tracker
+
+## What taskagent is for
+
+taskagent serves two purposes:
+1. **The human's view** — backlog of deliverables, what is active, what is done.
+2. **Durable cross-session memory** — `LEARNING` / `MISALIGNMENT` notes and
+   handoff state that must outlive the conversation.
+
+It is not your in-session working memory. Sessions can carry a large amount of
+work, so tracking your own place within a task belongs in TodoWrite, and the
+design/spec of a task belongs in the plan file.
+
+### Where things live
+
+| Tool            | Holds                                                         | Lifetime                 |
+| --------------- | ------------------------------------------------------------- | ------------------------ |
+| **TodoWrite**   | This session's tactical steps                                 | The session              |
+| **plan file**   | Design, spec, wiring, current state of a ticket               | The ticket / worktree    |
+| **agentmemory** | Auto-captured, searchable observations                        | Long-term, searchable    |
+| **taskagent**   | Human-facing backlog + status + durable LEARNING/MISALIGNMENT | Long-term, human-curated |
+
+## When to create a taskagent task
+
+Create a task when it is:
+- A deliverable at PR / ticket / epic granularity the human would track, or
+- Work that will outlive this session and needs pickup later, or
+- **Offshoot work surfaced mid-session that is not part of the current
+  deliverable but should be remembered** — a bug noticed in passing, a refactor
+  opportunity, a follow-up, a side quest.
+
+That last case is one of taskagent's most valuable uses: it moves the thought
+out of the volatile session and into the human's backlog without derailing
+current work. Use `discovered_from:<parent_uuid>` and/or `+side_quest`. Do not
+park such work in TodoWrite — TodoWrite dies with the session.
+
+Otherwise, default to **not** creating a task. In-session steps go to TodoWrite.
+
+## Anti-pattern: pre-decomposing one deliverable
+
+Do not shatter a single deliverable into a tree of taskagent subtasks with
+implementation specs in the annotations. That structure is not read across
+sessions, adds no durable memory, and ends up deleted. Keep one task per
+deliverable; put the steps in TodoWrite and the spec/wiring in the plan file.
+Reserve annotations for durable `LEARNING` / `MISALIGNMENT` and handoff state.
+
+If you are about to create more than a couple of tasks for work that completes
+in this session, stop — that is TodoWrite plus a plan file.
 
 ## CRITICAL: Command Name
 
 **Always use `taskagent`, NEVER use `task` directly.**
 
-`taskagent` is a hardened wrapper that shares the human's taskwarrior database (`~/.task`) but
-enforces that the agent may only **modify** tasks tagged `+agent`. Reads of any task are allowed.
-Using `task` directly is denied by opencode permissions.
-
-**`taskagent` is globally available** - no need to `cd` to any directory. It works from anywhere.
+`taskagent` is a hardened wrapper that shares the human's taskwarrior database
+(`~/.task`) but enforces that the agent may only **modify** tasks tagged
+`+agent`. Reads of any task are allowed. Using `task` directly is denied by
+opencode permissions. **`taskagent` is globally available** — works from
+anywhere, no `cd` needed.
 
 ## CRITICAL: +agent tag and write access
 
-Every task the agent creates is **automatically tagged `+agent`** by a taskwarrior on-add hook.
-The agent may only modify/done/delete/annotate tasks that have the `+agent` tag.
-Attempting to modify a human task (without `+agent`) will be **rejected** at the taskwarrior layer.
-
-The `+agent` tag is **sticky**: even if a modify command tries to remove it, the hook re-adds it.
-Only the human (via their own `task` client) can permanently remove `+agent` from a task.
-
-**Default views (`list`, `ready`, `next`) are filtered to `+agent`** — the agent sees only its own
-tasks by default. To read a specific human task, use its UUID directly:
+Every task the agent creates is **automatically tagged `+agent`** by an on-add
+hook. The agent may only modify/done/delete/annotate `+agent` tasks; modifying a
+human task is rejected at the taskwarrior layer. The `+agent` tag is **sticky**.
+Default views (`list`, `ready`, `next`) are filtered to `+agent`. To read a
+human task, use its UUID directly:
 ```bash
 taskagent <uuid> info          # reads any task, including human tasks
 taskagent <uuid> agentinfo     # same, minimal format
 ```
-
-**Forbidden commands** (blocked by the wrapper): `undo`, `config`, `execute`, and any `rc:` or
-`rc.*` overrides. These bypass the enforcement hooks and are always rejected.
+**Forbidden** (blocked by the wrapper): `undo`, `config`, `execute`, any `rc:`
+or `rc.*` overrides.
 
 ## CRITICAL: Use Partial UUIDs, Not Short IDs
 
-**Always use partial UUIDs (first 8 characters) instead of short numeric IDs.**
-
-Short IDs (1, 2, 3...) renumber whenever tasks are completed, deleted, or modified. This makes them unreliable for persistent references. UUIDs are permanent.
-
+Short IDs (1, 2, 3…) renumber when tasks complete/delete. Use the first 8 chars
+of the UUID — permanent and shown as `uuid.short` in all reports.
 ```bash
-# BAD - short ID may change
-taskagent 3 info
-
-# GOOD - partial UUID is stable
-taskagent abc1234d info
+taskagent abc1234d info        # GOOD — stable partial UUID
+taskagent 3 info               # BAD — short ID may change
 ```
+When creating tasks, capture the UUID from the output for future references.
 
-All reports (`list`, `ready`, `next`) now display `uuid.short` instead of numeric IDs. Use these partial UUIDs in all commands.
+## Status
 
-When creating tasks or linking dependencies, always capture and use UUIDs:
+Keep status current so the human's `taskagent +ACTIVE list` reflects reality:
 ```bash
-taskagent add "New task" project:foo
-# Note the UUID from output, use it for future references
-```
-
-## Overview
-
-taskagent is a taskwarrior-based tracker for persistent agent memory across sessions. Use for multi-session work with complex context; use TodoWrite for simple single-session tasks.
-
-## When to Use taskagent vs TodoWrite
-
-### Use taskagent when:
-- **Multi-session work** - Tasks spanning multiple compaction cycles or days
-- **Complex context** - Work needing detailed background or discovered subtasks
-- **Project work** - Tasks tied to a specific project with a PLAN.md
-- **Side quests** - Exploratory work that might pause the main task
-- **Handoff needed** - Work that another session (or human) needs to pick up
-
-### Use TodoWrite when:
-- **Single-session tasks** - Work that completes within current session
-- **Linear execution** - Straightforward step-by-step tasks with no branching
-- **Immediate context** - All information already in conversation
-- **Simple tracking** - Just need a checklist to show progress
-
-**Key insight**: If resuming work after 2 weeks would be difficult without taskagent, use taskagent.
-
-## Surviving Compaction Events
-
-**What survives compaction:**
-- All taskagent data (tasks, annotations, details, dependencies)
-- PLAN.md in project root
-- org/projects wiki files
-
-**What doesn't survive:**
-- Conversation history
-- TodoWrite lists
-
-**Writing annotations for post-compaction recovery:**
-
-Write annotations as if explaining to a future agent with zero conversation context:
-
-```
-COMPLETED: Specific deliverables
-IN PROGRESS: Current state + next immediate step
-BLOCKERS: What's preventing progress
-KEY DECISIONS: Important context or user guidance
+taskagent <uuid> start   # began this deliverable
+taskagent <uuid> stop    # paused it
+taskagent <uuid> done    # complete — after review (see below)
 ```
 
 ## Recording Learnings and Misalignments
 
-**During the session**, annotate tasks with learnings and misalignments as they occur. These are critical for future sessions and handoff.
+This is the highest-value content taskagent stores. Annotate as they occur:
 
-**LEARNING** = New information acquired (user preference, codebase pattern, correct approach discovered)
+**LEARNING** = new durable info (user preference, codebase pattern, correct approach)
 ```bash
-taskagent <uuid> annotate "LEARNING: User prefers fd over find for file searches."
-taskagent <uuid> annotate "LEARNING: Deploy pipeline is in .github/workflows/deploy.yml, not CircleCI."
+taskagent <uuid> annotate "LEARNING: <fact and where it applies>"
 ```
-
-**MISALIGNMENT** = Agent went wrong direction, was corrected (implies wasted effort or wrong output)
+**MISALIGNMENT** = wrong direction taken and corrected (wasted effort)
 ```bash
-taskagent <uuid> annotate "MISALIGNMENT: Assumed React class components, codebase uses functional only."
-taskagent <uuid> annotate "MISALIGNMENT: Put config in src/, should have been lib/ per project convention."
+taskagent <uuid> annotate "MISALIGNMENT: <what went wrong and the correction>"
 ```
+A misalignment often produces a learning — record both. These are retrieved
+during `/handoff` and written to the plan file's `## Learnings` section.
 
-**When to record:**
-- **LEARNING**: When you discover something useful about the codebase, user preferences, or correct approach
-- **MISALIGNMENT**: When the user corrects you or you realize you went the wrong direction
+**Which store:** ticket-specific context → a taskagent annotation on the
+deliverable (surfaced when that task is read, and via `/handoff` into the plan
+file). Reusable insight that applies beyond this ticket — codebase convention,
+tool preference, recurring pitfall → also call `memory_lesson_save`, so
+agentmemory auto-injects it into future sessions. taskagent annotations don't
+decay; agentmemory lessons do if unused.
 
-A misalignment often produces a learning - record both:
-```bash
-taskagent <uuid> annotate "MISALIGNMENT: Used grep, user corrected to use ugrep."
-taskagent <uuid> annotate "LEARNING: User prefers ugrep (ug) over grep."
+## Checkpointing (only when state must survive)
+
+Annotate progress only when the state needs to outlive the conversation:
+approaching compaction, ending a session mid-deliverable, or blocked. Do not
+annotate at every milestone within a session.
+
+Write for a reader with zero conversation context:
 ```
-
-These annotations are retrieved during `/handoff` and written to the plan file's `## Learnings` section for future sessions.
+COMPLETED: <deliverables>  IN PROGRESS: <state + next step>  BLOCKERS: <…>  KEY DECISIONS: <…>
+```
 
 ## Session Start Protocol
 
-**At session start, always:**
-
-1. Check for ready work:
-   ```bash
-   taskagent ready
-   ```
-
-2. Check for active (in-progress) work:
-   ```bash
-   taskagent +ACTIVE list
-   ```
-
-3. If active work exists, read the task details and annotations:
-   ```bash
-   taskagent <uuid> agentinfo    # minimal info for agents (preferred)
-   taskagent <uuid> info         # full details (shorthand for 'information')
-   ```
-
-4. Ask user which project/context if unclear, then check for org/projects file:
-   - Look for `~/org/projects/<project>.md` (vimwiki)
-   - Read the `## Agent` section for:
-     - `taskagent project`: project name (defaults to filename)
-     - `plan file`: path to PLAN.md (defaults to repo root)
-
-5. Read the PLAN.md if it exists for additional context
-
-6. Report to user: "X tasks ready, Y in progress. [Summary]. Should I continue with Z?"
-
-## Progress Checkpointing
-
-Update taskagent annotations at these checkpoints:
-
-**Critical triggers:**
-- Context running low - User mentions compaction/token limit
-- Token budget > 70% - Proactively checkpoint
-- Major milestone reached - Completed significant work
-- Hit a blocker - Can't proceed, capture what was tried
-- Task transition - Switching tasks or closing one
-
-**Checkpoint command:**
-```bash
-taskagent <uuid> annotate "COMPLETED: X. IN PROGRESS: Y. NEXT: Z."
-```
+1. `taskagent ready` — unblocked work.
+2. `taskagent +ACTIVE list` — anything left active.
+3. For active/relevant work: `taskagent <uuid> agentinfo` (or `info`).
+4. If the project is unclear, ask; then check `~/org/projects/<project>.md`
+   `## Agent` section for `taskagent project` and `plan file`.
+5. Read the plan file if it exists.
+6. Report: "X ready, Y active. [summary]. Continue with Z?"
 
 ## Core Operations
 
-> **Note**: All commands below use `taskagent`, not `task`. `taskagent` shares the human's task
-> database but restricts the agent to modifying only `+agent`-tagged tasks. Reads are unrestricted.
+> Run basic ops (add, annotate, modify, start, stop, list, info) directly — no
+> subagent. Use `@task-reviewer` for completion review and `@taskagent-reader`
+> for complex queries. For code review, ask the user to run `/peerreview`.
 
-> **Direct execution**: Basic taskagent operations (add, annotate, modify, start, stop, list, info) should be run directly - no subagent needed. Only invoke subagents for task completion review (@task-reviewer) and complex queries (@taskagent-reader). For code review, ask the user to run `/peerreview`.
-
-### Check ready work (built-in report)
 ```bash
-taskagent ready                    # built-in taskwarrior report, shows unblocked tasks
+taskagent ready                         # unblocked tasks
 taskagent project:<name> ready
-taskagent blocked                  # show tasks blocked by dependencies
-taskagent blocking                 # show tasks that are blocking others
-```
+taskagent blocked                       # blocked by deps
+taskagent blocking                      # blocking others
 
-### Create new task
-```bash
-taskagent add "Task title" project:<name>
-taskagent add "Task title" project:<name> details:"Longer explanation of context and why"
-taskagent add "Task title" project:<name> +side_quest
-```
-
-### Link discovered work
-```bash
-# Use the parent's UUID for discovered_from
+taskagent add "Title" project:<name>
+taskagent add "Title" project:<name> details:"context / why"
 taskagent add "Found issue" project:<name> discovered_from:<parent_uuid>
-```
 
-### Update task status
-```bash
-taskagent <uuid> start        # marks in progress
-taskagent <uuid> stop         # pauses work
-taskagent <uuid> done         # REQUIRES @task-reviewer first! See "Task Completion Review"
-```
-
-⚠️ **NEVER mark a task done without invoking @task-reviewer first.**
-
-### Add session notes (annotations)
-```bash
-taskagent <uuid> annotate "COMPLETED: auth endpoint. IN PROGRESS: tests. NEXT: integration."
-```
-
-### View task details
-```bash
-taskagent <uuid> agentinfo    # minimal info for agents (preferred)
-taskagent <uuid> info         # full details (shorthand for 'information')
-taskagent project:<name> list
-```
-
-### Dependencies
-```bash
+taskagent <uuid> start | stop | done
+taskagent <uuid> annotate "LEARNING: …"
 taskagent <uuid> modify depends:<other_uuid>
+taskagent <uuid> agentinfo | info
+taskagent project:<name> list
 ```
 
 ## Task Fields Reference
 
-| Field | Purpose | When to Set |
-|-------|---------|-------------|
-| **description** | Short task title | At creation |
-| **details** | Initial context, the "why" | At creation |
-| **project** | Links to org/projects | At creation |
-| **annotations** | Session handoff notes | During work, at checkpoints |
-| **discovered_from** | Parent task UUID (not short ID) | When discovered during other work |
-| **+side_quest** | Tag for exploratory work | At creation if applicable |
-| **+bug** | Tag: something broken | At creation |
-| **+feature** | Tag: new functionality | At creation |
-| **+task** | Tag: work item (tests, docs, refactoring) | At creation |
-| **+chore** | Tag: maintenance (dependencies, tooling) | At creation |
-| **+epic** | Tag: large feature, group of related tasks | At creation |
+| Field                                                      | Purpose                                             | When            |
+| ---------------------------------------------------------- | --------------------------------------------------- | --------------- |
+| **description**                                            | Short title                                         | At creation     |
+| **details**                                                | Initial context, the "why" (not the full spec)      | At creation     |
+| **project**                                                | Links to org/projects                               | At creation     |
+| **annotations**                                            | Durable LEARNING/MISALIGNMENT + handoff (not specs) | During work     |
+| **discovered_from**                                        | Parent task UUID                                    | When discovered |
+| **+side_quest / +bug / +feature / +task / +chore / +epic** | Classification                                      | At creation     |
 
-## PLAN.md Convention
+## Completion Review (per deliverable, not per micro-task)
 
-**Optional**: Projects can have a `PLAN.md` in the repo root. This can be used independently of org/projects files, or together with them.
+Invoke `@task-reviewer` once per deliverable-sized task (the PR/ticket) before
+`taskagent <uuid> done`. A separate review for every small sub-item is not
+required — review the thing that ships.
 
-```markdown
-# Project Plan
+For externally-tracked work (Jira/GitHub):
+1. **Before PR/merge**: ask the user to run `/peerreview <ticket-ID|PR-number>`
+   (launches `code-reviewer-opus` + `code-reviewer-gemini` as children of root —
+   do not spawn `@code-reviewer` yourself).
+2. **Before `done`**: invoke `@task-reviewer`.
 
-## Current Focus
-What the agent should prioritize right now.
-
-## Context
-Background information helpful for the agent.
-
-## Notes
-Human-agent collaborative notes, session summaries.
-```
-
-The agent should:
-- Read PLAN.md at session start for context
-- Update the `## Notes` section with significant progress/decisions (ask first)
-- Never modify `## Current Focus` without asking
-
-## Task Completion Review
-
-**MANDATORY**: Before marking ANY task done, you MUST invoke @task-reviewer. There are NO exceptions.
-
-This applies to ALL task types:
-- Code tasks
-- Verification tasks (reviewer confirms the verification was actually performed)
-- Research tasks (reviewer confirms findings were documented)
-- Documentation tasks
-- ANY task type
-
-### External Ticket Integration
-
-For tasks linked to external tickets (Jira, GitHub Issues):
-
-1. **Before PR/merge**: Ask the user to run `/peerreview <ticket-ID>` (or `/peerreview <PR-number>`). This launches `code-reviewer-opus` and `code-reviewer-gemini` in parallel as direct children of the root session — do NOT spawn `@code-reviewer` yourself, it no longer exists.
-2. **Before `taskagent done`**: Invoke `@task-reviewer` as usual
-
-Code review checks ticket alignment; task-reviewer checks task completion. Both are required for externally-tracked work.
-
-Then invoke the reviewer with the UUID (from the report output):
-
+Invoke with the UUID:
 ```
 @task-reviewer Review task <uuid>
-- Project: <project-name>
-- PLAN.md: <path or "none">
-- org/projects file: <path or "none">
-- Summary: <what you did in 1-2 sentences>
-- Key files changed: <list main files touched, or "none" for non-code tasks>
+- Project: <name>   - plan file: <path or none>   - org/projects: <path or none>
+- Summary: <1-2 sentences>   - Key files: <list or none>
 ```
+Verdicts: **PASS** → may `done`. **PASS WITH RESERVATIONS** → ask the human.
+**NEEDS WORK** → fix and re-review.
 
-**Always pass the UUID**, not the short ID or description. The reviewer needs the UUID to look up the task.
+## What survives, what doesn't
 
-Include whichever other fields you have - the reviewer can work with partial context.
+- **Survives**: taskagent data, `org/projects/*.md`, agentmemory, and the
+  project plan file when it lives outside a per-ticket worktree.
+- **Does not survive**: conversation history and TodoWrite. A plan file that
+  lives inside a throwaway worktree only survives as long as that worktree does.
 
-**After receiving the review verdict:**
-- **PASS**: You may mark the task done with `taskagent <uuid> done`
-- **PASS WITH RESERVATIONS**: Do NOT mark done automatically. Ask the human to review and decide.
-- **NEEDS WORK**: Address the feedback, then request another review before closing.
+Keep the plan file at a durable, project-level location (configured in
+`org/projects`), not inside a worktree that may be removed. If a decision or
+lesson must outlive any single worktree, also record it as a taskagent
+`LEARNING` or in the `org/projects` file.
 
 ## Integration with TodoWrite
 
-**Temporal layering:**
+- **TodoWrite**: this session's tactical steps; your own checklist.
+- **taskagent**: deliverables, status, durable lessons, offshoot work to
+  remember.
 
-- **TodoWrite** (this hour): Tactical execution, immediate steps
-- **taskagent** (this week/month): Strategic objectives, persistent context
+At session start, read the relevant taskagent task and expand it into a
+TodoWrite checklist. Work, ticking TodoWrite. At a real boundary, record a
+LEARNING/handoff annotation and update status. Do not mirror every TodoWrite
+item as a taskagent task.
 
-**Handoff pattern:**
-1. Session start: Read taskagent task -> Create TodoWrite for immediate actions
-2. During work: Mark TodoWrite items completed
-3. Reach milestone: Update taskagent annotations
-4. Session end: TodoWrite disappears, taskagent survives
+## Plan file & org/projects
 
-## org/projects File Format
-
-**Optional**: The org/projects vimwiki file (`~/org/projects/<project>.md`) can be used independently of PLAN.md, or together with it. Format:
-
+The project plan file holds the design, spec, wiring, and current state of the
+work. Keep it at a durable, project-level path (outside per-ticket worktrees) so
+it persists across tickets and sessions. The `org/projects/<project>.md`
+`## Agent` section configures it:
 ```markdown
-# Project Name
-
-## Overview
-High-level description.
-
-## Resources
-- Links, repos, docs
-
-## Tasks
-- [ ] Human tasks
-
 ## Agent
 - **taskagent project**: `project-name`
-- **plan file**: `~/path/to/repo/PLAN.md`
+- **plan file**: `~/path/to/plan.md`
 ```
-
-If `taskagent project` is omitted, defaults to the filename.
-If `plan file` is omitted, defaults to `PLAN.md` in repo root.
+`taskagent project` defaults to the filename; `plan file` defaults to `PLAN.md`
+in the repo root. Read it at session start; update its `## Notes` /
+`## Learnings` with significant progress (ask before editing `## Current Focus`).

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [[ "$(uname)" == "Darwin" ]]; then
+	# macOS
+	pbpaste
+elif [[ $(grep -i Microsoft /proc/version) ]]; then
+	# To make UTF-8 work properly on WSL
+	# after changing the system language to use Beta: Use Unicode UTF-8 for global
+	# language support in settings - and language - language settings - settings
+	# - system language >time >administrative >administrative >change
+	#
+	echo "not implemented" >&2
+	exit 1
+else
+	# X11
+	xclip -selection c -o
+fi

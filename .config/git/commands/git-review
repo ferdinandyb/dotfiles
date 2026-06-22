@@ -1,8 +1,17 @@
 #!/bin/bash
 
-REVIEW_BASE="${REVIEW_BASE:-refs/remotes/origin/HEAD}"
-CHANGED=$(git diff --name-only $(git merge-base HEAD $REVIEW_BASE))
-vim -p ${CHANGED} \
-	+"tabdo Gvdiffsplit! $REVIEW_BASE" \
+# Opens files changed between BASE (default: origin/HEAD) and TARGET (default: HEAD) in nvim with fugitive diffs.
+
+BASE="${1:-refs/remotes/origin/HEAD}"
+TARGET="${2:-HEAD}"
+MERGE_BASE=$(git merge-base --fork-point "$BASE" "$TARGET" 2>/dev/null || git merge-base "$BASE" "$TARGET")
+
+set -f
+IFS=$'\n'
+CHANGED=($(git diff --name-only "$MERGE_BASE" ${2:+"$TARGET"}))
+set +f
+
+nvim -p "${CHANGED[@]}" \
+	+"tabdo Gvdiffsplit! $MERGE_BASE" \
 	+"tabdo set foldlevel=9999" \
-	+"let g:gitgutter_diff_base = '$REVIEW_BASE'"
+	+"let g:gitgutter_diff_base = '$MERGE_BASE'"

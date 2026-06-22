@@ -1,3 +1,6 @@
-#/bin/sh
+#!/bin/sh
 
-git switch $(git rev-parse --abbrev-ref origin/HEAD | sed 's:\w\+/\(\w\+\):\1:')
+# Switches to the default branch, obtained from origin/HEAD.
+
+ref=$(git rev-parse --abbrev-ref origin/HEAD)
+git switch "${ref#origin/}"

@@ -14,6 +14,8 @@
 	tool = vimdiff
 	colorMoved = default
 	renames = copies
+	algorithm = histogram
+	colorMovedWS = allow-indentation-change
 [difftool]
 	prompt = false
 [merge]
@@ -34,7 +36,9 @@
 [rebase]
 	autoSquash = true
 	autoStash = true
-	; updateRefs = true
+	updateRefs = false
+	rescheduleFailedExec = true
+	missingCommitsCheck = warn
 [alias]
 	s = status --short --branch
 	sb = switch
@@ -89,8 +93,10 @@
 	autoSetupRemote = true
 	default = current
 	followtags = false
+	useForceIfIncludes = true
 [rerere]
 	enabled = true
+	autoUpdate = false
 [help]
 	autocorrect = 10
 [interactive]
@@ -126,3 +132,5 @@
 
 [includeIf "gitdir:~/signifyd_github/"]
 	path = ~/.config/git/signifyd-config
+[column]
+	ui = auto

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# Shows a change-frequency heatmap of files changed between BASE (default:
+# origin/HEAD) and TARGET (default: HEAD): how often each has been modified
+# across all history, as a bar chart (hottest first).
+#
+# Idea from Jake Zimmerman's CLI code review workflow: https://blog.jez.io/cli-code-review/
+# Churn counting adapted from `git-churn` by Corey Haines <coreyhaines@gmail.com>,
+# scriptified by Gary Bernhardt <gary.bernhardt@gmail.com>:
+# https://github.com/garybernhardt/dotfiles/blob/master/bin/git-churn
+
+BASE="${1:-refs/remotes/origin/HEAD}"
+TARGET="${2:-HEAD}"
+MERGE_BASE=$(git merge-base --fork-point "$BASE" "$TARGET" 2>/dev/null || git merge-base "$BASE" "$TARGET")
+
+# Files changed on this branch. Split on newlines only (IFS) and don't let the
+# shell glob-expand special characters in filenames (set -f).
+set -f
+IFS=$'\n'
+FILES=($(git diff --name-only "$MERGE_BASE" ${2:+"$TARGET"}))
+set +f
+
+[ ${#FILES[@]} -eq 0 ] && exit 0
+
+# Anchor each path to the repo top (:/) so pathspecs resolve from any subdir.
+PATHS=()
+for f in "${FILES[@]}"; do PATHS+=(":/$f"); done
+
+# How many commits (across all refs) touched each file, hottest first.
+COUNTS=$(git log --all -M -C --name-only --format='format:' -- "${PATHS[@]}" |
+	sort | grep -v '^$' | uniq -c | sort -rn)
+
+[ -z "$COUNTS" ] && exit 0
+
+# Render "<count> <bar> <file>", bar scaled to the busiest file.
+# Horizontal bars use Unicode block-element eighths (▏▎▍▌▋▊▉█) for sub-cell resolution.
+awk -v w=30 '
+	BEGIN {
+		fc = "█"
+		p[0]=""; p[1]="▏"; p[2]="▎"; p[3]="▍"; p[4]="▌"; p[5]="▋"; p[6]="▊"; p[7]="▉"
+	}
+	function rep(c, k,   s) { s = ""; while (k-- > 0) s = s c; return s }
+	{
+		n = $1
+		name = $0
+		sub(/^ *[0-9]+ /, "", name)
+		if (NR == 1) max = n
+		cells = (max > 0) ? n / max * w : 0
+		fn = int(cells)
+		frac = int((cells - fn) * 8 + 0.5)
+		if (frac == 8) { fn++; frac = 0 }
+		bar = rep(fc, fn) p[frac]
+		disp = fn + (frac > 0 ? 1 : 0)
+		printf "%5d %s%*s %s\n", n, bar, w - disp, "", name
+	}' <<<"$COUNTS"

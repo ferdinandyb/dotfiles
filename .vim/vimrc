@@ -28,9 +28,14 @@ let g:java_ignore_html = 1
 let g:java_ignore_markdown = 1
 
 call plug#begin()
-runtime! vim-plug-configs/*.vim
+" common-plug-configs/ -> both vim and neovim
+" vim-plug-configs/    -> classic vim only
+" nvim-plug-configs/   -> neovim only
+runtime! common-plug-configs/*.vim
 if has('nvim')
     runtime! nvim-plug-configs/*.vim
+else
+    runtime! vim-plug-configs/*.vim
 endif
 call plug#end()
 

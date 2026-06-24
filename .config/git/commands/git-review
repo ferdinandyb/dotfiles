@@ -14,4 +14,4 @@ set +f
 nvim -p "${CHANGED[@]}" \
 	+"tabdo Gvdiffsplit! $MERGE_BASE" \
 	+"tabdo set foldlevel=9999" \
-	+"let g:gitgutter_diff_base = '$MERGE_BASE'"
+	+"Gitsigns change_base $MERGE_BASE true"

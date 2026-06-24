@@ -1,4 +1,9 @@
 " ##### GIT #######
+" Shared git plugins for BOTH vim and neovim (fugitive ecosystem, flog, twiggy).
+" The sign-column / hunk plugin is editor-specific and lives elsewhere:
+"   - vim    -> vim-gitgutter   (vim-plug-configs/vim-git.vim, vim only)
+"   - neovim -> gitsigns.nvim   (nvim-plug-configs/nvim-git.vim, neovim only)
+
 " git integration from tpope
 " (as commandline but :G instead of git, % is current file)
 Plug 'tpope/vim-fugitive'
@@ -14,7 +19,6 @@ Plug 'sodapopcan/vim-twiggy'
 " Plug 'junegunn/gv.vim'
 " alternate commit browser
 Plug 'rbong/vim-flog'
-Plug 'airblade/vim-gitgutter'
 
 let g:twiggy_close_on_fugitive_command = 1
 let g:twiggy_split_position = 'topleft'

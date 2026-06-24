@@ -13,14 +13,6 @@ lua << EOF
 local ok, lualine = pcall(require, 'lualine')
 if not ok then return end
 
--- git hunk counts from vim-gitgutter (we are not on gitsigns yet); lualine's
--- built-in `diff` source assumes gitsigns, so feed it gitgutter's summary.
-local function gitgutter_diff()
-  if vim.fn.exists('*GitGutterGetHunkSummary') == 0 then return nil end
-  local s = vim.fn.GitGutterGetHunkSummary()
-  return { added = s[1], modified = s[2], removed = s[3] }
-end
-
 -- spell language indicator (airline_detect_spell): show only when spell is on.
 local function spell()
   if not vim.wo.spell then return '' end
@@ -45,7 +37,10 @@ lualine.setup({
     lualine_a = { 'mode' },
     lualine_b = {
       'branch',
-      { 'diff', source = gitgutter_diff },
+      { 'diff', source = function()
+          local gs = vim.b.gitsigns_status_dict
+          if gs then return { added = gs.added, modified = gs.changed, removed = gs.removed } end
+      end },
       { 'diagnostics', sources = { 'coc' } },
     },
     lualine_c = { 'filename' },

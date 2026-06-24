@@ -43,6 +43,19 @@ include ~/.config/task/bubblegum-256.theme
 
 # report.next.filter = status:pending -WAITING limit:20
 
+# --- Agent-merge readability: keep default views clean of annotations ---
+# next is the default for `task` and vit; force description.count ([N] indicator).
+report.next.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description.count,urgency
+# list already defaults to description.count in 3.4.2; pin explicitly for durability.
+report.list.columns=id,start.age,entry.age,depends.indicator,priority,project,tags,recur.indicator,scheduled.countdown,due,until.remaining,description.count,urgency
+
+# Explicit annotated view: `task annotated` or `vit annotated`.
+report.annotated.description=Task list with annotations shown
+report.annotated.columns=id,start.age,entry.age,depends,priority,project,tags,recur,scheduled.countdown,due.relative,until.remaining,description,urgency
+report.annotated.labels=ID,Active,Age,Deps,P,Project,Tags,Recur,Sched,Due,Until,Description,Urg
+report.annotated.filter=status:pending
+report.annotated.sort=urgency-
+
 search.case.sensitive=no
 uda.priority.values=H,M,,L # no priority is higher than low
 urgency.user.tag.trello.coefficient=-2

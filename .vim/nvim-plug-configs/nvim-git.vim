@@ -22,11 +22,12 @@ gitsigns.setup({
       vim.keymap.set(mode, l, r, opts)
     end
 
-    -- Navigation (diff-mode aware, like gitgutter's ]c/[c)
-    map('n', ']c', function()
+    -- ]h/[h = next/prev change: hunk normally, native change-jump in diff mode.
+    -- (]c/[c are freed for treesitter @class — see nvim-treesitter.vim.)
+    map('n', ']h', function()
       if vim.wo.diff then vim.cmd.normal({ ']c', bang = true }) else gs.nav_hunk('next') end
     end)
-    map('n', '[c', function()
+    map('n', '[h', function()
       if vim.wo.diff then vim.cmd.normal({ '[c', bang = true }) else gs.nav_hunk('prev') end
     end)
 
@@ -56,7 +57,7 @@ gitsigns.setup({
     map('n', '<leader>tb', gs.toggle_current_line_blame)
     map('n', '<leader>tw', gs.toggle_word_diff)
 
-    -- Text object (ih/ah, matching the vim/gitgutter side; frees ic/ac for pythonsense)
+    -- Text object (ih/ah, matching the vim/gitgutter side; frees ic/ac for treesitter @class)
     map({ 'o', 'x' }, 'ih', gs.select_hunk)
     map({ 'o', 'x' }, 'ah', gs.select_hunk)
   end,

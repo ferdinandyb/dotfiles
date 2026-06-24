@@ -34,7 +34,8 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-nmap <silent> ]h <Plug>(ale_next_wrap_error)
-nmap <silent> [h <Plug>(ale_previous_wrap_error)
-nmap <silent> [w <Plug>(ale_previous_wrap)
-nmap <silent> ]w <Plug>(ale_next_wrap)
+" ]d/[d = any diagnostic, ]D/[D = errors only. (]h freed for hunks, ]c for class.)
+nmap <silent> ]d <Plug>(ale_next_wrap)
+nmap <silent> [d <Plug>(ale_previous_wrap)
+nmap <silent> ]D <Plug>(ale_next_wrap_error)
+nmap <silent> [D <Plug>(ale_previous_wrap_error)

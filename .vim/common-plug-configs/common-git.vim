@@ -29,6 +29,11 @@ if !empty(glob(expand('~/.config/glab-cli/token')))
   let g:gitlab_api_keys = {'mrbd15.pgsm.hu': readfile(expand('~/.config/glab-cli/token'))[0]}
 endif
 
+" Fallback so ]h/[h jump changes in any diff (gitsigns/gitgutter give the
+" buffer-local hunk version; this covers non-git diffs). No-op outside &diff.
+nnoremap <expr> ]h &diff ? ']c' : ''
+nnoremap <expr> [h &diff ? '[c' : ''
+
 nnoremap <leader>Gd :Gvdiff<CR>
 nnoremap gs :Git<CR>
 nnoremap gS :vert Git<CR>

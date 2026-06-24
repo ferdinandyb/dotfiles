@@ -4,6 +4,12 @@
 
 Plug 'airblade/vim-gitgutter'
 
+" Hunk nav on ]h/[h (gitgutter's <Plug> is already diff-aware: native ]c/[c in
+" &diff, hunk otherwise). Mapping to the <Plug> also suppresses gitgutter's
+" default ]c/[c (hasmapto guard), freeing ]c/[c.
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+
 " Relocate gitgutter's hunk text objects from ic/ac to ih/ah so vim-pythonsense
 " keeps ic/ac (inner/outer class) in Python buffers. Defining maps to these
 " <Plug> targets makes gitgutter's hasmapto() guard skip its own ic/ac defaults;

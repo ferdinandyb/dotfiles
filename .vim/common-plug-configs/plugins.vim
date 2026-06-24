@@ -92,13 +92,6 @@ Plug 'othree/html5.vim'
 Plug 'elzr/vim-json'
 " Plug 'jpalardy/vim-slime', { 'for': 'python' }
 " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }"
-" PYTHON
-" python code folding
-Plug 'tmhedberg/SimpylFold'
-Plug 'jeetsukumaran/vim-pythonsense'
-
-" python textobjects: isn't this covered by the LSP?
-Plug 'Konfekt/FastFold'
 Plug 'vim-scripts/LargeFile'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''

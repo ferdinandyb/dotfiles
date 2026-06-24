@@ -71,7 +71,11 @@ set listchars=tab:›\ ,trail:•,extends:#,nbsp:.
 
 " Show line numbers, but relative to current line
 set number
-set signcolumn=number "auto
+if has('nvim')
+  set signcolumn=auto:1-2
+else
+  set signcolumn=auto
+endif
 set sidescroll=1
 
 " Encoding

@@ -18,9 +18,9 @@ fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 for file in $HOME/.config/shell/zsh/*.zsh; do
 	source $file
@@ -30,19 +30,38 @@ if [ -f $HOME/.config/shell/aliases.sh ]; then
 	source $HOME/.config/shell/aliases.sh
 fi
 
-# Plugins
-antigen bundle Aloxaf/fzf-tab
-antigen bundle zsh-users/zsh-autosuggestions
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle jeffreytse/zsh-vi-mode
+# completions — initialise before loading plugins that wrap the completion
+# system (fzf-tab). A second compinit runs later at the original spot; running
+# it twice is harmless and keeps the rest of the file's ordering intact.
+fpath+=~/.zfunc
+autoload -Uz compinit bashcompinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+	compinit          # dump >24h old: full security audit + rebuild
+else
+	compinit -C       # fresh dump: reuse it, skip the audit (fast path)
+fi
+bashcompinit
+zstyle ':completion:*' menu select
 
-antigen use oh-my-zsh
-antigen bundle dirhistory
-antigen bundle taskwarrior
-
-antigen theme romkatv/powerlevel10k
-
-antigen apply
+# antidote — portable zsh plugin manager. Install is per-OS and out of scope here
+# (brew on mac, AUR `zsh-antidote` on arch, `git clone … ~/.antidote` on ubuntu).
+# This finds antidote wherever it landed and skips cleanly if it's absent.
+() {
+	local f txt="${XDG_CONFIG_HOME:-$HOME/.config}/zsh/zsh_plugins.txt"
+	for f in \
+		"${ZDOTDIR:-$HOME}/.antidote/antidote.zsh" \
+		"${HOMEBREW_PREFIX:-/opt/homebrew}/opt/antidote/share/antidote/antidote.zsh" \
+		/usr/local/opt/antidote/share/antidote/antidote.zsh \
+		/home/linuxbrew/.linuxbrew/opt/antidote/share/antidote/antidote.zsh \
+		/usr/share/zsh-antidote/antidote.zsh \
+		/usr/share/zsh/plugins/antidote/antidote.zsh; do
+		[[ -r $f ]] || continue
+		source $f
+		antidote load "$txt"
+		return
+	done
+	[[ -o interactive ]] && print -ru2 -- "note: antidote not found; zsh plugins skipped (https://antidote.sh/install)"
+}
 
 HISTSIZE=500000
 HISTFILE="$HOME/.zsh_history"
@@ -195,11 +214,6 @@ fi
 if type khal >/dev/null; then
 	eval "$(_KHAL_COMPLETE=zsh_source khal)"
 fi
-
-autoload bashcompinit && bashcompinit
-autoload -Uz compinit && compinit
-zstyle ':completion:*' menu select
-fpath+=~/.zfunc
 
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
 # BEGIN ANSIBLE MANAGED BLOCK - PROFILE.D

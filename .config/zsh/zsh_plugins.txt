@@ -1,0 +1,22 @@
+# zsh plugins, loaded by antidote (see ~/.zshrc).
+# Order matters: fzf-tab after compinit; zsh-syntax-highlighting strictly last.
+
+# oh-my-zsh support (sets $ZSH etc. so OMZ lib/plugins work under antidote)
+getantidote/use-omz
+ohmyzsh/ohmyzsh path:lib
+ohmyzsh/ohmyzsh path:plugins/dirhistory
+ohmyzsh/ohmyzsh path:plugins/taskwarrior
+
+# vi mode (rebinds keys; zvm_after_init hook lives in .zshrc)
+jeffreytse/zsh-vi-mode
+
+# completion UI — must load after compinit
+Aloxaf/fzf-tab
+
+zsh-users/zsh-autosuggestions
+
+# prompt
+romkatv/powerlevel10k
+
+# MUST be last
+zsh-users/zsh-syntax-highlighting

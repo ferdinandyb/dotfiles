@@ -47,13 +47,6 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-speeddating'
 " makes speeddating repeatable
 Plug 'tpope/vim-repeat'
-" simple comment facilities
-Plug 'tpope/vim-commentary'
-" file browser
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
-Plug 'tpope/vim-vinegar'
-
 Plug 'honza/vim-snippets'
 
 
@@ -87,9 +80,6 @@ Plug 'nanotee/zoxide.vim'
 
 Plug 'hauleth/vim-backscratch'
 
-Plug 'pangloss/vim-javascript'
-Plug 'othree/html5.vim'
-Plug 'elzr/vim-json'
 " Plug 'jpalardy/vim-slime', { 'for': 'python' }
 " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }"
 Plug 'vim-scripts/LargeFile'

@@ -7,8 +7,6 @@ Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
-" it is  in conflict with unimpaired so needs to be before
-Plug 'rickhowe/diffchar.vim'
 " extended %
 Plug 'andymass/vim-matchup'
 " add new targets to vim eg c2i)

@@ -8,7 +8,6 @@ nnoremap <leader>ö :split<CR>
 nnoremap <leader>ü :vsplit<CR>
 
 
-" there's a conflict with diffchar
 nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
 

@@ -78,6 +78,11 @@ else
 endif
 set sidescroll=1
 
+" Word-level inline diff highlighting (replaces diffchar).
+" diffchar only wins if you often pull partial/sub-hunk diffs (char-level
+" diffget/diffput) — then bring it back.
+silent! set diffopt+=inline:word
+
 " Encoding
 set encoding=utf-8
 

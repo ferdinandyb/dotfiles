@@ -1,3 +1,9 @@
+# --- zprof: profile what runs inside zsh. Uncomment this line AND the report
+# block at the bottom of this file, then open a new shell to see the per-function
+# table. zprof start must stay near the top so it captures everything. ---
+# zmodload zsh/zprof && zprof
+# --- end zprof start ---
+
 # source ~/.config/environment.d when we're not inheriting from systemd
 if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
 	if ! type "$systemctl" >/dev/null; then
@@ -246,3 +252,13 @@ if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc' ]; the
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# --- zprof report: dumps the profile once on first prompt, then unloads itself.
+# Uncomment together with the `zprof` start block at the top of this file. ---
+# autoload -Uz add-zsh-hook
+# _zsh_zprof_report() {
+# 	zprof
+# 	zmodload -u zsh/zprof 2>/dev/null
+# 	add-zsh-hook -d precmd _zsh_zprof_report
+# }
+# add-zsh-hook precmd _zsh_zprof_report
+# --- end zprof report ---

@@ -25,6 +25,7 @@ augroup END
 " Wait less for keypresses and stuff?
 set ttimeout
 set ttimeoutlen=100
+set timeoutlen=500
 
 " show possibilities when using tab in command mode
 set wildmenu

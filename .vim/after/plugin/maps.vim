@@ -31,7 +31,7 @@ nnoremap <leader>b :FBuffers!<cr>
 nnoremap <leader>: :FHistory!<cr>
 nnoremap <leader>é :FHistory!<cr>
 nnoremap <leader>/ :FHistory/!<cr>
-nnoremap <leader>gb :FGBranches!<cr>
+nnoremap <leader>fb :FGBranches!<cr>
 
 
 nnoremap <leader>ccn :CetliNew

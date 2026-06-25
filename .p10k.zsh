@@ -59,7 +59,7 @@
     nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
     nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
     node_version          # node.js version
-    go_version            # go version (https://golang.org)
+    # go_version            # go version (https://golang.org)
     # rust_version          # rustc version (https://www.rust-lang.org)
     # dotnet_version        # .NET version (https://dotnet.microsoft.com)
     # php_version           # php version (https://www.php.net/)
@@ -82,9 +82,10 @@
     aws                     # aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
     aws_eb_env              # aws elastic beanstalk environment (https://aws.amazon.com/elasticbeanstalk/)
     azure                   # azure account name (https://docs.microsoft.com/en-us/cli/azure)
-    gcloud                  # google cloud cli account and project (https://cloud.google.com/)
+    # gcloud                  # google cloud cli account and project (https://cloud.google.com/)
     google_app_cred         # google application credentials (https://cloud.google.com/docs/authentication/production)
     toolbox                 # toolbox name (https://github.com/containers/toolbox)
+    cpu_arch                # CPU architecture
     context                 # user@hostname
     nordvpn                 # nordvpn connection status, linux only (https://nordvpn.com/)
     ranger                  # ranger shell (https://github.com/ranger/ranger)
@@ -101,7 +102,7 @@
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
     xterm
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
-    taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
+    # taskwarrior             # taskwarrior task count (https://taskwarrior.org/)
     # time                  # current time
     # =========================[ Line #2 ]=========================
     newline
@@ -844,6 +845,10 @@
 
   # Custom icon.
   # typeset -g POWERLEVEL9K_TASKWARRIOR_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  ################################[ cpu_arch: CPU architecture ]################################
+  # CPU architecture color.
+  typeset -g POWERLEVEL9K_CPU_ARCH_FOREGROUND=172
 
   ##################################[ context: user@hostname ]##################################
   # Context color when running with privileges.

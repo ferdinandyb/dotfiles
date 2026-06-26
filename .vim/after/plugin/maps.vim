@@ -11,7 +11,6 @@ nnoremap <leader>ü :vsplit<CR>
 nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
 
-nnoremap <leader>q :bd<cr> " quit buffer
 nnoremap <leader>, :b#<cr> " alternate buffer
 
 nnoremap <silent> K :call myfunctions#show_documentation()<CR>
@@ -19,28 +18,23 @@ nnoremap <silent> K :call myfunctions#show_documentation()<CR>
 
 
 nnoremap <leader>g :FGitFiles!<cr>
+nnoremap <leader>b :FBuffers!<cr>
+nnoremap <leader>ff :FFiles!<cr>
+nnoremap <leader>fa :FAllFiles!<cr>
 nnoremap <leader>ft :FTags!<cr>
 nnoremap <leader>fr :FRg<space>
 nnoremap <leader>fm :FMarks!<cr>
 nnoremap <leader>fl :FLines!<cr>
 nnoremap <leader>fw :FWindows!<cr>
 nnoremap <leader>fc :call vimtex#fzf#run()<cr>
-nnoremap <leader>f :FFiles!<cr>
-nnoremap <leader>F :FAllFiles!<cr>
-nnoremap <leader>b :FBuffers!<cr>
-nnoremap <leader>: :FHistory!<cr>
+nnoremap <leader>fb :FGBranches!<cr>
+nnoremap <leader>fh :FHistory!<cr>
 nnoremap <leader>é :FHistory!<cr>
 nnoremap <leader>/ :FHistory/!<cr>
-nnoremap <leader>fb :FGBranches!<cr>
 
 
-nnoremap <leader>ccn :CetliNew
-nnoremap <leader>cn :FecniNew
-nnoremap <leader>ccs :CetliSearch<CR>
-nnoremap <leader>cs :FecniSearch<CR>
-nnoremap <leader>ca :FecniSearchAll<CR>
-nnoremap <leader>cb :BibtexciteInsert<CR>
-nnoremap <leader>cg :Goyo<CR>
+nnoremap <leader>nc :BibtexciteInsert<CR>
+nnoremap <leader>tg :Goyo<CR>
 
 nnoremap <silent> s <nop>
 nnoremap <silent> S <nop>
@@ -63,7 +57,7 @@ nnoremap <leader>q gqap
 nnoremap <silent> <leader>m :noh <bar> call popup_clear()<cr>
 
 
-nmap <leader>vr :source ~/.vim/vimrc<cr>
+nmap <leader>R :source ~/.vim/vimrc<cr>
 
 " Allow gf to open non-existent files
 map gf :edit <cfile><cr>
@@ -72,9 +66,6 @@ map gf :edit <cfile><cr>
 vnoremap < <gv
 vnoremap > >gv
 
-
-"wrap
-nnoremap <leader>w :set wrap!<cr>
 
 " this also has a sideeffect of Q NOT taking you to ex mode
 nnoremap Q :wqa<CR>
@@ -118,7 +109,7 @@ nnoremap <silent> yp :let @+ = expand('%:p')<CR>
 
 
 
-" Ctrl-p pastes the last yank: vim unimpaired may have better maps
+" paste/registers under review — see ~/.vim/keybinds.md
 nnoremap <leader>p "0p
 nnoremap <leader>P "0P
 " nnoremap <leader>v "+p

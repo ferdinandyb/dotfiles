@@ -5,24 +5,24 @@ let g:vimspector_install_gadgets = [ 'debugpy', 'CodeLLDB', 'delve' ]
 let g:vimspectorpy#tmux#split = "h"
 let g:vimspectorpy#tmux#size = 100
 " for normal mode - the word under the cursor
-nmap <leader>di <Plug>VimspectorBalloonEval
+nmap <leader>vi <Plug>VimspectorBalloonEval
 " for visual mode, the visually selected text
-xmap <leader>di <Plug>VimspectorBalloonEval
+xmap <leader>vi <Plug>VimspectorBalloonEval
 
-nmap vc <Plug>VimspectorContinue
-nmap vs <Plug>VimspectorStop
-nmap vr <Plug>VimspectorRestart
-nmap vp <Plug>VimspectorPause
-nmap vb <Plug>VimspectorToggleBreakpoint
-nmap vB <Plug>VimspectorToggleConditionalBreakpoint
-nmap vf <Plug>VimspectorAddFunctionBreakpoint
-nmap vo <Plug>VimspectorRunToCursor
-nmap vj <Plug>VimspectorStepOver
-nmap vl <Plug>VimspectorStepInto
-nmap vh <Plug>VimspectorStepOut
-nmap vw :VimspectorWatch
-nmap vq :VimspectorReset<Enter>
+nmap <leader>vc <Plug>VimspectorContinue
+nmap <leader>vs <Plug>VimspectorStop
+nmap <leader>vr <Plug>VimspectorRestart
+nmap <leader>vp <Plug>VimspectorPause
+nmap <leader>vb <Plug>VimspectorToggleBreakpoint
+nmap <leader>vB <Plug>VimspectorToggleConditionalBreakpoint
+nmap <leader>vf <Plug>VimspectorAddFunctionBreakpoint
+nmap <leader>vo <Plug>VimspectorRunToCursor
+nmap <leader>vj <Plug>VimspectorStepOver
+nmap <leader>vl <Plug>VimspectorStepInto
+nmap <leader>vh <Plug>VimspectorStepOut
+nmap <leader>vw :VimspectorWatch
+nmap <leader>vq :VimspectorReset<Enter>
+nmap <leader>vL <Plug>VimspectorBreakpoints
+nmap <leader>vd <Plug>VimspectorDisassemble
 nmap <F11> <Plug>VimspectorUpFrame
 nmap <F12> <Plug>VimspectorDownFrame
-nmap <Leader>B     <Plug>VimspectorBreakpoints
-nmap <Leader>D     <Plug>VimspectorDisassemble

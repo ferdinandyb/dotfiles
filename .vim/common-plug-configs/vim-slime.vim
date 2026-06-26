@@ -8,7 +8,7 @@ let g:slime_no_mappings = 1
 xmap <leader>s <Plug>SlimeRegionSend
 nmap <leader>sp <Plug>SlimeParagraphSend
 nmap <leader>ss <Plug>SlimeLineSend
-nmap <leader>s <Plug>SlimeMotionSend
+nmap <leader>sm <Plug>SlimeMotionSend
 
 nmap <leader>s7 <Plug>SlimeMotionSendiq
 " nmap <c-c>v     <Plug>SlimeConfig

@@ -1,11 +1,11 @@
 Plug 'NickvanDyke/opencode.nvim'
 
-" opencode keymaps (leader = space)
-nnoremap <leader>oa <cmd>lua require("opencode").ask("@this: ", { submit = true })<cr>
-xnoremap <leader>oa <cmd>lua require("opencode").ask("@this: ", { submit = true })<cr>
-nnoremap <leader>os <cmd>lua require("opencode").select()<cr>
-xnoremap <leader>os <cmd>lua require("opencode").select()<cr>
-nnoremap <leader>op <cmd>lua require("opencode").prompt("@this")<cr>
-xnoremap <leader>op <cmd>lua require("opencode").prompt("@this")<cr>
-nnoremap <leader>oo <cmd>lua require("opencode").toggle()<cr>
-tnoremap <leader>oo <cmd>lua require("opencode").toggle()<cr>
+" AI namespace: opencode under <leader>a* (leader = space)
+nnoremap <leader>aa <cmd>lua require("opencode").ask("@this: ", { submit = true })<cr>
+xnoremap <leader>aa <cmd>lua require("opencode").ask("@this: ", { submit = true })<cr>
+nnoremap <leader>as <cmd>lua require("opencode").select()<cr>
+xnoremap <leader>as <cmd>lua require("opencode").select()<cr>
+nnoremap <leader>ap <cmd>lua require("opencode").prompt("@this")<cr>
+xnoremap <leader>ap <cmd>lua require("opencode").prompt("@this")<cr>
+nnoremap <leader>at <cmd>lua require("opencode").toggle()<cr>
+tnoremap <leader>at <cmd>lua require("opencode").toggle()<cr>

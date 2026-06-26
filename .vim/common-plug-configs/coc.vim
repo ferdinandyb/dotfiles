@@ -35,22 +35,21 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gz <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gR <Plug>(coc-plug-references-used)
-" maybe instead of coc-rename refactor?
-nmap <leader>dn <Plug>(coc-rename)
-nmap <leader>dr <Plug>(coc-refactor)
-" apply autofix to problem on the current line.
-nmap <leader>df  <plug>(coc-fix-current)
-nmap <leader>dm  <plug>(coc-format-selected)
-xmap <leader>dm  <plug>(coc-format-selected)
-nmap <leader>dc  <Plug>(coc-codeaction)
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>da  <Plug>(coc-codeaction-line)
+" LSP namespace: coc actions under <leader>l* (go-to stays on gd/gy/gz/gr/gR above)
+nmap <leader>lr <Plug>(coc-rename)
+nmap <leader>lR <Plug>(coc-refactor)
+" apply autofix to problem on the current line
+nmap <leader>lx <Plug>(coc-fix-current)
+nmap <leader>lf <Plug>(coc-format-selected)
+xmap <leader>lf <Plug>(coc-format-selected)
+nmap <leader>lc <Plug>(coc-codeaction)
+" code action on a motion/selection, e.g. `<leader>laap` for the current paragraph
+xmap <leader>la <Plug>(coc-codeaction-selected)
+nmap <leader>la <Plug>(coc-codeaction-selected)
+nmap <leader>lC <Plug>(coc-codeaction-line)
 
-nmap <leader>do :CocFzfList outline <CR>
-nmap <leader>dl :CocFzfList <CR>
+nmap <leader>lo :CocFzfList outline <CR>
+nmap <leader>ll :CocFzfList <CR>
 
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)

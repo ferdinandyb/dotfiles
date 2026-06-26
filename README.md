@@ -59,6 +59,10 @@ yadm sparse-checkout reapply
 
 See [sparse-checkout template](https://github.com/ferdinandyb/dotfiles/blob/master/.local/share/yadm/repo.git/info/sparse-checkout%23%23template).
 
+### installing tooling
+
+Make sure `mise` is installed and run `mise install`.
+
 ### set up decrypt/encrypt
 
 ```

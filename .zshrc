@@ -117,22 +117,6 @@ export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 # do not tar annoying MacOS stuff
 export COPYFILE_DISABLE=1
 
-# fnm
-
-if [ -d $HOME/.fnm ]; then
-	export PATH=$HOME/.fnm:$PATH
-	eval "$(fnm env)"
-
-elif [ -d $HOME/.local/share/fnm ]; then
-	export PATH=$HOME/.local/share/fnm:$PATH
-	eval "$(fnm env)"
-fi
-
-if [ -d $HOME/.pyenv ]; then
-	export PATH="$HOME/.pyenv/bin:$PATH"
-	eval "$(pyenv init - --no-rehash)"
-	eval "$(pyenv virtualenv-init -)"
-fi
 
 if ! type "$zoxide" >/dev/null; then
 	eval "$(zoxide init zsh)"
@@ -252,6 +236,14 @@ if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc' ]; the
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+# Hook mode (used below): auto-activates project venvs + sets per-directory env,
+# at a cost of ~10ms on every prompt.
+# Shim alternative — ~0 per-prompt cost, but NO venv auto-activation / per-dir env:
+#   command -v mise >/dev/null && eval "$(mise activate zsh --shims)"
+if command -v mise >/dev/null && [[ -z ${MISE_SHELL:-} ]]; then
+	eval "$(mise activate zsh)"
+fi
+
 # --- zprof report: dumps the profile once on first prompt, then unloads itself.
 # Uncomment together with the `zprof` start block at the top of this file. ---
 # autoload -Uz add-zsh-hook

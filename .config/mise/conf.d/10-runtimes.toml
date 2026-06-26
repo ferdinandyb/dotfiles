@@ -1,0 +1,6 @@
+[tools]
+python = ["3.14"]
+node = "lts"
+
+[settings]
+idiomatic_version_file_enable_tools = ["python", "node"]

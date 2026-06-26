@@ -36,17 +36,10 @@ if [ -f $HOME/.config/shell/aliases.sh ]; then
 	source $HOME/.config/shell/aliases.sh
 fi
 
-# completions — initialise before loading plugins that wrap the completion
-# system (fzf-tab). A second compinit runs later at the original spot; running
-# it twice is harmless and keeps the rest of the file's ordering intact.
+# completions — use-omz owns compinit (deferred). We just add ~/.zfunc to fpath,
+# enable bashcompinit (for `complete`, e.g. aws_completer), and set menu style.
 fpath+=~/.zfunc
-autoload -Uz compinit bashcompinit
-if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
-	compinit          # dump >24h old: full security audit + rebuild
-else
-	compinit -C       # fresh dump: reuse it, skip the audit (fast path)
-fi
-bashcompinit
+autoload -Uz bashcompinit && bashcompinit
 zstyle ':completion:*' menu select
 
 # antidote — portable zsh plugin manager. Install is per-OS and out of scope here

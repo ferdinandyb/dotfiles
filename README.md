@@ -132,3 +132,7 @@ for i in {2007..2022}; do mdedup $i -i maildir -s discard-all-but-one -a delete-
 ## WSL
 
 See [here](.config/wsl/README.md).
+
+## License
+
+This repository is licensed under the [MIT License](LICENSE).

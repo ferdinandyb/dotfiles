@@ -4,7 +4,6 @@ Plug 'lervag/vimtex'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 " Plug 'alok/notational-fzf-vim'
-Plug 'vim-scripts/loremipsum'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
 

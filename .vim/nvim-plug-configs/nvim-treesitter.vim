@@ -22,7 +22,7 @@ ts.setup({})
 local parsers = {
   'lua', 'vim', 'vimdoc', 'query', 'bash', 'python', 'markdown',
   'markdown_inline', 'json', 'yaml', 'toml', 'gitcommit', 'diff',
-  'javascript', 'typescript', 'html', 'css', 'c', 'rust', 'go',
+  'javascript', 'typescript', 'html', 'css', 'c', 'rust', 'go', 'tmux',
 }
 if vim.fn.executable('tree-sitter') == 1 then
   ts.install(parsers)

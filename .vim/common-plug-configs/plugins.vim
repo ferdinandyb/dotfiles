@@ -1,4 +1,4 @@
-Plug 'dstein64/vim-startuptime'
+Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 " dispatch commands in the background
 Plug 'tpope/vim-dispatch'
 " run tests with e.g. Dispatch
@@ -13,8 +13,7 @@ Plug 'andymass/vim-matchup'
 Plug 'wellle/targets.vim'
 " adds xml/html text objects
 Plug 'kana/vim-textobj-user' | Plug 'whatyouhide/vim-textobj-xmlattr'
-" tmux config syntax highlight
-Plug 'whatyouhide/vim-tmux-syntax'
+" tmux config syntax: vim-only (nvim uses the treesitter `tmux` parser) — see vim-plug-configs/
 " syntax for kitty
 Plug 'fladson/vim-kitty'
 " command to align text (never used it yet, learn or remove)
@@ -80,7 +79,6 @@ Plug 'hauleth/vim-backscratch'
 
 " Plug 'jpalardy/vim-slime', { 'for': 'python' }
 " Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }"
-Plug 'vim-scripts/LargeFile'
 " Plug 'mhinz/vim-startify'
 " let g:startify_custom_header = ''
 "

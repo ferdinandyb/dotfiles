@@ -5,6 +5,9 @@
 
 (platform (macos)
   (defvar
+    ;; Ctrl held? mac Ctrl = caps-hold (→lctl) or right-ctrl.
+    ;; (bottom-left defsrc lctl = Cmd on mac, so it is excluded here)
+    CTRL_HELD     (or (input real caps) (input real rctl))
     SYM_LBRACKET  RA-8          ;; Alt+8       → [
     SYM_RBRACKET  RA-9          ;; Alt+9       → ]
     SYM_LBRACE    RA-7          ;; Alt+7       → {
@@ -43,6 +46,8 @@
 
 (platform (linux)
   (defvar
+    ;; Ctrl held? Linux Ctrl = caps-hold (→lctl), right-ctrl, or bottom-left lctl.
+    CTRL_HELD     (or (input real caps) (input real rctl) (input real lctl))
     SYM_LBRACKET  AG-f          ;; AltGr+f       → [
     SYM_RBRACKET  AG-g          ;; AltGr+g       → ]
     SYM_LBRACE    AG-b          ;; AltGr+b       → {

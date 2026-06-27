@@ -54,6 +54,11 @@
 (deftemplate accent-key (alias key alt alt-shifted)
   (defalias $alias
     (switch
+      ;; Ctrl held → emit the bare accent keysym (not the symbol chord) so the
+      ;; terminal sees ctrl+<accent>; ghostty maps that to the real control byte
+      ;; (e.g. ctrl+ú → 0x1d = <C-]>). Works in every vk_hu/alt mode.
+      ($CTRL_HELD)
+      $key break
       ((and (input virtual vk_hu) (or (layer alt-layer) (layer ralt-layer))))
       (fork $alt $alt-shifted (lsft rsft)) break
       ((input virtual vk_hu))
@@ -152,14 +157,23 @@
 )
 
 ;; ── RALT LAYER — Option/AltGr mappings ──────────────────────────────
-;;   2→™       5→°        w→|       e→€
+;;   2→™       5→°        q→\       w→|       e→€
 ;;   f→[       g→]        b→{       n→}
 ;;   x→#       c→&        v→@
 ;;   ,→;       /→*
 
+;; ralt-layer q normally types \ ; with Ctrl held (Ctrl+AltGr+q) it emits a
+;; bare F13 instead (unmod strips Ctrl), which ghostty maps to 0x1c = <C-\>.
+;; F13 is internal plumbing — never pressed directly. See symbols.kbd $CTRL_HELD.
+(defalias
+  ralt-bslash (switch
+    ($CTRL_HELD)    (unmod f13)     break
+    ()              $SYM_BACKSLASH  break)
+)
+
 (deflayer ralt-layer
   _            $SYM_TILDE       $SYM_TM      $SYM_CARET   _              $SYM_DEGREE   _            $SYM_BACKTICK _            _            _            _            _            _
-  _            $SYM_BACKSLASH   $SYM_PIPE    $SYM_EURO    _              _             _            _            _            _            _            _            _
+  _            @ralt-bslash     $SYM_PIPE    $SYM_EURO    _              _             _            _            _            _            _            _            _
   _            _                _            _            $SYM_LBRACKET  $SYM_RBRACKET _           _            _            _            _            _            _            _
   _            _                $SYM_GREATER $SYM_HASH    $SYM_AMPERSAND $SYM_AT       $SYM_LBRACE  $SYM_RBRACE  _            $SYM_SEMICOLON _           $SYM_STAR    _
   _            _                _                         _                            _            _            _

@@ -4,9 +4,9 @@
 
 --langdef=bib
 --langmap=bib:.bib
---regex-bib=/^@[A-Za-z]+\{([^,]+),/\1/e,BibTeX-Entries/i
---regex-bib=/^@string\{([^ "#%')(,=}{]+)/\1/s,BibTeX-Strings/i
---regex-bib=/author[[:space:]]*=[[:space:]]*("([^"]+)"|\{([^\}]+)\})[[:space:]]*,?[[:space:]]*$/\2\3/a,BibTeX-Authors/i
+--regex-bib=/^@[A-Za-z]+\{([^,]+),/\1/e,entry,BibTeX entries/i
+--regex-bib=/^@string\{([^ "#%')(,=}{]+)/\1/s,string,BibTeX strings/i
+--regex-bib=/author[[:space:]]*=[[:space:]]*("([^"]+)"|\{([^\}]+)\})[[:space:]]*,?[[:space:]]*$/\2\3/a,author,BibTeX authors/i
 
 
 --exclude=*.min.*

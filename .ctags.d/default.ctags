@@ -39,3 +39,14 @@
 --exclude=tests
 --exclude=vendor
 --exclude=.ipynb_checkpoint
+--exclude=.mypy_cache
+--exclude=.opencode
+--exclude=.git
+--exclude=.pants.d
+--exclude=*.lock
+--exclude=*.lock.json
+--exclude=*.lock.jsonc
+--exclude=package-lock.json
+--exclude=pnpm-lock.yaml
+--exclude=poetry.lock
+--exclude=yarn.lock

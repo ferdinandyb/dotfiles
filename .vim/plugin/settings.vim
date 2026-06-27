@@ -169,3 +169,12 @@ endif
 
 " this is needed so kitty's protocol doesn't turn the menu key into a large undo
 set <F20>=57363u
+
+" yank (only) -> system clipboard; deletes stay private (clipboard left unset)
+augroup yank_to_clipboard
+  autocmd!
+  autocmd TextYankPost *
+        \ if v:event.operator ==# 'y' && v:event.regname ==# '' |
+        \   call setreg('+', v:event.regcontents, v:event.regtype) |
+        \ endif
+augroup END

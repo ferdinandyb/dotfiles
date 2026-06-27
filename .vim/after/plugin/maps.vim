@@ -109,14 +109,12 @@ nnoremap <silent> yp :let @+ = expand('%:p')<CR>
 
 
 
-" paste/registers under review — see ~/.vim/keybinds.md
-nnoremap <leader>p "0p
-nnoremap <leader>P "0P
-" nnoremap <leader>v "+p
-nnoremap <leader>d "_dd
-nnoremap <leader>o o<ESC>"+P
-" nnoremap <leader>gp "0gp
-" nnoremap <leader>gv "+gp
+" clipboard paste, reindented (capital P = system clipboard; via unimpaired)
+nmap ]P "+]p
+nmap [P "+[p
+" delete to the void (black-hole): dx = line, visual x = selection
+nnoremap dx "_dd
+xnoremap x "_d
 " Maintain the cursor position when yanking a visual selection
 " http://ddrscott.github.io/blog/2016/yank-without-jank/
 " vnoremap <expr>y "my\"" . v:register . "y`y"

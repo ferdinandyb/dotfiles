@@ -109,6 +109,16 @@ Wiki *(vimwiki)* uses the standard `<leader>w` maps: `ww` index ·
 Citations *(bibtexcite)*: `<leader>nc` inserts a citation (LaTeX and Markdown
 buffers do the right thing automatically).
 
+## Yank & paste
+
+`y` copies to the system clipboard automatically; deletes stay private (they
+never touch the clipboard).
+
+- `p` / `P` — paste last yank/delete, below/above
+- `]p` / `[p` — same, reindented to the current line *(unimpaired)*
+- `]P` / `[P` — paste the **system clipboard**, reindented
+- `dx` — delete a line into the void (keeps your yank); visual `x` does the selection
+
 ## Filetype-specific
 
 - **Python** *(jupyter_ascending)* — `<leader>j`: `jx` run cell · `jX` run all ·

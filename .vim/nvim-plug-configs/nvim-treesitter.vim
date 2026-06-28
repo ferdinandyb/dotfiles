@@ -29,9 +29,8 @@ end
 -- Folds open by default; treesitter only computes them where a parser attaches.
 vim.o.foldlevelstart = 99
 
--- Text objects + moves. select.lookahead / move.set_jumps set here; func/class
--- SELECT (if/af/ic/ac) is wired buffer-local below. Remaining SELECT objects
--- (parameter/conditional/loop, …) still TBD — see treesitter-bindings.md.
+-- Text objects + moves. select.lookahead / move.set_jumps set here; the SELECT
+-- and MOVE keymaps are wired buffer-local below (see the autocmd).
 local move_ok, move = pcall(require, 'nvim-treesitter-textobjects.move')
 if move_ok then
   require('nvim-treesitter-textobjects').setup({
@@ -50,8 +49,12 @@ local keep_builtin_syntax = { gitcommit = true }
 -- map the motions and SELECT objects buffer-local:
 --   MOVE   class ]c/[c (start) + ]C/[C (end), function ]m/[m + ]M/[M.
 --          (]c is free since change/hunk nav lives on ]h.)
---   SELECT function if/af, class ic/ac (these are vim-only on coc; treesitter
---          takes over here — see common-plug-configs/coc.vim).
+--   SELECT function if/af, class ic/ac (vim-only on coc, treesitter takes over
+--          here — see common-plug-configs/coc.vim), parameter ia/aa, conditional
+--          ii/ai, loop iL/aL, call iF/aF, comment iC/aC, assignment i=/a=.
+--          ia/aa overrides targets.vim's argument object; i=/a= overrides its
+--          (near-useless) `=` separator. i= grabs whichever side of the
+--          assignment the cursor is on; iL is capital to dodge targets' l-seek.
 vim.api.nvim_create_autocmd('FileType', {
   callback = function(args)
     if keep_builtin_syntax[args.match] then return end
@@ -80,6 +83,18 @@ vim.api.nvim_create_autocmd('FileType', {
     s('af', '@function.outer')
     s('ic', '@class.inner')
     s('ac', '@class.outer')
+    s('ia', '@parameter.inner')
+    s('aa', '@parameter.outer')
+    s('ii', '@conditional.inner')
+    s('ai', '@conditional.outer')
+    s('iL', '@loop.inner')
+    s('aL', '@loop.outer')
+    s('iF', '@call.inner')
+    s('aF', '@call.outer')
+    s('iC', '@comment.inner')
+    s('aC', '@comment.outer')
+    s('i=', '@assignment.inner')
+    s('a=', '@assignment.outer')
   end,
 })
 

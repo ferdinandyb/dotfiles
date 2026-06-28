@@ -3,6 +3,14 @@
 
 Current user is Bence Ferdinandy.
 
+# Comments
+
+Never reference untracked files (e.g. plan files) in comments. Be very
+selective of when to add comments at all, and always aim for the minimally
+necessary. Reasoning for the code (the why) belongs in commit messages, not
+comments, unless the piece of code is extremely non-trivial or has magic
+strings/numbers.
+
 # SKILLS
 
 Many specific tools or situations have an associated skill, always consider

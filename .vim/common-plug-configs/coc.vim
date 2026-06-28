@@ -51,14 +51,17 @@ nmap <leader>lC <Plug>(coc-codeaction-line)
 nmap <leader>lo :CocFzfList outline <CR>
 nmap <leader>ll :CocFzfList <CR>
 
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
+" Function/class text objects (vim only; neovim uses treesitter).
+if !has('nvim')
+  xmap if <Plug>(coc-funcobj-i)
+  omap if <Plug>(coc-funcobj-i)
+  xmap af <Plug>(coc-funcobj-a)
+  omap af <Plug>(coc-funcobj-a)
+  xmap ic <Plug>(coc-classobj-i)
+  omap ic <Plug>(coc-classobj-i)
+  xmap ac <Plug>(coc-classobj-a)
+  omap ac <Plug>(coc-classobj-a)
+endif
 
 inoremap <silent><expr> <C-z> coc#pum#visible() ? coc#pum#confirm() : (pumvisible() ? "\<C-y>" : "\<C-z>")
 

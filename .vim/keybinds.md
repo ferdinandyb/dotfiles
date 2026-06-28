@@ -48,6 +48,13 @@ Act on code:
 | `lo`  | symbol outline                                     |
 | `ll`  | all coc lists                                      |
 
+## Code text objects & motions  *(treesitter, neovim)*
+
+Select (operator + visual): `if` / `af` function · `ic` / `ac` class.
+
+Jump between definitions: `]m` / `[m` next / prev function (`]M` / `[M` its end) ·
+`]c` / `[c` next / prev class (`]C` / `[C` its end).
+
 ## Debug — `<leader>v`  *(vimspector)*
 
 | key | does                   | key | does          |

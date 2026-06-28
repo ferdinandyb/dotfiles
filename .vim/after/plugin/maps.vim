@@ -126,9 +126,5 @@ xnoremap x "_d
 inoremap <CR> <C-]><C-G>u<CR>
 
 
-" most editors will have these for bold and italic
-imap <C-e> <Esc>saiW_Wa
-imap <C-b> <Esc>saiW*.Wa
-
 " taken from defaults.vim
 inoremap <C-U> <C-G>u<C-U>

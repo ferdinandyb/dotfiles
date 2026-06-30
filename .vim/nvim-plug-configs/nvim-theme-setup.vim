@@ -25,6 +25,11 @@ local function wordcount()
   return (wc.visual_words or wc.words) .. 'w'
 end
 
+-- opencode connection status (idle/busy/error/disconnected icon + server url).
+-- Guarded so a missing/broken opencode.nvim never takes down the statusline.
+local oc_ok, oc = pcall(require, 'opencode')
+local opencode_status = oc_ok and oc.statusline or function() return '' end
+
 lualine.setup({
   options = {
     theme = 'auto',                 -- derive colors from the dracula colorscheme
@@ -45,6 +50,7 @@ lualine.setup({
     },
     lualine_c = { 'filename' },
     lualine_x = {
+      opencode_status,
       spell,
       wordcount,
       'searchcount',

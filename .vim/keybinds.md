@@ -89,10 +89,14 @@ The rest is fugitive: `gs` status · `gS` status in a vertical split ·
 `<leader>Gd` vertical diff · `<leader>Gb` copy the file's web URL (works on a
 visual range too).
 
-## AI — `<leader>a`  *(opencode.nvim)*
+## AI — `<leader>a`  *(opencode.nvim)* and `<leader>k`  *(99)*
 
-`aa` ask about this · `as` pick a session · `ap` prompt with this · `at` toggle
-the window.
+opencode: `aa` ask about this · `ap` prompt with this · `as` pick a session.
+Prompt templates: `ae` explain · `af` fix diagnostics · `ar` review · `ad` document ·
+`at` add tests. `ga{motion}` / `gaa` send a range / the current line (operator,
+dot-repeatable).
+
+99 *(kilenc)*: `ks` search · `kv` (visual) replace.
 
 ## REPL — `<leader>s`  *(vim-slime)*
 

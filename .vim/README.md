@@ -67,7 +67,7 @@ The Neovim side, modern Lua plugins:
 - `nvim-treesitter.vim` — treesitter highlight + folds + context + text objects
 - `nvim-theme-setup.vim` — lualine (the airline replacement)
 - `nvim-git.vim` — gitsigns (git signs)
-- `opencode.vim` — opencode (AI agent) integration
+- `ai-assistance.vim` — AI integration: opencode.nvim + ThePrimeagen/99
 
 ### `after/ftplugin/` — per-filetype settings
 `floggraph`, `gitcommit`, `help`, `javascript`, `latex`, `mail`, `markdown`,

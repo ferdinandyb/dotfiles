@@ -1,0 +1,108 @@
+#!/bin/sh
+# Manage a per-session opencode TUI pane.
+#
+# The pane lives in a "park" window (index 99, named "opencode-nvim") when
+# hidden, and is join-pane'd into the current window (beside the active pane)
+# when shown. This gives a persistent, hide/show, side-by-side opencode without
+# an embedded nvim terminal. State (the pane id) is stored per session in the
+# @oc_pane session option.
+#
+# Usage: opencode-pane {ensure | show [-h|-v] | hide | toggle [-h|-v]}
+#   ensure       create the parked pane if absent (used by opencode.nvim server.start)
+#   show         bring it into the current window (-h side-by-side, -v stacked)
+#   hide         park it back into window 99
+#   toggle       hide if visible, else show (default -h side-by-side, -v below)
+
+PARK_INDEX=99
+PARK_NAME=opencode-nvim
+OC_CMD='opencode --port 0'
+
+# Reference pane: the program's own pane when invoked from inside one (nvim
+# sets $TMUX_PANE), else the client's active pane (key bindings).
+ref_pane() {
+	if [ -n "$TMUX_PANE" ]; then
+		printf '%s' "$TMUX_PANE"
+	else
+		tmux display-message -p '#{pane_id}'
+	fi
+}
+
+ref_session() {
+	tmux display-message -p -t "$(ref_pane)" '#{session_name}'
+}
+
+ref_path() {
+	tmux display-message -p -t "$(ref_pane)" '#{pane_current_path}'
+}
+
+# Echo the live opencode pane id for this session, or fail.
+oc_pane() {
+	sess=$(ref_session)
+	pid=$(tmux show-option -qv -t "$sess" @oc_pane)
+	[ -n "$pid" ] || return 1
+	tmux list-panes -a -F '#{pane_id}' 2>/dev/null | grep -qx "$pid" || return 1
+	printf '%s' "$pid"
+}
+
+# True if the pane currently sits in the park window.
+is_parked() {
+	[ "$(tmux display-message -p -t "$1" '#{window_name}')" = "$PARK_NAME" ]
+}
+
+ensure() {
+	if pid=$(oc_pane); then
+		printf '%s' "$pid"
+		return 0
+	fi
+	sess=$(ref_session)
+	# Adopt an orphaned park window before spawning. tmux-resurrect recreates
+	# window 99 on restore but not @oc_pane (a volatile pane id), so without
+	# this a restore would leave a working pane we can't see, and new-window
+	# below would fail with "index in use".
+	if [ "$(tmux display-message -p -t "$sess:$PARK_INDEX" '#{window_name}' 2>/dev/null)" = "$PARK_NAME" ]; then
+		pid=$(tmux list-panes -t "$sess:$PARK_INDEX" -F '#{pane_id}' | head -n1)
+	else
+		pid=$(tmux new-window -d -P -F '#{pane_id}' \
+			-t "$sess:$PARK_INDEX" -n "$PARK_NAME" -c "$(ref_path)" "$OC_CMD")
+	fi
+	tmux set-option -t "$sess" @oc_pane "$pid"
+	printf '%s' "$pid"
+}
+
+show() {
+	dir=${1:--h}
+	pid=$(ensure)
+	if ! is_parked "$pid"; then
+		# Already visible somewhere: park first so we can re-place/re-orient it.
+		tmux break-pane -d -s "$pid" -t "$(ref_session):$PARK_INDEX" -n "$PARK_NAME"
+	fi
+	tmux join-pane "$dir" -s "$pid" -t "$(ref_pane)"
+	tmux select-pane -t "$pid"
+}
+
+hide() {
+	pid=$(oc_pane) || return 0
+	is_parked "$pid" && return 0
+	tmux break-pane -d -s "$pid" -t "$(ref_session):$PARK_INDEX" -n "$PARK_NAME"
+}
+
+toggle() {
+	dir=${1:--h}
+	if pid=$(oc_pane) && ! is_parked "$pid"; then
+		hide
+	else
+		show "$dir"
+	fi
+}
+
+cmd=${1:-toggle}
+case "$cmd" in
+ensure) ensure >/dev/null ;;
+show) show "${2:--h}" ;;
+hide) hide ;;
+toggle) toggle "${2:--h}" ;;
+*)
+	echo "usage: opencode-pane {ensure|show [-h|-v]|hide|toggle [-h|-v]}" >&2
+	exit 1
+	;;
+esac

@@ -47,14 +47,6 @@ local keep_builtin_syntax = { gitcommit = true }
 -- Enable treesitter highlighting + folds per buffer, but only where a parser
 -- actually attaches (pcall keeps non-parsed filetypes on built-in :syntax), then
 -- map the motions and SELECT objects buffer-local:
---   MOVE   class ]c/[c (start) + ]C/[C (end), function ]m/[m + ]M/[M.
---          (]c is free since change/hunk nav lives on ]h.)
---   SELECT function if/af, class ic/ac (vim-only on coc, treesitter takes over
---          here — see common-plug-configs/coc.vim), parameter ia/aa, conditional
---          ii/ai, loop iL/aL, call iF/aF, comment iC/aC, assignment i=/a=.
---          ia/aa overrides targets.vim's argument object; i=/a= overrides its
---          (near-useless) `=` separator. i= grabs whichever side of the
---          assignment the cursor is on; iL is capital to dodge targets' l-seek.
 vim.api.nvim_create_autocmd('FileType', {
   callback = function(args)
     if keep_builtin_syntax[args.match] then return end
@@ -74,6 +66,14 @@ vim.api.nvim_create_autocmd('FileType', {
     m('[m', 'goto_previous_start', '@function.outer')
     m(']M', 'goto_next_end', '@function.outer')
     m('[M', 'goto_previous_end', '@function.outer')
+    m(']g', 'goto_next_start', '@parameter.inner')
+    m('[g', 'goto_previous_start', '@parameter.inner')
+    m(']i', 'goto_next_start', '@conditional.outer')
+    m('[i', 'goto_previous_start', '@conditional.outer')
+    m(']u', 'goto_next_start', '@loop.outer')
+    m('[u', 'goto_previous_start', '@loop.outer')
+    m(']k', 'goto_next_start', '@comment.outer')
+    m('[k', 'goto_previous_start', '@comment.outer')
     local sel = require('nvim-treesitter-textobjects.select')
     local function s(key, cap)
       vim.keymap.set({ 'x', 'o' }, key,

@@ -55,7 +55,8 @@ Select (operator + visual): `if`/`af` function · `ic`/`ac` class · `ia`/`aa` p
 `i=`/`a=` assignment (`i=` grabs the side you're on).
 
 Jump between definitions: `]m` / `[m` next / prev function (`]M` / `[M` its end) ·
-`]c` / `[c` next / prev class (`]C` / `[C` its end).
+`]c` / `[c` next / prev class (`]C` / `[C` its end) · `]g` / `[g` parameter ·
+`]i` / `[i` conditional · `]u` / `[u` loop · `]k` / `[k` comment.
 
 ## Debug — `<leader>v`  *(vimspector)*
 

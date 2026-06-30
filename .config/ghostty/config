@@ -91,17 +91,13 @@ keybind = super+ctrl+shift+right=resize_split:right,10
 keybind = super+ctrl+shift+up=resize_split:up,10
 
 
-# make stuff work
-# Hungarian layout has no bare [ ] ^ \ , so Ctrl+<those> can't form the C0
-# control bytes directly. kanata emits ctrl+<accent> (or bare f13 for \) and
-# we translate to the real control byte here. See ~/.config/kanata.
+# kanata: HU layout has no bare [ ] ^ \, so it sends ctrl+<accent>/f13 here.
 keybind = ctrl+ő=text:\x1b
 keybind = ctrl+ú=text:\x1d
 keybind = ctrl+á=text:\x1e
 keybind = f13=text:\x1c
 
-
-## MacOS remaps
+# macOS: bottom-left Ctrl is remapped to Cmd, so Cmd combos emit the C0 bytes.
 keybind = cmd+r=text:\x12
 keybind = cmd+c=text:\x03
 keybind = cmd+d=text:\x04

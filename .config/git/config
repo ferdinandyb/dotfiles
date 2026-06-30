@@ -42,7 +42,9 @@
 [alias]
 	s = status --short --branch
 	sb = switch
+	sd = switch-default
 	bv = branch -vv
+
 	r = restore
 	ri = rebase -i
 	ra = rebase --abort
@@ -51,6 +53,7 @@
 	ro = rebase -i origin/HEAD
 	rp = reset -p HEAD^
 	rh = reset HEAD^
+
 	ch = !git commit --reuse-message=ORIG_HEAD && git notes copy ORIG_HEAD
 	restorecommit = ch
 	cs = commit -s
@@ -58,21 +61,24 @@
 	ce = commit --amend --no-edit
 	co = checkout
 	cf = commit --fixup
+	wip = commit -am 'wip'
 	a = add -u
+
 	l = log --oneline --topo-order
 	ll = log --pretty=lineauthor --date=short --topo-order
 	lh = log --pretty=lineauthor --date=short --topo-order -10
 	lm = log --pretty=lineauthor --date=short --topo-order refs/remotes/origin/HEAD^..
 	lg = log --pretty=lineauthor --date=short --topo-order --graph --exclude=refs/notes/* --branches --remotes
-	ls = ls-tree --full-tree --name-only -r HEAD
 	lfixes = log --pretty=fixes
-	fixup = commit --fixup
-	wip = commit -am 'wip'
+
 	whichadded = log --diff-filter=A
+	ls = ls-tree --full-tree --name-only -r HEAD
+
 	pushnotes = push origin 'refs/notes/*'
 	deflate = !"perl -MCompress::Zlib -e 'undef $/; print uncompress(<>)'"
 	pushlease = push --force-with-lease
-	sd = switch-default
+
+	showfiles = show --name-only --format=''
 [pull]
 	rebase = true
 [pretty]

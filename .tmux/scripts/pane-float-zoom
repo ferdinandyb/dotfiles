@@ -1,0 +1,46 @@
+#!/bin/sh
+# Float the current pane in a bordered popup, then restore it to its exact
+# original position on exit.
+#
+# The pane is broken into its own window inside a hidden "zoomfloat" session
+# (status line off) so the popup shows no status bar. The session is
+# created lazily on zoom and torn down again once the pane is restored, so
+# nothing lingers in the background between uses.
+# A placeholder pane is left behind in the original slot: split-window -b
+# halves that slot, then break-pane removes the real pane, so the
+# placeholder automatically reclaims the whole slot at its original size.
+# join-pane -b puts the real pane back into that exact slot on the way out.
+#
+# To exit either close the session or press the keybind again.
+
+ZOOM_SESSION=zoomfloat
+BORDER_STYLE="fg=colour214"
+
+if [ "$(tmux display-message -p '#{session_name}')" = "$ZOOM_SESSION" ]; then
+	tmux detach-client
+	exit 0
+fi
+
+ensure_zoom_session() {
+	tmux has-session -t "=$ZOOM_SESSION" 2>/dev/null && return 0
+	tmux new-session -d -s "$ZOOM_SESSION" -n home
+	tmux set-option -t "$ZOOM_SESSION" status off
+}
+
+ensure_zoom_session
+
+this_id=$(tmux display-message -p '#{pane_id}')
+outer_client=$(tmux display-message -p '#{client_name}')
+
+placeholder=$(tmux split-window -b -P -F '#{pane_id}' \
+	"printf '\\n  floated \\n\\n'; while :; do sleep 3600; done")
+
+tmpwin=$(tmux break-pane -d -s "$this_id" -t "$ZOOM_SESSION:" -P -F '#{window_id}' -n "zoom-$this_id")
+
+# On detach, the inner attach-session client writes a
+# "[detached (from session zoomfloat)]" banner straight to the controlling
+# tty (bypassing normal stdout redirection), which can leave visual garbage
+# behind as the popup closes. refresh-client forces the real outer client to
+# fully redraw afterwards, papering over it.
+tmux display-popup -E -w 98% -h 96% -T ' zoom ' -S "$BORDER_STYLE" \
+	"tmux attach-session -t '$ZOOM_SESSION:$tmpwin'; tmux join-pane -b -s '$this_id' -t '$placeholder'; tmux kill-pane -t '$placeholder' 2>/dev/null; tmux kill-session -t '$ZOOM_SESSION'; tmux refresh-client -t '$outer_client'"

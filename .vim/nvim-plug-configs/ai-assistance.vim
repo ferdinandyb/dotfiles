@@ -68,7 +68,10 @@ nnoremap <expr> gaa luaeval('require("opencode").operator("@this ")') . '_'
 
 " --- 99 keymaps --------------------------------------------------------------
 nnoremap <leader>ks <cmd>lua require("99").search()<cr>
-xnoremap <leader>kv <cmd>lua require("99").visual()<cr>
+xnoremap <leader>kv :<C-u>lua require("99").visual()<cr>
+nnoremap <leader>kx <cmd>lua require("99").stop_all_requests()<cr>
+nnoremap <leader>ko <cmd>lua require("99").open()<cr>
+nnoremap <leader>kl <cmd>lua require("99").view_logs()<cr>
 
 " 99 needs setup() and the plugin must already be loaded, so run it on the
 " User PlugLoaded hook (fired by vimrc right after plug#end()).

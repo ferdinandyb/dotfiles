@@ -3,12 +3,12 @@
 "             \Ő{,
 "             \ú],
 "             \Ú},
-"             \é:,
-"             \á`,
-"             \ű',
+"             \é$,
+"             \á^,
+"             \ű\`,
 "             \ö<,
 "             \ü>,
-"             \ó=
+"             \ó:
 "
 "
 " Langmap is broken currently, see https://github.com/vim/vim/issues/3018
@@ -51,6 +51,21 @@ nmap ü >
 xmap ü >
 omap ü >
 
-nmap ó =
-xmap ó =
-omap ó =
+nmap ó :
+xmap ó :
+
+nmap é $
+xmap é $
+omap é $
+
+nmap á ^
+xmap á ^
+omap á ^
+
+nmap ű `
+xmap ű `
+omap ű `
+
+nmap Ű '
+xmap Ű '
+omap Ű '

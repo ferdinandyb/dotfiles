@@ -85,7 +85,7 @@
 (platform (macos) (t! accent-key aí í_out $SYM_PIPE $SYM_AT_U))
 (t! accent-key aö ö $SYM_LESS      $SYM_RBRACE_U)
 (t! accent-key aü ü $SYM_GREATER   $SYM_BACKSLASH_U)
-(t! accent-key aó ó $SYM_EQUAL     $SYM_HASH_U)
+(t! accent-key aó ó $SYM_COLON     $SYM_SEMICOLON_U)
 (t! accent-key aő ő $SYM_LBRACKET  $SYM_LBRACE_U)
 (t! accent-key aú ú $SYM_RBRACKET  $SYM_RBRACE_U)
 (t! accent-key aű ű $SYM_BACKTICK  $SYM_QUOTE_U)

@@ -268,7 +268,7 @@ persistent-workspaces = []
 # Messaging apps -> workspace 8 (i3: assign [class="Slack|Element|..."] workspace $ws8)
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
-    run = 'move-node-to-workspace 8'
+    run = 'move-node-to-workspace 9'
 
 [[on-window-detected]]
     if.app-id = 'com.google.Chrome.app.ejhkdoiecgkmdpomoahkdihbcldkgjci'
@@ -292,7 +292,7 @@ persistent-workspaces = []
 # Spotify -> workspace 9 (i3: assign [class="Spotify"] workspace $ws9)
 [[on-window-detected]]
     if.app-id = 'com.spotify.client'
-    run = 'move-node-to-workspace 9'
+    run = 'move-node-to-workspace 5'
 
 # Floating windows (i3: for_window [...] floating enable)
 [[on-window-detected]]

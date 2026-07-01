@@ -170,6 +170,13 @@ endif
 " this is needed so kitty's protocol doesn't turn the menu key into a large undo
 set <F20>=57363u
 
+" force OSC 52 clipboard when SSH'd in (nvim's auto-detection doesn't work
+" reliably through tmux, see :h clipboard-osc52); left unset locally so
+" paste still works via xclip/pbcopy
+if has('nvim') && (!empty($SSH_TTY) || !empty($SSH_CLIENT))
+  let g:clipboard = 'osc52'
+endif
+
 " yank (only) -> system clipboard; deletes stay private (clipboard left unset)
 augroup yank_to_clipboard
   autocmd!

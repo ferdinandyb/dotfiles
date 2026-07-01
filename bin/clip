@@ -1,7 +1,15 @@
 #!/bin/bash
 
+# Copies stdin to the clipboard, preferring OSC 52 over local tools.
+
 var=$(cat)
-if [[ "$(uname)" == "Darwin" ]]; then
+
+if exec 3>/dev/tty 2>/dev/null; then
+	esc=$'\033'
+	b64=$(printf '%s' "$var" | base64 | tr -d '\n')
+	printf '%s' "${esc}]52;c;${b64}${esc}\\" >&3
+	exec 3>&-
+elif [[ "$(uname)" == "Darwin" ]]; then
 	# macOS
 	printf '%s' "$var" | pbcopy
 elif grep -qi Microsoft /proc/version 2>/dev/null; then
@@ -9,9 +17,8 @@ elif grep -qi Microsoft /proc/version 2>/dev/null; then
 	# after changing the system language to use Beta: Use Unicode UTF-8 for global
 	# language support in settings - and language - language settings - settings
 	# - system language >time >administrative >administrative >change
-	#
-	/mnt/c/Windows/System32/clip.exe <<<$var
+	/mnt/c/Windows/System32/clip.exe <<<"$var"
 else
-	# X11 
-	xclip -selection c <<<$var
+	# X11
+	xclip -selection c <<<"$var"
 fi

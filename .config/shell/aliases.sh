@@ -15,7 +15,7 @@ alias set-gpg-ssh='export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)
 alias rbw-ssh='SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket" ssh'
 alias set-rbw-ssh='export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket"'
 
-alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | xclip -selection clipboard"
+alias citemarkdown="bibtex-ls ~/org/zotero.bib | fzf | bibtex-markdown ~/org/zotero.bib | clip"
 
 alias t="task"
 alias ta="task add"

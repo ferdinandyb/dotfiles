@@ -301,7 +301,7 @@
   ],
   "agent": {
     "build": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "color": "secondary",
     },
     "plan": {
@@ -309,7 +309,7 @@
       "color": "accent",
     },
     "explore": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "permission": {
         "skill": "allow",
         "bash": {
@@ -410,10 +410,10 @@
       },
     },
     "test-runner": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
     },
     "taskagent-reader": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
     },
   },
 }

@@ -119,6 +119,9 @@
       ()
       (multi (on-press press-vkey vk_num) (on-press press-vkey vk_hu)) break)
   to-norm (multi (on-press release-vkey vk_num) (on-press release-vkey vk_hu))
+
+  ;; @v0 not bare "0" — kanata's "0" is the US-layout key, which is ö here.
+  a0 (multi lalt @v0)
 )
 
 
@@ -149,7 +152,7 @@
 ;; Num row passes digits through directly.
 
 (deflayer alt-layer
-  A-0  A-1   A-2   A-3   A-4   A-5   A-6   A-7   A-8   A-9   @aö   @aü   @aó   _
+  @a0  A-1   A-2   A-3   A-4   A-5   A-6   A-7   A-8   A-9   @aö   @aü   @aó   _
   _    A-q     A-w     A-e     A-r     A-t     A-y     A-u     A-i     A-o     A-p     @aő   @aú
   _    A-a     A-s     A-d     A-f     A-g     A-h     A-j     A-k     A-l     @aé   @aá  @aű ret
   _    @aí   A-z     A-x     A-c     A-v     A-b     A-n     A-m     A-,   A-.   A-/   _

@@ -72,7 +72,27 @@ xnoremap <leader>kv <cmd>lua require("99").visual()<cr>
 
 " 99 needs setup() and the plugin must already be loaded, so run it on the
 " User PlugLoaded hook (fired by vimrc right after plug#end()).
+" Route 99 through the `kilenc` opencode agent instead of its hardcoded `--agent build`.
 function! s:setup_99() abort
-  lua require("99").setup({ md_files = { "AGENTS.md" } })
+lua << EOF
+local Providers = require("99.providers")
+local base_build_command = Providers.OpenCodeProvider._build_command
+local KilencProvider = setmetatable({}, { __index = Providers.OpenCodeProvider })
+function KilencProvider._build_command(self, query, context)
+  local cmd = base_build_command(self, query, context)
+  for i = 2, #cmd do
+    if cmd[i - 1] == "--agent" then
+      cmd[i] = "kilenc"
+    end
+  end
+  return cmd
+end
+require("99").setup({
+  md_files = { "AGENTS.md" },
+  model = "anthropic/claude-sonnet-5",
+  tmp_dir = "$TMPDIR/opencode/99",
+  provider = KilencProvider,
+})
+EOF
 endfunction
 autocmd User PlugLoaded ++nested call s:setup_99()

@@ -415,5 +415,21 @@
     "taskagent-reader": {
       "model": "anthropic/claude-sonnet-5",
     },
+    // Backend agent for the "99" (kilenc) nvim plugin (headless `opencode run`).
+    "kilenc": {
+      "mode": "primary",
+      "model": "anthropic/claude-sonnet-5",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "todowrite": "deny",
+        "edit": {
+          "*": "deny",
+          "**/T/opencode/**": "allow",
+          "**/tmp/opencode/**": "allow",
+        },
+      },
+    },
   },
 }

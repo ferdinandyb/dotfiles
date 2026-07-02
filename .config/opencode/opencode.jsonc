@@ -294,7 +294,8 @@
     },
   },
   "plugin": [
-    "@franlol/opencode-md-table-formatter@0.0.3",
+    "@dietrichgebert/ponytail@4.8.4",
+    "@franlol/opencode-md-table-formatter@0.0.6",
     "./plugins/agentmemory-capture.ts",
     "./plugins/taskagent-plan-allow.ts",
     "./plugins/bash-guard.ts",

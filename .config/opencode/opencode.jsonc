@@ -418,6 +418,7 @@
     // Backend agent for the "99" (kilenc) nvim plugin (headless `opencode run`).
     "kilenc": {
       "mode": "primary",
+      "hidden": true,
       "model": "anthropic/claude-sonnet-5",
       "permission": {
         "task": "deny",

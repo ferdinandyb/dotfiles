@@ -44,8 +44,37 @@ Hold **Cmd+Alt** (macOS) / **Super** (Linux), then:
 | ú   | toggle digits mode |
 | ű   | toggle HU mode |
 | c   | live reload config |
-| d   | toggle passthrough mode (cycle config) — _not yet implemented_ |
+| v   | toggle vanilla mode |
 | num row | output plain digit regardless of mode |
+
+### Vanilla mode (`vk_vanilla`)
+
+Toggle with **Super+v**. Two distinct problems this works around:
+
+- **Tab** (`b_tab`) and **Left Alt** (`v_lal`) resolve a hold to a *layer
+  switch*, not a real key. No matter how long you hold either, the physical
+  keydown is never forwarded — any program with a "while held, do X" behaviour
+  on these keys never sees it, regardless of hold duration.
+- **Ctrl via Caps** (`cap`) needs an *uninterrupted* 400ms hold — verified
+  with kanata's `kanata_simulated_input` tool — before it emits a real `lctl`
+  at all. The 250ms tap-dance and 150ms tap-hold windows don't overlap; the
+  tap-hold's clock only starts once tap-dance hands off, so anything under
+  400ms resolves to `esc` instead of Ctrl, not a delayed Ctrl. This only bites
+  when Ctrl is held *alone*, though: the moment a second key is pressed
+  (Ctrl+C, Ctrl+click — nearly all real Ctrl usage), both windows resolve
+  immediately on that keypress, so ordinary Ctrl-chords are unaffected.
+
+When `vk_vanilla` is on, all three become plain, instant passthrough:
+
+| key | normal behaviour | vanilla mode |
+|-----|-------------------|--------------|
+| Tab (`b_tab`) | tap→tab, hold→nav-layer | plain `tab`, held or not |
+| Caps (`cap`) | tap→esc, hold→ctrl, dbl-tap→capslock | plain `lctl` |
+| Left Alt (`v_lal`) | dbl-tap→tog-hu, hold→alt-layer | plain `lalt` |
+| tab+spc chord | toggle sticky nav-layer | forwards both keys literally |
+
+Everything else (HU accents, symbols, num-row mode) is untouched, so normal
+typing still works.
 
 ---
 
@@ -80,8 +109,9 @@ used wherever a layer needs to emit the `§/0` key directly.
   - `v_lal` — left alt (tap=lalt, hold=alt-layer)
   - `v_ral` — right alt (hold=ralt-layer)
 - `vk_xxx` — kanata virtual key flags (`defvirtualkeys`)
-  - `vk_num` — digits mode on num row
-  - `vk_hu`  — bare Hungarian accent mode
+  - `vk_num`     — digits mode on num row
+  - `vk_hu`      — bare Hungarian accent mode
+  - `vk_vanilla` — vanilla mode (bypasses tab/alt layer-switch and ctrl's tap-dance delay)
 - `n0`–`n9` — num-row aliases; fork digit/symbol based on `vk_num`
 - `aö`, `aü`, … — accent-key aliases; fork accent/symbol based on `vk_hu`
 - `nul` / `í` — **input** scancodes for the §/0 and í/Í physical keys (differ per keyboard)

@@ -1,0 +1,9 @@
+gui:
+  theme: default
+projects:
+  - FEL
+issueTabs:
+  - name: Mine
+    jql: project = {{.ProjectKey}} AND assignee = currentUser() AND statusCategory != Done ORDER BY priority DESC, updated DESC
+  - name: Board
+    jql: project = {{.ProjectKey}} AND statusCategory != Done ORDER BY updated DESC

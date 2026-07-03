@@ -14,6 +14,7 @@ setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\\|^\\s*\[-*+]\\s\\+
 inoremap <buffer> <silent> [[ <Esc>:w<CR>:ZettelFind<CR>
 nnoremap <buffer> <silent> <leader>nc :BibtexciteInsert<CR>
 inoremap <buffer> <silent> @@ <Esc>:BibtexciteInsert<CR>
+nnoremap <buffer> <silent> <leader>p :Mdt<CR>
 
 let b:auto_save_events = ["WinLeave","BufLeave","CursorHold","CursorHoldI"]
 

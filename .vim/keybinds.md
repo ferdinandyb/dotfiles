@@ -138,3 +138,4 @@ never touch the clipboard).
 - **Python** *(jupyter_ascending)* — `<leader>j`: `jx` run cell · `jX` run all ·
   `jr` restart the kernel.
 - **Email** — `<leader>e` / `<leader>E`: insert an address (aerc / general).
+- **Markdown** — `<leader>p`: full-screen preview via `mdt` (floaterm).

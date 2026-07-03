@@ -18,3 +18,19 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+function mdterm() {
+	if [[ -n $TMUX ]]; then
+		tmux set -p allow-passthrough on
+		trap 'tmux set -pu allow-passthrough' EXIT
+		# tmux clobbers TERM_PROGRAM to "tmux" for the pane; mdterm can't
+		# otherwise tell the outer terminal is Ghostty. Override for now.
+		TERM_PROGRAM=ghostty command mdterm "$@"
+	else
+		command mdterm "$@"
+	fi
+}
+
+function confed-review() {
+	(cd ~/.local/share/yadm/repo.git && tuicr "$@")
+}

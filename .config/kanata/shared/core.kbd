@@ -143,14 +143,16 @@
   @b_lctl @b_lsup @b_lalt           spc               @b_ralt  @b_rsup  @b_rctl
 )
 
-;; ── SUPER LAYER — plain numbers + mode toggles ───────────────────────
-;; é→tog-hu-smart  á→tog-num  ű→tog-hu  c→lrld  v→tog-vanilla
+;; ── SUPER LAYER — plain letters/numbers regardless of mode + toggles ─
+;; é→tog-hu-smart  c→lrld  w→tog-vanilla
+;; ö ü ó ő ú á ű í → plain letter regardless of mode (mirrors num row);
+;; vk_num/vk_hu toggling otherwise lives on double-tap shift/alt (see bottomrow.kbd)
 
 (deflayer super-layer
-  @v0  1     2     3     4     5     6     7     8     9     _     _     _      bspc
-  _    _     _     _     _     _     _     _     _     _     _     _     _
-  _    _     _     _     _     _     _     _     _     _   @tog-hu-smart  @tog-num   @tog-hu  _
-  _    _     _     _     lrld  @tog-vanilla     _     _     _     _     _     _         _
+  @v0  1     2     3     4     5     6     7     8     9     ö     ü     ó      bspc
+  _    _     @tog-vanilla     _     _     _     _     _     _     _     _     ő     ú
+  _    _     _     _     _     _     _     _     _     _   @tog-hu-smart  á   ű  _
+  _    í     _     _     lrld  _     _     _     _     _     _     _         _
   _    _     _                 _                 _     _     _
 )
 

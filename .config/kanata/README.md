@@ -10,7 +10,7 @@ a completely different alt layer for some reason by default).
 
 ### Num-row mode (`vk_num`)
 
-Toggle with **Super+ú**. Default: symbols mode.
+Toggle via double-tap Shift. Default: symbols mode.
 
 | mode    | unshifted | shifted |
 |---------|-----------|---------|
@@ -19,8 +19,8 @@ Toggle with **Super+ú**. Default: symbols mode.
 
 ### Accent-key mode (`vk_hu`)
 
-Toggle with **Super+ű**. Switch to HU mode with **Super+ő** (sets both flags).
-Default: special mode.
+Toggle via double-tap Left Alt (`v_lal`) or Right Alt (`v_ral`). Switch to HU
+mode with **Super+é** (sets both flags via `tog-hu-smart`). Default: special mode.
 
 | mode    | plain press | alt held |
 |---------|-------------|----------|
@@ -30,9 +30,12 @@ Default: special mode.
 ### Alt layers
 
 - **Left alt** (hold): activates alt-layer — accent keys output their symbols,
-  num row passes digits. Tap sends a bare `lalt` for app shortcuts.
+  num row passes digits. Double-tap toggles HU mode (`vk_hu`). A bare tap, or
+  holding alone with no other key pressed, produces no keycode at all —
+  verified with kanata's `kanata_simulated_input` tool — same layer-switch-only
+  limitation `vk_vanilla` exists to work around.
 - **Right alt** (hold): activates ralt-layer — extra symbols (`[`, `]`, `{`, `}`,
-  `#`, `&`, `@`, `|`, `;`, `*`, `™`, `°`, `€`).
+  `#`, `&`, `@`, `|`, `;`, `*`, `™`, `°`, `€`). Double-tap toggles HU mode.
 
 ### Super layer
 
@@ -40,16 +43,20 @@ Hold **Cmd+Alt** (macOS) / **Super** (Linux), then:
 
 | key | action |
 |-----|--------|
-| ő   | switch to HU+digits mode |
-| ú   | toggle digits mode |
-| ű   | toggle HU mode |
+| é   | switch to HU+digits mode (`tog-hu-smart`) |
 | c   | live reload config |
-| v   | toggle vanilla mode |
+| w   | toggle vanilla mode |
 | num row | output plain digit regardless of mode |
+| ö ü ó ő ú á ű í | output plain letter regardless of mode |
+
+Aerospace/i3 bind several of these physical positions directly (e.g.
+Cmd+Alt+ú → move window to next monitor); since those match on the physical
+keycode rather than the typed character, the plain-passthrough behaviour above
+is what makes them fire reliably regardless of `vk_hu`/`vk_num` state.
 
 ### Vanilla mode (`vk_vanilla`)
 
-Toggle with **Super+v**. Two distinct problems this works around:
+Toggle with **Super+w**. Two distinct problems this works around:
 
 - **Tab** (`b_tab`) and **Left Alt** (`v_lal`) resolve a hold to a *layer
   switch*, not a real key. No matter how long you hold either, the physical

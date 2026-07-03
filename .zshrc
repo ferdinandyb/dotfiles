@@ -6,7 +6,7 @@
 
 # source ~/.config/environment.d when we're not inheriting from systemd
 if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
-	if ! type "$systemctl" >/dev/null; then
+	if ! command -v systemctl >/dev/null; then
 
 		# this seems like an ugly hack for MacOS
 		for file in $HOME/.config/environment.d/*.conf; do

@@ -1,0 +1,5 @@
+leader = ","
+no_update_check = true
+theme_dark = "solarized-dark"
+theme_light = "solarized-light"
+comment_vim = true

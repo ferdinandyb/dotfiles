@@ -149,7 +149,7 @@ _fzf_compgen_dir() {
 	fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-if [ -d $HOME/.cargo/env ]; then
+if [ -f $HOME/.cargo/env ]; then
 	. "$HOME/.cargo/env"
 fi
 

@@ -42,6 +42,7 @@ request on it's own if needed.
 - Explain **WHY** the commit is needed (not just what changed)
 - Write for a non-senior, recently onboarded colleague
 - Use commit trailers when relevant (`Co-authored-by:`, `Fixes:`, `Link:`)
+-` Co-authored-by` can never be used for agents, only humans
 
 ## Fine-Grained Staging
 

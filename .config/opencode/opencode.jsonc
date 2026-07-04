@@ -283,6 +283,7 @@
         "ALLOW_SHELL_COMMANDS": "false",
         "NVIM_SOCKET_PATH": "./.nvim.sock",
       },
+      "enabled": false,
     },
     "agentmemory": {
       "type": "local",

@@ -57,9 +57,11 @@ I prefer ugrep (ug) over grep, and fd-find (fd) over find.
 I use `yadm` for my dotfiles. There is a README for it at ~/README.md
 `yadm` is a drop in replacement for `git` that uses my dotfiles repo.
 
-# nvim mcp
+# nvim context
 
-Check the cursor position and visual select in nvim for possibly important context.
+If `$NVIM` is set, this session is running under a neovim instance -- see the
+`nvim-context` skill for reading cursor position/visual selection or opening
+files/quickfix lists in it.
 
 # data
 

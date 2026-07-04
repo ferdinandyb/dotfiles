@@ -1,1 +1,1 @@
-nnoremap <buffer> <leader>t :call insertlinesfzf#insertlines('~/.config/git/committrailers')<CR>
+nnoremap <buffer> <leader>it :call insertlinesfzf#insertlines('~/.config/git/committrailers')<CR>

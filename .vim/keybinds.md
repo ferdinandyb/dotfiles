@@ -123,6 +123,10 @@ Wiki *(vimwiki)* uses the standard `<leader>w` maps: `ww` index ·
 Citations *(bibtexcite)*: `<leader>nc` inserts a citation (LaTeX and Markdown
 buffers do the right thing automatically).
 
+`gitcommit`/`mail` buffers: `<leader>it` inserts trailers (commit or email,
+picked via fzf). `mail` only: `<leader>ii` jumps past the quoted reply and
+starts typing.
+
 ## Yank & paste
 
 `y` copies to the system clipboard automatically; deletes stay private (they

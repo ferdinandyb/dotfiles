@@ -13,7 +13,7 @@ augroup END " }
 " let b:auto_save = 1
 " let b:auto_save_events = ["InsertLeave", "TextChanged"]
 
-nmap <buffer> <leader>i 3]<space>jji
+nmap <buffer> <leader>ii 3]<space>jji
 nmap <buffer> <leader>s }o
 
 
@@ -23,7 +23,7 @@ nnoremap <buffer> <leader>e :call contactfunction#insertAddressAerc()<CR>
 nnoremap <buffer> <leader>E :call contactfunction#insertAddress()<CR>
 
 
-nnoremap <buffer> <leader>t :call insertlinesfzf#insertlines('~/.config/emailconfiguration/trailers')<CR>
+nnoremap <buffer> <leader>it :call insertlinesfzf#insertlines('~/.config/emailconfiguration/trailers')<CR>
 
 
 

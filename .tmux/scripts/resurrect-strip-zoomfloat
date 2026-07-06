@@ -1,0 +1,6 @@
+#!/bin/sh
+# Drop pane-float-zoom's ephemeral zoomfloat session from resurrect saves,
+# so a mid-flight zoom can't get persisted across a tmux server restart.
+# Keeps 'state' lines untouched (they're just a client pointer, not zoomfloat's own data).
+f="$1"
+awk -F'\t' '$1 == "state" || $2 != "zoomfloat"' "$f" > "$f.tmp" && mv "$f.tmp" "$f"

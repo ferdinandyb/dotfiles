@@ -12,30 +12,46 @@
 # join-pane -b puts the real pane back into that exact slot on the way out.
 #
 # To exit either close the session or press the keybind again.
+#
+# pane/client/session are passed as args from the keybinding's own
+# #{...} format substitution rather than queried ambiently from inside this
+# script - ambient "current pane" resolution here is unreliable (can
+# resolve to a stale or unrelated pane); tmux's own substitution at
+# bind-time is always correct.
 
 ZOOM_SESSION=zoomfloat
 BORDER_STYLE="fg=colour214"
 
-if [ "$(tmux display-message -p '#{session_name}')" = "$ZOOM_SESSION" ]; then
-	tmux detach-client
+this_id="$1"
+outer_client="$2"
+current_session="$3"
+
+if [ "$current_session" = "$ZOOM_SESSION" ]; then
+	tmux detach-client -t "$outer_client"
 	exit 0
 fi
 
 ensure_zoom_session() {
-	tmux has-session -t "=$ZOOM_SESSION" 2>/dev/null && return 0
+	if tmux has-session -t "=$ZOOM_SESSION" 2>/dev/null; then
+		# A clean session only ever has the "home" window. Anything more
+		# means a prior run left debris (e.g. cleanup never ran because the
+		# popup was torn down abnormally) - nuke and rebuild rather than
+		# floating on top of stale state.
+		local windows
+		windows=$(tmux list-windows -t "=$ZOOM_SESSION" | wc -l | tr -d ' ')
+		[ "$windows" = 1 ] && return 0
+		tmux kill-session -t "=$ZOOM_SESSION"
+	fi
 	tmux new-session -d -s "$ZOOM_SESSION" -n home
 	tmux set-option -t "$ZOOM_SESSION" status off
 }
 
 ensure_zoom_session
 
-this_id=$(tmux display-message -p '#{pane_id}')
-outer_client=$(tmux display-message -p '#{client_name}')
-
-placeholder=$(tmux split-window -b -P -F '#{pane_id}' \
+placeholder=$(tmux split-window -b -t "$this_id" -P -F '#{pane_id}' \
 	"printf '\\n  floated \\n\\n'; while :; do sleep 3600; done")
 
-tmpwin=$(tmux break-pane -d -s "$this_id" -t "$ZOOM_SESSION:" -P -F '#{window_id}' -n "zoom-$this_id")
+tmpwin=$(tmux break-pane -s "$this_id" -t "$ZOOM_SESSION:" -P -F '#{window_id}' -n "zoom-$this_id")
 
 # On detach, the inner attach-session client writes a
 # "[detached (from session zoomfloat)]" banner straight to the controlling

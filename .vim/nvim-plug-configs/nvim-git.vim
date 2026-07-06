@@ -2,6 +2,7 @@
 " Classic vim uses vim-gitgutter instead (vim-plug-configs/vim-git.vim).
 " Shared git plugins (fugitive, flog, ...) live in common-plug-configs/common-git.vim.
 
+Plug 'sindrets/diffview.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 
 " gitsigns must be configured AFTER plug#end() has added it to the runtimepath.

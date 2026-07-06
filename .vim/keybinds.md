@@ -108,6 +108,15 @@ cell · in visual mode, `<leader>s` sends the selection.
 
 `tb` line blame · `tw` word diff · `tg` distraction-free (Goyo).
 
+**Floaterm toggles are on `<A-*>` (Alt), the same chord in every mode:**
+`<A-u>` tuicr review pane · `<A-o>` opencode pane · `<A-t>` hide all floaterms.
+
+Split/vsplit toggle for the focused floaterm is `<C-w>ö`/`<C-w>ü`
+(normal-mode only, see Everyday keys above) — buffer-local override of the
+same keys used for a real window split. `<A-ö>`/`<A-ü>` aren't used: kanata
+drops Alt entirely on accent-position keys by default, so they'd be
+unreachable.
+
 `F2` LSP · `F3` linter · `F4` autosave · `F5` spell check · `F6` undo tree ·
 `F8` tag bar.
 

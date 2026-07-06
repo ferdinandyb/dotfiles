@@ -7,6 +7,8 @@
 nnoremap <C-w>ö :split<CR>
 nnoremap <C-w>ü :vsplit<CR>
 
+" Leave terminal-mode via Shift+Esc instead of <C-\><C-n>.
+tnoremap <S-Esc> <C-\><C-n>
 
 nmap ]b <Plug>(unimpaired-bnext)
 nmap [b <Plug>(unimpaired-bprevious)
@@ -68,7 +70,7 @@ vnoremap > >gv
 
 
 " this also has a sideeffect of Q NOT taking you to ex mode
-nnoremap Q :wqa<CR>
+nnoremap Q :FloatermKill!<CR>:wqa<CR>
 " this shadowd dl but who uses that anyway?
 nnoremap X :qa!<CR>
 

@@ -6,36 +6,40 @@
 Plug 'NickvanDyke/opencode.nvim'
 Plug 'ThePrimeagen/99'
 
-" opencode merges vim.g.opencode_opts into its config the first time that config
-" loads, so set it now (before plug#end() loads the plugin) rather than in the
-" PlugLoaded hook. Auto-discover a local `opencode --port` by CWD; when none is
-" found, spawn one instead of nvim's slow embedded terminal. Inside tmux that's
-" a *parked* window-99 pane (shared spawn path with the M-o toggle). Outside
-" tmux: on macOS a Ghostty AppleScript split; on Linux Ghostty's only IPC
-" action is new_window (no split over D-Bus), so a fresh Ghostty window.
+" Must be set before plug#end() -- opencode merges vim.g.opencode_opts into
+" its config the first time that loads, so a PlugLoaded hook would be too
+" late. Default spawn is floaterm; swap `start =` below for
+" spawn_opencode_tmux_or_ghostty to use the fallback instead.
 lua << EOF
+local function spawn_opencode_tmux_or_ghostty()
+  local cwd = vim.fn.getcwd()
+  if vim.env.TMUX then
+    vim.system({ vim.fn.expand("~/.tmux/scripts/opencode-pane"), "ensure" })
+  elseif vim.fn.has("mac") == 1 then
+    vim.system({
+      "osascript",
+      "-e", 'tell application "Ghostty"',
+      "-e", 'split (focused terminal of front window) direction right'
+          .. ' with configuration {command:"opencode --port 0",'
+          .. ' initial working directory:"' .. cwd .. '"}',
+      "-e", "end tell",
+    })
+  else
+    vim.system({
+      "ghostty", "+new-window", "--working-directory=" .. cwd,
+      "-e", "opencode", "--port", "0",
+    })
+  end
+end
+
+local function spawn_opencode_floaterm()
+  vim.cmd("OpencodeFloat")
+end
+
 vim.g.opencode_opts = {
   server = {
-    start = function()
-      local cwd = vim.fn.getcwd()
-      if vim.env.TMUX then
-        vim.system({ vim.fn.expand("~/.tmux/scripts/opencode-pane"), "ensure" })
-      elseif vim.fn.has("mac") == 1 then
-        vim.system({
-          "osascript",
-          "-e", 'tell application "Ghostty"',
-          "-e", 'split (focused terminal of front window) direction right'
-              .. ' with configuration {command:"opencode --port 0",'
-              .. ' initial working directory:"' .. cwd .. '"}',
-          "-e", "end tell",
-        })
-      else
-        vim.system({
-          "ghostty", "+new-window", "--working-directory=" .. cwd,
-          "-e", "opencode", "--port", "0",
-        })
-      end
-    end,
+    -- start = spawn_opencode_tmux_or_ghostty, -- fallback: tmux pane / Ghostty split
+    start = spawn_opencode_floaterm,
   },
 }
 EOF

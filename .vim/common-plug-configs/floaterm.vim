@@ -17,6 +17,18 @@ nnoremap <A-u> <cmd>Tuicr<cr>
 tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
 nnoremap <A-t> <cmd>FloatermHide!<cr>
 tnoremap <A-t> <C-\><C-n><cmd>FloatermHide!<cr>
+
+function! s:ToggleOpencodeFloat() abort
+  if floaterm#terminal#get_bufnr('opencode') == -1
+    FloatermNew --name=opencode opencode --port 0
+  else
+    FloatermToggle opencode
+  endif
+endfunction
+command! OpencodeFloat call s:ToggleOpencodeFloat()
+nnoremap <A-o> <cmd>OpencodeFloat<cr>
+tnoremap <A-o> <C-\><C-n><cmd>OpencodeFloat<cr>
+
 function! s:ToggleFloatermWintype(target) abort
   " FloatermUpdate reuses whatever's already stored for any field not passed
   " explicitly (doesn't re-derive from g:floaterm_*), so every dimension must

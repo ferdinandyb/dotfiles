@@ -2,10 +2,21 @@ Plug 'voldikss/vim-floaterm'
 
 command! Lazygit FloatermNew lazygit
 command! Lazyjira FloatermNew lazyjira
-command! Tuicr FloatermNew tuicr
 command! LG FloatermNew lazygit
 command! Mdterm FloatermNew mdterm %
 
+function! s:ToggleTuicr() abort
+  if floaterm#terminal#get_bufnr('tuicr') == -1
+    FloatermNew --name=tuicr EDITOR=$FLOATERM tuicr
+  else
+    FloatermToggle tuicr
+  endif
+endfunction
+command! Tuicr call s:ToggleTuicr()
+nnoremap <A-u> <cmd>Tuicr<cr>
+tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
+nnoremap <A-t> <cmd>FloatermHide!<cr>
+tnoremap <A-t> <C-\><C-n><cmd>FloatermHide!<cr>
 function! s:ToggleFloatermWintype(target) abort
   " FloatermUpdate reuses whatever's already stored for any field not passed
   " explicitly (doesn't re-derive from g:floaterm_*), so every dimension must

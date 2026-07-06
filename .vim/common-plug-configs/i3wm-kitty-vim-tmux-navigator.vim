@@ -13,3 +13,13 @@ vnoremap <silent> <C-j> :<C-U>TmuxNavigateDown<cr>gv
 vnoremap <silent> <C-k> :<C-U>TmuxNavigateUp<cr>gv
 vnoremap <silent> <C-l> :<C-U>TmuxNavigateRight<cr>gv
 vnoremap <silent> <C-,> :<C-U>TmuxNavigatePrevious<cr>gv
+
+if !empty($TMUX)
+  function! IsFZF() abort
+    return &ft ==# 'fzf'
+  endfunction
+  tnoremap <expr> <silent> <C-h> IsFZF() ? "\<C-h>" : "\<C-\>\<C-n>:\<C-U>TmuxNavigateLeft\<cr>"
+  tnoremap <expr> <silent> <C-j> IsFZF() ? "\<C-j>" : "\<C-\>\<C-n>:\<C-U>TmuxNavigateDown\<cr>"
+  tnoremap <expr> <silent> <C-k> IsFZF() ? "\<C-k>" : "\<C-\>\<C-n>:\<C-U>TmuxNavigateUp\<cr>"
+  tnoremap <expr> <silent> <C-l> IsFZF() ? "\<C-l>" : "\<C-\>\<C-n>:\<C-U>TmuxNavigateRight\<cr>"
+endif

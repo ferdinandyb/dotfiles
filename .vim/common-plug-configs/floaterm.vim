@@ -5,14 +5,15 @@ command! Lazyjira FloatermNew lazyjira
 command! LG FloatermNew lazygit
 command! Mdterm FloatermNew mdterm %
 
-function! s:ToggleTuicr() abort
+function! s:ToggleTuicr(...) abort
   if floaterm#terminal#get_bufnr('tuicr') == -1
-    FloatermNew --name=tuicr EDITOR=$FLOATERM tuicr
+    let cwd = a:0 > 0 ? ' --cwd=' . a:1 : ''
+    execute 'FloatermNew --name=tuicr' . cwd . ' EDITOR=$FLOATERM tuicr'
   else
     FloatermToggle tuicr
   endif
 endfunction
-command! Tuicr call s:ToggleTuicr()
+command! -nargs=? -complete=dir Tuicr call s:ToggleTuicr(<f-args>)
 nnoremap <A-u> <cmd>Tuicr<cr>
 tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
 nnoremap <A-t> <cmd>FloatermHide!<cr>

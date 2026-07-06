@@ -24,6 +24,7 @@
 ;; ── defsrc ───────────────────────────────────────────────────────────
 
 (defsrc
+  esc
   nul  1    2    3    4    5    6    7    8    9    ö    ü    ó    bspc
   tab  q    w    e    r    t    y    u    i    o    p    ő    ú
   caps a    s    d    f    g    h    j    k    l    é    á    ű     ret
@@ -136,6 +137,7 @@
 ;; Num row and accent positions driven by vk_num / vk_hu flags.
 
 (deflayer base
+  esc
   @n0  @n1   @n2   @n3   @n4   @n5   @n6   @n7   @n8   @n9   @aö   @aü   @aó   bspc
   @b_tab q   w     e     r     t     y     u     i     o     p     @aő   @aú
   @cap a     s     d     f     g     h     j     k     l     @aé   @aá   @aű ret
@@ -149,6 +151,7 @@
 ;; vk_num/vk_hu toggling otherwise lives on double-tap shift/alt (see bottomrow.kbd)
 
 (deflayer super-layer
+  _
   @v0  1     2     3     4     5     6     7     8     9     ö     ü     ó      bspc
   _    _     @tog-vanilla     _     _     _     _     _     _     _     _     ő     ú
   _    _     _     _     _     _     _     _     _     _   @tog-hu-smart  á   ű  _
@@ -161,6 +164,7 @@
 ;; Num row passes digits through directly.
 
 (deflayer alt-layer
+  _
   @a0  A-1   A-2   A-3   A-4   A-5   A-6   A-7   A-8   A-9   @aö   @aü   @aó   _
   _    A-q     A-w     A-e     A-r     A-t     A-y     A-u     A-i     A-o     A-p     @aő   @aú
   _    A-a     A-s     A-d     A-f     A-g     A-h     A-j     A-k     A-l     @aé   @aá  @aű ret
@@ -184,6 +188,7 @@
 )
 
 (deflayer ralt-layer
+  _
   _            $SYM_TILDE       $SYM_TM      $SYM_CARET   _              $SYM_DEGREE   _            $SYM_BACKTICK _            _            _            _            _            _
   _            @ralt-bslash     $SYM_PIPE    $SYM_EURO    _              _             _            _            _            _            _            _            _
   _            _                _            _            $SYM_LBRACKET  $SYM_RBRACKET _           _            _            _            _            _            _            _
@@ -211,12 +216,13 @@
 )
 
 ;; ── NAV LAYER ────────────────────────────────────────────────────────
-;; Hold tab/spc → temporary; tab+spc → sticky; esc → exit to base.
+;; Hold tab/spc → temporary; tab+spc → sticky.
 ;;   h/j/k/l → left/down/up/right
 ;;   u/d     → pgup/pgdn
-;;   esc     → exit sticky nav (layer-switch base)
+;;   esc (real key, or tap caps) → exit sticky nav (layer-switch base)
 
 (deflayer nav-layer
+  (layer-switch base)
   XX      XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    XX    bspc
   XX      XX    XX    XX    XX    XX    XX    pgup  XX    XX    XX    XX    XX
   (layer-switch base) XX XX pgdn XX XX lft  down  up    rght  XX    XX    XX    XX

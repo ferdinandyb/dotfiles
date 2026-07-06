@@ -64,6 +64,52 @@ xnoremap <leader>ad <cmd>lua require("opencode").prompt("Add comments documentin
 nnoremap <leader>at <cmd>lua require("opencode").prompt("Add tests for @this")<cr>
 xnoremap <leader>at <cmd>lua require("opencode").prompt("Add tests for @this")<cr>
 
+lua << EOF
+local function tuicr_comments_to_opencode()
+  local cwd = vim.fn.getcwd()
+  local list_out = vim.fn.system({ "tuicr", "review", "list", "--repo", cwd })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("tuicr review list failed", vim.log.levels.ERROR, { title = "tuicr" })
+    return
+  end
+  local ok, sessions = pcall(vim.json.decode, list_out)
+  if not ok then
+    vim.notify("tuicr review list: bad JSON", vim.log.levels.ERROR, { title = "tuicr" })
+    return
+  end
+  local active
+  for _, s in ipairs(sessions) do
+    if s.active then active = s end
+  end
+  if not active then
+    vim.notify("No active tuicr session for this repo", vim.log.levels.WARN, { title = "tuicr" })
+    return
+  end
+  local comments_out = vim.fn.system({ "tuicr", "review", "comments", "--repo", cwd, "--session", active.slug })
+  if vim.v.shell_error ~= 0 then
+    vim.notify("tuicr review comments failed", vim.log.levels.ERROR, { title = "tuicr" })
+    return
+  end
+  local comments = vim.json.decode(comments_out)
+  if #comments == 0 then
+    vim.notify("No tuicr comments yet", vim.log.levels.INFO, { title = "tuicr" })
+    return
+  end
+  local lines = {
+    "I reviewed your code with tuicr and have the following comments. Please address them.",
+    "",
+  }
+  for i, c in ipairs(comments) do
+    local tag = "[" .. c.comment_type:upper() .. "]"
+    local loc = c.path and (" `" .. c.path .. (c.start_line and (":" .. c.start_line) or "") .. "`") or ""
+    table.insert(lines, i .. ". " .. tag .. loc .. " - " .. c.content)
+  end
+  require("opencode").prompt(table.concat(lines, "\n"))
+end
+
+vim.keymap.set("n", "<leader>ac", tuicr_comments_to_opencode, { desc = "Push tuicr review comments to opencode" })
+EOF
+
 " Operator: ga{motion} sends a range, gaa sends the current line (dot-repeatable).
 " Must be <expr> because operator() primes operatorfunc and returns 'g@'.
 nnoremap <expr> ga luaeval('require("opencode").operator("@this ")')

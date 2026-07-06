@@ -9,7 +9,7 @@ I use space as <leader>.
 | `<leader>g`             | open a git-tracked file      |
 | `<leader>b`             | switch buffer                |
 | `<leader>,`             | jump to the previous buffer  |
-| `<leader>ö` / `<leader>ü` | split / vertical split       |
+| `<C-w>ö` / `<C-w>ü` (native `<C-w>s`/`<C-w>v` also work) | split / vertical split |
 | `<leader>m`             | clear search highlight       |
 | `<leader>q`             | reflow the current paragraph |
 | `<leader>R`             | reload my config             |

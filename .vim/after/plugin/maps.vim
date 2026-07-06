@@ -4,8 +4,8 @@
 " nnoremap , ;
 " nnoremap ; ,
 
-nnoremap <leader>ö :split<CR>
-nnoremap <leader>ü :vsplit<CR>
+nnoremap <C-w>ö :split<CR>
+nnoremap <C-w>ü :vsplit<CR>
 
 
 nmap ]b <Plug>(unimpaired-bnext)

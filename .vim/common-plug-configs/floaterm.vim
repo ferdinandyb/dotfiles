@@ -21,7 +21,7 @@ tnoremap <A-t> <C-\><C-n><cmd>FloatermHide!<cr>
 
 function! s:ToggleOpencodeFloat() abort
   if floaterm#terminal#get_bufnr('opencode') == -1
-    FloatermNew --name=opencode opencode --port 0
+    FloatermNew --name=opencode TMUX= STY= opencode --port 0
   else
     FloatermToggle opencode
   endif

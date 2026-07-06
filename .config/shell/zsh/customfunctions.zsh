@@ -27,3 +27,11 @@ function mdterm() {
 function confed-review() {
 	(cd ~/.local/share/yadm/repo.git && tuicr "$@")
 }
+
+function opencode() {
+	if [[ $TERM == tmux* || $TERM == screen* ]]; then
+		command opencode "$@"
+	else
+		TMUX= STY= command opencode "$@"
+	fi
+}

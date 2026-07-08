@@ -58,8 +58,11 @@ omap aq <Plug>(textobj-sandwich-query-a)
 " format paragraph
 nnoremap <leader>q gqap
 " clear search highlight TODO: might not need it anymore
-nnoremap <silent> <leader>m :noh <bar> call popup_clear()<cr>
-
+if !has('nvim')
+    nnoremap <silent> <leader>m :noh <bar> call popup_clear()<cr>
+else
+    nnoremap <silent> <leader>m :noh <cr>
+endif
 
 nmap <leader>R :source ~/.vim/vimrc<cr>
 

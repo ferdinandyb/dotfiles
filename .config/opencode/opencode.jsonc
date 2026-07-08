@@ -213,6 +213,10 @@
       "task *": "deny",
       "task list *": "allow",
 
+      // --- tuicr (review CLI) ---
+      "tuicr review list *": "allow",
+      "tuicr review comments *": "allow",
+
       // --- gcli (allow by default, ask for destructive actions) ---
       "gcli ci *": "allow",
       "gcli issues *": "allow",

@@ -6,6 +6,8 @@
 
 nnoremap <C-w>ö :split<CR>
 nnoremap <C-w>ü :vsplit<CR>
+nnoremap <C-w>< :split<CR>
+nnoremap <C-w>> :vsplit<CR>
 
 " Leave terminal-mode via Shift+Esc instead of <C-\><C-n>.
 tnoremap <S-Esc> <C-\><C-n>

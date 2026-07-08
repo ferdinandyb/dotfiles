@@ -56,6 +56,7 @@ alias lf="ls -tr | tail -n1" #usage: command `lf`
 alias t1="tree -L 1"
 
 alias oc="nvim -c OpencodeFloat"
+alias ask="opencode run --agent cli-prompt"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert

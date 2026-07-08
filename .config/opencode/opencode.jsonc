@@ -438,5 +438,19 @@
         },
       },
     },
+    "cli-prompt": {
+      "mode": "primary",
+      "hidden": true,
+      "model": "anthropic/claude-haiku-4-5",
+      "permission": {
+        "task": "deny",
+        "bash": "deny",
+        "webfetch": "deny",
+        "todowrite": "deny",
+        "edit": {
+          "*": "deny",
+        },
+      },
+    },
   },
 }

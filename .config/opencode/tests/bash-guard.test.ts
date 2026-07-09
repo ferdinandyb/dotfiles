@@ -196,6 +196,23 @@ describe(".git", () => {
   )
 })
 
+describe("git -C targeting the current directory is a no-op", () => {
+  it.each([
+    `git -C ${CWD} status`,
+    "git -C . status",
+    "git -C ./ log",
+    `yadm -C ${CWD} log`,
+    'git -C "$PWD" diff',
+    "git -C sub -C .. status", // stacked -C nets back to CWD
+  ])("blocks %s", (cmd) => expectBlock(cmd, /don't be silly/))
+
+  it.each([
+    "git -C /etc log", // genuinely different directory — untouched by this check
+    "git -C .. status", // genuinely different (parent dir)
+    "git commit -C HEAD~1", // commit's OWN -C (reuse commit message) — not the global cd-flag
+  ])("allows %s", (cmd) => expectAllow(cmd))
+})
+
 // ── ALLOW groups ────────────────────────────────────────────────────────────
 
 describe("reads allowed (deferred to opencode)", () => {

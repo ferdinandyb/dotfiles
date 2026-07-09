@@ -441,7 +441,7 @@ function inspect(parser: ParserType, command: string, ctx: Ctx): Verdict {
     }
 
     // Job 1c: write/exec flags by command
-    const fv = checkFlags(base, eff.args, consumed, sw, sr)
+    const fv = checkFlags(base, eff.args, consumed, sw, sr, scope.cwd)
     if (fv.block) return fv
 
     // Job 2 + Job 3: secret/.git scoping for remaining positional paths
@@ -519,7 +519,14 @@ function inspect(parser: ParserType, command: string, ctx: Ctx): Verdict {
 
 // ── per-command write/exec flag checks ───────────────────────────────────────
 
-function checkFlags(base: string, args: string[], consumed: Set<number>, sw: ScopeWrite, sr: ScopeRead): Verdict {
+function checkFlags(
+  base: string,
+  args: string[],
+  consumed: Set<number>,
+  sw: ScopeWrite,
+  sr: ScopeRead,
+  cwd: string | null,
+): Verdict {
   const has = (...flags: string[]) => args.some((a) => flags.includes(a))
 
   // -f / --file=<path> pattern/script files (value is a real path → scope it).
@@ -678,6 +685,7 @@ function checkFlags(base: string, args: string[], consumed: Set<number>, sw: Sco
       const GIT_GLOBAL_VAL = new Set(["-C", "--git-dir", "--work-tree", "--namespace", "-c", "--super-prefix", "--exec-path"])
       let sub = ""
       let subIdx = -1
+      const cValues: string[] = [] // pre-subcommand `-C <path>` values only (git's cd-before-running form)
       for (let i = 0; i < args.length; i++) {
         const a = args[i]
         if (!a.startsWith("-")) {
@@ -685,8 +693,25 @@ function checkFlags(base: string, args: string[], consumed: Set<number>, sw: Sco
           subIdx = i
           break
         }
+        if (a === "-C" && i + 1 < args.length) cValues.push(args[i + 1])
         if (GIT_GLOBAL_VAL.has(a)) i++ // option takes a separate value token → skip it
       }
+
+      // `-C <dir>` is repeatable/cumulative (like consecutive `cd`s) and only means "run as if
+      // started in <dir>" in this pre-subcommand position — `git commit -C <ref>` etc. are a
+      // different flag entirely and never reach here (the loop above breaks at the subcommand).
+      if (cValues.length > 0 && cwd !== null) {
+        let target: string | null = cwd
+        for (const raw of cValues) {
+          if (target === null) break
+          const expanded = expandSafe(raw, target)
+          target = isDynamic(expanded) || expanded.startsWith("~") ? null : resolveReal(path.resolve(target, expanded))
+        }
+        if (target !== null && target === resolveReal(cwd)) {
+          return no(`\`${base} -C ${cValues[cValues.length - 1]}\` while already in ${cwd} — don't be silly, drop the -C.`)
+        }
+      }
+
       for (let i = 0; i < args.length; i++) {
         const a = args[i]
         if (a === "--output") {

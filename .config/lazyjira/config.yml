@@ -7,3 +7,7 @@ issueTabs:
     jql: project = {{.ProjectKey}} AND assignee = currentUser() AND statusCategory != Done ORDER BY priority DESC, updated DESC
   - name: Board
     jql: project = {{.ProjectKey}} AND statusCategory != Done ORDER BY updated DESC
+customCommands:
+  - key: "w"
+    name: "Log work"
+    command: "jira issue worklog add {{.Key}}"

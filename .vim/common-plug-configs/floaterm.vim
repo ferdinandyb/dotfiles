@@ -1,34 +1,20 @@
 Plug 'voldikss/vim-floaterm'
 
-command! Lazygit FloatermNew lazygit
-command! Lazyjira FloatermNew lazyjira
-command! LG FloatermNew lazygit
-command! Mdterm FloatermNew mdterm %
 
-function! s:ToggleTuicr(...) abort
-  if floaterm#terminal#get_bufnr('tuicr') == -1
-    let cwd = a:0 > 0 ? ' --cwd=' . a:1 : ''
-    execute 'FloatermNew --name=tuicr' . cwd . ' EDITOR=$FLOATERM tuicr'
-  else
-    FloatermToggle tuicr
-  endif
-endfunction
-command! -nargs=? -complete=dir Tuicr call s:ToggleTuicr(<f-args>)
-nnoremap <A-u> <cmd>Tuicr<cr>
-tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
+let g:floaterm_width = 0.99
+let g:floaterm_height = 0.99
+
 nnoremap <A-t> <cmd>FloatermHide!<cr>
 tnoremap <A-t> <C-\><C-n><cmd>FloatermHide!<cr>
 
-function! s:ToggleOpencodeFloat() abort
-  if floaterm#terminal#get_bufnr('opencode') == -1
-    FloatermNew --name=opencode TMUX= STY= opencode --port 0
+function! s:ToggleFloatermWindow(name, cmd, ...) abort
+  if floaterm#terminal#get_bufnr(a:name) == -1
+    let full_cmd = a:0 > 0 ? a:cmd . ' ' . join(a:000) : a:cmd
+    execute 'FloatermNew --name=' . a:name . ' ' . full_cmd
   else
-    FloatermToggle opencode
+    execute 'FloatermToggle ' . a:name
   endif
 endfunction
-command! OpencodeFloat call s:ToggleOpencodeFloat()
-nnoremap <A-o> <cmd>OpencodeFloat<cr>
-tnoremap <A-o> <C-\><C-n><cmd>OpencodeFloat<cr>
 
 function! s:ToggleFloatermWintype(target) abort
   " FloatermUpdate reuses whatever's already stored for any field not passed
@@ -53,6 +39,20 @@ command! -nargs=1 FloatermToggleWintype call s:ToggleFloatermWintype(<f-args>)
 " instead of splitting. Normal-mode only -- leave terminal-mode first.
 autocmd FileType floaterm nnoremap <buffer> <C-w>ö <cmd>FloatermToggleWintype split<cr>
 autocmd FileType floaterm nnoremap <buffer> <C-w>ü <cmd>FloatermToggleWintype vsplit<cr>
+autocmd FileType floaterm nnoremap <buffer> <C-w>< <cmd>FloatermToggleWintype split<cr>
+autocmd FileType floaterm nnoremap <buffer> <C-w>> <cmd>FloatermToggleWintype vsplit<cr>
 
-let g:floaterm_width = 0.99
-let g:floaterm_height = 0.99
+command! Lazygit FloatermNew lazygit
+command! Lazyjira FloatermNew lazyjira
+command! LG FloatermNew lazygit
+
+command! Mdterm FloatermNew mdterm %
+nnoremap <leader> <cmd>Mdterm<cr>
+
+command! -nargs=* Tuicr call s:ToggleFloatermWindow('tuicr', 'EDITOR=$FLOATERM tuicr', <f-args>)
+nnoremap <A-u> <cmd>Tuicr<cr>
+tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
+
+command! -nargs=* OpencodeFloat call s:ToggleFloatermWindow('opencode','TMUX= STY= opencode --port 0', <f-args>)
+nnoremap <A-o> <cmd>OpencodeFloat<cr>
+tnoremap <A-o> <C-\><C-n><cmd>OpencodeFloat<cr>

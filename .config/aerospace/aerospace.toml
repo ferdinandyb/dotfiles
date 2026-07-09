@@ -68,6 +68,19 @@ persistent-workspaces = []
     cmd-alt-ctrl-c = 'exec-and-forget open -a Calculator'
 
     # =========================================================================
+    # Handy (speech-to-text)
+    # =========================================================================
+
+    # Toggle transcription with post-processing cleanup (default)
+    cmd-alt-o = 'exec-and-forget /Applications/Handy.app/Contents/MacOS/Handy --toggle-post-process'
+
+    # Toggle transcription, raw (no cleanup)
+    cmd-alt-shift-o = 'exec-and-forget /Applications/Handy.app/Contents/MacOS/Handy --toggle-transcription'
+
+    # Cancel an in-progress recording
+    cmd-alt-ctrl-o = 'exec-and-forget /Applications/Handy.app/Contents/MacOS/Handy --cancel'
+
+    # =========================================================================
     # Focus navigation (i3: $mod+h/j/k/l and $mod+arrows)
     # =========================================================================
 

@@ -185,6 +185,7 @@
       "jira issue list *": "allow",
       "jira epic list *": "allow",
       "jira issue view *": "allow",
+      "jira --version *": "allow",
 
       // --- Pants build system ---
       "pants lint *": "allow",
@@ -194,6 +195,15 @@
       "pants typecheck *": "allow",
       "PANTS_CONCURRENT=True pants tecton-plan *": "allow", // read-only plan; apply stays gated
       "PANTS_CONCURRENT=True pants test *": "allow",
+
+      // --- Rust toolchain (checkers only; cargo build/test/run excluded — those compile/execute) ---
+      "cargo check *": "allow",
+      "cargo clippy *": "allow",
+      "cargo clippy --fix *": "ask", // auto-fixes/mutates files in place; keep human-gated
+      "cargo fmt --check *": "allow",
+      "cargo fmt -- --check *": "allow",
+      "cargo --version": "allow",
+      "rustc --version": "allow",
 
       // --- Taskagent ---
       "taskagent *": "allow",

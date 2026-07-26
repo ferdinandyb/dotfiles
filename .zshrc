@@ -17,7 +17,7 @@ if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
 			done <$file
 		done
 	else
-		export $(systemctl --user show-environment | xargs)
+		eval "$(systemctl --user show-environment | sed 's/^/export /')"
 	fi
 fi
 

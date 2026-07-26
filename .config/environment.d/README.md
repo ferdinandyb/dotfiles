@@ -19,11 +19,11 @@ systemctl --user daemon-reload
 
 ## Shell integration
 
-Usually, one will launch terminals via a GUI that was already launched via systemd, meaning these environment variables are already loaded. There are two exceptions I know of: WSL and a tty. To circumvent this, the last `.conf` file to be loaded defines `SYSTEMDUSERENVLOADED=1` and for example a `.zshrc` can check for the existence of this, and if it is missing, manually load the environment variables, e.g.:
+Usually, one will launch terminals via a GUI that was already launched via systemd, meaning these environment variables are already loaded. There are three exceptions I know of: WSL, a tty, and SSH sessions. To circumvent this, the last `.conf` file to be loaded defines `SYSTEMDUSERENVLOADED=1` and for example a `.zshrc` can check for the existence of this, and if it is missing, manually load the environment variables, e.g.:
 
 ```
 if [ "$SYSTEMDUSERENVLOADED" != 1 ]; then
-  export $(systemctl --user show-environment | xargs)
+  eval "$(systemctl --user show-environment | sed 's/^/export /')"
 fi
 ```
 

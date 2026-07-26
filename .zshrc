@@ -234,9 +234,6 @@ if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/path.zsh.inc' ]; the
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/bence.ferdinandy/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-export JAVA_HOME=$(/usr/libexec/java_home -v17)
-export PATH=$JAVA_HOME/bin:$PATH
-
 export DATABRICKS_CONFIG_PROFILE=gcp-prod-dev
 
 export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true

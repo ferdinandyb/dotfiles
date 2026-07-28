@@ -9,4 +9,8 @@
 # systemctl --user enable --now goimapnotify@pharmahungary.service
 # systemctl --user enable --now goimapnotify@priestoferis.service
 
+{% if yadm.class == "imap" %}
+exit 0
+{% endif %}
+
 $HOME/.config/emailconfiguration/run-all-mbsync.sh "aerc-startup"

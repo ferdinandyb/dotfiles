@@ -3,6 +3,10 @@
 # AERC_ACCOUNT
 # AERC_FOLDER
 # AERC_HOOK_ORIGIN
+{% if yadm.class == "imap" %}
+exit 0
+{% endif %}
+
 if [ $(hostname) = "BFERDINANDY-NB" ]; then
 	if [ ! "$AERC_ACCOUNT" = "yettel" ]; then
 		exit 0

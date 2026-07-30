@@ -4,8 +4,36 @@
   "default_agent": "plan",
   "autoupdate": false,
   "share": "disabled",
+  "enabled_providers": [
+    "google-vertex"
+  ],
+  "provider": {
+    "google-vertex": {
+      "whitelist": [
+        "claude-opus-5@default",
+        "claude-sonnet-5@default",
+        "gemini-3.1-flash-lite",
+        "gemini-3.5-flash-lite",
+        "gemini-3.6-flash",
+        "openai/gpt-oss-20b-maas",
+        "openai/gpt-oss-120b-maas"
+      ]
+    }
+  },
+  "skills": {
+    "paths": ["~/signifyd_github/signifyd/context"]
+  },
   "permission": {
     "tmux-mcp_*": "ask",
+    // Slack MCP is toggled on manually per-session (Ctrl+P -> MCPs dialog), not enabled
+    // in config. These gate the write-capable tools behind approval whenever it's
+    // connected, in any session/subagent; read/search tools are left untouched.
+    "slack_slack_send_message": "ask",
+    "slack_slack_send_message_draft": "ask",
+    "slack_slack_schedule_message": "ask",
+    "slack_slack_add_reaction": "ask",
+    "slack_slack_create_canvas": "ask",
+    "slack_slack_update_canvas": "ask",
     "read": {
       "*": "allow",
       "*.env": "deny",
@@ -276,6 +304,11 @@
     },
   },
   "mcp": {
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp/authv2",
+      "enabled": false,
+    },
     "slack": {
       "type": "remote",
       "url": "https://mcp.slack.com/mcp",
@@ -283,6 +316,12 @@
         "clientId": "1601185624273.8899143856786",
         "redirectUri": "http://localhost:3118/callback",
       },
+      "enabled": false,
+    },
+    "zoom-mcp": {
+      "type": "remote",
+      "url": "https://mcp.zoom.us/mcp/zoom/streamable",
+      "oauth": {},
       "enabled": false,
     },
     "tmux-mcp": {
@@ -314,18 +353,19 @@
     "./plugins/agentmemory-capture.ts",
     "./plugins/taskagent-plan-allow.ts",
     "./plugins/bash-guard.ts",
+    "opencode-telemetry",
   ],
   "agent": {
     "build": {
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
       "color": "secondary",
     },
     "plan": {
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
       "color": "accent",
     },
     "explore": {
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
       "permission": {
         "skill": "allow",
         "bash": {
@@ -426,16 +466,16 @@
       },
     },
     "test-runner": {
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
     },
     "taskagent-reader": {
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
     },
     // Backend agent for the "99" (kilenc) nvim plugin (headless `opencode run`).
     "kilenc": {
       "mode": "primary",
       "hidden": true,
-      "model": "anthropic/claude-sonnet-5",
+      "model": "google-vertex/claude-sonnet-5@default",
       "permission": {
         "task": "deny",
         "bash": "deny",
@@ -451,7 +491,8 @@
     "cli-prompt": {
       "mode": "primary",
       "hidden": true,
-      "model": "anthropic/claude-haiku-4-5",
+      "model": "google-vertex/gemini-3.5-flash-lite",
+      "prompt": "You are a non-interactive CLI assistant, invoked with a single prompt (often piped via stdin) and captured as plain text. Answer directly and concisely. Obey the requested output format exactly: if asked to reply with a single word or specific value, output only that and nothing else — no greeting, no preamble, no explanation, no markdown, no trailing commentary.",
       "permission": {
         "task": "deny",
         "bash": "deny",

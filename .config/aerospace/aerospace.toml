@@ -258,6 +258,9 @@ persistent-workspaces = []
 
     cmd-alt-r = 'mode resize'
 
+    # Fullscreen screenshot to clipboard
+    cmd-alt-shift-p = 'exec-and-forget screencapture -c'
+
 ###############################################################################
 # Resize binding mode (i3: mode "resize")
 ###############################################################################

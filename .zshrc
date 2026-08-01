@@ -111,10 +111,6 @@ export PYTHONPATH="$PYTHONPATH:$HOME/Codes"
 export COPYFILE_DISABLE=1
 
 
-if ! type "$zoxide" >/dev/null; then
-	eval "$(zoxide init zsh)"
-fi
-
 export ZVM_VI_SURROUND_BINDKEY=s-prefix
 zvm_after_init() {
 	# Auto-completion
@@ -244,6 +240,10 @@ export OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true
 #   command -v mise >/dev/null && eval "$(mise activate zsh --shims)"
 if command -v mise >/dev/null && [[ -z ${MISE_SHELL:-} ]]; then
 	eval "$(mise activate zsh)"
+fi
+
+if command -v zoxide >/dev/null; then
+	eval "$(zoxide init zsh)"
 fi
 
 # --- zprof report: dumps the profile once on first prompt, then unloads itself.

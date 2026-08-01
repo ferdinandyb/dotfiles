@@ -145,8 +145,9 @@ COMPLETED: <deliverables>  IN PROGRESS: <state + next step>  BLOCKERS: <…>  KE
 ## Core Operations
 
 > Run basic ops (add, annotate, modify, start, stop, list, info) directly — no
-> subagent. Use `@task-reviewer` for completion review and `@taskagent-reader`
-> for complex queries. For code review, ask the user to run `/peerreview`.
+> subagent. For completion review run `@task-reviewer-opus` + `@task-reviewer-gemini`
+> in parallel, then `@review-merger` (see Completion Review below); use
+> `@taskagent-reader` for complex queries. For code review, ask the user to run `/peerreview`.
 
 ```bash
 taskagent ready                         # unblocked tasks
@@ -178,7 +179,7 @@ taskagent project:<name> list
 
 ## Completion Review (per deliverable, not per micro-task)
 
-Invoke `@task-reviewer` once per deliverable-sized task (the PR/ticket) before
+Run one review per deliverable-sized task (the PR/ticket) before
 `taskagent <uuid> done`. A separate review for every small sub-item is not
 required — review the thing that ships.
 
@@ -186,11 +187,18 @@ For externally-tracked work (Jira/GitHub):
 1. **Before PR/merge**: ask the user to run `/peerreview <ticket-ID|PR-number>`
    (launches `code-reviewer-opus` + `code-reviewer-gemini` as children of root —
    do not spawn `@code-reviewer` yourself).
-2. **Before `done`**: invoke `@task-reviewer`.
+2. **Before `done`**: same parallel pattern, run it yourself:
+   a. In a single response, issue two `task` calls at once — `@task-reviewer-opus`
+      and `@task-reviewer-gemini` — both direct children of this session, with
+      the input below. Never nest one inside the other or inside a third agent:
+      a grandchild session's permission prompts never surface in the TUI and the
+      whole run hangs silently.
+   b. Once both return, call `@review-merger` with both reports labelled
+      `OPUS REVIEW:` / `GEMINI REVIEW:`, and treat its output as the verdict.
 
-Invoke with the UUID:
+Input for both reviewers:
 ```
-@task-reviewer Review task <uuid>
+Review task <uuid>
 - Project: <name>   - plan file: <path or none>   - org/projects: <path or none>
 - Summary: <1-2 sentences>   - Key files: <list or none>
 ```

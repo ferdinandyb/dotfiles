@@ -53,6 +53,11 @@ permission:
     find *: allow
     fd *: allow
     wc *: allow
+    sleep *: allow
+    ps *: allow
+    ps: allow
+    wait *: allow
+    wait: allow
     # Temp file pattern for capturing output
     TMPFILE=$(mktemp)*: allow
     tee *: allow

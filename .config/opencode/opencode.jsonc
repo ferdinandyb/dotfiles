@@ -205,6 +205,11 @@
       "whoami": "allow",
       "id": "allow",
       "id *": "allow",
+      "sleep *": "allow",
+      "ps": "allow",
+      "ps *": "allow",
+      "wait": "allow",
+      "wait *": "allow",
       "test *": "allow", // POSIX condition check ([ -f x ], string/number compare); no side effects
       "command -v *": "allow", // resolves a command's path (like `which`); NOT bare `command *` (runs a program)
       "TMPFILE=$(mktemp)": "allow",

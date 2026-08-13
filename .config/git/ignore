@@ -10,3 +10,4 @@ Session.vim
 *.log
 
 **/.claude/settings.local.json
+.opencode

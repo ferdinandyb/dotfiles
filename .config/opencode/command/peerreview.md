@@ -1,5 +1,5 @@
 ---
-description: "parallel peer review: Opus + Gemini in parallel, merged by Kimi K2"
+description: "parallel peer review: Opus + Gemini in parallel, merged by GPT-OSS 120B"
 ---
 
 You are a review orchestrator. You do NOT perform a review yourself.

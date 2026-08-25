@@ -14,9 +14,7 @@
         "claude-sonnet-5@default",
         "gemini-3.1-flash-lite",
         "gemini-3.5-flash-lite",
-        "gemini-3.6-flash",
-        "openai/gpt-oss-20b-maas",
-        "openai/gpt-oss-120b-maas"
+        "gemini-3.7-flash"
       ]
     }
   },
@@ -261,6 +259,14 @@
       "tuicr review comments *": "allow",
 
       // --- gcli (allow by default, ask for destructive actions) ---
+      // NOTE: these patterns only hold while nothing precedes the subcommand.
+      // Any global flag (--no-markdown, -q, -t github) shifts the string and
+      // misses every rule below, falling through to the "*": "ask" default.
+      // That is why GCLI_RENDER_MARKDOWN is set in plugins/gcli-env.ts instead
+      // of passing --no-markdown.
+      "gcli api *": "allow",
+      "gcli status -l *": "allow",
+      "gcli status -n *": "allow",
       "gcli ci *": "allow",
       "gcli issues *": "allow",
       "gcli issues -i * close *": "ask",
@@ -285,6 +291,7 @@
       "gcli pulls -i * approve *": "ask",
       "gcli pulls -i * unapprove *": "ask",
       "gcli pulls create *": "ask",
+      "gcli comment *": "ask",
 
       // --- gh CLI (read-only commands) ---
       "gh status *": "allow",
@@ -358,19 +365,20 @@
     "./plugins/agentmemory-capture.ts",
     "./plugins/taskagent-plan-allow.ts",
     "./plugins/bash-guard.ts",
+    "./plugins/gcli-env.ts",
     "opencode-telemetry",
   ],
   "agent": {
     "build": {
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/gemini-3.7-flash",
       "color": "secondary",
     },
     "plan": {
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/claude-opus-5@default",
       "color": "accent",
     },
     "explore": {
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/gemini-3.7-flash",
       "permission": {
         "skill": "allow",
         "bash": {
@@ -443,6 +451,9 @@
           "task list *": "allow",
 
           // --- gcli (read-only) ---
+          "gcli api *": "allow",
+          "gcli status -l *": "allow",
+          "gcli status -n *": "allow",
           "gcli ci *": "allow",
           "gcli issues *": "allow",
           "gcli pulls *": "allow",
@@ -471,16 +482,16 @@
       },
     },
     "test-runner": {
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/gemini-3.7-flash",
     },
     "taskagent-reader": {
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/gemini-3.7-flash",
     },
     // Backend agent for the "99" (kilenc) nvim plugin (headless `opencode run`).
     "kilenc": {
       "mode": "primary",
       "hidden": true,
-      "model": "google-vertex/claude-sonnet-5@default",
+      "model": "google-vertex/gemini-3.7-flash",
       "permission": {
         "task": "deny",
         "bash": "deny",

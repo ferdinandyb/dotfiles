@@ -10,23 +10,27 @@ description: >-
 ## Critical: Output Handling for Long Commands
 
 Tecton commands (especially `tecton-plan`) produce very long output that gets
-truncated. **Capture to a literal file under `/tmp/opencode/` and inspect it with
+truncated. **Capture to a file under `$TMPDIR/opencode/` and inspect it with
 the Read tool / `rg`:**
 
 ```bash
-PANTS_CONCURRENT=True pants tecton-plan --workspace=<workspace> --skip-tests 2>&1 | tee /tmp/opencode/tecton-plan.txt; echo "EXIT_CODE: ${PIPESTATUS[0]}"
+PANTS_CONCURRENT=True pants tecton-plan --workspace=<workspace> --skip-tests 2>&1 | tee "$TMPDIR/opencode/tecton-plan.txt"; echo "EXIT_CODE: ${PIPESTATUS[0]}"
 ```
 
-Then inspect `/tmp/opencode/tecton-plan.txt`:
+Then inspect `$TMPDIR/opencode/tecton-plan.txt`:
 - Use the **Read tool** (offset/limit) to view sections.
-- Use `rg "error|Error|ERROR" /tmp/opencode/tecton-plan.txt` to find failures.
+- Use `rg "error|Error|ERROR" "$TMPDIR/opencode/tecton-plan.txt"` to find failures.
 
 **Key points:**
-- Write the capture file to a **literal** `/tmp/opencode/...` path. `tee` to a
-  `$(mktemp)` variable is blocked by bash-guard (unresolved-variable write target).
+- Write the capture file under `$TMPDIR/opencode/...` — that's the scratch dir
+  that's actually pre-created for you. On macOS `$TMPDIR` is a per-session
+  `/var/folders/.../T/` path, not `/tmp`, so a hardcoded `/tmp/opencode/...`
+  path won't exist there. `$TMPDIR` is a known, static env var that bash-guard
+  expands and allow-lists — unlike `$(mktemp)`, whose unpredictable output path
+  is blocked as an unresolved-variable write target.
 - Capture the real exit code with `echo "EXIT_CODE: ${PIPESTATUS[0]}"` — `$?` would
   report `tee`'s exit code, not pants'.
-- Inspect with the Read tool or `rg`; no manual cleanup needed (`/tmp/opencode` is
+- Inspect with the Read tool or `rg`; no manual cleanup needed (`$TMPDIR/opencode` is
   ephemeral, and `rm` would trigger a permission prompt).
 
 ## Environment
@@ -52,10 +56,10 @@ Runs `tecton plan` against a workspace. Use `--skip-tests` to speed up iteration
 
 ```bash
 # Plan against staging (check this first)
-PANTS_CONCURRENT=True pants tecton-plan --workspace=checkoutandsale-v1-staging --skip-tests 2>&1 | tee /tmp/opencode/tecton-plan-staging.txt; echo "EXIT_CODE: ${PIPESTATUS[0]}"
+PANTS_CONCURRENT=True pants tecton-plan --workspace=checkoutandsale-v1-staging --skip-tests 2>&1 | tee "$TMPDIR/opencode/tecton-plan-staging.txt"; echo "EXIT_CODE: ${PIPESTATUS[0]}"
 
 # Plan against dev workspace (only if staging errors are unclear)
-PANTS_CONCURRENT=True pants tecton-plan --workspace=bence-dev --skip-tests 2>&1 | tee /tmp/opencode/tecton-plan-dev.txt; echo "EXIT_CODE: ${PIPESTATUS[0]}"
+PANTS_CONCURRENT=True pants tecton-plan --workspace=bence-dev --skip-tests 2>&1 | tee "$TMPDIR/opencode/tecton-plan-dev.txt"; echo "EXIT_CODE: ${PIPESTATUS[0]}"
 ```
 
 Inspect the capture files with the Read tool or `rg`.
@@ -78,5 +82,5 @@ PANTS_CONCURRENT=True pants test --tecton-test-run projects/features/repos/sig_t
 For long test runs, capture and inspect:
 
 ```bash
-PANTS_CONCURRENT=True pants test --tecton-test-run projects/features/repos/sig_tecton/tests/:: 2>&1 | tee /tmp/opencode/tecton-test.txt; echo "EXIT_CODE: ${PIPESTATUS[0]}"
+PANTS_CONCURRENT=True pants test --tecton-test-run projects/features/repos/sig_tecton/tests/:: 2>&1 | tee "$TMPDIR/opencode/tecton-test.txt"; echo "EXIT_CODE: ${PIPESTATUS[0]}"
 ```

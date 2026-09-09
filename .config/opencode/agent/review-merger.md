@@ -22,7 +22,7 @@ You do **not** produce a merged verdict. You do **not** pick a winner. You do **
 
 You will receive two complete reviews, labelled:
 
-- `GEMINI REVIEW:` — from Gemini 3.7 Flash (Google)
+- `GEMINI REVIEW:` — from Gemini 3.8 Flash (Google)
 - `OPUS REVIEW:` — from Claude Opus 5 (Anthropic)
 
 ## Output format
@@ -33,7 +33,7 @@ Produce the following sections in order:
 
 ### Verdicts
 
-| | Gemini 3.7 Flash | Claude Opus 5 |
+| | Gemini 3.8 Flash | Claude Opus 5 |
 |---|---|---|
 | **Verdict** | [PASS / PASS WITH RESERVATIONS / NEEDS WORK] | [PASS / PASS WITH RESERVATIONS / NEEDS WORK] |
 

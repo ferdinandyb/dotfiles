@@ -180,7 +180,7 @@ Two kanata services exist — load only the one matching the active keyboard:
 | Service label | Config | Device |
 |---|---|---|
 | `org.bferdinandy.kanata` | `mac-entry.kbd` | Apple Internal Keyboard / Trackpad |
-| `org.bferdinandy.kanata-iso` | `mac-iso-entry.kbd` | Keychron K8 Pro |
+| `org.bferdinandy.kanata-iso` | `mac-iso-entry.kbd` | Keychron K8 Pro, Keychron K1 (Keychron Link dongle) |
 
 Kanata depends on the standalone [Karabiner-DriverKit-VirtualHIDDevice](https://github.com/pqrs-org/Karabiner-DriverKit-VirtualHIDDevice)
 driver (v6.2.0) — **not** Karabiner-Elements. See the
@@ -192,6 +192,21 @@ permissions in System Settings > Privacy & Security.
 Note: macOS invalidates permissions when the binary path changes or the binary is
 replaced. After rebuilding from source or moving the binary, remove the stale entry
 and re-add `/usr/local/bin/kanata` in both Input Monitoring and Accessibility.
+
+#### Built-in sleep/wake watchdog
+
+The kanata binary (built from the local fork) includes a **stuck-sink watchdog**
+(`src/oskbd/macos.rs`). After sleep/wake, if the DriverKit output sink fails to
+reach stable readiness within 45 s, kanata exits with code 70 (EX_SOFTWARE) and
+launchd's `KeepAlive { PathState: vhidd_server }` automatically restarts a clean
+process. No manual `sudo launchctl kickstart` required. The watchdog applies to
+both the internal-keyboard and iso instances.
+
+Look for this line in the logs when it fires:
+
+```
+macos-sink-watchdog: DriverKit output sink has been unhealthy for >45s — exiting so launchd can restart a clean process (exit code 70)
+```
 
 ```sh
 # 1. Install the VHID daemon LaunchDaemon (standalone driver, no Karabiner-Elements)
@@ -206,7 +221,7 @@ sudo chown root:wheel /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 sudo chmod 644 /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 sudo launchctl bootstrap system /Library/LaunchDaemons/org.bferdinandy.kanata.plist
 
-# 2b. Kanata — Keychron K8 Pro (ISO extra key)
+# 2b. Kanata — external ISO keyboards: Keychron K8 Pro, Keychron K1
 sudo cp ~/.config/kanata/service/org.bferdinandy.kanata-iso.plist /Library/LaunchDaemons/
 sudo chown root:wheel /Library/LaunchDaemons/org.bferdinandy.kanata-iso.plist
 sudo chmod 644 /Library/LaunchDaemons/org.bferdinandy.kanata-iso.plist
@@ -250,7 +265,7 @@ launchctl list | grep kanata   # should return nothing (no user-domain agents)
 # Check vhidd socket exists (created by the standalone vhidd daemon)
 sudo ls -la "/Library/Application Support/org.pqrs/tmp/rootonly/"
 
-# Restart kanata (pick the active one)
+# Restart kanata (pick the active one) — rarely needed with watchdog; use if watchdog is disabled
 sudo launchctl kickstart -k system/org.bferdinandy.kanata
 sudo launchctl kickstart -k system/org.bferdinandy.kanata-iso
 
@@ -267,4 +282,29 @@ tail -f /var/log/kanata.log
 tail -f /var/log/kanata-iso.log
 tail -f /var/log/kanata.err
 tail -f /var/log/kanata-iso.err
+
+# Confirm watchdog started (look for this on startup)
+grep "macos-sink-watchdog: starting" /var/log/kanata-iso.log | tail -1
+# Confirm watchdog fired (if it triggered a restart)
+grep "macos-sink-watchdog: DriverKit output sink has been unhealthy" /var/log/kanata-iso.log | tail -3
+
+# List devices as kanata sees them (product names, vendor/product IDs, hashes)
+kanata --list
 ```
+
+#### Device names must match exactly — including trailing whitespace
+
+`macos-dev-names-include` is compared against the IOKit product name with an
+exact `CFStringCompare` (`device_matches`/`register_device` in
+karabiner-driverkit's `c_src/driverkit.cpp`); kanata's config parser strips
+quotes but not whitespace. `kanata --list`, however, prints its suggested
+config **trimmed**, so a name with leading/trailing spaces copied from that
+output silently never matches — the only symptom is a repeating
+`Still waiting for device(s)` line in the log.
+
+The K1's dongle is exactly this case: it reports `"Keychron Link "`, and the
+trailing space in `mac-iso-entry.kbd` is load-bearing. Check the raw name with
+`ioreg -r -c IOHIDDevice -d 1 | ug '"Product" ='`. If a name ever proves too
+awkward, `macos-dev-names-include` also accepts a device hash from
+`kanata --list` (e.g. `"0x7A02521BF12E02AC"` for the Keychron Link), which is
+derived from `vendor:product:name` and so is stable until firmware changes it.

@@ -1,5 +1,5 @@
 ;; kanata-mac.kbd — macOS entry point
-;; Devices: Keychron K8 Pro ISO
+;; Devices: Keychron K8 Pro ISO, Keychron K1 ISO (via Keychron Link 2.4GHz dongle)
 ;; Prereqs: HU input source; Fn↔Ctrl swapped in System Settings;
 ;;          kanata in Input Monitoring; Karabiner VirtualHIDDevice active
 
@@ -8,6 +8,10 @@
   concurrent-tap-hold yes
   macos-dev-names-include (
     "Keychron K8 Pro"
+    ;; K1 via its dongle. Trailing space is intentional: kanata compares the
+    ;; IOKit product name exactly and the dongle reports "Keychron Link ".
+    ;; `kanata --list` prints it trimmed, which silently never matches.
+    "Keychron Link "
   )
   macos-continue-if-no-devs-found yes
 )

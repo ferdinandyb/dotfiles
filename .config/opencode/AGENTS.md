@@ -3,13 +3,19 @@
 
 Current user is Bence Ferdinandy.
 
-# Comments
+# Only include references available to everyone
 
-Never reference untracked files (e.g. plan files) in comments. Be very
-selective of when to add comments at all, and always aim for the minimally
-necessary. Reasoning for the code (the why) belongs in commit messages, not
-comments, unless the piece of code is extremely non-trivial or has magic
-strings/numbers.
+Untracked plan files, the contents, plans, phases of untracked plan files,
+taskagent tasks must not be referenced in any documentation, code, ticket that
+will be viewed by other people. E.g. committed files should never reference
+them, jira tickets should not reference them.
+
+# Minimal comments and changes
+
+Reasoning for the code (the why) belongs in commit messages, not comments,
+unless the piece of code is extremely non-trivial or has magic strings/numbers.
+If you can do something with smaller changes with the same effect, prefer that.
+Do not build what we don't need now.
 
 # SKILLS
 

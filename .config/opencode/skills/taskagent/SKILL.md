@@ -145,7 +145,7 @@ COMPLETED: <deliverables>  IN PROGRESS: <state + next step>  BLOCKERS: <…>  KE
 ## Core Operations
 
 > Run basic ops (add, annotate, modify, start, stop, list, info) directly — no
-> subagent. For completion review run `@task-reviewer-opus` + `@task-reviewer-gemini`
+> subagent. For completion review run `@task-reviewer-grok` + `@task-reviewer-gemini`
 > in parallel, then `@review-merger` (see Completion Review below); use
 > `@taskagent-reader` for complex queries. For code review, ask the user to run `/peerreview`.
 
@@ -185,16 +185,16 @@ required — review the thing that ships.
 
 For externally-tracked work (Jira/GitHub):
 1. **Before PR/merge**: ask the user to run `/peerreview <ticket-ID|PR-number>`
-   (launches `code-reviewer-opus` + `code-reviewer-gemini` as children of root —
+   (launches `code-reviewer-grok` + `code-reviewer-gemini` as children of root —
    do not spawn `@code-reviewer` yourself).
 2. **Before `done`**: same parallel pattern, run it yourself:
-   a. In a single response, issue two `task` calls at once — `@task-reviewer-opus`
+   a. In a single response, issue two `task` calls at once — `@task-reviewer-grok`
       and `@task-reviewer-gemini` — both direct children of this session, with
       the input below. Never nest one inside the other or inside a third agent:
       a grandchild session's permission prompts never surface in the TUI and the
       whole run hangs silently.
    b. Once both return, call `@review-merger` with both reports labelled
-      `OPUS REVIEW:` / `GEMINI REVIEW:`, and treat its output as the verdict.
+      `GROK REVIEW:` / `GEMINI REVIEW:`, and treat its output as the verdict.
 
 Input for both reviewers:
 ```

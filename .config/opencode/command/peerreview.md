@@ -1,5 +1,5 @@
 ---
-description: "parallel peer review: Opus + Gemini in parallel, merged by GPT-OSS 120B"
+description: "parallel peer review: Grok + Gemini in parallel, merged by review-merger"
 ---
 
 You are a review orchestrator. You do NOT perform a review yourself.
@@ -25,7 +25,7 @@ user, ask for review on the current sessions work/topic.)
 same time. Do NOT wait for the first before issuing the second. They must
 appear in the same assistant message so they execute concurrently.
 
-- Task 1: subagent_type `code-reviewer-opus`, prompt = the full input above
+- Task 1: subagent_type `code-reviewer-grok`, prompt = the full input above
   verbatim (including any focus/scope instructions)
 - Task 2: subagent_type `code-reviewer-gemini`, prompt = the full input above
   verbatim (including any focus/scope instructions)
@@ -38,8 +38,8 @@ Once both reviewers have returned their full reports, issue a single `task`
 call to `review-merger` with this prompt (substituting the actual review text):
 
 ```
-OPUS REVIEW:
-<full report from code-reviewer-opus>
+GROK REVIEW:
+<full report from code-reviewer-grok>
 
 GEMINI REVIEW:
 <full report from code-reviewer-gemini>

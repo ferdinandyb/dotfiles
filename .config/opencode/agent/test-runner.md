@@ -28,6 +28,14 @@ permission:
     make check*: allow
     mvn test*: allow
     gradle test*: allow
+    gradle*: allow
+    ./gradlew*: allow
+    gw*: allow
+    source sigcli.sh*: allow
+    source ./sigcli.sh*: allow
+    export JAVA_HOME=*: allow
+    JAVA_HOME=* ./gradlew*: allow
+    JAVA_HOME=* gw*: allow
     bundle exec rspec*: allow
     rspec*: allow
     jest*: allow
@@ -131,6 +139,24 @@ Error: <concise error message>
 File: <file:line if available>
 ```
 
+### On Harness / Environment / Execution Issue
+
+Use when tests could not run due to environment, network, runner configuration, or execution harness problems (NOT test assertion failures):
+
+```
+⚠ HARNESS ISSUE: <brief summary, e.g. Signifyd VPN not connected / Invalid JAVA_HOME / Unknown Gradle module>
+
+Cause: <root cause description>
+Correct Invocation: <working command if found, or suggested fix>
+Diagnostics: <exact error line from log>
+```
+
+If you adjusted or corrected the invocation to get the test to run (e.g. fixed module path, sourced sigcli.sh, adjusted flags), always include the correct invocation in your report:
+
+```
+Working Invocation: <exact command that executed successfully>
+```
+
 ## Rules
 
 - NEVER dump full test output back to caller
@@ -139,3 +165,9 @@ File: <file:line if available>
 - If >10 failures, list first 10 and say "+N more failures"
 - If you cannot determine which tests failed, return the last 20 lines of output as fallback
 - If tests are still running after 5 minutes, provide a progress update if possible
+- Differentiate test assertion failures from harness/environment failures (VPN down, missing dependencies, stale JAVA_HOME, invalid project name, timeout). NEVER report an environment/harness failure as a test failure.
+- When executing Gradle tests in the Signifyd platform repo:
+  - Sourcing pattern: always use `source sigcli.sh && gw :project:test --tests "..."` from the repository/worktree root.
+  - On failure, check `/tmp/gradlew.last.log` rather than re-running with `--info`.
+  - Check `gradle/projects.settings.gradle` for exact project names if a project is not found.
+  - Always set an explicit timeout (e.g. 600000ms+) for test executions.

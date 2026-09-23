@@ -19,8 +19,13 @@ else
 	fi
 fi
 
+session=$HOME/.local/share/yadm/Session.vim
+
 $vimvariant $extra_args \
 	-c "cd ~" \
-	-c "let g:rooter_change_directory_for_non_project_files = 'home'" \
+	-c "let g:rooter_manual_only = 1" \
 	-c "silent AutoSaveToggle" \
-	-S ~/.local/share/yadm/Session.vim
+	-c "silent! source $session" \
+	-c "cd ~" \
+	-c "Obsession $session" \
+	-c "nnoremap <leader>g :FYadm!<cr>"

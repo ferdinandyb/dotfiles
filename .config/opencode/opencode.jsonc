@@ -430,6 +430,7 @@
     "./plugins/bash-guard.ts",
     "./plugins/gcli-env.ts",
     "./plugins/vertex-keepalive.ts",
+    "./plugins/tmux-title.ts",
     "opencode-telemetry",
   ],
   "agent": {

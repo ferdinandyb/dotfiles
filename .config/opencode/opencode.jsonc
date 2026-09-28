@@ -82,7 +82,7 @@
     }
   },
   "skills": {
-    "paths": ["~/signifyd_github/signifyd/context"]
+    "paths": []
   },
   "permission": {
     "tmux-mcp_*": "ask",

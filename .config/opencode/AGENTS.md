@@ -1,6 +1,3 @@
-@~/.config/agents/tmux.md
-@~/.config/agents/directives.md
-
 Current user is Bence Ferdinandy.
 
 # Only include references available to everyone
@@ -20,7 +17,9 @@ Do not build what we don't need now.
 # SKILLS
 
 Many specific tools or situations have an associated skill, always consider
-loading relevant skills, e.g. always load the git-read skill before using git.
+loading relevant skills, e.g. always load the git-read skill before using git,
+and the pants skill before running any Pants commands or editing Python files
+with a Pants formatter hook.
 
 At session start, if the cwd or branch name contains a ticket ID (e.g. `FEL-123`),
 a plan file is present, or the work will span sessions, load the taskagent skill

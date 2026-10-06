@@ -1,6 +1,4 @@
 @~/.config/agents/git.md
-@~/.config/agents/tmux.md
-@~/.config/agents/directives.md
 
 
 # shell tools

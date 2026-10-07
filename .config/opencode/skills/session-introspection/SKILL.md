@@ -94,9 +94,9 @@ The following script remains the timing/interruption tool. Its cost
 fields are recorded counters; use `opencode-session cost` for prices.
 
 ```sh
-python3 ~/.config/opencode/skills/session-introspection/introspect.py --session ses_abc123
-python3 ~/.config/opencode/skills/session-introspection/introspect.py --session ses_abc ses_def --combine
-python3 ~/.config/opencode/skills/session-introspection/introspect.py --dir FEL-395 --combine --markdown
+python3 "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/skills/session-introspection/introspect.py" --session ses_abc123
+python3 "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/skills/session-introspection/introspect.py" --session ses_abc ses_def --combine
+python3 "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/skills/session-introspection/introspect.py" --dir FEL-395 --combine --markdown
 ```
 
 `--dir` matches on `session.directory LIKE %substr%` and analyzes every root
@@ -107,6 +107,12 @@ below. Worked example with full commentary:
 `~/org/notes/fel-395-session-cost-time.md`.
 
 ## Data sources
+
+V2 uses `session_v2` and `session_message`, with tool content embedded in each
+message. The script exposes temporary compatibility views for the calculations
+below; it does not modify stored history. Default database and log paths respect
+`XDG_DATA_HOME`. V2 interruption counts use `permission.asked` and `form.*` events
+with their explicit session IDs, rather than assuming one session per daemon.
 
 1. **SQLite DB** `~/.local/share/opencode/opencode.db` — source of truth.
    Always open read-only: `sqlite3.connect(f"file:{path}?mode=ro", uri=True)`.

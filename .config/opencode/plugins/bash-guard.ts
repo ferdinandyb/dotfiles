@@ -1,4 +1,4 @@
-import type { Plugin } from "@opencode-ai/plugin"
+import { Plugin } from "@opencode/plugin"
 import type { Node, Parser as ParserType } from "web-tree-sitter"
 import os from "node:os"
 import path from "node:path"
@@ -851,7 +851,9 @@ function checkAwkProgram(prog: string, sw: ScopeWrite, sr: ScopeRead): Verdict {
 
 // ── plugin ───────────────────────────────────────────────────────────────────
 
-export default (async ({ directory }) => {
+export default Plugin.define({
+  id: "bash-guard",
+  async setup(ctx) {
   const tmpAllow = buildTmpAllow()
   const parser = await initParserOrNull() // null => fail-safe block-all in the hook
   if (!parser)
@@ -860,16 +862,17 @@ export default (async ({ directory }) => {
     )
   else if (process.env.OPENCODE_BASHGUARD_DEBUG) console.error("[bash-guard] initialized")
 
-  return {
-    "tool.execute.before": async (input, output) => {
-      if (input.tool !== "bash") return
-      const args = (output?.args ?? {}) as { command?: string; workdir?: string }
+  await ctx.tool.hook("execute.before", async (event) => {
+      if (event.tool !== "shell") return
+      const args = (event.input ?? {}) as { command?: string; workdir?: string }
       const command = args.command ?? ""
       if (!command.trim()) return
       if (!parser)
         throw new Error(
           "bash-guard failed to initialize (tree-sitter wasm could not be loaded) — bash is blocked until the deps are fixed and opencode is restarted. Run `bun install` in ~/.config/opencode.",
         )
+      const session = await ctx.session.get({ sessionID: event.sessionID })
+      const directory = session.location.directory
       const cwd = args.workdir ? path.resolve(directory, args.workdir) : directory
       if (process.env.OPENCODE_BASHGUARD_DEBUG)
         console.error("[bash-guard] before: cwd=" + cwd + " cmd=" + JSON.stringify(command).slice(0, 200))
@@ -878,9 +881,10 @@ export default (async ({ directory }) => {
         throw new Error(
           `bash-guard blocked this command: ${verdict.reason}. If this is genuinely needed, ask the user to run it themselves or approve it explicitly.`,
         )
-    },
-  }
-}) satisfies Plugin
+  })
+  return () => parser?.delete()
+  },
+})
 
 // Named exports for the test suite (tests/bash-guard.test.ts). These are inert for
 // plugin loading — opencode's loader only ever uses the default export.

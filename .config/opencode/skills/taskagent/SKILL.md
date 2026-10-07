@@ -26,7 +26,6 @@ design/spec of a task belongs in the plan file.
 | --------------- | ------------------------------------------------------------- | ------------------------ |
 | **TodoWrite**   | This session's tactical steps                                 | The session              |
 | **plan file**   | Design, spec, wiring, current state of a ticket               | The ticket / worktree    |
-| **agentmemory** | Auto-captured, searchable observations                        | Long-term, searchable    |
 | **taskagent**   | Human-facing backlog + status + durable LEARNING/MISALIGNMENT | Long-term, human-curated |
 
 ## When to create a taskagent task
@@ -117,9 +116,8 @@ during `/handoff` and written to the plan file's `## Learnings` section.
 **Which store:** ticket-specific context → a taskagent annotation on the
 deliverable (surfaced when that task is read, and via `/handoff` into the plan
 file). Reusable insight that applies beyond this ticket — codebase convention,
-tool preference, recurring pitfall → also call `memory_lesson_save`, so
-agentmemory auto-injects it into future sessions. taskagent annotations don't
-decay; agentmemory lessons do if unused.
+tool preference, recurring pitfall → record it in the applicable project documentation
+or a taskagent `LEARNING` annotation. Taskagent annotations don't decay.
 
 ## Checkpointing (only when state must survive)
 
@@ -188,7 +186,7 @@ For externally-tracked work (Jira/GitHub):
    (launches `code-reviewer-grok` + `code-reviewer-gemini` as children of root —
    do not spawn `@code-reviewer` yourself).
 2. **Before `done`**: same parallel pattern, run it yourself:
-   a. In a single response, issue two `task` calls at once — `@task-reviewer-grok`
+    a. In a single response, issue two `subagent` calls at once — `@task-reviewer-grok`
       and `@task-reviewer-gemini` — both direct children of this session, with
       the input below. Never nest one inside the other or inside a third agent:
       a grandchild session's permission prompts never surface in the TUI and the
@@ -207,7 +205,7 @@ Verdicts: **PASS** → may `done`. **PASS WITH RESERVATIONS** → ask the human.
 
 ## What survives, what doesn't
 
-- **Survives**: taskagent data, `org/projects/*.md`, agentmemory, and the
+- **Survives**: taskagent data, `org/projects/*.md`, and the
   project plan file when it lives outside a per-ticket worktree.
 - **Does not survive**: conversation history and TodoWrite. A plan file that
   lives inside a throwaway worktree only survives as long as that worktree does.

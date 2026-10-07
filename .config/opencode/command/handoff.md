@@ -33,7 +33,7 @@ From the conversation history, identify and summarize:
 
 If taskagent was used during this session:
 
-a) Invoke `@taskagent-reader` to retrieve task state and any recorded learnings/misalignments:
+a) Use the `subagent` tool to launch `taskagent-reader`, description `Read handoff task state`, to retrieve task state and any recorded learnings/misalignments:
 ```
 @taskagent-reader Retrieve session summary for handoff.
 - Project: <project name if known>

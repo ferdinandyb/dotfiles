@@ -10,8 +10,7 @@ import defaultPlugin from "../plugins/bash-guard"
 const CWD = "/Users/bence.ferdinandy/signifyd_github/bgtest"
 const TMP_OUT = path.join(process.env.TMPDIR ?? os.tmpdir(), "opencode", "bgtest-out")
 
-// A real dir under the config dir (NOT under $TMPDIR) for the symlink-escape case.
-const SYMDIR = path.join(os.homedir(), ".config", "opencode", ".bgtest")
+const SYMDIR = path.resolve(import.meta.dir, ".bgtest")
 const ETCLINK = path.join(SYMDIR, "etclink")
 
 let parser: Awaited<ReturnType<typeof initParserOrNull>>
@@ -395,19 +394,29 @@ describe("isSecretPath unit", () => {
 // ── fail-safe + hook wiring (default export) ──────────────────────────────────
 
 describe("plugin hook (default export)", () => {
+  async function hook() {
+    let before: (event: any) => Promise<void>
+    const cleanup = await defaultPlugin.setup({
+      tool: { hook: async (_name: string, callback: typeof before) => { before = callback } },
+      session: { get: async () => ({ location: { directory: CWD } }) },
+    } as any)
+    return { before: before!, cleanup }
+  }
   it("throws bash-guard error for a blocked command and allows a safe one", async () => {
-    const hooks = await defaultPlugin({ directory: CWD } as Parameters<typeof defaultPlugin>[0])
+    const hooks = await hook()
     const run = (command: string) =>
-      hooks["tool.execute.before"]!({ tool: "bash", sessionID: "s", callID: "c" }, { args: { command } })
+      hooks.before({ tool: "shell", sessionID: "s", id: "c", input: { command } })
     await expect(run("sed -i s/a/b/ f")).rejects.toThrow(/bash-guard blocked/)
     await expect(run("rg foo .")).resolves.toBeUndefined()
+    await hooks.cleanup?.()
   })
 
   it("ignores non-bash tools", async () => {
-    const hooks = await defaultPlugin({ directory: CWD } as Parameters<typeof defaultPlugin>[0])
+    const hooks = await hook()
     await expect(
-      hooks["tool.execute.before"]!({ tool: "write", sessionID: "s", callID: "c" }, { args: { filePath: "/etc/x" } }),
+      hooks.before({ tool: "write", sessionID: "s", id: "c", input: { path: "/etc/x" } }),
     ).resolves.toBeUndefined()
+    await hooks.cleanup?.()
   })
 
   // Fail-safe (parser init fails → block ALL bash) is a 2-line guard in the hook;

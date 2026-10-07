@@ -15,7 +15,7 @@
 
 PARK_INDEX=99
 PARK_NAME=opencode-nvim
-OC_CMD='opencode --port 0'
+OC_CMD='opencode'
 
 # Reference pane: the program's own pane when invoked from inside one (nvim
 # sets $TMUX_PANE), else the client's active pane (key bindings).

@@ -71,7 +71,7 @@ function stripJsonc(src: string): string {
   return out.replace(/,(\s*[}\]])/g, "$1") // drop trailing commas
 }
 
-const CONFIG = path.join(os.homedir(), ".config", "opencode", "opencode.jsonc")
+const CONFIG = path.resolve(import.meta.dir, "../opencode.jsonc")
 const config = JSON.parse(stripJsonc(fs.readFileSync(CONFIG, "utf8")))
 const readRules = Object.entries(config.permission.read as Record<string, string>).map(([pattern, action]) => ({
   pattern,

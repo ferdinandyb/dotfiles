@@ -20,14 +20,14 @@ local function spawn_opencode_tmux_or_ghostty()
       "osascript",
       "-e", 'tell application "Ghostty"',
       "-e", 'split (focused terminal of front window) direction right'
-          .. ' with configuration {command:"opencode --port 0",'
+          .. ' with configuration {command:"opencode",'
           .. ' initial working directory:"' .. cwd .. '"}',
       "-e", "end tell",
     })
   else
     vim.system({
       "ghostty", "+new-window", "--working-directory=" .. cwd,
-      "-e", "opencode", "--port", "0",
+      "-e", "opencode",
     })
   end
 end
@@ -142,7 +142,7 @@ function KilencProvider._build_command(self, query, context)
 end
 require("99").setup({
   md_files = { "AGENTS.md" },
-  model = "anthropic/claude-sonnet-5",
+  model = "google-vertex/gemini-3.5-flash-lite#low",
   tmp_dir = "$TMPDIR/opencode/99",
   provider = KilencProvider,
 })

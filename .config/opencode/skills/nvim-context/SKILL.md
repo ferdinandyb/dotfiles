@@ -1,6 +1,6 @@
 ---
 name: nvim-context
-description: Read or control a neovim instance this opencode process is running under (embedded terminal, floaterm, or similar) via nvim's native --server/--remote* flags -- cursor position, visual selection, open a file at a line, list buffers, load a quickfix list, or run/send anything else. Use when editor context matters (the user says "the cursor", "my selection", "what I'm looking at") or a task should open a location or populate the quickfix list in their running neovim. Do nothing if $NVIM is unset -- there is no attached neovim to talk to.
+description: Read cursor position, selections, buffers, or control an explicitly associated Neovim instance through its native remote API. Use when editor context matters or a task should open a file or quickfix list. Under the shared OpenCode v2 daemon, require an explicit editor socket; do not infer it from the daemon's NVIM environment.
 ---
 
 # nvim-context
@@ -14,11 +14,13 @@ neovim's own remote-control flags, no MCP server, no extra process.
 
 ## Precondition
 
-Neovim auto-exports `$NVIM` into every terminal/job it spawns (`:terminal`,
-floaterm, opencode.nvim's embedded pane, ...) pointing at that exact instance's
-RPC socket. If `$NVIM` is empty, this opencode process isn't running under a
-neovim instance -- skip all of the below rather than guessing at some other
-socket.
+The shared OpenCode v2 daemon's `$NVIM` does not identify the editor attached to
+every session. Obtain an explicit, user-confirmed editor socket first. Do not
+scan sockets or choose the newest/nearest editor. Use opencode.nvim's user-selected
+`@this` or `@buffer` context when no explicit association exists.
+
+In the commands below, `$NVIM` means that confirmed socket supplied explicitly to
+the command, not an inherited service environment value.
 
 ```bash
 [[ -n "$NVIM" ]] || echo "no attached neovim"

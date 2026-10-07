@@ -1,12 +1,5 @@
 import { expect, test } from "bun:test"
-import { extractTmuxLabel, isResumeLaunch, resolveTmuxPane } from "../plugins/tmux-title-label"
-import * as pluginMod from "../plugins/tmux-title"
-
-test("plugin exports are all functions", () => {
-  const values = Object.values(pluginMod)
-  expect(values.length).toBeGreaterThan(0)
-  for (const value of values) expect(typeof value).toBe("function")
-})
+import { extractTmuxLabel, isResumeLaunch, resolveTmuxPane } from "../plugins/lib/tmux-title-label"
 
 test("extractTmuxLabel extracts clean prefix label up to 15 chars", () => {
   expect(extractTmuxLabel("tmux-title | Short tmux titles")).toBe("tmux-title")

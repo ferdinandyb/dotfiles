@@ -1,0 +1,42 @@
+#!/bin/bash
+set -euo pipefail
+
+repo="${1:-.}"
+repo="$(CDPATH= cd -- "$repo" && pwd -P)"
+sid="${2:-}"
+if [[ -z "$sid" ]]; then
+  directory="$(jq -rn --arg path "$repo" '$path|@uri')"
+  candidates="$(opencode api get "/api/session?directory=$directory&parentID=null&limit=2")"
+  if [[ "$(jq '.data|length' <<<"$candidates")" != 1 ]]; then
+    printf '%s\n' 'Specify the target session: tuicr-to-opencode REPO ses_XXX' >&2
+    exit 1
+  fi
+  sid="$(jq -r '.data[0].id' <<<"$candidates")"
+fi
+if [[ ! "$sid" =~ ^ses_[A-Za-z0-9_]+$ ]]; then
+  printf '%s\n' 'Invalid OpenCode session ID' >&2
+  exit 1
+fi
+info="$(opencode api get "/api/session/$sid")"
+if ! jq -e --arg repo "$repo" '.data.location.directory == $repo' <<<"$info" >/dev/null; then
+  printf '%s\n' 'Target session is not in the requested repository' >&2
+  exit 1
+fi
+session="$(tuicr review list --repo "$repo" | jq -r '[.[]|select(.active)][0].slug // empty')"
+if [[ -z "$session" ]]; then
+  printf '%s\n' "tuicr-to-opencode: no active tuicr session for $repo" >&2
+  exit 1
+fi
+comments="$(tuicr review comments --repo "$repo" --session "$session")"
+if [[ "$(jq 'length' <<<"$comments")" == 0 ]]; then
+  printf '%s\n' "tuicr-to-opencode: no comments in session $session" >&2
+  exit 1
+fi
+prompt="$(jq -r '
+  ["I reviewed your code with tuicr and have the following comments. Please address them.", ""]
+  + (to_entries|map(
+    "\(.key+1). [\(.value.comment_type|ascii_upcase)]"
+    + (if .value.path then " `\(.value.path)" + (if .value.start_line then ":\(.value.start_line)" else "" end) + "`" else "" end)
+    + " - \(.value.content)")) | join("\n")
+' <<<"$comments")"
+opencode api post "/api/session/$sid/prompt" --data "$(jq -n --arg text "$prompt" '{text:$text,delivery:"queue"}')"

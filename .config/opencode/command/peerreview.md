@@ -21,21 +21,22 @@ user, ask for review on the current sessions work/topic.)
 
 ### Step 1 — Launch both reviewers IN PARALLEL
 
-**In this single response**, issue BOTH of the following `task` calls at the
+**In this single response**, issue BOTH of the following `subagent` calls at the
 same time. Do NOT wait for the first before issuing the second. They must
 appear in the same assistant message so they execute concurrently.
 
-- Task 1: subagent_type `code-reviewer-grok`, prompt = the full input above
-  verbatim (including any focus/scope instructions)
-- Task 2: subagent_type `code-reviewer-gemini`, prompt = the full input above
-  verbatim (including any focus/scope instructions)
+- Launch agent `code-reviewer-grok`, description `Independent Grok review`,
+  prompt = the full input above verbatim (including any focus/scope instructions).
+- Launch agent `code-reviewer-gemini`, description `Independent Gemini review`,
+  prompt = the full input above verbatim (including any focus/scope instructions).
 
 Wait for both to complete before proceeding.
 
 ### Step 2 — Merge
 
-Once both reviewers have returned their full reports, issue a single `task`
-call to `review-merger` with this prompt (substituting the actual review text):
+Once both reviewers have returned their full reports, issue a single `subagent`
+call to agent `review-merger`, description `Present independent reviews`, with this
+prompt (substituting the actual review text):
 
 ```
 GROK REVIEW:
@@ -55,4 +56,4 @@ commentary, summary, or verdict.
 - Issue both reviewer task calls in a single message — this is what makes them run in parallel.
 - Do not perform any code review yourself.
 - Do not modify or summarise the merger output.
-- Do not call any other tools (no bash, no read, no edit).
+- Do not call any other tools (no shell, no read, no edit).

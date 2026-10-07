@@ -53,6 +53,6 @@ command! -nargs=* Tuicr call s:ToggleFloatermWindow('tuicr', 'EDITOR=$FLOATERM t
 nnoremap <A-u> <cmd>Tuicr<cr>
 tnoremap <A-u> <C-\><C-n><cmd>Tuicr<cr>
 
-command! -nargs=* OpencodeFloat call s:ToggleFloatermWindow('opencode','TMUX= STY= opencode --port 0', <f-args>)
+command! -nargs=* OpencodeFloat call s:ToggleFloatermWindow('opencode','TMUX= STY= opencode', <f-args>)
 nnoremap <A-o> <cmd>OpencodeFloat<cr>
 tnoremap <A-o> <C-\><C-n><cmd>OpencodeFloat<cr>

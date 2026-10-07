@@ -16,14 +16,17 @@ Usage:
 import argparse
 import bisect
 import json
+import os
 import re
 import sqlite3
 from datetime import datetime, timezone
+from pathlib import Path
 
-DEFAULT_DB = "~/.local/share/opencode/opencode.db"
-DEFAULT_LOG = "~/.local/share/opencode/log/opencode.log"
+DEFAULT_DATA = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")) / "opencode"
+DEFAULT_DB = str(DEFAULT_DATA / "opencode.db")
+DEFAULT_LOG = str(DEFAULT_DATA / "log/opencode.log")
 TS_RE = re.compile(r"timestamp=([0-9T:.-]+)Z")
-SESSION_RE = re.compile(r"session\.id=(ses_[A-Za-z0-9]+)")
+SESSION_RE = re.compile(r"(?:session\.id|event\.data\.(?:form\.)?sessionID)=(ses_[A-Za-z0-9]+)")
 RUN_RE = re.compile(r"\brun=([0-9a-f]+)\b")
 
 
@@ -42,6 +45,30 @@ def hm(seconds):
 
 def clock(ts):
     return datetime.fromtimestamp(ts).strftime("%m-%d %H:%M")
+
+
+def bridge_v2(db):
+    tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    if "session_v2" not in tables:
+        return
+    columns = "id,parent_id,title,directory,time_created,cost,tokens_input,tokens_output,tokens_reasoning,tokens_cache_read,tokens_cache_write"
+    sessions = f"SELECT {columns} FROM main.session_v2"
+    if "session" in tables:
+        sessions += f" UNION ALL SELECT {columns} FROM main.session WHERE id NOT IN (SELECT id FROM main.session_v2)"
+    db.execute("CREATE TEMP VIEW session AS " + sessions)
+    messages = "SELECT id,session_id,json_set(data,'$.role',type) AS data,time_created FROM main.session_message WHERE type IN ('assistant','user')"
+    if "message" in tables:
+        messages += " UNION ALL SELECT id,session_id,data,time_created FROM main.message"
+    db.execute("CREATE TEMP VIEW message AS " + messages)
+    parts = """SELECT m.id || ':' || j.key AS id,m.session_id,m.id AS message_id,
+        json_set(j.value,'$.tool',json_extract(j.value,'$.name'),
+          '$.state.time.start',coalesce(json_extract(j.value,'$.time.ran'),json_extract(j.value,'$.time.created')),
+          '$.state.time.end',json_extract(j.value,'$.time.completed')) AS data,
+        coalesce(json_extract(j.value,'$.time.created'),m.time_created) AS time_created
+        FROM main.session_message m,json_each(m.data,'$.content') j"""
+    if "part" in tables:
+        parts += " UNION ALL SELECT id,session_id,message_id,data,time_created FROM main.part"
+    db.execute("CREATE TEMP VIEW part AS " + parts)
 
 
 def descendants(db, root):
@@ -185,7 +212,13 @@ def scan_log(log_path, tree_id_sets):
             if sess_m and run:
                 current_session_by_run[run] = sess_m.group(1)
 
-            if "message=asking id=per_" not in line and \
+            modern_kind = next((kind for event, kind in (
+                ("permission.asked", "perm"),
+                ("form.created", "clar_asked"),
+                ("form.replied", "clar_replied"),
+                ("form.cancelled", "clar_dismissed"),
+            ) if f"event.type={event} " in line), None)
+            if modern_kind is None and "message=asking id=per_" not in line and \
                "message=asking id=que_" not in line and \
                "message=replied requestID=que_" not in line and \
                "message=rejected requestID=que_" not in line:
@@ -195,7 +228,9 @@ def scan_log(log_path, tree_id_sets):
             tree = id_to_tree.get(cur)
             if not tree:
                 continue
-            if "message=asking id=per_" in line:
+            if modern_kind:
+                result[tree][modern_kind].append(ts)
+            elif "message=asking id=per_" in line:
                 result[tree]["perm"].append(ts)
             elif "message=asking id=que_" in line:
                 result[tree]["clar_asked"].append(ts)
@@ -416,6 +451,7 @@ def main():
 
     db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     db.row_factory = sqlite3.Row
+    bridge_v2(db)
 
     roots = resolve_roots(db, args.session, args.dir)
     tree_id_sets = {rid: set(descendants(db, rid)) for title, rid in roots}

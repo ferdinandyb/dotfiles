@@ -14,6 +14,7 @@
       "whitelist": [
         "claude-fable-5-1@default",
         "claude-opus-5@default",
+        "claude-opus-5-5@default",
         "gemini-3.1-pro-preview",
         "gemini-3.5-flash-lite",
         "gemini-3.6-flash",
@@ -69,14 +70,16 @@
         },
         "whitelist": [
             "us.openai.gpt-5.6-luna",
-            "us.openai.gpt-5.6-terra",
-            "us.openai.gpt-5.6-sol",
+            "us.openai.gpt-6-luna",
+            "us.openai.gpt-6-sol",
+            "us.openai.gpt-6.1-sol",
             "us.openai.gpt-6-astra"
         ],
         "models": {
             "us.openai.gpt-5.6-luna": {},
-            "us.openai.gpt-5.6-terra": {},
-            "us.openai.gpt-5.6-sol": {},
+            "us.openai.gpt-6-luna": {},
+            "us.openai.gpt-6-sol": {},
+            "us.openai.gpt-6.1-sol": {},
             "us.openai.gpt-6-astra": {}
         }
     }
@@ -451,7 +454,7 @@
       "color": "secondary",
     },
     "plan": {
-      "model": "amazon-bedrock/us.openai.gpt-5.6-sol",
+      "model": "amazon-bedrock/us.openai.gpt-6.1-sol",
       "variant": "high",
       "color": "accent",
     },

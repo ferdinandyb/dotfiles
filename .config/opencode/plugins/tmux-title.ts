@@ -1,6 +1,6 @@
 import { type Plugin, tool } from "@opencode-ai/plugin"
 import { spawnSync } from "node:child_process"
-import { extractTmuxLabel, isResumeLaunch } from "./tmux-title-label"
+import { extractTmuxLabel, isResumeLaunch, resolveTmuxPane } from "./tmux-title-label"
 
 function tmux(args: string[]) {
   spawnSync("tmux", args, { stdio: "ignore" })
@@ -25,7 +25,7 @@ function applyTitle(paneId: string, label: string | null, last: { label: string 
 }
 
 export default (async ({ client }) => {
-  const paneId = process.env.TMUX && process.env.TMUX_PANE ? process.env.TMUX_PANE : null
+  const paneId = resolveTmuxPane()
 
   const setSessionTitle = tool({
     description: "Set the OpenCode session title. Pass `<label> | <full title>`.",

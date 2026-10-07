@@ -11,6 +11,10 @@ export function isResumeLaunch(argv: string[] = process.argv): boolean {
   )
 }
 
+export function resolveTmuxPane(env: Record<string, string | undefined> = process.env): string | null {
+  return env.TMUX_PANE || (env.TMUX && env.TMUX_PANE) || null
+}
+
 const DEFAULT_TITLE = /^(New session - |Child session - )\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
 
 export function extractTmuxLabel(rawTitle?: string | null): string | null {

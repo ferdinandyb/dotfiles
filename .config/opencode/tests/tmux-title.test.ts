@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test"
-import { extractTmuxLabel, isResumeLaunch } from "../plugins/tmux-title-label"
+import { extractTmuxLabel, isResumeLaunch, resolveTmuxPane } from "../plugins/tmux-title-label"
 import * as pluginMod from "../plugins/tmux-title"
 
 test("plugin exports are all functions", () => {
@@ -34,4 +34,10 @@ test("extractTmuxLabel uses undelimited user titles and skips defaults", () => {
   expect(extractTmuxLabel("Child session - 2026-09-24T12:00:00.000Z")).toBeNull()
   expect(extractTmuxLabel(undefined)).toBeNull()
   expect(extractTmuxLabel("   | description")).toBeNull()
+})
+
+test("resolveTmuxPane resolves pane ID even when TMUX is stripped in embedded terminals", () => {
+  expect(resolveTmuxPane({})).toBeNull()
+  expect(resolveTmuxPane({ TMUX: "/tmp/tmux-502/default,1,0", TMUX_PANE: "%12" })).toBe("%12")
+  expect(resolveTmuxPane({ TMUX_PANE: "%42" })).toBe("%42")
 })

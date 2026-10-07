@@ -1,0 +1,782 @@
+#!/usr/bin/env python3
+"""Find, inspect, price, and delete OpenCode session trees."""
+
+import argparse
+import hashlib
+import json
+import os
+import re
+import shutil
+import sqlite3
+import subprocess
+import sys
+import unicodedata
+from collections import defaultdict
+from decimal import Decimal
+from pathlib import Path
+
+
+def folded(text):
+    return unicodedata.normalize("NFC", str(text or "")).casefold()
+
+
+def quoted(name):
+    return '"' + name.replace('"', '""') + '"'
+
+
+def chunks(data, role=None):
+    role = role or data.get("role") or data.get("type", "unknown")
+    if data.get("type") == "tool":
+        state = data.get("state", {})
+        if state.get("input"):
+            value = state["input"]
+            yield (
+                "tool_input",
+                value
+                if isinstance(value, str)
+                else json.dumps(value, ensure_ascii=False),
+            )
+        for key in ("output", "error"):
+            if state.get(key):
+                value = state[key]
+                yield (
+                    "tool_output",
+                    value
+                    if isinstance(value, str)
+                    else json.dumps(value, ensure_ascii=False),
+                )
+        for item in state.get("content", []):
+            if item.get("type") == "text" and item.get("text"):
+                yield "tool_output", item["text"]
+    elif role == "shell":
+        for key, source in (("command", "tool_input"), ("output", "tool_output")):
+            if data.get(key):
+                yield source, data[key]
+    elif data.get("text"):
+        yield "reasoning" if data.get("type") == "reasoning" else role, data["text"]
+    for item in data.get("content", []):
+        if isinstance(item, dict):
+            yield from chunks(item, role)
+    for key in ("summary", "recent"):
+        if isinstance(data.get(key), str) and data[key]:
+            yield "summary", data[key]
+
+
+class History:
+    def __init__(self, home=None, writable=False):
+        self.home = str(Path(home).expanduser().resolve()) if home else None
+        xdg = (
+            Path(self.home) / ".local/share"
+            if home
+            else Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local/share")
+        )
+        self.data_dir = xdg / "opencode"
+        self.dbs = []
+        self.sessions = {}
+        self.children = defaultdict(set)
+        self.legacy = {}
+        try:
+            paths = sorted(
+                set(self.data_dir.glob("opencode.db"))
+                | set(self.data_dir.glob("opencode-*.db"))
+            )
+            for path in paths:
+                db = sqlite3.connect(
+                    path.resolve().as_uri() + ("?mode=rw" if writable else "?mode=ro"),
+                    uri=True,
+                    timeout=5,
+                    isolation_level=None,
+                )
+                db.row_factory = sqlite3.Row
+                self.dbs.append((path, db, {}))
+                if writable:
+                    db.execute("PRAGMA foreign_keys=ON")
+                    db.execute("BEGIN IMMEDIATE")
+                tables = self.dbs[-1][2]
+                for row in db.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table'"
+                ):
+                    name = row["name"]
+                    tables[name] = {
+                        r["name"]
+                        for r in db.execute(f"PRAGMA table_info({quoted(name)})")
+                    }
+                for table in ("session", "session_v2"):
+                    if table not in tables:
+                        continue
+                    columns = [
+                        c
+                        for c in (
+                            "id",
+                            "title",
+                            "directory",
+                            "parent_id",
+                            "time_created",
+                            "time_updated",
+                        )
+                        if c in tables[table]
+                    ]
+                    for row in db.execute(
+                        f"SELECT {','.join(map(quoted, columns))} FROM {quoted(table)}"
+                    ):
+                        self.add(dict(row), str(path))
+            for path in sorted((self.data_dir / "storage/session").glob("*/*.json")):
+                data = json.loads(path.read_text())
+                sid = data["id"]
+                self.legacy[sid] = path
+                self.add(
+                    {
+                        "id": sid,
+                        "title": data.get("title", ""),
+                        "directory": data.get("directory", ""),
+                        "parent_id": data.get("parentID"),
+                        "time_created": data.get("time", {}).get("created", 0),
+                        "time_updated": data.get("time", {}).get("updated", 0),
+                    },
+                    str(path),
+                )
+        except Exception:
+            self.close()
+            raise
+
+    def add(self, row, location):
+        sid = row["id"]
+        previous = self.sessions.get(sid)
+        locations = list(previous["locations"]) if previous else []
+        if location not in locations:
+            locations.append(location)
+        if not previous or (row.get("time_updated") or 0) >= (
+            previous.get("time_updated") or 0
+        ):
+            self.sessions[sid] = {
+                key: row.get(key)
+                for key in (
+                    "id",
+                    "title",
+                    "directory",
+                    "parent_id",
+                    "time_created",
+                    "time_updated",
+                )
+            }
+        self.sessions[sid]["locations"] = locations
+        if row.get("parent_id"):
+            self.children[row["parent_id"]].add(sid)
+
+    def close(self):
+        for _, db, _ in self.dbs:
+            db.close()
+
+    def tree(self, roots):
+        missing = set(roots) - self.sessions.keys()
+        if missing:
+            raise ValueError("Session not found: " + ", ".join(sorted(missing)))
+        found = set()
+        todo = list(roots)
+        while todo:
+            sid = todo.pop()
+            if sid not in found:
+                found.add(sid)
+                todo.extend(self.children[sid])
+        return found
+
+    def items(self, ids=None, query=None, sources=()):
+        needle = folded(query) if query is not None else None
+        seen = set()
+
+        def matches(payload):
+            return any(
+                needle in folded(text) for _, text in chunks(json.loads(payload))
+            )
+
+        def emit(sid, mid, data, role, timestamp, location):
+            if sid not in self.sessions:
+                return
+            for source, text in chunks(data, role):
+                if sources and source not in sources:
+                    continue
+                if needle is not None and needle not in folded(text):
+                    continue
+                key = (sid, mid, source, hashlib.sha256(text.encode()).digest())
+                if key in seen:
+                    continue
+                seen.add(key)
+                yield {
+                    "session_id": sid,
+                    "message_id": mid,
+                    "source": source,
+                    "text": text,
+                    "time_created": timestamp,
+                    "location": location,
+                }
+
+        for path, db, tables in self.dbs:
+            db.create_function("text_matches", 1, matches)
+            if ids is not None:
+                db.execute(
+                    "CREATE TEMP TABLE IF NOT EXISTS selected (id TEXT PRIMARY KEY)"
+                )
+                db.execute("DELETE FROM selected")
+                db.executemany(
+                    "INSERT INTO selected VALUES (?)", [(sid,) for sid in ids]
+                )
+            for table in ("session_message", "part"):
+                if table not in tables:
+                    continue
+                if table == "part":
+                    sql = "SELECT p.session_id, p.message_id AS mid, p.data, p.time_created, json_extract(m.data,'$.role') AS role FROM part p LEFT JOIN message m ON m.id=p.message_id"
+                    alias = "p"
+                else:
+                    sql = "SELECT p.session_id, p.id AS mid, p.data, p.time_created, p.type AS role FROM session_message p"
+                    alias = "p"
+                conditions = []
+                if ids is not None:
+                    conditions.append(
+                        f"{alias}.session_id IN (SELECT id FROM selected)"
+                    )
+                if needle is not None:
+                    # Role filtering happens after the v1 part/message join.
+                    conditions.append(f"text_matches({alias}.data)")
+                if conditions:
+                    sql += " WHERE " + " AND ".join(conditions)
+                for row in db.execute(sql):
+                    yield from emit(
+                        row["session_id"],
+                        row["mid"],
+                        json.loads(row["data"]),
+                        row["role"],
+                        row["time_created"],
+                        str(path),
+                    )
+        for sid in self.legacy:
+            if ids is not None and sid not in ids:
+                continue
+            for path in sorted(
+                (self.data_dir / "storage/message" / sid).glob("*.json")
+            ):
+                data = json.loads(path.read_text())
+                mid = data["id"]
+                timestamp = data.get("time", {}).get("created", 0)
+                yield from emit(sid, mid, data, data.get("role"), timestamp, str(path))
+                for part_path in sorted(
+                    (self.data_dir / "storage/part" / mid).glob("*.json")
+                ):
+                    part = json.loads(part_path.read_text())
+                    yield from emit(
+                        sid, mid, part, data.get("role"), timestamp, str(part_path)
+                    )
+
+
+def excerpt(text, query):
+    text = " ".join(unicodedata.normalize("NFC", text).split())
+    position = folded(text).find(folded(query))
+    start = max(0, position - 100)
+    end = min(len(text), max(position, 0) + len(query) + 180)
+    return ("…" if start else "") + text[start:end] + ("…" if end < len(text) else "")
+
+
+def search(history, args):
+    matches = defaultdict(list)
+    counts = defaultdict(int)
+    ids = (
+        {sid for sid, s in history.sessions.items() if not s.get("parent_id")}
+        if args.roots_only
+        else None
+    )
+
+    def add(sid, item):
+        if ids is not None and sid not in ids:
+            return
+        counts[sid] += 1
+        if len(matches[sid]) < 5:
+            matches[sid].append(item)
+
+    for sid, session in history.sessions.items():
+        for source in ("title", "directory"):
+            if args.source and source not in args.source:
+                continue
+            if folded(args.query) in folded(session.get(source)):
+                add(
+                    sid,
+                    {
+                        "source": source,
+                        "excerpt": excerpt(session.get(source) or "", args.query),
+                    },
+                )
+    text_sources = [s for s in args.source if s not in ("title", "directory")]
+    if not args.source or text_sources:
+        for item in history.items(ids=ids, query=args.query, sources=text_sources):
+            item["excerpt"] = excerpt(item.pop("text"), args.query)
+            add(item["session_id"], item)
+    ordered = sorted(
+        matches,
+        key=lambda sid: (history.sessions[sid].get("time_created") or 0, sid),
+        reverse=True,
+    )
+    return {
+        "query": args.query,
+        "total_sessions": len(ordered),
+        "offset": args.offset,
+        "sessions": [
+            {
+                **history.sessions[sid],
+                "match_count": counts[sid],
+                "matches": matches[sid],
+            }
+            for sid in ordered[args.offset : args.offset + args.limit]
+        ],
+    }
+
+
+def show(history, args):
+    roots = list(dict.fromkeys(args.session_ids))
+    tree = history.tree(roots)
+    items = sorted(
+        history.items(ids=tree if args.tree else set(roots), sources=args.source),
+        key=lambda item: (item["time_created"] or 0, item["message_id"]),
+    )
+    return {
+        **({"session": history.sessions[roots[0]]} if len(roots) == 1 else {}),
+        "sessions": [history.sessions[sid] for sid in roots],
+        "descendants": [history.sessions[sid] for sid in sorted(tree - set(roots))],
+        "total_items": len(items),
+        "offset": args.offset,
+        "items": items[args.offset : args.offset + args.limit],
+    }
+
+
+def inventory_ids(path, categories=()):
+    data = json.loads(Path(path).expanduser().read_text())
+    if not isinstance(data, dict) or not isinstance(data.get("sessions"), list):
+        raise ValueError("inventory must be an object with a sessions list")
+    ids = []
+    for entry in data["sessions"]:
+        if (
+            not isinstance(entry, dict)
+            or not isinstance(entry.get("id"), str)
+            or not re.fullmatch(r"ses_[A-Za-z0-9]+", entry["id"])
+            or not isinstance(entry.get("include", True), bool)
+            or not isinstance(entry.get("category", ""), str)
+        ):
+            raise ValueError(
+                "invalid inventory entry: expected id, optional category and boolean include"
+            )
+        if entry.get("include", True) and (
+            not categories or entry.get("category") in categories
+        ):
+            ids.append(entry["id"])
+    return list(dict.fromkeys(ids))
+
+
+def price(history, roots):
+    trees = {sid: history.tree([sid]) for sid in dict.fromkeys(roots)}
+    selected = set().union(*trees.values())
+    command = [
+        "npx",
+        "--yes",
+        "tokscale@latest",
+        "models",
+        "-c",
+        "opencode",
+        "--json",
+        "--group-by",
+        "session,model",
+        "--no-spinner",
+    ]
+    if history.home:
+        command += ["--home", history.home]
+    result = subprocess.run(command, capture_output=True, text=True)
+    if result.returncode:
+        raise ValueError(
+            "Tokscale failed: " + (result.stderr.strip() or result.stdout.strip())
+        )
+    report = json.loads(result.stdout)
+    if report.get("groupBy") != "session,model":
+        raise ValueError("Unexpected Tokscale grouping; expected session,model")
+    costs = defaultdict(Decimal)
+    priced = set()
+    zero_cost_usage = set()
+    for entry in report["entries"]:
+        sid = entry.get("sessionId")
+        if sid not in selected:
+            continue
+        value = Decimal(str(entry["cost"]))
+        if not value.is_finite() or value < 0:
+            raise ValueError(f"Invalid Tokscale cost for {sid}")
+        costs[sid] += value
+        priced.add(sid)
+        if value == 0 and any(
+            entry.get(key, 0) > 0
+            for key in ("input", "output", "cacheRead", "cacheWrite", "reasoning")
+        ):
+            zero_cost_usage.add(sid)
+    missing = selected - priced
+    for _, db, tables in history.dbs:
+        for table in ("message", "session_message"):
+            if table not in tables:
+                continue
+            predicate = (
+                "json_extract(data,'$.role')='assistant'"
+                if table == "message"
+                else "type='assistant'"
+            )
+            for row in db.execute(
+                f"SELECT DISTINCT session_id FROM {quoted(table)} WHERE {predicate} AND json_extract(data,'$.tokens') IS NOT NULL"
+            ):
+                if row["session_id"] in missing:
+                    raise ValueError(
+                        f"Tokscale returned no usage for {row['session_id']}; refusing to report it as $0"
+                    )
+    for sid in missing & history.legacy.keys():
+        for path in (history.data_dir / "storage/message" / sid).glob("*.json"):
+            data = json.loads(path.read_text())
+            if data.get("role") == "assistant" and data.get("tokens") is not None:
+                raise ValueError(
+                    f"Tokscale returned no usage for {sid}; refusing to report it as $0"
+                )
+    entries = [
+        {
+            "session_id": sid,
+            "title": history.sessions[sid].get("title"),
+            "price": float(sum((costs[child] for child in tree), Decimal(0))),
+            "session_ids": sorted(tree),
+        }
+        for sid, tree in trees.items()
+    ]
+    return {
+        "currency": "USD",
+        "entries": entries,
+        "total": float(sum((costs[sid] for sid in selected), Decimal(0))),
+        "zero_cost_usage": sorted(zero_cost_usage),
+    }
+
+
+def delete(history, roots, dry_run=False):
+    selected = history.tree(roots)
+    if any(not re.fullmatch(r"ses_[A-Za-z0-9]+", sid) for sid in selected):
+        raise ValueError("Invalid session ID in deletion tree")
+    storage = history.data_dir / "storage"
+    paths = set()
+    mids = set()
+    for sid in selected:
+        paths.update((storage / "session").glob(f"*/{sid}.json"))
+        paths.update((storage / "session_share").glob(f"*/{sid}.json"))
+        for name in ("message", "todo", "session_diff", "session_share"):
+            path = storage / name / sid
+            if path.exists() or path.is_symlink():
+                paths.add(path)
+            path = storage / name / f"{sid}.json"
+            if path.exists():
+                paths.add(path)
+        for path in (storage / "message" / sid).glob("*.json"):
+            mids.add(path.stem)
+    for _, db, tables in history.dbs:
+        db.execute("CREATE TEMP TABLE IF NOT EXISTS selected (id TEXT PRIMARY KEY)")
+        db.execute("DELETE FROM selected")
+        db.executemany("INSERT INTO selected VALUES (?)", [(sid,) for sid in selected])
+        if "message" in tables:
+            mids.update(
+                row["id"]
+                for row in db.execute(
+                    "SELECT id FROM message WHERE session_id IN (SELECT id FROM selected)"
+                )
+            )
+    for mid in mids:
+        if not re.fullmatch(r"msg_[A-Za-z0-9]+", mid):
+            raise ValueError("Invalid message ID in deletion tree")
+        path = storage / "part" / mid
+        if path.exists() or path.is_symlink():
+            paths.add(path)
+    result = {
+        "dry_run": dry_run,
+        "session_ids": sorted(selected),
+        "files": sorted(map(str, paths)),
+    }
+    if dry_run:
+        return result
+    for _, db, tables in history.dbs:
+        for table, columns in tables.items():
+            if "session_id" in columns:
+                db.execute(
+                    f"DELETE FROM {quoted(table)} WHERE session_id IN (SELECT id FROM selected)"
+                )
+        for table in ("event", "event_sequence"):
+            if table in tables and "aggregate_id" in tables[table]:
+                db.execute(
+                    f"DELETE FROM {quoted(table)} WHERE aggregate_id IN (SELECT id FROM selected)"
+                )
+        for table in ("session_v2", "session"):
+            if table in tables:
+                db.execute(
+                    f"DELETE FROM {quoted(table)} WHERE id IN (SELECT id FROM selected)"
+                )
+    for _, db, _ in history.dbs:
+        db.commit()
+    for path in paths:
+        if path.is_dir() and not path.is_symlink():
+            shutil.rmtree(path)
+        else:
+            path.unlink(missing_ok=True)
+    return result
+
+
+def human_size(n):
+    mb = n / (1024 * 1024)
+    if mb >= 1024:
+        return f"{mb / 1024:.2f} GB ({mb:,.1f} MB)"
+    return f"{mb:.1f} MB"
+
+
+def vacuum(history, args):
+    targets = []
+    for path, _, _ in history.dbs:
+        if args.db and path.name != args.db and str(path) != args.db:
+            continue
+        targets.append(path)
+    if not targets:
+        raise ValueError(f"No matching database found: {args.db}")
+    history.close()
+    items = []
+    for path in targets:
+        before_bytes = path.stat().st_size
+        conn = sqlite3.connect(str(path), timeout=10, isolation_level=None)
+        freelist = conn.execute("PRAGMA freelist_count").fetchone()[0]
+        page_size = conn.execute("PRAGMA page_size").fetchone()[0]
+        reclaimable_bytes = freelist * page_size
+        if args.dry_run:
+            conn.close()
+            items.append(
+                {
+                    "database": str(path),
+                    "before_bytes": before_bytes,
+                    "reclaimable_bytes": reclaimable_bytes,
+                    "dry_run": True,
+                }
+            )
+            continue
+        try:
+            conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+            conn.execute("VACUUM")
+            conn.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        finally:
+            conn.close()
+        after_bytes = path.stat().st_size
+        items.append(
+            {
+                "database": str(path),
+                "before_bytes": before_bytes,
+                "after_bytes": after_bytes,
+                "reclaimed_bytes": max(0, before_bytes - after_bytes),
+                "dry_run": False,
+            }
+        )
+    return {"results": items}
+
+
+def positive(value):
+    value = int(value)
+    if value < 1:
+        raise argparse.ArgumentTypeError("must be positive")
+    return value
+
+
+def nonnegative(value):
+    value = int(value)
+    if value < 0:
+        raise argparse.ArgumentTypeError("must be nonnegative")
+    return value
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        epilog="Topic accounting: search for candidates, inspect with show, then pass relevant IDs to cost. Prices come from npx tokscale@latest and may include estimates. Reads OpenCode v1/v2 SQLite and legacy JSON history.",
+    )
+    parser.add_argument(
+        "--home", help="read another home directory (also passed to Tokscale)"
+    )
+    commands = parser.add_subparsers(dest="command", required=True)
+    for name in ("search", "show", "cost", "delete", "vacuum"):
+        command = commands.add_parser(
+            name,
+            help={
+                "search": "literal Unicode case-insensitive search",
+                "show": "read conversation text and list descendants",
+                "cost": "price selected trees via Tokscale",
+                "delete": "permanently remove trees from local history",
+                "vacuum": "reclaim disk space in SQLite databases via checkpoint and VACUUM",
+            }[name],
+        )
+        command.add_argument(
+            "--json", action="store_true", help="machine-readable output"
+        )
+        if name == "delete":
+            command.add_argument("session_ids", nargs="+")
+        elif name in ("show", "cost"):
+            command.add_argument("session_ids", nargs="*")
+            command.add_argument(
+                "--sessions-file",
+                help="JSON inventory with a sessions list; entries with include=false are skipped",
+            )
+            command.add_argument(
+                "--category",
+                action="append",
+                default=[],
+                help="select inventory category; repeatable",
+            )
+            if name == "show":
+                command.add_argument(
+                    "--tree",
+                    action="store_true",
+                    help="include descendant conversations",
+                )
+        elif name == "vacuum":
+            command.add_argument(
+                "--db",
+                help="specific database filename or path (default: all detected databases)",
+            )
+            command.add_argument(
+                "--dry-run",
+                action="store_true",
+                help="inspect reclaimable free pages without vacuuming",
+            )
+        else:
+            command.add_argument("query")
+            command.add_argument(
+                "--roots-only",
+                action="store_true",
+                help="only match root sessions, excluding subagents",
+            )
+        if name in ("search", "show"):
+            command.add_argument(
+                "--source",
+                action="append",
+                default=[],
+                choices=(
+                    "title",
+                    "directory",
+                    "user",
+                    "assistant",
+                    "tool_input",
+                    "tool_output",
+                    "reasoning",
+                    "summary",
+                    "system",
+                    "synthetic",
+                ),
+                help="restrict match source; repeatable",
+            )
+        if name in ("search", "show"):
+            command.add_argument(
+                "--limit", type=positive, default=50 if name == "search" else 100
+            )
+            command.add_argument("--offset", type=nonnegative, default=0)
+        if name == "cost":
+            command.add_argument(
+                "--total",
+                action="store_true",
+                help="print only the combined price; overlapping trees count once",
+            )
+        if name == "delete":
+            command.description = "Remove selected sessions, descendants, database records, and legacy JSON copies. Stop targeted sessions before deleting; restart OpenCode to refresh cached history. Transactions are per database. Project files and shared snapshots are preserved."
+            command.add_argument(
+                "--dry-run",
+                action="store_true",
+                help="list sessions and legacy files without removing them",
+            )
+    args = parser.parse_args()
+    if args.command == "search" and not args.query.strip():
+        parser.error("search query must not be empty")
+    history = None
+    try:
+        if args.command in ("show", "cost"):
+            if args.category and not args.sessions_file:
+                parser.error("--category requires --sessions-file")
+            args.session_ids = list(
+                dict.fromkeys(
+                    args.session_ids
+                    + (
+                        inventory_ids(args.sessions_file, args.category)
+                        if args.sessions_file
+                        else []
+                    )
+                )
+            )
+            if not args.session_ids:
+                parser.error(
+                    "no sessions selected; provide IDs or a nonempty --sessions-file selection"
+                )
+        history = History(
+            args.home, writable=args.command == "delete" and not args.dry_run
+        )
+        if args.command == "search":
+            result = search(history, args)
+        elif args.command == "show":
+            result = show(history, args)
+        elif args.command == "cost":
+            result = price(history, args.session_ids)
+        elif args.command == "vacuum":
+            result = vacuum(history, args)
+        else:
+            result = delete(history, args.session_ids, args.dry_run)
+        if args.json:
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+        elif args.command == "vacuum":
+            for item in result["results"]:
+                db_name = Path(item["database"]).name
+                if item.get("dry_run"):
+                    print(
+                        f"{db_name}: {human_size(item['before_bytes'])} total, {human_size(item['reclaimable_bytes'])} in free pages reclaimable."
+                    )
+                else:
+                    print(
+                        f"{db_name}: {human_size(item['before_bytes'])} -> {human_size(item['after_bytes'])} ({human_size(item['reclaimed_bytes'])} reclaimed)."
+                    )
+        elif args.command == "cost":
+            if args.total:
+                print(f"{result['total']:.6f}")
+            else:
+                for entry in result["entries"]:
+                    title = " ".join((entry["title"] or "").split())
+                    print(f"{entry['session_id']} - {title} - ${entry['price']:.6f}")
+        elif args.command == "search":
+            for session in result["sessions"]:
+                print(f"{session['id']} - {session['title']} - {session['directory']}")
+                for match in session["matches"]:
+                    print(f"  [{match['source']}] {match['excerpt']}")
+            print(
+                f"Showing {len(result['sessions'])} of {result['total_sessions']} matching sessions (offset {args.offset}).",
+                file=sys.stderr,
+            )
+        elif args.command == "show":
+            for session in result["sessions"]:
+                print(f"{session['id']} - {session['title']} - {session['directory']}")
+            for item in result["items"]:
+                print(
+                    f"\n[{item['session_id']} / {item['message_id']} / {item['source']}]\n{item['text']}"
+                )
+            print(
+                f"Showing {len(result['items'])} of {result['total_items']} items; {len(result['descendants'])} descendants.",
+                file=sys.stderr,
+            )
+        else:
+            print(
+                ("Would delete" if args.dry_run else "Deleted")
+                + f" {len(result['session_ids'])} sessions and {len(result['files'])} legacy paths:"
+            )
+            print("\n".join(result["session_ids"]))
+        if args.command == "cost" and result["zero_cost_usage"]:
+            print(
+                "Tokscale reports $0 despite token usage (free or unpriced): "
+                + ", ".join(result["zero_cost_usage"]),
+                file=sys.stderr,
+            )
+    except (ValueError, OSError, sqlite3.Error) as error:
+        parser.exit(1, f"opencode-session: {error}\n")
+    finally:
+        if history:
+            history.close()
+
+
+if __name__ == "__main__":
+    main()

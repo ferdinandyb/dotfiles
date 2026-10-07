@@ -321,6 +321,18 @@
       "tuicr review list *": "allow",
       "tuicr review comments *": "allow",
 
+      // --- opencode-session (read-only introspection/pricing commands) ---
+      "opencode-session search *": "allow",
+      "opencode-session show *": "allow",
+      "opencode-session cost *": "allow",
+      "opencode-session --help*": "allow",
+      "opencode-session -h": "allow",
+      "~/bin/opencode-session search *": "allow",
+      "~/bin/opencode-session show *": "allow",
+      "~/bin/opencode-session cost *": "allow",
+      "~/bin/opencode-session --help*": "allow",
+      "~/bin/opencode-session -h": "allow",
+
       // --- gcli (allow by default, ask for destructive actions) ---
       // NOTE: these patterns only hold while nothing precedes the subcommand.
       // Any global flag (--no-markdown, -q, -t github) shifts the string and
@@ -516,6 +528,18 @@
 
           // --- Taskwarrior (read-only) ---
           "task list *": "allow",
+
+          // --- opencode-session (read-only) ---
+          "opencode-session search *": "allow",
+          "opencode-session show *": "allow",
+          "opencode-session cost *": "allow",
+          "opencode-session --help*": "allow",
+          "opencode-session -h": "allow",
+          "~/bin/opencode-session search *": "allow",
+          "~/bin/opencode-session show *": "allow",
+          "~/bin/opencode-session cost *": "allow",
+          "~/bin/opencode-session --help*": "allow",
+          "~/bin/opencode-session -h": "allow",
 
           // --- gcli (read-only) ---
           "gcli api *": "allow",

@@ -8,6 +8,8 @@ tools:
   bash: true
 permission:
   edit: deny
+  task: deny
+  execute: deny
   bash:
     # Default - must be first so specific rules override it
     "*": ask

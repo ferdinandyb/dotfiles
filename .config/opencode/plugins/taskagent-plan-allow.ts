@@ -7,7 +7,7 @@ export default Plugin.define({
       if (event.agent !== "plan") return
       event.system.push({
         type: "text",
-        text: "<system-reminder>\nException: `taskagent add ...` is allowed in Plan Mode. Append-only to task DB, equivalent to writing the plan file. No other taskagent subcommands.\n</system-reminder>",
+        text: "<system-reminder>\nException: Read-only taskagent commands (list, info, ready, etc.) and `taskagent add ...` are allowed in Plan Mode. Other taskagent mutations (modify, done, start, stop, delete) remain forbidden.\n</system-reminder>",
       })
     })
   },

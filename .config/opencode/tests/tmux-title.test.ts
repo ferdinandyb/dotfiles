@@ -1,5 +1,10 @@
 import { expect, test } from "bun:test"
-import { extractTmuxLabel, isResumeLaunch, resolveTmuxPane } from "../plugins/lib/tmux-title-label"
+import {
+  deriveSessionStatus,
+  extractTmuxLabel,
+  isResumeLaunch,
+  resolveTmuxPane,
+} from "../plugins/lib/tmux-title-label"
 
 test("extractTmuxLabel extracts clean prefix label up to 15 chars", () => {
   expect(extractTmuxLabel("tmux-title | Short tmux titles")).toBe("tmux-title")
@@ -33,4 +38,96 @@ test("resolveTmuxPane resolves pane ID even when TMUX is stripped in embedded te
   expect(resolveTmuxPane({})).toBeNull()
   expect(resolveTmuxPane({ TMUX: "/tmp/tmux-502/default,1,0", TMUX_PANE: "%12" })).toBe("%12")
   expect(resolveTmuxPane({ TMUX_PANE: "%42" })).toBe("%42")
+})
+
+test("deriveSessionStatus maps execution and input states", () => {
+  const base = {
+    status: () => "idle" as const,
+    pending: { list: () => [] },
+    permission: { list: () => [] },
+    form: { list: () => [] },
+    get: () => ({}),
+  }
+
+  expect(deriveSessionStatus("ses_1", ["ses_1"], base)).toBe("")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      permission: { list: () => [{ id: "perm_1" }] },
+    }),
+  ).toBe("?")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      form: { list: () => [{ id: "form_1" }] },
+    }),
+  ).toBe("?")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      status: (id) => (id === "ses_1" ? "running" : "idle"),
+    }),
+  ).toBe("●")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      pending: { list: () => [{ type: "prompt" }] },
+    }),
+  ).toBe("●")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      pending: { list: () => [{ type: "synthetic" }] },
+    }),
+  ).toBe("")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      get: () => ({ outcome: "succeeded" }),
+    }),
+  ).toBe("✓")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      get: () => ({ outcome: "failed" }),
+    }),
+  ).toBe("✗")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      get: () => ({ outcome: "interrupted" }),
+    }),
+  ).toBe("")
+
+  // Subagents
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1", "sub_1"], {
+      ...base,
+      status: (id) => (id === "sub_1" ? "running" : "idle"),
+    }),
+  ).toBe("●")
+
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1", "sub_1"], {
+      ...base,
+      permission: { list: (id) => (id === "sub_1" ? [{ id: "p1" }] : []) },
+    }),
+  ).toBe("?")
+
+  // Precedence: permission over running
+  expect(
+    deriveSessionStatus("ses_1", ["ses_1"], {
+      ...base,
+      status: () => "running",
+      permission: { list: () => [{ id: "perm_1" }] },
+    }),
+  ).toBe("?")
 })

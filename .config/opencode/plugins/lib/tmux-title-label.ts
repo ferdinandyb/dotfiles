@@ -35,3 +35,37 @@ export function extractTmuxLabel(rawTitle?: string | null): string | null {
   const label = sanitized.slice(0, MAX_TMUX_TITLE_LEN).replace(/-+$/, "")
   return label || null
 }
+
+export type SessionStatusIcon = "●" | "?" | "✓" | "✗" | ""
+
+export interface SessionStatusSource {
+  status(id: string): "idle" | "running"
+  pending?: { list(id: string): Array<{ type: string }> }
+  permission?: { list(id: string): Array<unknown> | undefined }
+  form?: { list(id: string): Array<unknown> | undefined }
+  get(id: string): { outcome?: "succeeded" | "failed" | "interrupted" | string } | undefined
+}
+
+export function deriveSessionStatus(
+  rootID: string,
+  members: string[],
+  source: SessionStatusSource,
+): SessionStatusIcon {
+  const needsInput = members.some(
+    (id) => (source.permission?.list(id)?.length ?? 0) > 0 || (source.form?.list(id)?.length ?? 0) > 0,
+  )
+  if (needsInput) return "?"
+
+  const isBusy = members.some(
+    (id) =>
+      source.status(id) === "running" ||
+      (source.pending?.list(id) ?? []).some((item) => item.type !== "synthetic"),
+  )
+  if (isBusy) return "●"
+
+  const rootSession = source.get(rootID)
+  if (rootSession?.outcome === "failed") return "✗"
+  if (rootSession?.outcome === "succeeded") return "✓"
+
+  return ""
+}

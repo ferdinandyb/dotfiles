@@ -416,7 +416,7 @@
   ],
   "agent": {
     "build": {
-      "model": "google-vertex/gemini-3.8-flash",
+      "model": "amazon-bedrock/us.openai.gpt-6.1-sol",
       "variant": "medium",
       "color": "#ff79c6",
     },
@@ -426,7 +426,7 @@
       "color": "#8be9fd",
     },
     "explore": {
-      "model": "google-vertex/gemini-3.8-flash",
+      "model": "amazon-bedrock/us.openai.gpt-6-luna",
       "variant": "medium",
       "permission": {
         "skill": "allow",

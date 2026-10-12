@@ -34,7 +34,7 @@ command! -bang -nargs=? -complete=dir FYadm
             \ call fzf#run(fzf#wrap('yadm',
             \ fzf#vim#with_preview(
             \ { 'dir': <q-args>,
-            \ 'source': 'yadm list -a' }), <bang>0))
+            \ 'source': 'yadmlistall' }), <bang>0))
 
 nmap <leader>fy :FYadm!<CR>
 

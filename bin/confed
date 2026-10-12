@@ -21,6 +21,10 @@ fi
 
 session=$HOME/.local/share/yadm/Session.vim
 
+if [ -n "$TMUX" ] && tmux set-option -p -t "$TMUX_PANE" @confed 1; then
+	trap 'tmux set-option -pu -t "$TMUX_PANE" @confed' EXIT
+fi
+
 $vimvariant $extra_args \
 	-c "cd ~" \
 	-c "let g:rooter_manual_only = 1" \

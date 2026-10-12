@@ -59,7 +59,7 @@ lualine.setup({
       'filetype',
     },
     lualine_y = { 'progress' },
-    lualine_z = { 'location', 'selectioncount' },
+    lualine_z = { 'location', 'selectioncount', require("opencode").statusline },
   },
   tabline = {
     lualine_a = { { 'buffers', mode = 4 } },       -- mode 4: name + buffer number

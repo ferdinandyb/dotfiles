@@ -4,6 +4,9 @@
     "name": "dracula"
   },
   "animations": true,
+  "prompt": {
+    "paste": "full"
+  },
   "session": {
     "sidebar": "auto",
     "thinking": "hide",
@@ -22,6 +25,9 @@
   "diffs": {
     "view": "unified",
     "wrap": "word"
+  },
+  "attention": {
+    "sound": false
   },
   "plugins": [
     "./cli-plugins/tmux-title"

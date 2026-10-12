@@ -7,7 +7,8 @@ nmap <buffer> [w <Plug>VimwikiGoBackLink
 nmap <buffer> ]sw <Plug>VimwikiSplitLink
 nmap <buffer> ]vw <Plug>VimwikiVSplitLink
 
-set foldlevel=1
+setlocal foldlevel=1
+call myfunctions#prose_format_setup()
 
 
 function! DiaryWeeklyTemplate()

@@ -1,8 +1,7 @@
 " need to have npm and yarn for markdown preview
 Plug 'lervag/vimtex'
-" required by vim-markdown but easy-align is probably better
+" alignment plugin
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 " Plug 'alok/notational-fzf-vim'
 " Plug 'vim-pandoc/vim-pandoc'
 " Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -21,9 +20,4 @@ let g:vimtex_fold_enabled = 1
 " - need to start vim with `vim --servername vim`: should add alias
 " - run :VimtexCompile to start compilation
 
-let g:vim_markdown_math = 1
-let g:vim_markdown_conceal = 2
-let g:vim_markdown_conceal_code_blocks = 0
-let g:vim_markdown_strikethrough = 1
-let g:vim_markdown_new_list_item_indent = 2
-let g:vim_markdown_frontmatter = 1
+let g:markdown_fenced_languages = ['c++=cpp', 'viml=vim', 'bash=sh', 'ini=dosini', 'python', 'lua', 'json']

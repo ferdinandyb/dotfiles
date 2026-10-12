@@ -25,10 +25,12 @@ user, ask for review on the current sessions work/topic.)
 same time. Do NOT wait for the first before issuing the second. They must
 appear in the same assistant message so they execute concurrently.
 
-- Launch agent `code-reviewer-grok`, description `Independent Grok review`,
-  prompt = the full input above verbatim (including any focus/scope instructions).
-- Launch agent `code-reviewer-gemini`, description `Independent Gemini review`,
-  prompt = the full input above verbatim (including any focus/scope instructions).
+- Launch agent `reviewer-grok`, description `Independent Grok review`,
+  prompt = `Review purpose: code review`, followed by the full input above verbatim (including any focus/scope instructions).
+- Launch agent `reviewer-gemini`, description `Independent Gemini review`,
+  prompt = `Review purpose: code review`, followed by the full input above verbatim (including any focus/scope instructions).
+
+Use the named agents without a model override; their configuration selects the models.
 
 Wait for both to complete before proceeding.
 
@@ -40,10 +42,10 @@ prompt (substituting the actual review text):
 
 ```
 GROK REVIEW:
-<full report from code-reviewer-grok>
+<full report from reviewer-grok>
 
 GEMINI REVIEW:
-<full report from code-reviewer-gemini>
+<full report from reviewer-gemini>
 ```
 
 ### Step 3 — Return

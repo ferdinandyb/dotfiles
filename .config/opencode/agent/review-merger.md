@@ -1,7 +1,7 @@
 ---
-description: Neutral review presenter. Receives two independent code reviews (Gemini + Grok) and makes them readable side-by-side, surfacing consensus and disagreements. Does not produce a merged verdict — leaves all disagreements for the human to resolve.
+description: Neutral review presenter. Receives two independent reviews (Gemini + Grok) and makes them readable side-by-side, surfacing consensus and disagreements. Does not produce a merged verdict — leaves all disagreements for the human to resolve.
 mode: subagent
-hidden: true
+hidden: false
 model: google-vertex/gemini-3.5-flash-lite
 temperature: 0.1
 permission:
@@ -94,12 +94,12 @@ If there are no direct contradictions, write: *No direct contradictions found.*
 
 ---
 
-### Ticket alignment
+### Goal alignment
 
-Summarise both reviewers' positions on whether the code satisfies the ticket requirements:
+Summarise both reviewers' positions on whether the work satisfies the requested goal and any ticket requirements:
 
-- **Gemini:** [their ticket alignment assessment]
-- **Grok:** [their ticket alignment assessment]
+- **Gemini:** [their goal alignment assessment]
+- **Grok:** [their goal alignment assessment]
 
 If they disagree on alignment, flag it explicitly.
 

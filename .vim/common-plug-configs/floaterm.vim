@@ -47,7 +47,8 @@ command! Lazyjira FloatermNew lazyjira
 command! LG FloatermNew lazygit
 
 command! Mdterm FloatermNew mdterm %
-nnoremap <leader> <cmd>Mdterm<cr>
+nnoremap <A-m> <cmd>Mdterm<cr>
+tnoremap <A-m> <C-\><C-n><cmd>Mdterm<cr>
 
 command! -nargs=* Tuicr call s:ToggleFloatermWindow('tuicr', 'EDITOR=$FLOATERM tuicr', <f-args>)
 nnoremap <A-u> <cmd>Tuicr<cr>

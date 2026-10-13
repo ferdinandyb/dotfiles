@@ -47,6 +47,7 @@ ensure_zoom_session() {
 }
 
 ensure_zoom_session
+tmux set-option -t "$ZOOM_SESSION" detach-on-destroy on
 
 placeholder=$(tmux split-window -b -t "$this_id" -P -F '#{pane_id}' \
 	"printf '\\n  floated \\n\\n'; while :; do sleep 3600; done")

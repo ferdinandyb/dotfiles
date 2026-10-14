@@ -33,7 +33,9 @@ request on it's own if needed.
 - **50 characters ideal**, max 72
 - Use scope prefix: `ci:`, `doc:`, `accounts:`, `server:`. Do not use
   conventional commit prefixes.
-- **Imperative mood**: "Fix bug" not "Fixed bug"
+- **Imperative mood**: "fix bug" not "fixed bug".
+- Start the description after the scope colon with lowercase. Preserve proper
+  nouns and acronyms. Example: `accounts: retire obsolete features`.
 - No emojis
 
 ### Body

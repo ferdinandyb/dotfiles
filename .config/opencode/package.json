@@ -3,7 +3,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "@opencode/plugin": "2.0.24",
+    "@opencode/plugin": "2.0.28",
     "solid-js": "1.9.10",
     "tree-sitter-bash": "0.25.0",
     "web-tree-sitter": "0.25.10"

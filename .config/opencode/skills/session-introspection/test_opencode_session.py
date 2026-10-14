@@ -221,6 +221,30 @@ class SessionTests(unittest.TestCase):
             {i["session_id"] for i in oc.show(history, args)["items"]}, {"ses_root"}
         )
 
+    def test_shell_output_strings_and_v2_objects(self):
+        text = "Shell regression: deployment complete."
+        history = self.history()
+        args = types.SimpleNamespace(
+            session_ids=["ses_root"], tree=True, offset=0, limit=100, source=[]
+        )
+        for output in (text, {"output": text, "cursor": 42, "size": 42, "truncated": False}):
+            with self.subTest(output=output):
+                with sqlite3.connect(self.path) as db:
+                    db.execute(
+                        "INSERT OR REPLACE INTO session_message VALUES ('msg_shell', 'ses_grandchild', 'shell', 14, ?)",
+                        (json.dumps({"type": "shell", "command": "deploy", "output": output}),),
+                    )
+                shown = [
+                    (item["source"], item["text"])
+                    for item in oc.show(history, args)["items"]
+                    if item["message_id"] == "msg_shell"
+                ]
+                self.assertEqual(shown, [("tool_input", "deploy"), ("tool_output", text)])
+                result = self.search(history, "shell regression", ["tool_output"])
+                self.assertEqual(result["total_sessions"], 1)
+                self.assertEqual(result["sessions"][0]["matches"][0]["excerpt"], text)
+        self.assertEqual(list(oc.chunks({"type": "shell", "output": {"output": ""}})), [])
+
     def test_root_search_and_batch_show_source_filter(self):
         history = self.history()
         result = oc.search(

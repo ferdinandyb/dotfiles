@@ -50,8 +50,11 @@ def chunks(data, role=None):
                 yield "tool_output", item["text"]
     elif role == "shell":
         for key, source in (("command", "tool_input"), ("output", "tool_output")):
-            if data.get(key):
-                yield source, data[key]
+            value = data.get(key)
+            if key == "output" and isinstance(value, dict):
+                value = value.get("output")
+            if value:
+                yield source, value
     elif data.get("text"):
         yield "reasoning" if data.get("type") == "reasoning" else role, data["text"]
     for item in data.get("content", []):

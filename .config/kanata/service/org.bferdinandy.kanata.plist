@@ -32,7 +32,7 @@
     <dict>
         <key>PathState</key>
         <dict>
-            <key>/Library/Application Support/org.pqrs/tmp/rootonly/vhidd_server</key>
+            <key>/Library/Application Support/org.pqrs/tmp/rootonly/karabiner_virtual_hid_device_service.sock</key>
             <true/>
         </dict>
     </dict>

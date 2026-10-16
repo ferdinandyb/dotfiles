@@ -183,7 +183,7 @@ Two kanata services exist — load only the one matching the active keyboard:
 | `org.bferdinandy.kanata-iso` | `mac-iso-entry.kbd` | Keychron K8 Pro, Keychron K1 (Keychron Link dongle) |
 
 Kanata depends on the standalone [Karabiner-DriverKit-VirtualHIDDevice](https://github.com/pqrs-org/Karabiner-DriverKit-VirtualHIDDevice)
-driver (v6.2.0) — **not** Karabiner-Elements. See the
+driver (v8.0.0 for kanata v1.13) — **not** Karabiner-Elements. See the
 [kanata macOS setup guide](https://github.com/jtroo/kanata/blob/main/docs/setup-macos.md)
 for full prerequisites: driver installation, system extension activation and
 approval, and granting kanata both **Input Monitoring** and **Accessibility**
@@ -198,7 +198,7 @@ and re-add `/usr/local/bin/kanata` in both Input Monitoring and Accessibility.
 The kanata binary (built from the local fork) includes a **stuck-sink watchdog**
 (`src/oskbd/macos.rs`). After sleep/wake, if the DriverKit output sink fails to
 reach stable readiness within 45 s, kanata exits with code 70 (EX_SOFTWARE) and
-launchd's `KeepAlive { PathState: vhidd_server }` automatically restarts a clean
+launchd's `KeepAlive { PathState: karabiner_virtual_hid_device_service.sock }` automatically restarts a clean
 process. No manual `sudo launchctl kickstart` required. The watchdog applies to
 both the internal-keyboard and iso instances.
 
@@ -302,9 +302,10 @@ config **trimmed**, so a name with leading/trailing spaces copied from that
 output silently never matches — the only symptom is a repeating
 `Still waiting for device(s)` line in the log.
 
-The K1's dongle is exactly this case: it reports `"Keychron Link "`, and the
-trailing space in `mac-iso-entry.kbd` is load-bearing. Check the raw name with
-`ioreg -r -c IOHIDDevice -d 1 | ug '"Product" ='`. If a name ever proves too
-awkward, `macos-dev-names-include` also accepts a device hash from
-`kanata --list` (e.g. `"0x7A02521BF12E02AC"` for the Keychron Link), which is
-derived from `vendor:product:name` and so is stable until firmware changes it.
+The K1's dongle is exactly this case: it reports `"Keychron Link "`, so the
+trailing space matters when matching by name. Check the raw name with
+`ioreg -r -c IOHIDDevice -d 1 | ug '"Product" ='`. `mac-iso-entry.kbd` instead
+uses device hashes from `kanata --list` for both Keychrons. Hashes are derived
+from `vendor:product:name` and are stable until those properties change.
+The macOS registration fix must be included in the kanata binary to watch
+both hashes even when one or both keyboards are disconnected at startup.

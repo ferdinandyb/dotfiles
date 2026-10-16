@@ -7,11 +7,8 @@
   process-unmapped-keys no
   concurrent-tap-hold yes
   macos-dev-names-include (
-    "Keychron K8 Pro"
-    ;; K1 via its dongle. Trailing space is intentional: kanata compares the
-    ;; IOKit product name exactly and the dongle reports "Keychron Link ".
-    ;; `kanata --list` prints it trimmed, which silently never matches.
-    "Keychron Link "
+    "0x9EAAE318C1BA6304" ;; Keychron K8 Pro
+    "0x7A02521BF12E02AC" ;; Keychron Link (K1 dongle)
   )
   macos-continue-if-no-devs-found yes
 )

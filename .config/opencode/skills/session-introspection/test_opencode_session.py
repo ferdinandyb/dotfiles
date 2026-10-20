@@ -40,6 +40,9 @@ class SessionTests(unittest.TestCase):
                 CREATE TABLE event_sequence (aggregate_id TEXT PRIMARY KEY);
                 CREATE TABLE event (aggregate_id TEXT REFERENCES event_sequence(aggregate_id) ON DELETE CASCADE, data TEXT);
                 CREATE TABLE future_session_cache (session_id TEXT, data TEXT);
+                CREATE TABLE project (id TEXT PRIMARY KEY, name TEXT, worktree TEXT, sandboxes TEXT, time_updated INTEGER, time_archived INTEGER);
+                CREATE TABLE worktree (project_id TEXT, directory TEXT);
+                CREATE TABLE project_directory (project_id TEXT, directory TEXT);
             """)
             db.executemany(
                 "INSERT INTO session VALUES (?, ?, ?, ?, ?, ?)",
@@ -131,6 +134,17 @@ class SessionTests(unittest.TestCase):
             db.execute(
                 "INSERT INTO session_context_epoch VALUES ('ses_grandchild', 'snapshot')"
             )
+            db.executescript("""
+                ALTER TABLE session ADD COLUMN project_id TEXT;
+                ALTER TABLE session_v2 ADD COLUMN project_id TEXT;
+                UPDATE session SET project_id = CASE WHEN id='ses_other' THEN 'proj_other' ELSE 'proj_main' END;
+                UPDATE session_v2 SET project_id = 'proj_other';
+                INSERT INTO project VALUES ('proj_main', 'Migration', '/home/user', '["/checkout/sandbox"]', 2, NULL);
+                INSERT INTO project VALUES ('proj_other', NULL, '/another', '[]', 2, NULL);
+                INSERT INTO project VALUES ('proj_archived', 'Old work', '/gone/repo', '[]', 2, 3);
+                INSERT INTO worktree VALUES ('proj_main', '/checkout/worktree');
+                INSERT INTO project_directory VALUES ('proj_main', '/checkout/clone');
+            """)
         self.report = {
             "groupBy": "session,model",
             "entries": [
@@ -152,6 +166,16 @@ class SessionTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(data))
         return path
+
+    def cli(self, *args):
+        with (
+            mock.patch(
+                "sys.argv", ["opencode-session", "--home", str(self.home), *args]
+            ),
+            mock.patch("builtins.print") as output,
+        ):
+            oc.main()
+        return [call.args[0] for call in output.call_args_list]
 
     def search(self, history, query="mjölnir", sources=(), offset=0, limit=50):
         return oc.search(
@@ -200,6 +224,155 @@ class SessionTests(unittest.TestCase):
         page = self.search(history, offset=1, limit=1)
         self.assertEqual(page["total_sessions"], 3)
         self.assertEqual(len(page["sessions"]), 1)
+
+    def test_project_ids_paths_copies_and_legacy_selection(self):
+        self.write_json(
+            "storage/project/proj_legacy.json",
+            {
+                "id": "proj_legacy",
+                "name": "Legacy",
+                "worktree": "/legacy",
+                "time": {"updated": 1},
+            },
+        )
+        self.write_json(
+            "storage/session/proj_legacy/ses_legacy.json",
+            {"id": "ses_legacy", "directory": "/legacy/src"},
+        )
+        self.write_json(
+            "storage/session/proj_main/ses_root.json",
+            {"id": "ses_root", "projectID": "proj_main", "time": {"updated": 1}},
+        )
+        with (
+            sqlite3.connect(self.path) as source,
+            sqlite3.connect(self.data / "opencode-dev.db") as copy,
+        ):
+            source.backup(copy)
+        history = self.history()
+        expected = ["ses_child", "ses_grandchild", "ses_root"]
+        for project in (
+            "proj_main",
+            "/home/user",
+            "/checkout/worktree",
+            "/checkout/clone",
+            "/checkout/sandbox",
+        ):
+            with self.subTest(project=project):
+                self.assertEqual(oc.scope_ids(history, project=project), expected)
+        self.assertEqual(oc.scope_ids(history, project="/legacy"), ["ses_legacy"])
+        self.assertEqual(oc.scope_ids(history, project="proj_archived"), [])
+        with self.assertRaisesRegex(ValueError, "Project not found"):
+            oc.scope_ids(history, project="Migration")
+        with sqlite3.connect(self.path) as db:
+            db.execute(
+                "INSERT INTO worktree VALUES ('proj_other', '/checkout/worktree')"
+            )
+        with self.assertRaisesRegex(ValueError, "Ambiguous project path"):
+            oc.scope_ids(self.history(), project="/checkout/worktree")
+
+    def test_directory_boundaries_normalization_and_descendants(self):
+        for sid, directory in (
+            ("ses_nested", "/home/user/src"),
+            ("ses_sibling", "/home/user-other"),
+            ("ses_empty", ""),
+        ):
+            self.write_json(
+                f"storage/session/proj_other/{sid}.json",
+                {"id": sid, "directory": directory},
+            )
+        history = self.history()
+        self.assertEqual(
+            oc.scope_ids(history, directory="/home/user/src/../"),
+            ["ses_child", "ses_grandchild", "ses_nested", "ses_other", "ses_root"],
+        )
+        self.assertEqual(oc.scope_ids(history, directory="/missing"), [])
+        with self.assertRaisesRegex(ValueError, "must not be empty"):
+            oc.scope_ids(history, directory=" ")
+        with self.assertRaisesRegex(ValueError, "must not be empty"):
+            oc.scope_ids(history, project=" ")
+
+    def test_list_projects_and_all_session_ids_without_pagination(self):
+        projects = json.loads(self.cli("list", "--projects", "--json")[0])["projects"]
+        self.assertEqual(
+            [p["id"] for p in projects], ["proj_archived", "proj_main", "proj_other"]
+        )
+        self.assertEqual(
+            projects[1],
+            {"id": "proj_main", "name": "Migration", "worktree": "/home/user"},
+        )
+        self.assertIn(
+            "proj_archived - Old work - /gone/repo", self.cli("list", "--projects")
+        )
+        with sqlite3.connect(self.path) as db:
+            db.executemany(
+                "INSERT INTO session (id, project_id, directory) VALUES (?, 'proj_main', '/checkout/worktree')",
+                [(f"ses_extra{i}",) for i in range(60)],
+            )
+        ids = self.cli("list", "--project", "proj_main")
+        self.assertEqual(len(ids), 63)
+        self.assertEqual(
+            ids,
+            json.loads(
+                self.cli("list", "--project", "/checkout/worktree", "--json")[0]
+            )["session_ids"],
+        )
+        self.assertEqual(self.cli("list", "--dir", "/missing"), [])
+
+    def test_scoped_delete_preview_and_cleanup_preserve_other_projects(self):
+        legacy = self.write_json(
+            "storage/session/proj_main/ses_root.json",
+            {"id": "ses_root", "projectID": "proj_main"},
+        )
+        preview = json.loads(
+            self.cli("delete", "--project", "/checkout/clone", "--dry-run", "--json")[0]
+        )
+        self.assertEqual(
+            preview["session_ids"], self.cli("list", "--project", "proj_main")
+        )
+        directory_preview = json.loads(
+            self.cli("delete", "--dir", "/scattered", "--dry-run", "--json")[0]
+        )
+        self.assertEqual(
+            directory_preview["session_ids"], self.cli("list", "--dir", "/scattered")
+        )
+        self.assertTrue(legacy.exists())
+        result = json.loads(self.cli("delete", "--project", "proj_main", "--json")[0])
+        self.assertEqual(result["session_ids"], preview["session_ids"])
+        self.assertFalse(legacy.exists())
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(
+                db.execute("SELECT id FROM session").fetchall(), [("ses_other",)]
+            )
+            self.assertEqual(
+                db.execute("SELECT count(*) FROM session_v2").fetchone()[0], 0
+            )
+            self.assertEqual(db.execute("SELECT count(*) FROM event").fetchone()[0], 1)
+            self.assertEqual(
+                db.execute("SELECT count(*) FROM project").fetchone()[0], 3
+            )
+            self.assertEqual(
+                db.execute("SELECT count(*) FROM worktree").fetchone()[0], 1
+            )
+
+    def test_scope_validation_rejects_empty_or_mixed_deletions(self):
+        for args in (
+            ("list",),
+            ("list", "--projects", "--project", "proj_main"),
+            ("list", "--project", "proj_main", "--dir", "/home/user"),
+            ("delete",),
+            ("delete", "ses_root", "--project", "proj_main"),
+            ("delete", "--project", "proj_archived"),
+            ("delete", "--dir", "/missing"),
+            ("delete", "--project", "unknown"),
+            ("delete", "--dir", ""),
+        ):
+            with self.subTest(args=args), self.assertRaises(SystemExit) as exit:
+                self.cli(*args)
+            self.assertNotEqual(exit.exception.code, 0)
+        with sqlite3.connect(self.path) as db:
+            self.assertEqual(
+                db.execute("SELECT count(*) FROM session").fetchone()[0], 3
+            )
 
     def test_show_tree_and_v2_tool_content(self):
         history = self.history()

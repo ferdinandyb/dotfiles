@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Find, inspect, price, and delete OpenCode session trees."""
+"""List projects, find, inspect, price, and delete OpenCode session trees."""
 
 import argparse
 import hashlib
@@ -22,6 +22,12 @@ def folded(text):
 
 def quoted(name):
     return '"' + name.replace('"', '""') + '"'
+
+
+def normalized_path(value):
+    if not value.strip():
+        raise ValueError("path must not be empty")
+    return Path(value).expanduser().resolve()
 
 
 def chunks(data, role=None):
@@ -76,6 +82,8 @@ class History:
         self.data_dir = xdg / "opencode"
         self.dbs = []
         self.sessions = {}
+        self.projects = {}
+        self.project_directories = defaultdict(set)
         self.children = defaultdict(set)
         self.legacy = {}
         try:
@@ -104,6 +112,17 @@ class History:
                         r["name"]
                         for r in db.execute(f"PRAGMA table_info({quoted(name)})")
                     }
+                if "project" in tables:
+                    for row in db.execute("SELECT * FROM project"):
+                        self.add_project(dict(row))
+                for table in ("worktree", "project_directory"):
+                    if table in tables:
+                        for row in db.execute(
+                            f"SELECT project_id, directory FROM {quoted(table)}"
+                        ):
+                            self.project_directories[
+                                normalized_path(row["directory"])
+                            ].add(row["project_id"])
                 for table in ("session", "session_v2"):
                     if table not in tables:
                         continue
@@ -111,6 +130,7 @@ class History:
                         c
                         for c in (
                             "id",
+                            "project_id",
                             "title",
                             "directory",
                             "parent_id",
@@ -123,6 +143,11 @@ class History:
                         f"SELECT {','.join(map(quoted, columns))} FROM {quoted(table)}"
                     ):
                         self.add(dict(row), str(path))
+            for path in sorted((self.data_dir / "storage/project").glob("*.json")):
+                data = json.loads(path.read_text())
+                self.add_project(
+                    {**data, "time_updated": data.get("time", {}).get("updated", 0)}
+                )
             for path in sorted((self.data_dir / "storage/session").glob("*/*.json")):
                 data = json.loads(path.read_text())
                 sid = data["id"]
@@ -130,6 +155,7 @@ class History:
                 self.add(
                     {
                         "id": sid,
+                        "project_id": data.get("projectID") or path.parent.name,
                         "title": data.get("title", ""),
                         "directory": data.get("directory", ""),
                         "parent_id": data.get("parentID"),
@@ -141,6 +167,41 @@ class History:
         except Exception:
             self.close()
             raise
+
+    def add_project(self, row):
+        pid = row["id"]
+        previous = self.projects.get(pid)
+        if not previous or (row.get("time_updated") or 0) >= (
+            previous.get("time_updated") or 0
+        ):
+            self.projects[pid] = {
+                key: row.get(key) for key in ("id", "name", "worktree", "time_updated")
+            }
+        sandboxes = row.get("sandboxes") or []
+        if isinstance(sandboxes, str):
+            sandboxes = json.loads(sandboxes)
+        for directory in [row.get("worktree"), *sandboxes]:
+            if directory:
+                self.project_directories[normalized_path(directory)].add(pid)
+
+    def resolve_project(self, value):
+        if not value.strip():
+            raise ValueError("project must not be empty")
+        known = self.projects.keys() | {
+            s["project_id"] for s in self.sessions.values() if s.get("project_id")
+        }
+        if value in known:
+            return value
+        matches = self.project_directories.get(normalized_path(value), set())
+        if not matches:
+            raise ValueError(
+                f"Project not found: {value}; use list --projects for IDs and paths"
+            )
+        if len(matches) != 1:
+            raise ValueError(
+                f"Ambiguous project path: {value}; use an exact project ID"
+            )
+        return next(iter(matches))
 
     def add(self, row, location):
         sid = row["id"]
@@ -155,6 +216,7 @@ class History:
                 key: row.get(key)
                 for key in (
                     "id",
+                    "project_id",
                     "title",
                     "directory",
                     "parent_id",
@@ -162,6 +224,9 @@ class History:
                     "time_updated",
                 )
             }
+            self.sessions[sid]["project_id"] = row.get("project_id") or (
+                previous or {}
+            ).get("project_id")
         self.sessions[sid]["locations"] = locations
         if row.get("parent_id"):
             self.children[row["parent_id"]].add(sid)
@@ -268,6 +333,23 @@ class History:
                     yield from emit(
                         sid, mid, part, data.get("role"), timestamp, str(part_path)
                     )
+
+
+def scope_ids(history, project=None, directory=None):
+    if project is not None:
+        pid = history.resolve_project(project)
+        roots = [
+            sid for sid, s in history.sessions.items() if s.get("project_id") == pid
+        ]
+    else:
+        target = normalized_path(directory)
+        roots = [
+            sid
+            for sid, s in history.sessions.items()
+            if s.get("directory")
+            and normalized_path(s["directory"]).is_relative_to(target)
+        ]
+    return sorted(history.tree(roots))
 
 
 def excerpt(text, query):
@@ -455,6 +537,8 @@ def price(history, roots):
 
 
 def delete(history, roots, dry_run=False):
+    if not roots:
+        raise ValueError("no sessions selected for deletion")
     selected = history.tree(roots)
     if any(not re.fullmatch(r"ses_[A-Za-z0-9]+", sid) for sid in selected):
         raise ValueError("Invalid session ID in deletion tree")
@@ -599,10 +683,11 @@ def main():
         "--home", help="read another home directory (also passed to Tokscale)"
     )
     commands = parser.add_subparsers(dest="command", required=True)
-    for name in ("search", "show", "cost", "delete", "vacuum"):
+    for name in ("list", "search", "show", "cost", "delete", "vacuum"):
         command = commands.add_parser(
             name,
             help={
+                "list": "list all project session IDs or stored projects",
                 "search": "literal Unicode case-insensitive search",
                 "show": "read conversation text and list descendants",
                 "cost": "price selected trees via Tokscale",
@@ -613,8 +698,24 @@ def main():
         command.add_argument(
             "--json", action="store_true", help="machine-readable output"
         )
-        if name == "delete":
-            command.add_argument("session_ids", nargs="+")
+        if name in ("list", "delete"):
+            scope = command.add_mutually_exclusive_group(required=name == "list")
+            scope.add_argument(
+                "--project",
+                help="exact project ID or stored canonical/worktree path; includes clones and worktrees",
+            )
+            scope.add_argument(
+                "--dir",
+                help="directory subtree; includes descendants even outside that directory",
+            )
+            if name == "list":
+                scope.add_argument(
+                    "--projects",
+                    action="store_true",
+                    help="list all stored projects, including archived projects",
+                )
+            else:
+                command.add_argument("session_ids", nargs="*")
         elif name in ("show", "cost"):
             command.add_argument("session_ids", nargs="*")
             command.add_argument(
@@ -690,6 +791,12 @@ def main():
     args = parser.parse_args()
     if args.command == "search" and not args.query.strip():
         parser.error("search query must not be empty")
+    if args.command == "delete":
+        scoped = args.project is not None or args.dir is not None
+        if scoped and args.session_ids:
+            parser.error("provide session IDs or --project/--dir, not both")
+        if not scoped and not args.session_ids:
+            parser.error("provide session IDs, --project, or --dir")
     history = None
     try:
         if args.command in ("show", "cost"):
@@ -712,7 +819,17 @@ def main():
         history = History(
             args.home, writable=args.command == "delete" and not args.dry_run
         )
-        if args.command == "search":
+        if args.command == "list":
+            if args.projects:
+                result = {
+                    "projects": [
+                        {key: p.get(key) for key in ("id", "name", "worktree")}
+                        for _, p in sorted(history.projects.items())
+                    ]
+                }
+            else:
+                result = {"session_ids": scope_ids(history, args.project, args.dir)}
+        elif args.command == "search":
             result = search(history, args)
         elif args.command == "show":
             result = show(history, args)
@@ -721,9 +838,22 @@ def main():
         elif args.command == "vacuum":
             result = vacuum(history, args)
         else:
-            result = delete(history, args.session_ids, args.dry_run)
+            roots = (
+                scope_ids(history, args.project, args.dir)
+                if scoped
+                else args.session_ids
+            )
+            result = delete(history, roots, args.dry_run)
         if args.json:
             print(json.dumps(result, ensure_ascii=False, indent=2))
+        elif args.command == "list":
+            if args.projects:
+                for project in result["projects"]:
+                    name = " ".join((project["name"] or "").split())
+                    print(f"{project['id']} - {name} - {project['worktree'] or ''}")
+            else:
+                for sid in result["session_ids"]:
+                    print(sid)
         elif args.command == "vacuum":
             for item in result["results"]:
                 db_name = Path(item["database"]).name

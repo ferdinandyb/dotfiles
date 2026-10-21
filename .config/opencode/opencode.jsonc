@@ -105,6 +105,7 @@
     },
     "external_directory": {
       "*": "ask",
+      "~/.opencode/plan/*": "allow",
       "~/.config/opencode/*": "allow",
       "~/signifyd_github/*": "allow",
       "~/softwarefromsource/*": "allow",

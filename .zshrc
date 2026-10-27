@@ -42,6 +42,8 @@ fpath+=~/.zfunc
 autoload -Uz bashcompinit && bashcompinit
 zstyle ':completion:*' menu select
 
+[[ -n $SSH_CONNECTION ]] && ZVM_READKEY_ENGINE=zle
+
 # antidote — portable zsh plugin manager. Install is per-OS and out of scope here
 # (brew on mac, AUR `zsh-antidote` on arch, `git clone … ~/.antidote` on ubuntu).
 # This finds antidote wherever it landed and skips cleanly if it's absent.

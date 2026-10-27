@@ -301,9 +301,9 @@ persistent-workspaces = []
     run = 'move-node-to-workspace 6'
 
 # Zoom -> workspace 5
-# [[on-window-detected]]
-#     if.app-id = 'us.zoom.xos'
-#     run = 'move-node-to-workspace 5'
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    run = 'move-node-to-workspace 5'
 
 # Spotify -> workspace 9 (i3: assign [class="Spotify"] workspace $ws9)
 [[on-window-detected]]

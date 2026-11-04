@@ -80,6 +80,32 @@ files/quickfix lists in it.
 
 Avoid reading large data files directly, to preserve context. Delegate it to a subagent or use tools like ugrep, ripgrep or jq.
 
+# One-off inspection, data processing and verification
+
+Do not write inline Python, Node, Perl or shell scripts (including heredocs)
+to inspect, transform or verify data. Interpreters are for running the
+project's own code and tests. Use a dedicated tool instead:
+
+- Files and text: the `read`/`glob`/`grep` tools, `rg`/`ug`; `git grep <ref>`,
+  `git show <ref>:<path>` and `git log -S/-G` for history.
+- Code structure: `ast-grep` (load the skill first).
+- JSON: `jq`/`jaq`, which does much more than extract fields:
+  - Filter and reshape: `.items[] | select(.enabled) | {id, name}`.
+  - Sort, deduplicate, group: `sort_by(.name)`, `unique_by(.id)`, `group_by(.type)`.
+  - Count, aggregate, compare: `length`, `add`, `reduce`, `INDEX`, `JOIN`.
+  - Combine newline-delimited JSON with `jq -s`; emit escaped CSV/TSV with `@csv`/`@tsv`.
+  - Pass values with `--arg`/`--argjson` rather than building filter strings.
+- Columnar text: inline `awk` programs.
+- Comparing two versions, or checking a change is formatting-only:
+  `difft --exit-code --ignore-comments OLD NEW` (exit 1 = code changed).
+  Layout and comments are ignored, but brackets and commas count. If the
+  language isn't detected (e.g. stdin), add `--override='*:<language>'`.
+- Calculations or reshaping of tool output: `execute` (Code Mode), when
+  available. It has no filesystem access; obtain data through the tools above.
+
+If none of these fits, say which tools you ruled out and why before writing a
+script, and keep the script read-only.
+
 # bash tool
 
 NEVER prepend cd to a command if you are already in the same directory. Resolve shorthands like `~` and `$HOME` when determining this.

@@ -4,6 +4,10 @@ This configuration targets OpenCode v2. Tool references in older skills map
 `bash` to `shell`, `task` to `subagent`, and `apply_patch` to `patch`.
 These are tool names, not replacements for shell command names.
 
+# Language
+
+Try to follow ASD-STE100 for technical texts.
+
 # Only include references available to everyone
 
 Untracked plan files, the contents, plans, phases of untracked plan files,

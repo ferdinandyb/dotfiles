@@ -51,15 +51,37 @@ request on it's own if needed.
 
 ## Fine-Grained Staging
 
-**Never stage entire files blindly.** Use these commands:
+**Never stage entire files blindly.** Agents cannot answer `git add -p` prompts
+or use an editor. Stage part of a file like this:
 
-| Command        | Purpose                                 |
-| -------------- | --------------------------------------- |
-| `git add -p`   | Stage by hunks interactively            |
-| `git add -e`   | Edit the patch manually (most granular) |
-| `git reset -p` | Unstage by hunks (reverse of add -p)    |
+1. Run `git diff <path>` to see the hunks and their order.
+2. If the wanted and unwanted changes are in separate hunks, pipe the answers
+   in hunk order (`git reset -p` works the same way for unstaging):
 
-This allows splitting unrelated changes in the same file into separate commits.
+   ```bash
+   printf 'y\nn\n' | git add -p <path>
+   ```
+
+3. If they are in the same hunk (for example, adjacent added lines), use
+   `git add -e` with `GIT_EDITOR` set to a `sed` command. Delete unwanted `+`
+   lines; replace the leading `-` with a space on unwanted `-` lines. Match by
+   content, not line numbers. Git applies the result with `--recount`, so hunk
+   headers need no changes (macOS requires `sed -i ''`, Linux uses `sed -i`):
+
+   ```bash
+   GIT_EDITOR="sed -i '' '/^+.*role: firewall/d'" git add -e <path>
+   GIT_EDITOR="sed -i '' -e '/^+TEXT/d' -e '/^-TEXT/s/^-/ /'" git add -e -- <path>
+   ```
+
+   These exact forms run without approval: double-quoted `GIT_EDITOR`, only
+   `/^+TEXT/d` and `/^-TEXT/s/^-/ /` scripts, literal paths. `TEXT` must not
+   contain quotes, `/`, `\`, `;`, `$` or backticks; use `.` for such
+   characters. Any other editor value asks the user.
+
+4. Always check the result with `git diff --cached`.
+
+Do not write patch files by hand for `git apply --cached`. Commit a finished
+unit of work before you start an unrelated change, so hunks do not mix.
 
 ## Rewriting History
 
@@ -144,7 +166,7 @@ Line numbers are 1-indexed; line 1 = oldest commit in the range.
 ## Workflow Summary
 
 1. **Make changes** in working directory
-2. **Stage selectively** with `git add -p` (not `git add .` or `git add -A`)
+2. **Stage selectively** as in Fine-Grained Staging (not `git add .` or `git add -A`)
 3. **Commit atomically** with good message explaining WHY
 4. **Amend/fixup** as you iterate
 5. **Rebase and clean up** before pushing to shared branches

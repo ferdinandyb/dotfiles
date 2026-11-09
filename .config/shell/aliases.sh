@@ -22,6 +22,8 @@ alias ta="task add"
 alias tt="taskwarrior-tui"
 alias tmux-new-attach="tmux new-session -t"
 
+alias tc="tuicr"
+
 alias bm="bashmount"
 alias cdl='cd  "$(\ls -1dt ./*/ | head -n 1)"' # cd into last modified directory
 alias cr='cd $(git rev-parse --show-toplevel)'

@@ -155,9 +155,7 @@ fi
 setup_ssh_agent() {
 	unset SSH_AGENT_PID
 	export GPG_TTY=$TTY
-	# Only over SSH does the agent need the tty (curses pinentry on the remote
-	# terminal). Locally pinentry is GUI, so skip the ~12ms gpg-connect-agent IPC.
-	if [[ -n $SSH_CONNECTION ]]; then
+	if [[ $OSTYPE == linux* || -n $SSH_CONNECTION ]]; then
 		gpg-connect-agent updatestartuptty /bye >/dev/null
 	fi
 }
@@ -165,7 +163,7 @@ setup_ssh_agent() {
 if [ $HOST = mashenka ]; then
 	setup_ssh_agent
 	if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-		export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/rbw/ssh-agent-socket"
+		export SSH_AUTH_SOCK="$HOME/.bitwarden-ssh-agent.sock"
 	fi
 elif [ $HOST = MBP-Bence-Ferdinandy ]; then
 	setup_ssh_agent
